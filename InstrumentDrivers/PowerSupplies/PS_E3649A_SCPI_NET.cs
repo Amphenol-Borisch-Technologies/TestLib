@@ -2,7 +2,7 @@
 using Agilent.CommandExpert.ScpiNet.AgE364xD_1_7;
 
 namespace ABT.Test.Lib.InstrumentDrivers.PowerSupplies {
-    public class PS_E3649A_SCPI : AgE364xD, IInstruments, IPowerSupplyE3649A {
+    public class PS_E3649A_SCPI_NET : AgE364xD, IInstruments, IPowerSupplyE3649A {
         public String Address { get; }
         public String Detail { get; }
         public INSTRUMENT_TYPES InstrumentType { get; }
@@ -21,7 +21,7 @@ namespace ABT.Test.Lib.InstrumentDrivers.PowerSupplies {
             return (SELF_TEST_RESULTS)result;
         }
 
-        public PS_E3649A_SCPI(String Address, String Detail) : base(Address) {
+        public PS_E3649A_SCPI_NET(String Address, String Detail) : base(Address) {
             this.Address = Address;
             this.Detail = Detail;
             InstrumentType = INSTRUMENT_TYPES.POWER_SUPPLY;

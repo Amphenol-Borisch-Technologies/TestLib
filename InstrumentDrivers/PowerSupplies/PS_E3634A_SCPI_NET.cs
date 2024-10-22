@@ -2,7 +2,7 @@
 using Agilent.CommandExpert.ScpiNet.AgE363x_1_7;
 
 namespace ABT.Test.Lib.InstrumentDrivers.PowerSupplies  {
-    public class PS_E3634A_SCPI : AgE363x, IInstruments, IPowerSupplyOutputs1 {
+    public class PS_E3634A_SCPI_NET : AgE363x, IInstruments, IPowerSupplyOutputs1 {
         public enum RANGE { P25V, P50V }
 
         public String Address { get; }
@@ -23,7 +23,7 @@ namespace ABT.Test.Lib.InstrumentDrivers.PowerSupplies  {
             return (SELF_TEST_RESULTS)result;
         }
 
-        public PS_E3634A_SCPI(String Address, String Detail) : base(Address) {
+        public PS_E3634A_SCPI_NET(String Address, String Detail) : base(Address) {
             this.Address = Address;
             this.Detail = Detail;
             InstrumentType = INSTRUMENT_TYPES.POWER_SUPPLY;

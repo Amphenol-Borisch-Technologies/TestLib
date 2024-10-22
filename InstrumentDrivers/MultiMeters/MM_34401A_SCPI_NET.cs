@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34401_11;
 
 namespace ABT.Test.Lib.InstrumentDrivers.MultiMeters {
-    public class MM_34401A_SCPI : Ag34401, IInstruments {
+    public class MM_34401A_SCPI_NET : Ag34401, IInstruments {
         public enum MMD { MIN, MAX, DEF }
         public enum TERMINALS { Front, Rear };
         public enum PROPERTY { AmperageAC, AmperageDC, Continuity, Frequency, Fresistance, Period, Resistance, VoltageAC, VoltageDC, VoltageDiodic }
@@ -27,7 +27,7 @@ namespace ABT.Test.Lib.InstrumentDrivers.MultiMeters {
             return result ? SELF_TEST_RESULTS.PASS : SELF_TEST_RESULTS.FAIL;
         }
 
-        public MM_34401A_SCPI(String Address, String Detail) : base(Address) {
+        public MM_34401A_SCPI_NET(String Address, String Detail) : base(Address) {
             this.Address = Address;
             this.Detail = Detail;
             InstrumentType = INSTRUMENT_TYPES.MULTI_METER;
