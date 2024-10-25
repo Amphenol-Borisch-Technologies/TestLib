@@ -6,9 +6,9 @@ using ABT.Test.Lib.AppConfig;
 
 namespace ABT.Test.Lib {
     public static class TestData {
+        public const String NONE = "NONE";
         public const String MutexTestPlanName = "MutexTestPlan";
         public static Mutex MutexTestPlan = null;
-        public const String NONE = "NONE";
         public static Dictionary<String, Object> InstrumentDrivers = null;
         public static readonly AppConfigLogger ConfigLogger = AppConfigLogger.Get();
         public static AppConfigUUT ConfigUUT = AppConfigUUT.Get();
