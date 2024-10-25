@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Threading;
 using ABT.Test.Lib.AppConfig;
@@ -16,6 +17,8 @@ namespace ABT.Test.Lib {
         public static CancellationToken CT_Cancel;
         public static CancellationToken CT_EmergencyStop;
         public static String MeasurementIDPresent = String.Empty;
+        public static String PathUUT = @"C:\Users\phils\source\repos\ABT\Test\TestPlan\UUT\bin\x64\Debug\UUT.exe.config";
+        public static Configuration ConfigMapUUT = ConfigurationManager.OpenMappedExeConfiguration(new ExeConfigurationFileMap(PathUUT), ConfigurationUserLevel.None);
         public static Measurement MeasurementPresent = null;
 
         public static Boolean AreMethodNamesPriorNext(String prior, String next) { return String.Equals(GetID_MeasurementPrior(), prior) && String.Equals(GetID_MeasurementNext(), next); }
