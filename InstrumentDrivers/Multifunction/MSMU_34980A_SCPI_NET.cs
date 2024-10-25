@@ -1,12 +1,14 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
+using ABT.Test.Lib.InstrumentDrivers.Interfaces;
 
 namespace ABT.Test.Lib.InstrumentDrivers.Multifunction {
-    public class MF_34980A_SCPI : Ag34980, IInstruments {
+    public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IRelays {
         public enum ABUS { ABUS1, ABUS2, ABUS3, ABUS4, ALL };
         public enum SLOTS { SLOT1 = 1, SLOT2 = 2, SLOT3 = 3, SLOT4 = 4, SLOT5 = 5, SLOT6 = 6, SLOT7 = 7, SLOT8 = 8 }
         public enum TEMPERATURE_UNITS { C, F, K }
@@ -16,21 +18,32 @@ namespace ABT.Test.Lib.InstrumentDrivers.Multifunction {
         public String Detail { get; }
         public INSTRUMENT_TYPES InstrumentType { get; }
 
-        public void ReInitialize() {
+        public void ResetClear() {
             SCPI.RST.Command();
             SCPI.CLS.Command();
         }
-
-        public Boolean ReInitialized() {
-            return false;
-        }
         
-        public SELF_TEST_RESULTS SelfTest() {
-            SCPI.TST.Query(out Int32 result);
-            return (SELF_TEST_RESULTS)result;
+        public DIAGNOSTICS_RESULTS Diagnostics() {
+            Int32 result;
+            try {
+                SCPI.TST.Query(out result);
+            } catch (Exception) {
+                _ = MessageBox.Show($"Instrument with driver {GetType().Name} likely unpowered or not communicating:{Environment.NewLine}" + 
+                    $"Type:      {InstrumentType}{Environment.NewLine}" +
+                    $"Detail:    {Detail}{Environment.NewLine}" +
+                    $"Address:   {Address}"
+                    , "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // If unpowered or not communicating (comms cable possibly disconnected) SelfTest throws a
+                // Keysight.CommandExpert.InstrumentAbstraction.CommunicationException exception,
+                // which requires an apparently unavailable Keysight library to explicitly catch.
+                return DIAGNOSTICS_RESULTS.FAIL;
+            }
+            return (DIAGNOSTICS_RESULTS)result; // Ag34980 returns 0 for passed, 1 for fail.
         }
 
-        public MF_34980A_SCPI(String Address, String Detail) : base(Address) {
+        public void OpenAll() { SCPI.ROUTe.OPEN.ALL.Command(null); }
+
+        public MSMU_34980A_SCPI_NET(String Address, String Detail) : base(Address) {
             this.Address = Address;
             this.Detail = Detail;
             InstrumentType = INSTRUMENT_TYPES.MULTI_FUNCTION;
@@ -86,7 +99,7 @@ namespace ABT.Test.Lib.InstrumentDrivers.Multifunction {
 
         public String SystemType(SLOTS Slot) {
             SCPI.SYSTem.CTYPe.Query((Int32)Slot, out String identity);
-            return identity.Split(Generic.SCPI99.IDENTITY_SEPARATOR)[(Int32)Generic.SCPI99.IDN_FIELDS.Model];
+            return identity.Split(',')[(Int32)Generic.SCPI_NET.IDN_FIELDS.Model];
         }
         public TEMPERATURE_UNITS UnitsGet() {
             SCPI.UNIT.TEMPerature.Query(out String[] units);

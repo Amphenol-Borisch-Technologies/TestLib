@@ -1,5 +1,7 @@
-﻿using System;
+﻿﻿using System;
+using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.AgE363x_1_7;
+using ABT.Test.Lib.InstrumentDrivers.Interfaces;
 
 namespace ABT.Test.Lib.InstrumentDrivers.PowerSupplies  {
     public class PS_E3634A_SCPI_NET : AgE363x, IInstruments, IPowerSupplyOutputs1 {
@@ -9,24 +11,37 @@ namespace ABT.Test.Lib.InstrumentDrivers.PowerSupplies  {
         public String Detail { get; }
         public INSTRUMENT_TYPES InstrumentType { get; }
 
-        public void ReInitialize() {
+        public void ResetClear() {
             SCPI.RST.Command();
             SCPI.CLS.Command();
         }
-
-        public Boolean ReInitialized() {
-            return StateGet() == STATES.off;
-        }
         
-        public SELF_TEST_RESULTS SelfTest() {
-            SCPI.TST.Query(out Int32 result);
-            return (SELF_TEST_RESULTS)result;
+        public DIAGNOSTICS_RESULTS Diagnostics() {
+            Int32 result;
+            try {
+                SCPI.TST.Query(out result);
+            } catch (Exception) {
+                _ = MessageBox.Show($"Instrument with driver {GetType().Name} likely unpowered or not communicating:{Environment.NewLine}" + 
+                    $"Type:      {InstrumentType}{Environment.NewLine}" +
+                    $"Detail:    {Detail}{Environment.NewLine}" +
+                    $"Address:   {Address}"
+                    , "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // If unpowered or not communicating (comms cable possibly disconnected) SelfTest throws a
+                // Keysight.CommandExpert.InstrumentAbstraction.CommunicationException exception,
+                // which requires an apparently unavailable Keysight library to explicitly catch.
+                return DIAGNOSTICS_RESULTS.FAIL;
+            }
+            return (DIAGNOSTICS_RESULTS)result; // AgE363x returns 0 for passed, 1 for fail.
         }
 
         public PS_E3634A_SCPI_NET(String Address, String Detail) : base(Address) {
             this.Address = Address;
             this.Detail = Detail;
             InstrumentType = INSTRUMENT_TYPES.POWER_SUPPLY;
+        }
+
+        public void OutputsOff() {
+            SCPI.OUTPut.STATe.Command(Convert.ToBoolean(STATES.off));
         }
 
         public RANGE RangeGet() { 

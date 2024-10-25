@@ -102,18 +102,32 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InstrumentDrivers\Generic\SCPI99.cs" />
-    <Compile Include="InstrumentDrivers\IInstruments.cs" />
+    <Compile Include="AppConfig\AppConfigInstruments.cs" />
+    <Compile Include="AppConfig\AppConfigLogger.cs" />
+    <Compile Include="AppConfig\AppConfigTestElements.cs" />
+    <Compile Include="AppConfig\AppConfigTests.cs" />
+    <Compile Include="AppConfig\AppConfigUUT.cs" />
+    <Compile Include="AppConfig\SelectTests.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AppConfig\SelectTests.Designer.cs">
+      <DependentUpon>SelectTests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InstrumentDrivers\Generic\SCPI_NET.cs" />
     <Compile Include="InstrumentDrivers\Instruments.cs" />
-    <Compile Include="InstrumentDrivers\Multifunction\MF_34980A_SCP_NET.cs" />
+    <Compile Include="InstrumentDrivers\Interfaces\IIinstruments.cs" />
+    <Compile Include="InstrumentDrivers\Interfaces\IPowerSupplies.cs" />
+    <Compile Include="InstrumentDrivers\Interfaces\IRelays.cs" />
+    <Compile Include="InstrumentDrivers\Multifunction\MSMU_34980A_SCPI_NET.cs" />
     <Compile Include="InstrumentDrivers\MultiMeters\MM_34401A_SCPI_NET.cs" />
-    <Compile Include="InstrumentDrivers\Oscilloscopes\MSO_3014_IVI-COM.cs" />
-    <Compile Include="InstrumentDrivers\PowerSupplies\IPowerSupplies.cs" />
+    <Compile Include="InstrumentDrivers\Oscilloscopes\MSO_3014_IVI_COM.cs" />
     <Compile Include="InstrumentDrivers\PowerSupplies\PS_E3634A_SCPI_NET.cs" />
     <Compile Include="InstrumentDrivers\PowerSupplies\PS_E3649A_SCPI_NET.cs" />
     <Compile Include="Miscellaneous\Miscellaneous.cs" />
+    <Compile Include="Processes\ProcessExternal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Switching\RelayForms.cs" />
+    <Compile Include="TestData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -121,6 +135,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.Contracts">
       <Version>10.0.26100.1742</Version>
+    </PackageReference>
+    <PackageReference Include="Serilog">
+      <Version>4.1.0</Version>
     </PackageReference>
     <PackageReference Include="System.Buffers">
       <Version>4.5.1</Version>
@@ -152,6 +169,12 @@
     <PackageReference Include="System.Threading.Tasks.Extensions">
       <Version>4.5.4</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AppConfig\SelectTests.resx">
+      <DependentUpon>SelectTests.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

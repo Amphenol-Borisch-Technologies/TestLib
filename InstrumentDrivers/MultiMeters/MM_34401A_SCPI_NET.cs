@@ -1,6 +1,7 @@
-﻿using System;
+﻿﻿using System;
 using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34401_11;
+using ABT.Test.Lib.InstrumentDrivers.Interfaces;
 
 namespace ABT.Test.Lib.InstrumentDrivers.MultiMeters {
     public class MM_34401A_SCPI_NET : Ag34401, IInstruments {
@@ -13,24 +14,34 @@ namespace ABT.Test.Lib.InstrumentDrivers.MultiMeters {
         public String Detail { get; }
         public INSTRUMENT_TYPES InstrumentType { get; }
 
-        public void ReInitialize() {
+        public void ResetClear() {
             SCPI.RST.Command();
             SCPI.CLS.Command();
         }
 
-        public Boolean ReInitialized() {
-            return false;
-        }
-        
-        public SELF_TEST_RESULTS SelfTest() {
-            SCPI.TST.Query(out Boolean result);
-            return result ? SELF_TEST_RESULTS.PASS : SELF_TEST_RESULTS.FAIL;
+        public DIAGNOSTICS_RESULTS Diagnostics() {
+            Boolean result;
+            try {
+                SCPI.TST.Query(out result);
+            } catch (Exception) {
+                _ = MessageBox.Show($"Instrument with driver {GetType().Name} likely unpowered or not communicating:{Environment.NewLine}" + 
+                    $"Type:      {InstrumentType}{Environment.NewLine}" +
+                    $"Detail:    {Detail}{Environment.NewLine}" +
+                    $"Address:   {Address}"
+                    , "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // If unpowered or not communicating (comms cable possibly disconnected) SelfTest throws a
+                // Keysight.CommandExpert.InstrumentAbstraction.CommunicationException exception,
+                // which requires an apparently unavailable Keysight library to explicitly catch.
+                return DIAGNOSTICS_RESULTS.FAIL;
+            }
+            return result ? DIAGNOSTICS_RESULTS.FAIL : DIAGNOSTICS_RESULTS.PASS; // Ag34401 returns 0 for passed, 1 for fail, opposite of C#'s Convert.ToBoolean(Int32).
         }
 
         public MM_34401A_SCPI_NET(String Address, String Detail) : base(Address) {
             this.Address = Address;
             this.Detail = Detail;
             InstrumentType = INSTRUMENT_TYPES.MULTI_METER;
+            TerminalsSetRear();
         }
 
         public Boolean DelayAutoIs() {
@@ -78,7 +89,6 @@ namespace ABT.Test.Lib.InstrumentDrivers.MultiMeters {
 
         public void TerminalsSetRear() {
             if (TerminalsGet() == TERMINALS.Front) _ = MessageBox.Show("Please depress Keysight 34401A Front/Rear button.", "Paused, click OK to continue.", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            SCPI.TRIGger.DELay.Command(Enum.GetName(typeof(MMD), $"{MMD.DEF}"));
             SCPI.TRIGger.DELay.AUTO.Command(true);
         }
 
