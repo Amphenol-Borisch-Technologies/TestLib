@@ -11,15 +11,21 @@ namespace ABT.Test.Lib {
         public const String MutexTestPlanName = "MutexTestPlan";
         public static Mutex MutexTestPlan = null;
         public static Dictionary<String, Object> InstrumentDrivers = null;
+        public static Configuration ConfigMapUUT = GetConfiguration();
         public static readonly AppConfigLogger ConfigLogger = AppConfigLogger.Get();
         public static AppConfigUUT ConfigUUT = AppConfigUUT.Get();
         public static AppConfigTest ConfigTest = null; // Requires form; instantiated by ButtonSelectTests_Click method.
         public static CancellationToken CT_Cancel;
         public static CancellationToken CT_EmergencyStop;
         public static String MeasurementIDPresent = String.Empty;
-        public static String PathUUT = @"C:\Users\phils\source\repos\ABT\Test\TestPlan\UUT\bin\x64\Debug\UUT.exe.config";
-        public static Configuration ConfigMapUUT = ConfigurationManager.OpenMappedExeConfiguration(new ExeConfigurationFileMap(PathUUT), ConfigurationUserLevel.None);
         public static Measurement MeasurementPresent = null;
+
+        public static Configuration GetConfiguration() {
+            ExeConfigurationFileMap ecfm = new ExeConfigurationFileMap {
+                ExeConfigFilename = @"C:\Users\phils\source\repos\ABT\Test\Plans\UUT\bin\x64\Debug\UUT.exe.config"
+            };
+            return ConfigurationManager.OpenMappedExeConfiguration(ecfm, ConfigurationUserLevel.None);
+        }
 
         public static Boolean AreMethodNamesPriorNext(String prior, String next) { return String.Equals(GetID_MeasurementPrior(), prior) && String.Equals(GetID_MeasurementNext(), next); }
 

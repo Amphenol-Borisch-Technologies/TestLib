@@ -11,6 +11,8 @@ namespace ABT.Test.Lib.AppConfig {
         private AppConfigLogger() { if (!FilePath.EndsWith(@"\")) FilePath += @"\"; }
         // Logging.FileStop() requires terminating "\" character.
 
-        public static AppConfigLogger Get() { return new AppConfigLogger(); }
+        public static AppConfigLogger Get() {
+            return new AppConfigLogger();
+        }
     }
 }
