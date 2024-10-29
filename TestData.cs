@@ -11,7 +11,7 @@ namespace ABT.Test.Lib {
         public const String MutexTestPlanName = "MutexTestPlan";
         public static Mutex MutexTestPlan = null;
         public static Dictionary<String, Object> InstrumentDrivers = null;
-        public static Configuration ConfigMapUUT = GetConfiguration();
+        public static Configuration ConfigMap = GetConfiguration();
         public static readonly AppConfigLogger ConfigLogger = AppConfigLogger.Get();
         public static AppConfigUUT ConfigUUT = AppConfigUUT.Get();
         public static AppConfigTest ConfigTest = null; // Requires form; instantiated by ButtonSelectTests_Click method.

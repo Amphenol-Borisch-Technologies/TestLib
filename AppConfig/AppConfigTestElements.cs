@@ -137,7 +137,7 @@ namespace ABT.Test.Lib.AppConfig {
         }
 
         public static Dictionary<String, Operation> Get() {
-            TestOperationsSection testOperationsSection = (TestOperationsSection)ConfigurationManager.GetSection(TestOperationsSection.ClassName);
+            TestOperationsSection testOperationsSection = (TestOperationsSection)TestData.ConfigMap.GetSection(TestOperationsSection.ClassName);
             TestOperations testOperations = testOperationsSection.TestOperations;
             Dictionary<String, Operation> dictionary = new Dictionary<String, Operation>();
             foreach (TestOperation to in testOperations) dictionary.Add(to.ID, new Operation(to.ID, to.Revision, to.Description, to.TestGroupIDs));
@@ -165,7 +165,7 @@ namespace ABT.Test.Lib.AppConfig {
         }
 
         public static Dictionary<String, Group> Get() {
-            TestGroupsSection testGroupSection = (TestGroupsSection)ConfigurationManager.GetSection(TestGroupsSection.ClassName);
+            TestGroupsSection testGroupSection = (TestGroupsSection)TestData.ConfigMap.GetSection(TestGroupsSection.ClassName);
             TestGroups testGroups = testGroupSection.TestGroups;
             Dictionary<String, Group> dictionary = new Dictionary<String, Group>();
             foreach (TestGroup tg in testGroups) dictionary.Add(tg.ID, new Group(tg.ID, tg.Revision, tg.Description, tg.Selectable, tg.CancelNotPassed, tg.TestMeasurementIDs));
@@ -198,7 +198,7 @@ namespace ABT.Test.Lib.AppConfig {
         }
 
         public static Dictionary<String, Measurement> Get() {
-            TestMeasurementsSection testMeasurementsSection = (TestMeasurementsSection)ConfigurationManager.GetSection(TestMeasurementsSection.ClassName);
+            TestMeasurementsSection testMeasurementsSection = (TestMeasurementsSection)TestData.ConfigMap.GetSection(TestMeasurementsSection.ClassName);
             TestMeasurements testMeasurements = testMeasurementsSection.TestMeasurements;
             Dictionary<String, Measurement> dictionary = new Dictionary<String, Measurement>();
             foreach (TestMeasurement tm in testMeasurements) try {
