@@ -118,7 +118,7 @@ namespace ABT.Test.Lib.AppConfig {
     }
 
     public class ConfigTests {
-        public TestMeasurementsSection TestMeasurementsSection { get { return (TestMeasurementsSection)ConfigurationManager.GetSection(TestMeasurementsSection.ClassName); } }
+        public TestMeasurementsSection TestMeasurementsSection { get { return (TestMeasurementsSection)TestData.ConfigMap.Sections.Get(TestMeasurementsSection.ClassName); } }
         public TestMeasurements TestMeasurements { get { return TestMeasurementsSection.TestMeasurements; } }
         public IEnumerable<TestMeasurement> TestMeasurement { get { foreach (TestMeasurement tm in TestMeasurements) if (tm != null) yield return tm; } }
     }
@@ -137,7 +137,7 @@ namespace ABT.Test.Lib.AppConfig {
         }
 
         public static Dictionary<String, Operation> Get() {
-            TestOperationsSection testOperationsSection = (TestOperationsSection)TestData.ConfigMap.GetSection(TestOperationsSection.ClassName);
+            TestOperationsSection testOperationsSection = (TestOperationsSection)TestData.ConfigMap.Sections.Get(TestOperationsSection.ClassName);
             TestOperations testOperations = testOperationsSection.TestOperations;
             Dictionary<String, Operation> dictionary = new Dictionary<String, Operation>();
             foreach (TestOperation to in testOperations) dictionary.Add(to.ID, new Operation(to.ID, to.Revision, to.Description, to.TestGroupIDs));
@@ -165,7 +165,7 @@ namespace ABT.Test.Lib.AppConfig {
         }
 
         public static Dictionary<String, Group> Get() {
-            TestGroupsSection testGroupSection = (TestGroupsSection)TestData.ConfigMap.GetSection(TestGroupsSection.ClassName);
+            TestGroupsSection testGroupSection = (TestGroupsSection)TestData.ConfigMap.Sections.Get(TestGroupsSection.ClassName);
             TestGroups testGroups = testGroupSection.TestGroups;
             Dictionary<String, Group> dictionary = new Dictionary<String, Group>();
             foreach (TestGroup tg in testGroups) dictionary.Add(tg.ID, new Group(tg.ID, tg.Revision, tg.Description, tg.Selectable, tg.CancelNotPassed, tg.TestMeasurementIDs));
