@@ -61,7 +61,7 @@ namespace ABT.TestExec.Lib {
         public static Boolean IsMeasurement(String Description, String ClassName, Boolean CancelNotPassed, String Arguments) {
             return
                 String.Equals(MeasurementPresent.Description, Description) &&
-                String.Equals(nameof(MeasurementPresent.ClassObject), ClassName) &&
+                String.Equals(MeasurementPresent.ClassName, ClassName) &&
                 MeasurementPresent.CancelNotPassed == CancelNotPassed &&
                 String.Equals((String)MeasurementPresent.ClassObject.GetType().GetMethod("ArgumentsGet").Invoke(MeasurementPresent.ClassObject, null), Arguments);
         }
