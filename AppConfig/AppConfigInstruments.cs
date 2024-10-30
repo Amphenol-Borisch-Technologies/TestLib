@@ -19,7 +19,7 @@ namespace ABT.Test.Lib.AppConfig {
         }
 
         private static Dictionary<String, String> GetInstrumentsStationary() {
-            InstrumentsStationaryRequiredSection ISRSs = (InstrumentsStationaryRequiredSection)TestData.ConfigMap.GetSection(InstrumentsStationaryRequiredSection.ClassName);
+            InstrumentsStationaryRequiredSection ISRSs = (InstrumentsStationaryRequiredSection)TestData.ConfigMap.GetSection(nameof(InstrumentsStationaryRequiredSection));
             InstrumentsStationaryRequired ISRs = ISRSs.InstrumentsStationaryRequired;
             Dictionary<String, String> InstrumentsStationary = new Dictionary<String, String>();
             foreach (InstrumentStationaryRequired ISR in ISRs) try {
@@ -37,7 +37,7 @@ namespace ABT.Test.Lib.AppConfig {
         }
 
         private static Dictionary<String, Object> GetInstrumentsPortable() {
-            InstrumentsPortableRequiredSection IPRSs = (InstrumentsPortableRequiredSection)TestData.ConfigMap.GetSection(InstrumentsPortableRequiredSection.ClassName);
+            InstrumentsPortableRequiredSection IPRSs = (InstrumentsPortableRequiredSection)TestData.ConfigMap.GetSection(nameof(InstrumentsPortableRequiredSection));
             InstrumentsPortableRequired IPRs = IPRSs.InstrumentsPortableRequired;
             Dictionary<String, Object> Instruments = new Dictionary<String, Object>();
             foreach (InstrumentPortableRequired IPR in IPRs) try {

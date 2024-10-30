@@ -266,27 +266,27 @@ namespace ABT.Test.Lib.AppConfig {
 
         public Statistics() { }
 
-        public void Update(String TestEvent) { 
-            switch(TestEvent) {
-                case TestEvents.CANCEL:
+        public void Update(EVENTS Event) { 
+            switch(Event) {
+                case EVENTS.CANCEL:
                     Cancelled++;
                     break;
-                case TestEvents.EMERGENCY_STOP:
+                case EVENTS.EMERGENCY_STOP:
                     EmergencyStopped++;
                     break;
-                case TestEvents.ERROR:
+                case EVENTS.ERROR:
                     Errored++;
                     break;
-                case TestEvents.FAIL:
+                case EVENTS.FAIL:
                     Failed++;
                     break;
-                case TestEvents.PASS:
+                case EVENTS.PASS:
                     Passed++;
                     break;
-                case TestEvents.UNSET:
-                    throw new ArgumentException($"TestEvent '{TestEvent}' illegal argument for {System.Reflection.MethodBase.GetCurrentMethod().Name}.");
+                case EVENTS.UNSET:
+                    throw new ArgumentException($"Event '{Event}' illegal argument for {System.Reflection.MethodBase.GetCurrentMethod().Name}.");
                 default:
-                    throw new NotImplementedException($"TestEvent '{TestEvent}' not implemented.");
+                    throw new NotImplementedException($"Event '{Event}' not implemented.");
             }
         }
 

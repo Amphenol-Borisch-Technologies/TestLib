@@ -6,7 +6,18 @@ using System.Threading;
 using ABT.Test.Lib.AppConfig;
 
 namespace ABT.Test.Lib {
+    public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, PASS, UNSET }
+
     public static class TestData {
+        public static Dictionary<EVENTS, Color> EventColors = new Dictionary<EVENTS, Color> {
+                { EVENTS.CANCEL, Color.Yellow },
+                { EVENTS.EMERGENCY_STOP, Color.Firebrick },
+                { EVENTS.ERROR, Color.Aqua },
+                { EVENTS.FAIL, Color.Red },
+                { EVENTS.PASS, Color.Green },
+                { EVENTS.UNSET, Color.Gray }
+        };
+
         public const String NONE = "NONE";
         public const String MutexTestPlanName = "MutexTestPlan";
         public static Mutex MutexTestPlan = null;
@@ -50,7 +61,7 @@ namespace ABT.Test.Lib {
         public static Boolean IsMeasurement(String Description, String ClassName, Boolean CancelNotPassed, String Arguments) {
             return
                 String.Equals(MeasurementPresent.Description, Description) &&
-                String.Equals(MeasurementPresent.ClassObject.GetType().Name, ClassName) &&
+                String.Equals(nameof(MeasurementPresent.ClassObject), ClassName) &&
                 MeasurementPresent.CancelNotPassed == CancelNotPassed &&
                 String.Equals((String)MeasurementPresent.ClassObject.GetType().GetMethod("ArgumentsGet").Invoke(MeasurementPresent.ClassObject, null), Arguments);
         }
@@ -82,27 +93,6 @@ namespace ABT.Test.Lib {
         public static String GetMeasurementNumericArguments(String measurementID) {
             MeasurementNumeric mn = (MeasurementNumeric)Measurement.Get(measurementID).ClassObject;
             return (String)mn.GetType().GetMethod("ArgumentsGet").Invoke(mn, null);
-        }
-    }
-
-    public static class TestEvents {
-        public const String CANCEL = "CANCEL";
-        public const String EMERGENCY_STOP = "EMERGENCY STOP";
-        public const String ERROR = "ERROR";
-        public const String FAIL = "FAIL";
-        public const String PASS = "PASS";
-        public const String UNSET = "UNSET";
-
-        public static Color GetColor(String Event) {
-            Dictionary<String, Color> codesToColors = new Dictionary<String, Color>() {
-                { CANCEL, Color.Yellow },
-                { EMERGENCY_STOP, Color.Firebrick },
-                { ERROR, Color.Aqua },
-                { FAIL, Color.Red },
-                { PASS, Color.Green },
-                { UNSET, Color.Gray }
-            };
-            return codesToColors[Event];
         }
     }
 }
