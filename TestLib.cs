@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
 using System.Threading;
-using ABT.Test.Lib.AppConfig;
+using ABT.TestExec.Lib.AppConfig;
 
-namespace ABT.Test.Lib {
+namespace ABT.TestExec.Lib {
     public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, PASS, UNSET }
 
-    public static class TestData {
+    public static class TestLib {
         public static Dictionary<EVENTS, Color> EventColors = new Dictionary<EVENTS, Color> {
                 { EVENTS.CANCEL, Color.Yellow },
                 { EVENTS.EMERGENCY_STOP, Color.Firebrick },
@@ -19,8 +19,8 @@ namespace ABT.Test.Lib {
         };
 
         public const String NONE = "NONE";
-        public const String MutexTestPlanName = "MutexTestPlan";
-        public static Mutex MutexTestPlan = null;
+        public const String MutexTestName = "MutexTest";
+        public static Mutex MutexTest = null;
         public static Dictionary<String, Object> InstrumentDrivers = null;
         public static Configuration ConfigMap = GetConfiguration();
         public static readonly AppConfigLogger ConfigLogger = AppConfigLogger.Get();
@@ -33,7 +33,7 @@ namespace ABT.Test.Lib {
 
         public static Configuration GetConfiguration() {
             ExeConfigurationFileMap ecfm = new ExeConfigurationFileMap {
-                ExeConfigFilename = @"C:\Users\phils\source\repos\ABT\Test\Plans\UUT\bin\x64\Debug\UUT.exe.config"
+                ExeConfigFilename = @"C:\Users\phils\source\repos\ABT\TestExec\Tests\Diagnostics\bin\x64\Debug\Diagnostics.exe.config"
             };
             return ConfigurationManager.OpenMappedExeConfiguration(ecfm, ConfigurationUserLevel.None);
         }

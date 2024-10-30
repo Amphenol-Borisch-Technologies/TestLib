@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace ABT.Test.Lib.AppConfig {
+namespace ABT.TestExec.Lib.AppConfig {
     public static class InstrumentDrivers {
         public static Dictionary<String, Object> Get(String ConfigurationTestExec) {
             Dictionary<String, Object> Instruments = GetInstrumentsPortable();
@@ -19,7 +19,7 @@ namespace ABT.Test.Lib.AppConfig {
         }
 
         private static Dictionary<String, String> GetInstrumentsStationary() {
-            InstrumentsStationaryRequiredSection ISRSs = (InstrumentsStationaryRequiredSection)TestData.ConfigMap.GetSection(nameof(InstrumentsStationaryRequiredSection));
+            InstrumentsStationaryRequiredSection ISRSs = (InstrumentsStationaryRequiredSection)TestLib.ConfigMap.GetSection(nameof(InstrumentsStationaryRequiredSection));
             InstrumentsStationaryRequired ISRs = ISRSs.InstrumentsStationaryRequired;
             Dictionary<String, String> InstrumentsStationary = new Dictionary<String, String>();
             foreach (InstrumentStationaryRequired ISR in ISRs) try {
@@ -37,7 +37,7 @@ namespace ABT.Test.Lib.AppConfig {
         }
 
         private static Dictionary<String, Object> GetInstrumentsPortable() {
-            InstrumentsPortableRequiredSection IPRSs = (InstrumentsPortableRequiredSection)TestData.ConfigMap.GetSection(nameof(InstrumentsPortableRequiredSection));
+            InstrumentsPortableRequiredSection IPRSs = (InstrumentsPortableRequiredSection)TestLib.ConfigMap.GetSection(nameof(InstrumentsPortableRequiredSection));
             InstrumentsPortableRequired IPRs = IPRSs.InstrumentsPortableRequired;
             Dictionary<String, Object> Instruments = new Dictionary<String, Object>();
             foreach (InstrumentPortableRequired IPR in IPRs) try {

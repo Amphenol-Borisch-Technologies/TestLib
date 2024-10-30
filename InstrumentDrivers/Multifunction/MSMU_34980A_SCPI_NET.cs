@@ -5,9 +5,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
-using ABT.Test.Lib.InstrumentDrivers.Interfaces;
+using ABT.TestExec.Lib.InstrumentDrivers.Interfaces;
 
-namespace ABT.Test.Lib.InstrumentDrivers.Multifunction {
+namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
     public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IRelays {
         public enum ABUS { ABUS1, ABUS2, ABUS3, ABUS4, ALL };
         public enum SLOTS { SLOT1 = 1, SLOT2 = 2, SLOT3 = 3, SLOT4 = 4, SLOT5 = 5, SLOT6 = 6, SLOT7 = 7, SLOT8 = 8 }

@@ -1,6 +1,6 @@
 ﻿﻿using System.Collections.Generic;
 
-namespace ABT.Test.Lib.InstrumentDrivers {
+namespace ABT.TestExec.Lib.InstrumentDrivers {
     public enum INSTRUMENT_TYPES { ELECTRONIC_LOAD, LOGIC_ANALYZER, MULTI_FUNCTION, MULTI_METER, OSCILLOSCOPE, POWER_ANALYZER, POWER_SUPPLY, SWITCHING, UNKNOWN, WAVEFORM_GENERATOR }
     public enum INSTRUMENT_CATEGORIES { MEASURING, STIMULATING, SWITCHING, UNKNOWN }
     public enum STATES { off = 0, ON = 1 } // NOTE: To Command an instrument off or ON, and Query it's STATE, again off or ON.

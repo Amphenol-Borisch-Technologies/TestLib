@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace ABT.Test.Lib.AppConfig {
+namespace ABT.TestExec.Lib.AppConfig {
     public class TestOperationsSection : ConfigurationSection {
         [ConfigurationProperty("TestOperations")] public TestOperations TestOperations { get { return ((TestOperations)(base["TestOperations"])); } }
     }
@@ -115,7 +115,7 @@ namespace ABT.Test.Lib.AppConfig {
     }
 
     public class ConfigTests {
-        public TestMeasurementsSection TestMeasurementsSection { get { return (TestMeasurementsSection)TestData.ConfigMap.Sections.Get(nameof(TestMeasurementsSection)); } }
+        public TestMeasurementsSection TestMeasurementsSection { get { return (TestMeasurementsSection)TestLib.ConfigMap.Sections.Get(nameof(TestMeasurementsSection)); } }
         public TestMeasurements TestMeasurements { get { return TestMeasurementsSection.TestMeasurements; } }
         public IEnumerable<TestMeasurement> TestMeasurement { get { foreach (TestMeasurement tm in TestMeasurements) if (tm != null) yield return tm; } }
     }
@@ -134,7 +134,7 @@ namespace ABT.Test.Lib.AppConfig {
         }
 
         public static Dictionary<String, Operation> Get() {
-            TestOperationsSection testOperationsSection = (TestOperationsSection)TestData.ConfigMap.Sections.Get(nameof(TestOperationsSection));
+            TestOperationsSection testOperationsSection = (TestOperationsSection)TestLib.ConfigMap.Sections.Get(nameof(TestOperationsSection));
             TestOperations testOperations = testOperationsSection.TestOperations;
             Dictionary<String, Operation> dictionary = new Dictionary<String, Operation>();
             foreach (TestOperation to in testOperations) dictionary.Add(to.ID, new Operation(to.ID, to.Revision, to.Description, to.TestGroupIDs));
@@ -162,7 +162,7 @@ namespace ABT.Test.Lib.AppConfig {
         }
 
         public static Dictionary<String, Group> Get() {
-            TestGroupsSection testGroupSection = (TestGroupsSection)TestData.ConfigMap.Sections.Get(nameof(TestGroupsSection));
+            TestGroupsSection testGroupSection = (TestGroupsSection)TestLib.ConfigMap.Sections.Get(nameof(TestGroupsSection));
             TestGroups testGroups = testGroupSection.TestGroups;
             Dictionary<String, Group> dictionary = new Dictionary<String, Group>();
             foreach (TestGroup tg in testGroups) dictionary.Add(tg.ID, new Group(tg.ID, tg.Revision, tg.Description, tg.Selectable, tg.CancelNotPassed, tg.TestMeasurementIDs));
@@ -195,7 +195,7 @@ namespace ABT.Test.Lib.AppConfig {
         }
 
         public static Dictionary<String, Measurement> Get() {
-            TestMeasurementsSection testMeasurementsSection = (TestMeasurementsSection)TestData.ConfigMap.GetSection(nameof(TestMeasurementsSection));
+            TestMeasurementsSection testMeasurementsSection = (TestMeasurementsSection)TestLib.ConfigMap.GetSection(nameof(TestMeasurementsSection));
             TestMeasurements testMeasurements = testMeasurementsSection.TestMeasurements;
             Dictionary<String, Measurement> dictionary = new Dictionary<String, Measurement>();
             foreach (TestMeasurement tm in testMeasurements) try {
