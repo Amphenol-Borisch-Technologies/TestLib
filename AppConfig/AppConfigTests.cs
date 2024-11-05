@@ -65,48 +65,54 @@ namespace ABT.TestExec.Lib.AppConfig {
     public class MeasurementNumeric : MeasurementAbstract {
         public readonly Double Low;                                                                   private const String _LOW = nameof(Low);
         public readonly Double High;                                                                  private const String _HIGH = nameof(High);
+        public readonly Int32 FD;                                                                     private const String _FD = nameof(FD);
         public readonly UNITS_SI Units_SI = UNITS_SI.NotApplicable;                                   private const String _UNITS_SI = nameof(Units_SI);
-        public readonly UNITS_SI_MODIFIER Units_SI_Modifier = UNITS_SI_MODIFIER.NotApplicable;        private const String _Units_SI_Modifier = nameof(Units_SI_Modifier);
+        public readonly UNITS_SI_MODIFIER Units_SI_Modifier = UNITS_SI_MODIFIER.NotApplicable;        private const String _UNITS_SI_MODIFIER = nameof(Units_SI_Modifier);
 
         public MeasurementNumeric(String ID, String Arguments) {
             Dictionary<String, String> argsDict = ArgumentsSplit(Arguments);
             ArgumentsValidate(ID, Arguments, argsDict);
             High = Double.Parse(argsDict[_HIGH], NumberStyles.Float, CultureInfo.CurrentCulture);
             Low = Double.Parse(argsDict[_LOW], NumberStyles.Float, CultureInfo.CurrentCulture);
+            FD = Int32.Parse(argsDict[_FD], NumberStyles.Integer, CultureInfo.CurrentCulture);
 
             String[] units_si = Enum.GetNames(typeof(UNITS_SI)).Select(s => s.ToLower()).ToArray();
             if (units_si.Any(argsDict[_UNITS_SI].ToLower().Contains)) {
                 Units_SI = (UNITS_SI)Enum.Parse(typeof(UNITS_SI), argsDict[_UNITS_SI], ignoreCase: true);
-                String[] Units_SI_Modifiers = Enum.GetNames(typeof(UNITS_SI_MODIFIER)).Select(s => s.ToLower()).ToArray();
-                if (Units_SI_Modifiers.Any(argsDict[_Units_SI_Modifier].ToLower().Contains)) {
-                    Units_SI_Modifier = (UNITS_SI_MODIFIER)Enum.Parse(typeof(UNITS_SI_MODIFIER), argsDict[_Units_SI_Modifier], ignoreCase: true);
+                String[] si_units_modifiers = Enum.GetNames(typeof(UNITS_SI_MODIFIER)).Select(s => s.ToLower()).ToArray();
+                if (si_units_modifiers.Any(argsDict[_UNITS_SI_MODIFIER].ToLower().Contains)) {
+                    Units_SI_Modifier = (UNITS_SI_MODIFIER)Enum.Parse(typeof(UNITS_SI_MODIFIER), argsDict[_UNITS_SI_MODIFIER], ignoreCase: true);
                 }
             }
         }
 
         public static MeasurementNumeric Get(String MeasurementCustomArgs) {
             Dictionary<String, String> args = ArgumentsSplit(MeasurementCustomArgs);
-            List<String> keys = new List<String> { _HIGH, _LOW, _UNITS_SI, _Units_SI_Modifier };
+            List<String> keys = new List<String> { _HIGH, _LOW, _FD, _UNITS_SI, _UNITS_SI_MODIFIER };
             Dictionary<String, String> argsNumeric = args.Where(kvp => keys.Contains(kvp.Key)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             return new MeasurementNumeric("MN", ArgumentsJoin(argsNumeric));
         }
 
-        public override String ArgumentsGet() { return $"{_HIGH}{SK}{High}{SA}{_LOW}{SK}{Low}{SA}{_UNITS_SI}{SK}{Units_SI}{SA}{_Units_SI_Modifier}{SK}{Units_SI_Modifier}"; }
+        public override String ArgumentsGet() { return $"{_HIGH}{SK}{High}{SA}{_LOW}{SK}{Low}{SA}{_FD}{SK}{FD}{SA}{_UNITS_SI}{SK}{_UNITS_SI}{SA}{_UNITS_SI_MODIFIER}{SK}{_UNITS_SI_MODIFIER}"; }
 
         internal override void ArgumentsValidate(String id, String arguments, Dictionary<String, String> argsDict) {
             const String ClassName = nameof(MeasurementNumeric);
-            if (argsDict.Count != 4) throw new ArgumentException($"{ClassName} ID '{id}' requires 4 case-sensitive arguments:{Environment.NewLine}" +
+            if (argsDict.Count != 5) throw new ArgumentException($"{ClassName} ID '{id}' requires 4 case-sensitive arguments:{Environment.NewLine}" +
                 $"   Example: '{_HIGH}{SK}0.004{SA}{Environment.NewLine}" +
                 $"             {_LOW}{SK}0.002{SA}{Environment.NewLine}" +
+                $"             {_FD}{SK}3{SA}{Environment.NewLine}" +
                 $"             {_UNITS_SI}{SK}volts{SA}{Environment.NewLine}" +
-                $"             {_Units_SI_Modifier}{SK}DC'{Environment.NewLine}" +
+                $"             {_UNITS_SI_MODIFIER}{SK}DC'{Environment.NewLine}" +
                 $"   Actual : '{arguments}'");
             if (!argsDict.ContainsKey(_HIGH)) throw new ArgumentException($"{ClassName} ID '{id}' does not contain '{_HIGH}' key-value pair.");
             if (!argsDict.ContainsKey(_LOW)) throw new ArgumentException($"{ClassName} ID '{id  }' does not contain '{_LOW}' key-value pair.");
+            if (!argsDict.ContainsKey(_FD)) throw new ArgumentException($"{ClassName} ID '{id  }' does not contain '{_FD}' key-value pair.");
             if (!argsDict.ContainsKey(_UNITS_SI)) throw new ArgumentException($"{ClassName} ID '{id}' does not contain '{_UNITS_SI}' key-value pair.");
-            if (!argsDict.ContainsKey(_Units_SI_Modifier)) throw new ArgumentException($"{ClassName} ID '{id}' does not contain '{_Units_SI_Modifier}' key-value pair.");
+            if (!argsDict.ContainsKey(_UNITS_SI_MODIFIER)) throw new ArgumentException($"{ClassName} ID '{id}' does not contain '{_UNITS_SI_MODIFIER}' key-value pair.");
             if (!Double.TryParse(argsDict[_HIGH], NumberStyles.Float, CultureInfo.CurrentCulture, out Double high)) throw new ArgumentException($"{ClassName} ID '{id}' {_HIGH} '{argsDict[_HIGH]}' ≠ System.Double.");
             if (!Double.TryParse(argsDict[_LOW], NumberStyles.Float, CultureInfo.CurrentCulture, out Double low)) throw new ArgumentException($"{ClassName} ID '{id}' {_LOW} '{argsDict[_LOW]}' ≠ System.Double.");
+            if (!Int32.TryParse(argsDict[_FD], NumberStyles.Integer, CultureInfo.CurrentCulture, out Int32 fd)) throw new ArgumentException($"{ClassName} ID '{id}' {_FD} '{argsDict[_FD]}' ≠ System.Int32.");
+            if (fd < 0) throw new ArgumentException($"{ClassName} ID '{id}' {_FD} '{fd}' < 0.");
             if (low > high) throw new ArgumentException($"{ClassName} ID '{id}' {_LOW} '{low}' > {_HIGH} '{high}'.");
         }
     }
