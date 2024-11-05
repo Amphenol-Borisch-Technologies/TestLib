@@ -22,7 +22,7 @@ namespace ABT.TestExec.Lib {
         public const String MutexTestName = "MutexTest";
         public static Mutex MutexTest = null;
         public static Dictionary<String, Object> InstrumentDrivers = null;
-        public static Configuration ConfigMap = GetConfiguration();
+        // public static Configuration ConfigMap = GetConfiguration();
         public static readonly AppConfigLogger ConfigLogger = AppConfigLogger.Get();
         public static AppConfigUUT ConfigUUT = AppConfigUUT.Get();
         public static AppConfigTest ConfigTest = null; // Requires form; instantiated by ButtonSelectTests_Click method.
@@ -31,12 +31,12 @@ namespace ABT.TestExec.Lib {
         public static String MeasurementIDPresent = String.Empty;
         public static Measurement MeasurementPresent = null;
 
-        public static Configuration GetConfiguration() {
-            ExeConfigurationFileMap ecfm = new ExeConfigurationFileMap {
-                ExeConfigFilename = @"C:\Users\phils\source\repos\ABT\TestExec\Tests\Diagnostics\bin\x64\Debug\Diagnostics.exe.config"
-            };
-            return ConfigurationManager.OpenMappedExeConfiguration(ecfm, ConfigurationUserLevel.None);
-        }
+        //public static Configuration GetConfiguration() {
+        //    ExeConfigurationFileMap ecfm = new ExeConfigurationFileMap {
+        //        ExeConfigFilename = @"C:\Users\phils\source\repos\ABT\TestExec\Tests\Diagnostics\bin\x64\Debug\Diagnostics.exe.config"
+        //    };
+        //    return ConfigurationManager.OpenMappedExeConfiguration(ecfm, ConfigurationUserLevel.None);
+        //}
 
         public static Boolean AreMethodNamesPriorNext(String prior, String next) { return String.Equals(GetID_MeasurementPrior(), prior) && String.Equals(GetID_MeasurementNext(), next); }
 

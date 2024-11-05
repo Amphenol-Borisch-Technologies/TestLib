@@ -1,4 +1,3 @@
-C:\Users\phils\source\repos\ABT\TestExec\Lib\bin\x64\Debug\Lib.dll.config
 C:\Users\phils\source\repos\ABT\TestExec\Lib\bin\x64\Debug\Lib.dll
 C:\Users\phils\source\repos\ABT\TestExec\Lib\bin\x64\Debug\Lib.pdb
 C:\Users\phils\source\repos\ABT\TestExec\Lib\bin\x64\Debug\Serilog.dll

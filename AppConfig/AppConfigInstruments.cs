@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -19,7 +20,7 @@ namespace ABT.TestExec.Lib.AppConfig {
         }
 
         private static Dictionary<String, String> GetInstrumentsStationary() {
-            InstrumentsStationaryRequiredSection ISRSs = (InstrumentsStationaryRequiredSection)TestLib.ConfigMap.GetSection(nameof(InstrumentsStationaryRequiredSection));
+            InstrumentsStationaryRequiredSection ISRSs = (InstrumentsStationaryRequiredSection)ConfigurationManager.GetSection(nameof(InstrumentsStationaryRequiredSection));
             InstrumentsStationaryRequired ISRs = ISRSs.InstrumentsStationaryRequired;
             Dictionary<String, String> InstrumentsStationary = new Dictionary<String, String>();
             foreach (InstrumentStationaryRequired ISR in ISRs) try {
@@ -37,7 +38,7 @@ namespace ABT.TestExec.Lib.AppConfig {
         }
 
         private static Dictionary<String, Object> GetInstrumentsPortable() {
-            InstrumentsPortableRequiredSection IPRSs = (InstrumentsPortableRequiredSection)TestLib.ConfigMap.GetSection(nameof(InstrumentsPortableRequiredSection));
+            InstrumentsPortableRequiredSection IPRSs = (InstrumentsPortableRequiredSection)ConfigurationManager.GetSection(nameof(InstrumentsPortableRequiredSection));
             InstrumentsPortableRequired IPRs = IPRSs.InstrumentsPortableRequired;
             Dictionary<String, Object> Instruments = new Dictionary<String, Object>();
             foreach (InstrumentPortableRequired IPR in IPRs) try {
