@@ -23,7 +23,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             SCPI.CLS.Command();
         }
         
-        public DIAGNOSTICS_RESULTS Diagnostics() {
+        public SELF_TEST_RESULTS SelfTests() {
             Int32 result;
             try {
                 SCPI.TST.Query(out result);
@@ -36,9 +36,9 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
                 // If unpowered or not communicating (comms cable possibly disconnected) SelfTest throws a
                 // Keysight.CommandExpert.InstrumentAbstraction.CommunicationException exception,
                 // which requires an apparently unavailable Keysight library to explicitly catch.
-                return DIAGNOSTICS_RESULTS.FAIL;
+                return SELF_TEST_RESULTS.FAIL;
             }
-            return (DIAGNOSTICS_RESULTS)result; // Ag34980 returns 0 for passed, 1 for fail.
+            return (SELF_TEST_RESULTS)result; // Ag34980 returns 0 for passed, 1 for fail.
         }
 
         public void OpenAll() { SCPI.ROUTe.OPEN.ALL.Command(null); }

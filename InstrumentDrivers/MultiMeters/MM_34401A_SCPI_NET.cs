@@ -19,7 +19,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.MultiMeters {
             SCPI.CLS.Command();
         }
 
-        public DIAGNOSTICS_RESULTS Diagnostics() {
+        public SELF_TEST_RESULTS SelfTests() {
             Boolean result;
             try {
                 SCPI.TST.Query(out result);
@@ -32,9 +32,9 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.MultiMeters {
                 // If unpowered or not communicating (comms cable possibly disconnected) SelfTest throws a
                 // Keysight.CommandExpert.InstrumentAbstraction.CommunicationException exception,
                 // which requires an apparently unavailable Keysight library to explicitly catch.
-                return DIAGNOSTICS_RESULTS.FAIL;
+                return SELF_TEST_RESULTS.FAIL;
             }
-            return result ? DIAGNOSTICS_RESULTS.FAIL : DIAGNOSTICS_RESULTS.PASS; // Ag34401 returns 0 for passed, 1 for fail, opposite of C#'s Convert.ToBoolean(Int32).
+            return result ? SELF_TEST_RESULTS.FAIL : SELF_TEST_RESULTS.PASS; // Ag34401 returns 0 for passed, 1 for fail, opposite of C#'s Convert.ToBoolean(Int32).
         }
 
         public MM_34401A_SCPI_NET(String Address, String Detail) : base(Address) {

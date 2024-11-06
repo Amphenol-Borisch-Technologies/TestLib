@@ -16,7 +16,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.PowerSupplies  {
             SCPI.CLS.Command();
         }
         
-        public DIAGNOSTICS_RESULTS Diagnostics() {
+        public SELF_TEST_RESULTS SelfTests() {
             Int32 result;
             try {
                 SCPI.TST.Query(out result);
@@ -29,9 +29,9 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.PowerSupplies  {
                 // If unpowered or not communicating (comms cable possibly disconnected) SelfTest throws a
                 // Keysight.CommandExpert.InstrumentAbstraction.CommunicationException exception,
                 // which requires an apparently unavailable Keysight library to explicitly catch.
-                return DIAGNOSTICS_RESULTS.FAIL;
+                return SELF_TEST_RESULTS.FAIL;
             }
-            return (DIAGNOSTICS_RESULTS)result; // AgE363x returns 0 for passed, 1 for fail.
+            return (SELF_TEST_RESULTS)result; // AgE363x returns 0 for passed, 1 for fail.
         }
 
         public PS_E3634A_SCPI_NET(String Address, String Detail) : base(Address) {
