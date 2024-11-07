@@ -27,11 +27,12 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             Int32 result;
             try {
                 SCPI.TST.Query(out result);
-            } catch (Exception) {
-                _ = MessageBox.Show($"Instrument with driver {GetType().Name} likely unpowered or not communicating:{Environment.NewLine}" + 
+            } catch (Exception e) {
+                _ = MessageBox.Show($"Instrument with driver {GetType().Name} failed its Self-Test:{Environment.NewLine}" + 
                     $"Type:      {InstrumentType}{Environment.NewLine}" +
                     $"Detail:    {Detail}{Environment.NewLine}" +
-                    $"Address:   {Address}"
+                    $"Address:   {Address}{Environment.NewLine}" +
+                    $"Exception: {e}{Environment.NewLine}"
                     , "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 // If unpowered or not communicating (comms cable possibly disconnected) SelfTest throws a
                 // Keysight.CommandExpert.InstrumentAbstraction.CommunicationException exception,
