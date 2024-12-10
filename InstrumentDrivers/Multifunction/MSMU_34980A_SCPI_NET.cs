@@ -18,7 +18,8 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
         // NOTE: Add appropriate methods as other modules are installed.
     }
 
-    public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IMSMU_34980A, IRelays {
+    // TODO: public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IMSMU_34980A, IRelays {
+    public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IRelays {
         public enum ABUS { ABUS1, ABUS2, ABUS3, ABUS4, ALL };
         public enum SLOTS { SLOT1 = 1, SLOT2 = 2, SLOT3 = 3, SLOT4 = 4, SLOT5 = 5, SLOT6 = 6, SLOT7 = 7, SLOT8 = 8 }
         public enum TEMPERATURE_UNITS { C, F, K }
