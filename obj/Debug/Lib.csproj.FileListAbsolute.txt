@@ -1,0 +1,4 @@
+C:\Users\phils\Source\Repos\Lib\obj\Debug\Lib.csproj.AssemblyReference.cache
+C:\Users\phils\Source\Repos\Lib\obj\Debug\ABT.TestExec.Lib.AppConfig.SelectTests.resources
+C:\Users\phils\Source\Repos\Lib\obj\Debug\Lib.csproj.GenerateResource.cache
+C:\Users\phils\Source\Repos\Lib\obj\Debug\Lib.csproj.CoreCompileInputs.cache
