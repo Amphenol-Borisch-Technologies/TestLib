@@ -3,24 +3,44 @@
   "WorkspaceRootPath": "C:\\Users\\phils\\source\\repos\\Lib\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\instrumentdrivers\\multifunction\\msmu_34980a_scpi_net.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:instrumentdrivers\\multifunction\\msmu_34980a_scpi_net.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\testlib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:testlib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5FC19C56-1566-457A-A8AF-A3A69561320C}|..\\TestPlan\\Diagnostics\\Diagnostics.csproj|c:\\users\\phils\\source\\repos\\testplan\\diagnostics\\tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5FC19C56-1566-457A-A8AF-A3A69561320C}|..\\TestPlan\\Diagnostics\\Diagnostics.csproj|c:\\users\\phils\\source\\repos\\testplan\\diagnostics\\testoperations\\msmu_34980a.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|Exec||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\instrumentdrivers\\powersupplies\\ps_e3649a_scpi_net.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:instrumentdrivers\\powersupplies\\ps_e3649a_scpi_net.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|Diagnostics||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\instrumentdrivers\\powersupplies\\ps_e3634a_scpi_net.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:instrumentdrivers\\powersupplies\\ps_e3634a_scpi_net.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|Lib||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\instrumentdrivers\\instruments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:instrumentdrivers\\instruments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\miscellaneous\\miscellaneous.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:miscellaneous\\miscellaneous.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\processes\\processexternal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:processes\\processexternal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\appconfig\\appconfigtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:appconfig\\appconfigtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{07A85E09-B78E-4D27-B1F9-B089EB1ACE6A}|..\\TestSequencer\\TestSequencer\\TestSequencer.csproj|c:\\users\\phils\\source\\repos\\testsequencer\\testsequencer\\assertions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{07A85E09-B78E-4D27-B1F9-B089EB1ACE6A}|..\\TestSequencer\\TestSequencer\\TestSequencer.csproj|c:\\users\\phils\\source\\repos\\testsequencer\\testsequencer\\sequencer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 42,
+          "SelectedChildIndex": 49,
           "Children": [
             {
               "$type": "Bookmark",
@@ -194,75 +214,146 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AppConfigTests.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigTests.cs",
+              "RelativeDocumentMoniker": "AppConfig\\AppConfigTests.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigTests.cs",
+              "RelativeToolTip": "AppConfig\\AppConfigTests.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-11T20:06:53.902Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ProcessExternal.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\Processes\\ProcessExternal.cs",
+              "RelativeDocumentMoniker": "Processes\\ProcessExternal.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\Processes\\ProcessExternal.cs",
+              "RelativeToolTip": "Processes\\ProcessExternal.cs",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-11T20:04:18.046Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Miscellaneous.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\Miscellaneous\\Miscellaneous.cs",
+              "RelativeDocumentMoniker": "Miscellaneous\\Miscellaneous.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\Miscellaneous\\Miscellaneous.cs",
+              "RelativeToolTip": "Miscellaneous\\Miscellaneous.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-11T20:04:11.922Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Instruments.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Instruments.cs",
+              "RelativeDocumentMoniker": "InstrumentDrivers\\Instruments.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Instruments.cs",
+              "RelativeToolTip": "InstrumentDrivers\\Instruments.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAABRAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-11T20:04:04.507Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PS_E3634A_SCPI_NET.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\PowerSupplies\\PS_E3634A_SCPI_NET.cs",
+              "RelativeDocumentMoniker": "InstrumentDrivers\\PowerSupplies\\PS_E3634A_SCPI_NET.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\PowerSupplies\\PS_E3634A_SCPI_NET.cs",
+              "RelativeToolTip": "InstrumentDrivers\\PowerSupplies\\PS_E3634A_SCPI_NET.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAA0AAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-11T20:03:58.406Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PS_E3649A_SCPI_NET.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\PowerSupplies\\PS_E3649A_SCPI_NET.cs",
+              "RelativeDocumentMoniker": "InstrumentDrivers\\PowerSupplies\\PS_E3649A_SCPI_NET.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\PowerSupplies\\PS_E3649A_SCPI_NET.cs",
+              "RelativeToolTip": "InstrumentDrivers\\PowerSupplies\\PS_E3649A_SCPI_NET.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAAAgAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-11T20:03:43.551Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
               "Title": "MSMU_34980A.cs",
               "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
               "RelativeDocumentMoniker": "..\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
               "ToolTip": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
               "RelativeToolTip": "..\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-10T20:39:13.415Z",
+              "WhenOpened": "2024-12-11T20:02:44.165Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "TestLib.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\TestLib.cs",
-              "RelativeDocumentMoniker": "TestLib.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\TestLib.cs",
-              "RelativeToolTip": "TestLib.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Title": "Tests.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\Tests.cs",
+              "RelativeDocumentMoniker": "..\\TestPlan\\Diagnostics\\Tests.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\Tests.cs",
+              "RelativeToolTip": "..\\TestPlan\\Diagnostics\\Tests.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAADEAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-10T20:38:26.167Z",
+              "WhenOpened": "2024-12-11T20:02:26.588Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Assertions.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\Source\\Repos\\TestSequencer\\TestSequencer\\Assertions.cs",
+              "RelativeDocumentMoniker": "..\\TestSequencer\\TestSequencer\\Assertions.cs",
+              "ToolTip": "C:\\Users\\phils\\Source\\Repos\\TestSequencer\\TestSequencer\\Assertions.cs",
+              "RelativeToolTip": "..\\TestSequencer\\TestSequencer\\Assertions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-11T20:01:36.919Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MSMU_34980A_SCPI_NET.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
-              "RelativeDocumentMoniker": "InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
-              "RelativeToolTip": "InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAAwAcAAAA0AAAAAAAAAA==",
+              "Title": "TestLib.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\TestLib.cs",
+              "RelativeDocumentMoniker": "TestLib.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\TestLib.cs",
+              "RelativeToolTip": "TestLib.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-10T20:30:38.042Z",
+              "WhenOpened": "2024-12-11T19:58:11.444Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Lib",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\Lib.csproj",
-              "RelativeDocumentMoniker": "Lib.csproj",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\Lib.csproj",
-              "RelativeToolTip": "Lib.csproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-12-10T20:25:42.926Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Exec",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestExec\\Exec.csproj",
-              "RelativeDocumentMoniker": "..\\TestExec\\Exec.csproj",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestExec\\Exec.csproj",
-              "RelativeToolTip": "..\\TestExec\\Exec.csproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-12-10T20:25:23.347Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Diagnostics",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\Diagnostics.csproj",
-              "RelativeDocumentMoniker": "..\\TestPlan\\Diagnostics\\Diagnostics.csproj",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\Diagnostics.csproj",
-              "RelativeToolTip": "..\\TestPlan\\Diagnostics\\Diagnostics.csproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-12-10T20:25:08.255Z"
+              "DocumentIndex": 10,
+              "Title": "Sequencer.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestSequencer\\TestSequencer\\Sequencer.cs",
+              "RelativeDocumentMoniker": "..\\TestSequencer\\TestSequencer\\Sequencer.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestSequencer\\TestSequencer\\Sequencer.cs",
+              "RelativeToolTip": "..\\TestSequencer\\TestSequencer\\Sequencer.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAGcAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-11T19:58:36.871Z",
+              "EditorCaption": ""
             }
           ]
         }

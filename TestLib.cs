@@ -19,8 +19,8 @@ namespace ABT.TestExec.Lib {
         };
 
         public const String NONE = "NONE";
-        public const String MutexTestName = "MutexTest";
         public static Mutex MutexTest = null;
+        public const String MutexTestName = nameof(MutexTest);
         public static Dictionary<String, Object> InstrumentDrivers = null;
         public static readonly AppConfigLogger ConfigLogger = AppConfigLogger.Get();
         public static AppConfigUUT ConfigUUT = AppConfigUUT.Get();
@@ -63,7 +63,7 @@ namespace ABT.TestExec.Lib {
                 String.Equals(MeasurementPresent.Description, Description) &&
                 String.Equals(MeasurementPresent.ClassName, ClassName) &&
                 MeasurementPresent.CancelNotPassed == CancelNotPassed &&
-                String.Equals((String)MeasurementPresent.ClassObject.GetType().GetMethod("ArgumentsGet").Invoke(MeasurementPresent.ClassObject, null), Arguments);
+                String.Equals((String)MeasurementPresent.ClassObject.GetType().GetMethod(nameof(MeasurementAbstract.ArgumentsGet)).Invoke(MeasurementPresent.ClassObject, null), Arguments);
         }
 
         public static Boolean IsOperation(String OperationID) { return String.Equals(ConfigTest.TestElementID, OperationID); }
@@ -92,7 +92,7 @@ namespace ABT.TestExec.Lib {
 
         public static String GetMeasurementNumericArguments(String measurementID) {
             MeasurementNumeric mn = (MeasurementNumeric)Measurement.Get(measurementID).ClassObject;
-            return (String)mn.GetType().GetMethod("ArgumentsGet").Invoke(mn, null);
+            return (String)mn.GetType().GetMethod(nameof(MeasurementAbstract.ArgumentsGet)).Invoke(mn, null);
         }
     }
 }
