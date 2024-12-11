@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,20 +7,21 @@ using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
 using ABT.TestExec.Lib.InstrumentDrivers.Interfaces;
 using ABT.TestExec.Lib.AppConfig;
+using static ABT.TestExec.Lib.InstrumentDrivers.Multifunction.MSMU_34980A_SCPI_NET;
 
 namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
     public interface IMSMU_34980A {
-        String Diagnostics_34921A(MSMU_34980A_SCPI_NET.SLOTS slot);
-        String Diagnostics_34932A(MSMU_34980A_SCPI_NET.SLOTS slot);
-        String Diagnostics_34938A(MSMU_34980A_SCPI_NET.SLOTS slot);
-        String Diagnostics_34939A(MSMU_34980A_SCPI_NET.SLOTS slot);
-        String Diagnostics_34925A(MSMU_34980A_SCPI_NET.SLOTS slot);
+        (Boolean Result, List<DiagnosticsResult> Details) Diagnostics_34921A(SLOTS slot);
+        String Diagnostics_34932A(SLOTS slot);
+        String Diagnostics_34938A(SLOTS slot);
+        String Diagnostics_34939A(SLOTS slot);
+        String Diagnostics_34925A(SLOTS slot);
         // NOTE: Add appropriate methods as other modules are installed.
     }
 
-    // TODO: public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IMSMU_34980A, IRelays {
-    public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IRelays {
-        public enum ABUS { ABUS1, ABUS2, ABUS3, ABUS4, ALL };
+    public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IMSMU_34980A, IRelays {
+        public enum ABUS { ABUS1, ABUS2, ABUS3, ABUS4 };
+        public enum COMS { COM1 = 1, COM2 = 2 }
         public enum SLOTS { SLOT1 = 1, SLOT2 = 2, SLOT3 = 3, SLOT4 = 4, SLOT5 = 5, SLOT6 = 6, SLOT7 = 7, SLOT8 = 8 }
         public enum TEMPERATURE_UNITS { C, F, K }
         public enum RELAY_STATES { opened, CLOSED }
@@ -33,13 +34,13 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             SCPI.RST.Command();
             SCPI.CLS.Command();
         }
-        
+
         public SELF_TEST_RESULTS SelfTests() {
             Int32 result;
             try {
                 SCPI.TST.Query(out result);
             } catch (Exception e) {
-                _ = MessageBox.Show($"Instrument with driver {GetType().Name} failed its Self-Test:{Environment.NewLine}" + 
+                _ = MessageBox.Show($"Instrument with driver {GetType().Name} failed its Self-Test:{Environment.NewLine}" +
                     $"Type:      {InstrumentType}{Environment.NewLine}" +
                     $"Detail:    {Detail}{Environment.NewLine}" +
                     $"Address:   {Address}{Environment.NewLine}" +
@@ -53,7 +54,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             return (SELF_TEST_RESULTS)result; // Ag34980 returns 0 for passed, 1 for fail.
         }
 
-        public class DiagnosticsResult{
+        public class DiagnosticsResult {
             public readonly String Label;
             public readonly String Message;
             public Boolean Passed;
@@ -70,29 +71,30 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             _ = MessageBox.Show($"Please connect both loopback connectors to SLOT {slot}.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             List<DiagnosticsResult> results = new List<DiagnosticsResult>();
-            SCPI.ROUTe.CLOSe.Command("@1911,1912");
             Boolean passedExtended = true;
             MeasurementNumeric MN = (MeasurementNumeric)TestLib.MeasurementPresent.ClassObject;
 
-            String channel;
-            for (Int32 i = 1; i < 21; i++) {
-                channel = $"@1{i:D3}";
+            Dictionary<ABUS, Dictionary<COMS, String>> Relays = new Dictionary<ABUS, Dictionary<COMS, String>>() {
+                {ABUS.ABUS1, new Dictionary<COMS, String>() {{COMS.COM1, "911"}, {COMS.COM2, "921"}}},
+                {ABUS.ABUS2, new Dictionary<COMS, String>() {{COMS.COM1, "912"}, {COMS.COM2, "922"}}},
+                {ABUS.ABUS3, new Dictionary<COMS, String>() {{COMS.COM1, "913"}, {COMS.COM2, "923"}}},
+                {ABUS.ABUS4, new Dictionary<COMS, String>() {{COMS.COM1, "914"}, {COMS.COM2, "924"}}}
+            };
+
+            SCPI.ROUTe.CLOSe.Command($"@{slot}{Relays[ABUS.ABUS1][COMS.COM1]},{slot}{Relays[ABUS.ABUS1][COMS.COM2]}");
+            for (Int32 i = 1; i < 41; i++) {
+                String channel = $"@{slot}{i:D3}";
                 SCPI.ROUTe.CLOSe.Command(channel);
                 SCPI.MEASure.SCALar.RESistance.Query(25D, "MAXimum", out Double[] resistance);
                 passedExtended &= (MN.Low <= resistance[0] && resistance[0] <= MN.High);
                 results.Add(new DiagnosticsResult(label: $"Channel {channel}: ", message: $"{Math.Round(resistance[0], MN.FD, MidpointRounding.ToEven)}Ω", passed: passedExtended));
                 SCPI.ROUTe.OPEN.Command(channel);
+                if (i == 21) {
+                    SCPI.ROUTe.OPEN.Command($"@{slot}911,{slot}912");
+                    SCPI.ROUTe.CLOSe.Command($"@{slot}921,{slot}922");
+                }
             }
-            SCPI.ROUTe.OPEN.Command("@1911,1912");
-            SCPI.ROUTe.CLOSe.Command("@1921,1922");
-            for (Int32 i = 21; i < 41; i++) {
-                channel = $"@1{i:D3}";
-                SCPI.ROUTe.CLOSe.Command(channel);
-                SCPI.MEASure.SCALar.RESistance.Query(25D, "MAXimum", out Double[] resistance);
-                passedExtended &= (MN.Low <= resistance[0] && resistance[0] <= MN.High);
-                results.Add(new DiagnosticsResult(label: $"Channel {channel}: ", message: $"{Math.Round(resistance[0], MN.FD, MidpointRounding.ToEven)}Ω", passed: passedExtended));
-                SCPI.ROUTe.OPEN.Command(channel);
-            }
+            SCPI.ROUTe.OPEN.Command($"@{slot}921,{slot}922");
             return (Result: passedExtended, Details: results);
         }
         public String Diagnostics_34932A(SLOTS slot) { return String.Empty; }
@@ -112,7 +114,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             SCPI.UNIT.TEMPerature.Command($"{TEMPERATURE_UNITS.F}");
         }
 
-        public Boolean InstrumentDMM_Installed() { 
+        public Boolean InstrumentDMM_Installed() {
             SCPI.INSTrument.DMM.INSTalled.Query(out Boolean installed);
             return installed;
         }
@@ -126,7 +128,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
                 case "34921A": return (Min: 1, Max: 44);
                 case "34939A": return (Min: 1, Max: 68);
                 case "34952A": return (Min: 1, Max: 7);
-                default      : throw new NotImplementedException($"Module Type '{SystemType(Slot)}' unimplemented.");
+                default: throw new NotImplementedException($"Module Type '{SystemType(Slot)}' unimplemented.");
             }
         }
         public void RouteCloseExclusive(String Channels) {
@@ -162,7 +164,8 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
         }
         public TEMPERATURE_UNITS UnitsGet() {
             SCPI.UNIT.TEMPerature.Query(out String[] units);
-            return (TEMPERATURE_UNITS)Enum.Parse(typeof(TEMPERATURE_UNITS), String.Join("", units).Replace("[", "").Replace("]", "")); }
+            return (TEMPERATURE_UNITS)Enum.Parse(typeof(TEMPERATURE_UNITS), String.Join("", units).Replace("[", "").Replace("]", ""));
+        }
 
         public void ValidateChannelS(String Channels) {
             // TODO: Debug.Print($"ChannelS: '{Channels}'.");
@@ -189,7 +192,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
                 return;
             }
 
-            String[] channelsOrRanges = Channels.Split(new Char[] {','}, StringSplitOptions.None);
+            String[] channelsOrRanges = Channels.Split(new Char[] { ',' }, StringSplitOptions.None);
             foreach (String channelOrRange in channelsOrRanges) {
                 if (Regex.IsMatch(channelOrRange, ":")) ValidateRange(channelOrRange);
                 else ValidateChannel(channelOrRange);
@@ -208,7 +211,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
         }
         public void ValidateRange(String Range) {
             // TODO: Debug.Print($"Range: '{Range}'.");
-            String[] channels = Range.Split(new Char[] {':'}, StringSplitOptions.None);
+            String[] channels = Range.Split(new Char[] { ':' }, StringSplitOptions.None);
             // TODO: for (Int32 i=0; i < channels.Length; i++) Debug.Print($"channels[{i}]='{channels[i]}'.");
             if (channels[0][1].Equals('9') || channels[1][1].Equals('9')) throw new ArgumentException($"Channel Range '{Range}' cannot include ABus Channel #9##.");
             ValidateChannel(channels[0]);
