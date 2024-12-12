@@ -111,7 +111,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             SCPI.ROUTe.OPEN.Command($"@{slot}001:{slot}040"); // B1 & B2.
             if (bank is BANKS_34921A.B1) SCPI.ROUTe.CLOSe.Command($"@{slot}001:{slot}020"); // B1
             if (bank is BANKS_34921A.B2) SCPI.ROUTe.CLOSe.Command($"@{slot}021:{slot}040"); // B2
-            MeasureAndRecord($"@{slot}" + String.Join($",{slot}", channels), Ω, ref passedΩ, ref passed_34921A, ref results);
+            MeasureAndRecord_34921A($"@{slot}" + String.Join($",{slot}", channels), Ω, ref passedΩ, ref passed_34921A, ref results);
             SCPI.ROUTe.OPEN.Command($"@{slot}001:{slot}040"); // B1 & B2.
         }
 
