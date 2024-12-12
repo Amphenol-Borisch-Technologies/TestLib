@@ -6,23 +6,13 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
 using ABT.TestExec.Lib.InstrumentDrivers.Interfaces;
-using ABT.TestExec.Lib.AppConfig;
-using static ABT.TestExec.Lib.InstrumentDrivers.Multifunction.MSMU_34980A_SCPI_NET;
 
 namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
-    public interface IMSMU_34980A {
-        (Boolean Result, List<DiagnosticsResult> Details) Diagnostics_34921A(SLOTS slot);
-        String Diagnostics_34932A(SLOTS slot);
-        String Diagnostics_34938A(SLOTS slot);
-        String Diagnostics_34939A(SLOTS slot);
-        String Diagnostics_34925A(SLOTS slot);
-        // NOTE: Add appropriate methods as other modules are installed.
-    }
 
-    public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IMSMU_34980A, IRelays {
-        public enum ABUS { ABUS1, ABUS2, ABUS3, ABUS4 };
-        public enum COMS { COM1 = 1, COM2 = 2 }
-        public enum SLOTS { SLOT1 = 1, SLOT2 = 2, SLOT3 = 3, SLOT4 = 4, SLOT5 = 5, SLOT6 = 6, SLOT7 = 7, SLOT8 = 8 }
+    public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IRelays {
+        public enum ABUS { A1, A2, A3, A4, AI };
+        public enum COMS { C1 = 1, C2 = 2 }
+        public enum SLOTS { S1 = 1, S2 = 2, S3 = 3, S4 = 4, S5 = 5, S6 = 6, S7 = 7, S8 = 8 }
         public enum TEMPERATURE_UNITS { C, F, K }
         public enum RELAY_STATES { opened, CLOSED }
 
@@ -62,40 +52,44 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             public DiagnosticsResult(String label, String message, Boolean passed) { Label = label; Message = message; Passed = passed; }
         }
 
-        public (Boolean Result, List<DiagnosticsResult> Details) Diagnostics_34921A(SLOTS slot) {
+        public (Boolean Result, List<DiagnosticsResult> Details) Diagnostics_34921A(SLOTS slot, Double Ω) {
+            List<DiagnosticsResult> results = new List<DiagnosticsResult>();
+
+            Dictionary<ABUS, Dictionary<COMS, String>> ABus = new Dictionary<ABUS, Dictionary<COMS, String>>() {
+                {ABUS.A1, new Dictionary<COMS, String>() {{COMS.C1, "911"}, {COMS.C2, "921"}}},
+                {ABUS.A2, new Dictionary<COMS, String>() {{COMS.C1, "912"}, {COMS.C2, "922"}}},
+                {ABUS.A3, new Dictionary<COMS, String>() {{COMS.C1, "913"}, {COMS.C2, "923"}}},
+                {ABUS.A4, new Dictionary<COMS, String>() {{COMS.C1, "914"}, {COMS.C2, "924"}}}
+            };
+
             ResetClear();
             SCPI.ROUTe.OPEN.ALL.Command(null);
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
             SCPI.SENSe.RESistance.RESolution.Command("MAXimum");
-            _ = MessageBox.Show($"Please connect both loopback connectors to SLOT {slot}.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            List<DiagnosticsResult> results = new List<DiagnosticsResult>();
-            Boolean passedExtended = true;
-            MeasurementNumeric MN = (MeasurementNumeric)TestLib.MeasurementPresent.ClassObject;
+            Boolean passedChannel;
+            Boolean passed_34921A = true;
+            _ = MessageBox.Show($"Please connect both 34921A loopback connectors to SLOT {slot}.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            Dictionary<ABUS, Dictionary<COMS, String>> Relays = new Dictionary<ABUS, Dictionary<COMS, String>>() {
-                {ABUS.ABUS1, new Dictionary<COMS, String>() {{COMS.COM1, "911"}, {COMS.COM2, "921"}}},
-                {ABUS.ABUS2, new Dictionary<COMS, String>() {{COMS.COM1, "912"}, {COMS.COM2, "922"}}},
-                {ABUS.ABUS3, new Dictionary<COMS, String>() {{COMS.COM1, "913"}, {COMS.COM2, "923"}}},
-                {ABUS.ABUS4, new Dictionary<COMS, String>() {{COMS.COM1, "914"}, {COMS.COM2, "924"}}}
-            };
-
-            SCPI.ROUTe.CLOSe.Command($"@{slot}{Relays[ABUS.ABUS1][COMS.COM1]},{slot}{Relays[ABUS.ABUS1][COMS.COM2]}");
-            for (Int32 i = 1; i < 41; i++) {
+            SCPI.ROUTe.CLOSe.Command($"@{slot}{ABus[ABUS.A1][COMS.C1]},{slot}{ABus[ABUS.A2][COMS.C1]}");
+            for (Int32 i = 1; i < 41; i++) { // Banks 1 & 2.
                 String channel = $"@{slot}{i:D3}";
                 SCPI.ROUTe.CLOSe.Command(channel);
                 SCPI.MEASure.SCALar.RESistance.Query(25D, "MAXimum", out Double[] resistance);
-                passedExtended &= (MN.Low <= resistance[0] && resistance[0] <= MN.High);
-                results.Add(new DiagnosticsResult(label: $"Channel {channel}: ", message: $"{Math.Round(resistance[0], MN.FD, MidpointRounding.ToEven)}Ω", passed: passedExtended));
+                passedChannel = (0 <= resistance[0] && resistance[0] <= Ω);
+                passed_34921A &= passedChannel;
+                results.Add(new DiagnosticsResult(label: $"Channel {channel}: ", message: $"{Math.Round(resistance[0], 3, MidpointRounding.ToEven)}Ω", passed: passedChannel));
                 SCPI.ROUTe.OPEN.Command(channel);
-                if (i == 21) {
-                    SCPI.ROUTe.OPEN.Command($"@{slot}911,{slot}912");
-                    SCPI.ROUTe.CLOSe.Command($"@{slot}921,{slot}922");
+                if (i == 21) { // Bank 2.
+                    SCPI.ROUTe.OPEN.Command($"@{slot}{ABus[ABUS.A1][COMS.C1]},{slot}{ABus[ABUS.A2][COMS.C1]}");
+                    SCPI.ROUTe.CLOSe.Command($"@{slot}{ABus[ABUS.A1][COMS.C2]},{slot}{ABus[ABUS.A2][COMS.C2]}");
                 }
             }
-            SCPI.ROUTe.OPEN.Command($"@{slot}921,{slot}922");
-            return (Result: passedExtended, Details: results);
+            SCPI.ROUTe.OPEN.Command($"@{slot}{ABus[ABUS.A1][COMS.C2]},{slot}{ABus[ABUS.A2][COMS.C2]}");
+
+            _ = MessageBox.Show($"Please disconnect both 34921A loopback connectors from SLOT {slot}.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return (Result: passed_34921A, Details: results);
         }
         public String Diagnostics_34932A(SLOTS slot) { return String.Empty; }
         public String Diagnostics_34938A(SLOTS slot) { return String.Empty; }
@@ -202,7 +196,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             // TODO: Debug.Print($"Channel: '{Channel}'.");
             Int32 slotNumber = Int32.Parse(Channel.Substring(0, 2));
             // TODO: Debug.Print($"Slot Number: '{slotNumber}'.");
-            if (!Enum.IsDefined(typeof(SLOTS), (SLOTS)slotNumber)) throw new ArgumentException($"Channel '{Channel}' must have valid integer Slot in interval [{(Int32)SLOTS.SLOT1}..{(Int32)SLOTS.SLOT8}].");
+            if (!Enum.IsDefined(typeof(SLOTS), (SLOTS)slotNumber)) throw new ArgumentException($"Channel '{Channel}' must have valid integer Slot in interval [{(Int32)SLOTS.S1}..{(Int32)SLOTS.S8}].");
             Int32 channel = Int32.Parse(Channel.Substring(2));
             // TODO: Debug.Print($"Channel: '{channel}'.");
             (Int32 min, Int32 max) = ModuleChannels((SLOTS)slotNumber);
