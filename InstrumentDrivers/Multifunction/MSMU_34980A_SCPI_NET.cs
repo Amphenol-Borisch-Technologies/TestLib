@@ -70,33 +70,43 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
         // TODO: Complete Diagnostics for M34932A, M34938A, M34939A & M34952A modules.
 
         public class DiagnosticParameter_34980A {
-            public Double RelayHighΩ { get; set; }
+            public Double Ω_34921A { get; set; } = 3;
+            public Double Ω_34932A { get; set; } = 3;
+            public Double Ω_34938A { get; set; } = 3;
+            public Double Ω_34939A { get; set; } = 3;
 
-            public DiagnosticParameter_34980A(Double RelayHighΩ) { this.RelayHighΩ = RelayHighΩ; }
+            public DiagnosticParameter_34980A() { }
+            public DiagnosticParameter_34980A(Double Ω) { Ω_34921A = Ω_34932A = Ω_34938A = Ω_34939A = Ω; }
+            public DiagnosticParameter_34980A(Double Ω_34921A, Double Ω_34932A, Double Ω_34938A, Double Ω_34939A) {
+                this.Ω_34921A = Ω_34921A;
+                this.Ω_34932A = Ω_34932A;
+                this.Ω_34938A = Ω_34938A;
+                this.Ω_34939A = Ω_34939A;
+            }
         }
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
             if (SelfTests() is SELF_TEST_RESULTS.FAIL) return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(label: "34980A Diagnostics():", message: "SelfTests() failed, aborted.", passed: false) });
 
             (Boolean summary, List<DiagnosticsResult> details) result_Slot;
             (Boolean Summary, List<DiagnosticsResult> Details) result_34980A = (true, new List<DiagnosticsResult>());
-            Double relayHighΩ = (o is DiagnosticParameter_34980A DP) ? DP.RelayHighΩ : 3;
+            DiagnosticParameter_34980A DP = (o is DiagnosticParameter_34980A dp) ? dp : new DiagnosticParameter_34980A(3);
 
             foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) {
                 switch(SystemType(slot)) {
                     case String s when s == Modules[MODULES_34980A.M34921A]:
-                        result_Slot = Diagnostic_34921A(slot, Ω: relayHighΩ);
+                        result_Slot = Diagnostic_34921A(slot, Ω: DP.Ω_34921A);
                         break;
                     case String s when s == Modules[MODULES_34980A.M34932A]:
-                        result_Slot = Diagnostic_34932A(slot, Ω: relayHighΩ);
+                        result_Slot = Diagnostic_34932A(slot, Ω: DP.Ω_34932A);
                         break;
                     case String s when s == Modules[MODULES_34980A.M34938A]:
-                        result_Slot = Diagnostic_34938A(slot, Ω: relayHighΩ);
+                        result_Slot = Diagnostic_34938A(slot, Ω: DP.Ω_34938A);
                         break;
                     case String s when s == Modules[MODULES_34980A.M34939A]:
-                        result_Slot = Diagnostic_34939A(slot, Ω: relayHighΩ);
+                        result_Slot = Diagnostic_34939A(slot, Ω: DP.Ω_34939A);
                         break;
                     case String s when s == Modules[MODULES_34980A.M34952A]:
-                        result_Slot = Diagnostic_34952A(slot, Ω: relayHighΩ);
+                        result_Slot = Diagnostic_34952A(slot);
                         break;
                     default:
                         throw new NotImplementedException(
@@ -203,14 +213,14 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             return Results;
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34952A(SLOTS slot, Double Ω) {
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34952A(SLOTS slot) {
             return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(label: "", message: "", passed: false) });
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34952As(Double Ω) {
             ResetClear();
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules[MODULES_34980A.M34932A]) Results.Add(slot, Diagnostic_34952A(slot, Ω));
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules[MODULES_34980A.M34932A]) Results.Add(slot, Diagnostic_34952A(slot));
             return Results;
         }
         #endregion Diagnostics

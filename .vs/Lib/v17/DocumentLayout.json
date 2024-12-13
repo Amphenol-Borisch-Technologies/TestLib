@@ -17,7 +17,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 41,
+          "SelectedChildIndex": 40,
           "Children": [
             {
               "$type": "Bookmark",
@@ -181,49 +181,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MSMU_34980A.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
-              "RelativeDocumentMoniker": "..\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
-              "RelativeToolTip": "..\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAABfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-13T14:08:31.921Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "52c77c66-6b56-430b-93fa-f54d61ca4347",
-        "Display": 1,
-        "X": 291,
-        "Y": 95,
-        "Width": 1242,
-        "Height": 837,
-        "WindowState": 2
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "MSMU_34980A_SCPI_NET.cs",
               "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
               "RelativeDocumentMoniker": "InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
               "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
               "RelativeToolTip": "InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAF8AAABNAAAAAAAAAA==",
+              "ViewState": "AgIAADgAAAAAAAAAAAAEwEkAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-13T14:09:36.087Z",
+              "WhenOpened": "2024-12-13T16:31:20.405Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MSMU_34980A.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
+              "RelativeDocumentMoniker": "..\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
+              "RelativeToolTip": "..\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-13T14:08:31.921Z",
               "EditorCaption": ""
             }
           ]
