@@ -6,32 +6,21 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
 using ABT.TestExec.Lib.InstrumentDrivers.Interfaces;
-using System.Threading.Channels;
-using static ABT.TestExec.Lib.InstrumentDrivers.Multifunction.MSMU_34980A_SCPI_NET;
-using System.Runtime.Remoting.Channels;
-using Windows.ApplicationModel.Appointments;
 
 namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
 
-    public class DiagnosticsResult {
-        public readonly String Label;
-        public readonly String Message;
-        public Boolean Passed;
-        public DiagnosticsResult(String label, String message) { Label = label; Message = message; }
-        public DiagnosticsResult(String label, String message, Boolean passed) { Label = label; Message = message; Passed = passed; }
-    }
-
-    public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IRelays {
+    public class MSMU_34980A_SCPI_NET : Ag34980, IDiagnostics, IInstruments, IRelays {
         public enum ABUS { A1, A2, A3, A4, AI };
         public enum BANKS_34921A { B1, B2 }
         public enum COMS { C1 = 1, C2 = 2 }
-        public enum MODULES { M34921A, M34932A, M34938A, M34939A, M34952A }
-        public static Dictionary<MODULES, String> Modules = new Dictionary<MODULES, String>() {
-            { MODULES.M34921A, "34921A" },
-            { MODULES.M34932A, "34932A" },
-            { MODULES.M34938A, "34938A" },
-            { MODULES.M34939A, "34939A" },
-            { MODULES.M34952A, "34952A" },
+        public enum MODULES_34980A { M34921A, M34932A, M34938A, M34939A, M34952A }
+        // NOTE: Update MODULES & Modules as necessary, along with Diagnostics region.
+        public static Dictionary<MODULES_34980A, String> Modules = new Dictionary<MODULES_34980A, String>() {
+            { MODULES_34980A.M34921A, "34921A" },
+            { MODULES_34980A.M34932A, "34932A" },
+            { MODULES_34980A.M34938A, "34938A" },
+            { MODULES_34980A.M34939A, "34939A" },
+            { MODULES_34980A.M34952A, "34952A" },
         };
         public enum SLOTS { S1 = 1, S2 = 2, S3 = 3, S4 = 4, S5 = 5, S6 = 6, S7 = 7, S8 = 8 }
         public enum TEMPERATURE_UNITS { C, F, K }
@@ -65,109 +54,6 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             return (SELF_TEST_RESULTS)result; // Ag34980 returns 0 for passed, 1 for fail.
         }
 
-        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34921As(Double Ω) {
-            ResetClear();
-            Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules[MODULES.M34921A]) Results.Add(slot, Diagnostic_34921A(slot, Ω));
-            return Results;
-        }
-
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34921A(SLOTS slot, Double Ω) {
-            // TODO: Add current measurement tests for 34921A relays 931, 041, 042, 043 & 044.  Will require an external current source. 
-            SCPI.ROUTe.OPEN.ALL.Command(null);
-            SCPI.INSTrument.DMM.STATe.Command(true);
-            SCPI.INSTrument.DMM.CONNect.Command();
-            SCPI.SENSe.RESistance.RESolution.Command("MAXimum");
-
-            List<DiagnosticsResult> results = new List<DiagnosticsResult>();
-            Boolean passedΩ = false, passed_34921A = true;
-
-            _ = MessageBox.Show($"Please connect a 34921A diagnostic connectors to 34980A SLOT {slot} Bank 1.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            MeasureAndRecord_34921A(slot, BANKS_34921A.B1, channels: new List<String> { "911" }, Ω, ref passedΩ, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(slot, BANKS_34921A.B1, channels: new List<String> { "921", "912", "922" }, Ω, ref passedΩ, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(slot, BANKS_34921A.B1, channels: new List<String> { "921", "913", "923" }, Ω, ref passedΩ, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(slot, BANKS_34921A.B1, channels: new List<String> { "921", "914", "924" }, Ω, ref passedΩ, ref passed_34921A, ref results);
-
-            SCPI.ROUTe.CLOSe.Command($"@{slot}911,{slot}921"); // DMM Measure & Sense.
-            for (Int32 i = 1; i < 21; i++) MeasureAndRecord_34921A(channels: $"@{slot}{i:D3}", Ω, ref passedΩ, ref passed_34921A, ref results); // Bank 1.
-            SCPI.ROUTe.OPEN.Command($"@{slot}911,{slot}921");
-
-            _ = MessageBox.Show($"Please move 34921A diagnostic connector from to 34980A SLOT {slot} Bank 1 to Bank 2.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            MeasureAndRecord_34921A(slot, BANKS_34921A.B2, channels: new List<String> { "921" }, Ω, ref passedΩ, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(slot, BANKS_34921A.B2, channels: new List<String> { "911", "912", "922" }, Ω, ref passedΩ, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(slot, BANKS_34921A.B2, channels: new List<String> { "911", "913", "923" }, Ω, ref passedΩ, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(slot, BANKS_34921A.B2, channels: new List<String> { "911", "914", "924" }, Ω, ref passedΩ, ref passed_34921A, ref results);
-
-            SCPI.ROUTe.CLOSe.Command($"@{slot}921,{slot}922"); // DMM Measure & Sense.
-            for (Int32 i = 21; i < 41; i++) MeasureAndRecord_34921A(channels: $"@{slot}{i:D3}", Ω, ref passedΩ, ref passed_34921A, ref results); // Bank 2.
-            SCPI.ROUTe.OPEN.Command($"@{slot}921,{slot}922");
-            SCPI.INSTrument.DMM.DISConnect.Command();
-
-            _ = MessageBox.Show($"Please disconnect 34921A diagnostic connector from 34980A SLOT {slot} Bank 2.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            return (Summary: passed_34921A, Details: results);
-        }
-
-        private void MeasureAndRecord_34921A(SLOTS slot, BANKS_34921A bank, List<String> channels, Double Ω, ref Boolean passedΩ, ref Boolean passed_34921A, ref List<DiagnosticsResult> results) {
-            SCPI.ROUTe.OPEN.Command($"@{slot}001:{slot}040"); // B1 & B2.
-            if (bank is BANKS_34921A.B1) SCPI.ROUTe.CLOSe.Command($"@{slot}001:{slot}020"); // B1
-            if (bank is BANKS_34921A.B2) SCPI.ROUTe.CLOSe.Command($"@{slot}021:{slot}040"); // B2
-            MeasureAndRecord_34921A($"@{slot}" + String.Join($",{slot}", channels), Ω, ref passedΩ, ref passed_34921A, ref results);
-            SCPI.ROUTe.OPEN.Command($"@{slot}001:{slot}040"); // B1 & B2.
-        }
-
-        private void MeasureAndRecord_34921A(String channels, Double Ω, ref Boolean passedΩ, ref Boolean passed_34921A, ref List<DiagnosticsResult> results) {
-            SCPI.ROUTe.CLOSe.Command(channels);
-            SCPI.MEASure.SCALar.RESistance.Query(25D, "MAXimum", out Double[] resistance);
-            SCPI.ROUTe.OPEN.Command(channels);
-            passedΩ = (0 <= resistance[0] && resistance[0] <= Ω);
-            passed_34921A &= passedΩ;
-            results.Add(new DiagnosticsResult(label: $"Channel(s) {channels}: ", message: $"{Math.Round(resistance[0], 3, MidpointRounding.ToEven)}Ω", passed: passedΩ));
-        }
-
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34932A(SLOTS slot, Double Ω) {
-            return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(label: "", message: "", passed: false) });
-        }
-
-        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34932As(Double Ω) {
-            ResetClear();
-            Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules[MODULES.M34932A]) Results.Add(slot, Diagnostic_34932A(slot, Ω));
-            return Results;
-        }
-
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34938A(SLOTS slot, Double Ω) {
-            return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(label: "", message: "", passed: false) });
-        }
-
-        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34938As(Double Ω) {
-            ResetClear();
-            Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules[MODULES.M34938A]) Results.Add(slot, Diagnostic_34938A(slot, Ω));
-            return Results;
-        }
-
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34939A(SLOTS slot, Double Ω) {
-            return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(label: "", message: "", passed: false) });
-        }
-
-        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34939As(Double Ω) {
-            ResetClear();
-            Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules[MODULES.M34932A]) Results.Add(slot, Diagnostic_34939A(slot, Ω));
-            return Results;
-        }
-
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34952A(SLOTS slot, Double Ω) {
-            return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(label: "", message: "", passed: false) });
-        }
-
-        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34952As(Double Ω) {
-            ResetClear();
-            Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules[MODULES.M34932A]) Results.Add(slot, Diagnostic_34952A(slot, Ω));
-            return Results;
-        }
-
         public void OpenAll() { SCPI.ROUTe.OPEN.ALL.Command(null); }
 
         public MSMU_34980A_SCPI_NET(String Address, String Detail) : base(Address) {
@@ -179,6 +65,147 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             SCPI.SYSTem.TIME.Command(now.Hour, now.Minute, Convert.ToDouble(now.Second));
             SCPI.UNIT.TEMPerature.Command($"{TEMPERATURE_UNITS.F}");
         }
+
+        #region Diagnostics // NOTE: Update MODULES & Modules as necessary, along with Diagnostics region.
+        // TODO: Complete Diagnostics for M34932A, M34938A, M34939A & M34952A modules.
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics() {
+            if (SelfTests() is SELF_TEST_RESULTS.FAIL) return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(label: "34980A Diagnostics():", message: "SelfTests() failed, aborted.", passed: false) });
+
+            (Boolean summary, List<DiagnosticsResult> details) result_Slot;
+            (Boolean Summary, List<DiagnosticsResult> Details) result_34980A = (true, new List<DiagnosticsResult>());
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) {
+                switch(SystemType(slot)) {
+                    case String s when s == Modules[MODULES_34980A.M34921A]:
+                        result_Slot = Diagnostic_34921A(slot, Ω: 3);
+                        break;
+                    case String s when s == Modules[MODULES_34980A.M34932A]:
+                        result_Slot = Diagnostic_34932A(slot, Ω: 3);
+                        break;
+                    case String s when s == Modules[MODULES_34980A.M34938A]:
+                        result_Slot = Diagnostic_34938A(slot, Ω: 3);
+                        break;
+                    case String s when s == Modules[MODULES_34980A.M34939A]:
+                        result_Slot = Diagnostic_34939A(slot, Ω: 3);
+                        break;
+                    case String s when s == Modules[MODULES_34980A.M34952A]:
+                        result_Slot = Diagnostic_34952A(slot, Ω: 3);
+                        break;
+                    default:
+                        throw new NotImplementedException(
+                            $"Diagnostics test for module '{SystemType(slot)}' unimplemented!{Environment.NewLine}{Environment.NewLine}" +
+                            $"Instrument Type : '{InstrumentType}'.{Environment.NewLine}" +
+                            $"Address         : '{Address}'.{Environment.NewLine}" +
+                            $"Detail          :  '{Detail}'.{Environment.NewLine}");
+                }
+                result_34980A.Summary &= result_Slot.summary;
+                result_34980A.Details.AddRange(result_Slot.details);
+            }
+            return result_34980A;
+        }
+
+        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34921As(Double Ω) {
+            ResetClear();
+            Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules[MODULES_34980A.M34921A]) Results.Add(slot, Diagnostic_34921A(slot, Ω));
+            return Results;
+        }
+
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34921A(SLOTS slot, Double Ω) {
+            // TODO: Add current measurement tests for 34921A relays 931, 041, 042, 043 & 044.  Will require an external current source. 
+            SCPI.ROUTe.OPEN.ALL.Command(null);
+            SCPI.INSTrument.DMM.STATe.Command(true);
+            SCPI.INSTrument.DMM.CONNect.Command();
+            SCPI.SENSe.RESistance.RESolution.Command("MAXimum");
+
+            List<DiagnosticsResult> results = new List<DiagnosticsResult>();
+            Boolean passed_34921A = true;
+
+            _ = MessageBox.Show($"Please connect a 34921A diagnostic connector to 34980A SLOT {slot} Bank 1.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MeasureAndRecord_34921A(slot, BANKS_34921A.B1, channels: new List<String> { "911" }, Ω, ref passed_34921A, ref results);
+            MeasureAndRecord_34921A(slot, BANKS_34921A.B1, channels: new List<String> { "921", "912", "922" }, Ω, ref passed_34921A, ref results);
+            MeasureAndRecord_34921A(slot, BANKS_34921A.B1, channels: new List<String> { "921", "913", "923" }, Ω, ref passed_34921A, ref results);
+            MeasureAndRecord_34921A(slot, BANKS_34921A.B1, channels: new List<String> { "921", "914", "924" }, Ω, ref passed_34921A, ref results);
+
+            SCPI.ROUTe.CLOSe.Command($"@{slot}911"); // DMM Measure.
+            for (Int32 i = 1; i < 21; i++) MeasureAndRecord_34921A(channels: $"@{slot}{i:D3}", Ω,  ref passed_34921A, ref results); // Bank 1.
+            SCPI.ROUTe.OPEN.Command($"@{slot}911");
+
+            _ = MessageBox.Show($"Please move 34921A diagnostic connector from 34980A SLOT {slot} Bank 1 to Bank 2.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MeasureAndRecord_34921A(slot, BANKS_34921A.B2, channels: new List<String> { "921" }, Ω, ref passed_34921A, ref results);
+            MeasureAndRecord_34921A(slot, BANKS_34921A.B2, channels: new List<String> { "911", "912", "922" }, Ω, ref passed_34921A, ref results);
+            MeasureAndRecord_34921A(slot, BANKS_34921A.B2, channels: new List<String> { "911", "913", "923" }, Ω, ref passed_34921A, ref results);
+            MeasureAndRecord_34921A(slot, BANKS_34921A.B2, channels: new List<String> { "911", "914", "924" }, Ω, ref passed_34921A, ref results);
+
+            SCPI.ROUTe.CLOSe.Command($"@{slot}921"); // DMM Measure.
+            for (Int32 i = 21; i < 41; i++) MeasureAndRecord_34921A(channels: $"@{slot}{i:D3}", Ω, ref passed_34921A, ref results); // Bank 2.
+            SCPI.ROUTe.OPEN.Command($"@{slot}921");
+            SCPI.INSTrument.DMM.DISConnect.Command();
+
+            _ = MessageBox.Show($"Please disconnect 34921A diagnostic connector from 34980A SLOT {slot} Bank 2.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return (Summary: passed_34921A, Details: results);
+        }
+
+        private void MeasureAndRecord_34921A(SLOTS slot, BANKS_34921A bank, List<String> channels, Double Ω, ref Boolean passed_34921A, ref List<DiagnosticsResult> results) {
+            SCPI.ROUTe.OPEN.Command($"@{slot}001:{slot}040"); // B1 & B2.
+            if (bank is BANKS_34921A.B1) SCPI.ROUTe.CLOSe.Command($"@{slot}001:{slot}020"); // B1
+            if (bank is BANKS_34921A.B2) SCPI.ROUTe.CLOSe.Command($"@{slot}021:{slot}040"); // B2
+            MeasureAndRecord_34921A($"@{slot}" + String.Join($",{slot}", channels), Ω, ref passed_34921A, ref results);
+            SCPI.ROUTe.OPEN.Command($"@{slot}001:{slot}040"); // B1 & B2.
+        }
+
+        private void MeasureAndRecord_34921A(String channels, Double Ω,  ref Boolean passed_34921A, ref List<DiagnosticsResult> results) {
+            SCPI.ROUTe.CLOSe.Command(channels);
+            SCPI.MEASure.SCALar.RESistance.Query(25D, "MAXimum", out Double[] resistance);
+            SCPI.ROUTe.OPEN.Command(channels);
+            Boolean passed_Ω = (0 <= resistance[0] && resistance[0] <= Ω);
+            passed_34921A &= passed_Ω;
+            results.Add(new DiagnosticsResult(label: $"Channel(s) {channels}: ", message: $"{Math.Round(resistance[0], 3, MidpointRounding.ToEven)}Ω", passed: passed_Ω));
+        }
+
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34932A(SLOTS slot, Double Ω) {
+            return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(label: "", message: "", passed: false) });
+        }
+
+        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34932As(Double Ω) {
+            ResetClear();
+            Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules[MODULES_34980A.M34932A]) Results.Add(slot, Diagnostic_34932A(slot, Ω));
+            return Results;
+        }
+
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34938A(SLOTS slot, Double Ω) {
+            return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(label: "", message: "", passed: false) });
+        }
+
+        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34938As(Double Ω) {
+            ResetClear();
+            Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules[MODULES_34980A.M34938A]) Results.Add(slot, Diagnostic_34938A(slot, Ω));
+            return Results;
+        }
+
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34939A(SLOTS slot, Double Ω) {
+            return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(label: "", message: "", passed: false) });
+        }
+
+        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34939As(Double Ω) {
+            ResetClear();
+            Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules[MODULES_34980A.M34932A]) Results.Add(slot, Diagnostic_34939A(slot, Ω));
+            return Results;
+        }
+
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34952A(SLOTS slot, Double Ω) {
+            return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(label: "", message: "", passed: false) });
+        }
+
+        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34952As(Double Ω) {
+            ResetClear();
+            Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules[MODULES_34980A.M34932A]) Results.Add(slot, Diagnostic_34952A(slot, Ω));
+            return Results;
+        }
+        #endregion Diagnostics
 
         public Boolean InstrumentDMM_Installed() {
             SCPI.INSTrument.DMM.INSTalled.Query(out Boolean installed);
@@ -214,7 +241,6 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             if (State is RELAY_STATES.opened) SCPI.ROUTe.OPEN.Command(Channels);
             else SCPI.ROUTe.CLOSe.Command(Channels);
         }
-
         public String SystemDescriptionLong(SLOTS Slot) {
             SCPI.SYSTem.CDEScription.LONG.Query((Int32)Slot, out String description);
             return description;
@@ -223,7 +249,6 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             SCPI.SYSTem.MODule.TEMPerature.Query("TRANsducer", (Int32)Slot, out Double temperature);
             return temperature;
         }
-
         public String SystemType(SLOTS Slot) {
             SCPI.SYSTem.CTYPe.Query((Int32)Slot, out String identity);
             return identity.Split(',')[(Int32)Generic.SCPI_NET.IDN_FIELDS.Model];
@@ -232,7 +257,6 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             SCPI.UNIT.TEMPerature.Query(out String[] units);
             return (TEMPERATURE_UNITS)Enum.Parse(typeof(TEMPERATURE_UNITS), String.Join("", units).Replace("[", "").Replace("]", ""));
         }
-
         public void ValidateChannelS(String Channels) {
             // TODO: Debug.Print($"ChannelS: '{Channels}'.");
             if (!Regex.IsMatch(Channels, @"^@\d{4}((,|:)\d{4})*$")) {
