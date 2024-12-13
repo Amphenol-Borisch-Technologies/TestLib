@@ -89,7 +89,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
 
             (Boolean summary, List<DiagnosticsResult> details) result_Slot;
             (Boolean Summary, List<DiagnosticsResult> Details) result_34980A = (true, new List<DiagnosticsResult>());
-            DiagnosticParameter_34980A DP = (o is DiagnosticParameter_34980A dp) ? dp : new DiagnosticParameter_34980A(3);
+            DiagnosticParameter_34980A DP = (o is DiagnosticParameter_34980A dp) ? dp : new DiagnosticParameter_34980A(Ω: 3);
 
             foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) {
                 switch(SystemType(slot)) {
