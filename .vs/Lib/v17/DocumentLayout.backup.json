@@ -3,15 +3,27 @@
   "WorkspaceRootPath": "C:\\Users\\phils\\source\\repos\\Lib\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\instrumentdrivers\\interfaces\\irelays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:instrumentdrivers\\interfaces\\irelays.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\instrumentdrivers\\interfaces\\ipowersupplies.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:instrumentdrivers\\interfaces\\ipowersupplies.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\instrumentdrivers\\interfaces\\iiinstruments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:instrumentdrivers\\interfaces\\iiinstruments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\instrumentdrivers\\interfaces\\idiagnostics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:instrumentdrivers\\interfaces\\idiagnostics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5FC19C56-1566-457A-A8AF-A3A69561320C}|..\\TestPlan\\Diagnostics\\Diagnostics.csproj|c:\\users\\phils\\source\\repos\\testplan\\diagnostics\\testoperations\\msmu_34980a.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\instrumentdrivers\\multifunction\\msmu_34980a_scpi_net.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:instrumentdrivers\\multifunction\\msmu_34980a_scpi_net.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\instrumentdrivers\\interfaces\\idiagnostics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:instrumentdrivers\\interfaces\\idiagnostics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -21,7 +33,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 42,
+          "SelectedChildIndex": 41,
           "Children": [
             {
               "$type": "Bookmark",
@@ -185,26 +197,65 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "IRelays.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Interfaces\\IRelays.cs",
+              "RelativeDocumentMoniker": "InstrumentDrivers\\Interfaces\\IRelays.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Interfaces\\IRelays.cs",
+              "RelativeToolTip": "InstrumentDrivers\\Interfaces\\IRelays.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-13T14:58:43.521Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IPowerSupplies.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Interfaces\\IPowerSupplies.cs",
+              "RelativeDocumentMoniker": "InstrumentDrivers\\Interfaces\\IPowerSupplies.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Interfaces\\IPowerSupplies.cs",
+              "RelativeToolTip": "InstrumentDrivers\\Interfaces\\IPowerSupplies.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-13T14:58:42.091Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "IIinstruments.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Interfaces\\IIinstruments.cs",
+              "RelativeDocumentMoniker": "InstrumentDrivers\\Interfaces\\IIinstruments.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Interfaces\\IIinstruments.cs",
+              "RelativeToolTip": "InstrumentDrivers\\Interfaces\\IIinstruments.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-13T14:58:41.345Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "IDiagnostics.cs",
               "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Interfaces\\IDiagnostics.cs",
               "RelativeDocumentMoniker": "InstrumentDrivers\\Interfaces\\IDiagnostics.cs",
               "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Interfaces\\IDiagnostics.cs",
               "RelativeToolTip": "InstrumentDrivers\\Interfaces\\IDiagnostics.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-13T14:41:44.274Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "MSMU_34980A.cs",
               "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
               "RelativeDocumentMoniker": "..\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
               "ToolTip": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
               "RelativeToolTip": "..\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAAwCYAAABDAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-13T14:08:31.921Z",
               "EditorCaption": ""
@@ -232,13 +283,13 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "MSMU_34980A_SCPI_NET.cs",
               "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
               "RelativeDocumentMoniker": "InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
               "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
               "RelativeToolTip": "InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAACUAAABDAAAAAAAAAA==",
+              "ViewState": "AgIAABYAAAAAAAAAAAAAADkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-13T14:09:36.087Z",
               "EditorCaption": ""

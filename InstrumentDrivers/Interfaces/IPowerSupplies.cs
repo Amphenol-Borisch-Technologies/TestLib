@@ -7,9 +7,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Interfaces {
     public enum OUTPUTS3 { OUTput1, OUTput2, OUTput3 };
     public enum MMD { MINimum, MAXimum, DEFault }
 
-    public interface IPowerSupply {
-        void OutputsOff();
-    }
+    public interface IPowerSupply { void OutputsOff(); }
 
     public interface IPowerSupplyOutputs1 : IPowerSupply {
         STATES StateGet();

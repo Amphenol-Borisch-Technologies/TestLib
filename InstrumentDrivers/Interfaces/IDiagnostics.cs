@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 
 namespace ABT.TestExec.Lib.InstrumentDrivers.Interfaces {
-    public interface IDiagnostics {
-        (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics();
-    }
+    public interface IDiagnostics { (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(); }
 
     public class DiagnosticsResult {
         public readonly String Label;

@@ -9,7 +9,7 @@ using ABT.TestExec.Lib.InstrumentDrivers.Interfaces;
 
 namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
 
-    public class MSMU_34980A_SCPI_NET : Ag34980, IDiagnostics, IInstruments, IRelays {
+    public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IRelays, IDiagnostics {
         public enum ABUS { A1, A2, A3, A4, AI };
         public enum BANKS_34921A { B1, B2 }
         public enum COMS { C1 = 1, C2 = 2 }
