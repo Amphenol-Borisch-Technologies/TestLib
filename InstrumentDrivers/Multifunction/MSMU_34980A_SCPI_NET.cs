@@ -100,10 +100,10 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
                         break;
                     default:
                         throw new NotImplementedException(
-                            $"Diagnostics test for module '{SystemType(slot)}' unimplemented!{Environment.NewLine}{Environment.NewLine}" +
-                            $"Instrument Type : '{InstrumentType}'.{Environment.NewLine}" +
+                            $"Diagnostic test for module '{SystemType(slot)}' unimplemented!{Environment.NewLine}{Environment.NewLine}" +
+                            $"Description     : '{SystemDescriptionLong(slot)}'.{Environment.NewLine}" +
                             $"Address         : '{Address}'.{Environment.NewLine}" +
-                            $"Detail          :  '{Detail}'.{Environment.NewLine}");
+                            $"Detail          : '{Detail}'.{Environment.NewLine}");
                 }
                 result_34980A.Summary &= result_Slot.summary;
                 result_34980A.Details.AddRange(result_Slot.details);
