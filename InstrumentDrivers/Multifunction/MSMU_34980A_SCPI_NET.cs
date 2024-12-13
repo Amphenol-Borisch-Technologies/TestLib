@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
 using ABT.TestExec.Lib.InstrumentDrivers.Interfaces;
+using static ABT.TestExec.Lib.InstrumentDrivers.Multifunction.MSMU_34980A_SCPI_NET;
 
 namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
 
@@ -36,6 +37,8 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
         }
 
         public SELF_TEST_RESULTS SelfTests() {
+            _ = MessageBox.Show($"Please disconnect _all_ connectors from 34980A Slots.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             Int32 result;
             try {
                 SCPI.TST.Query(out result);
@@ -84,8 +87,9 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
                 this.Ω_34939A = Ω_34939A;
             }
         }
+
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
-            if (SelfTests() is SELF_TEST_RESULTS.FAIL) return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(label: "34980A Diagnostics():", message: "SelfTests() failed, aborted.", passed: false) });
+            if (SelfTests() is SELF_TEST_RESULTS.FAIL) return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "34980A Diagnostics():", Message: "SelfTests() failed, aborted.", Event: EVENTS.FAIL) });
 
             (Boolean summary, List<DiagnosticsResult> details) result_Slot;
             (Boolean Summary, List<DiagnosticsResult> Details) result_34980A = (true, new List<DiagnosticsResult>());
@@ -128,7 +132,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             return Results;
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34921A(SLOTS slot, Double Ω) {
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34921A(SLOTS Slot, Double Ω) {
             // TODO: Add current measurement tests for 34921A relays 931, 041, 042, 043 & 044.  Will require an external current source. 
             SCPI.ROUTe.OPEN.ALL.Command(null);
             SCPI.INSTrument.DMM.STATe.Command(true);
@@ -137,8 +141,9 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
 
             List<DiagnosticsResult> results = new List<DiagnosticsResult>();
             Boolean passed_34921A = true;
+            String slot = ((Int32)Slot).ToString("D1");
 
-            _ = MessageBox.Show($"Please connect a 34921A diagnostic connector to 34980A SLOT {slot} Bank 1.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            _ = MessageBox.Show($"Please connect 34921A diagnostic connectors to 34980A SLOT {slot} Banks 1 & 2.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             MeasureAndRecord_34921A(slot, BANKS_34921A.B1, channels: new List<String> { "911" }, Ω, ref passed_34921A, ref results);
             MeasureAndRecord_34921A(slot, BANKS_34921A.B1, channels: new List<String> { "921", "912", "922" }, Ω, ref passed_34921A, ref results);
             MeasureAndRecord_34921A(slot, BANKS_34921A.B1, channels: new List<String> { "921", "913", "923" }, Ω, ref passed_34921A, ref results);
@@ -148,7 +153,6 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             for (Int32 i = 1; i < 21; i++) MeasureAndRecord_34921A(channels: $"@{slot}{i:D3}", Ω,  ref passed_34921A, ref results); // Bank 1.
             SCPI.ROUTe.OPEN.Command($"@{slot}911");
 
-            _ = MessageBox.Show($"Please move 34921A diagnostic connector from 34980A SLOT {slot} Bank 1 to Bank 2.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             MeasureAndRecord_34921A(slot, BANKS_34921A.B2, channels: new List<String> { "921" }, Ω, ref passed_34921A, ref results);
             MeasureAndRecord_34921A(slot, BANKS_34921A.B2, channels: new List<String> { "911", "912", "922" }, Ω, ref passed_34921A, ref results);
             MeasureAndRecord_34921A(slot, BANKS_34921A.B2, channels: new List<String> { "911", "913", "923" }, Ω, ref passed_34921A, ref results);
@@ -159,11 +163,11 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             SCPI.ROUTe.OPEN.Command($"@{slot}921");
             SCPI.INSTrument.DMM.DISConnect.Command();
 
-            _ = MessageBox.Show($"Please disconnect 34921A diagnostic connector from 34980A SLOT {slot} Bank 2.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            _ = MessageBox.Show($"Please disconnect 34921A diagnostic connectors from 34980A SLOT {slot} Banks 1 & 2.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             return (Summary: passed_34921A, Details: results);
         }
 
-        private void MeasureAndRecord_34921A(SLOTS slot, BANKS_34921A bank, List<String> channels, Double Ω, ref Boolean passed_34921A, ref List<DiagnosticsResult> results) {
+        private void MeasureAndRecord_34921A(String slot, BANKS_34921A bank, List<String> channels, Double Ω, ref Boolean passed_34921A, ref List<DiagnosticsResult> results) {
             SCPI.ROUTe.OPEN.Command($"@{slot}001:{slot}040"); // B1 & B2.
             if (bank is BANKS_34921A.B1) SCPI.ROUTe.CLOSe.Command($"@{slot}001:{slot}020"); // B1
             if (bank is BANKS_34921A.B2) SCPI.ROUTe.CLOSe.Command($"@{slot}021:{slot}040"); // B2
@@ -177,11 +181,11 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             SCPI.ROUTe.OPEN.Command(channels);
             Boolean passed_Ω = (0 <= resistance[0] && resistance[0] <= Ω);
             passed_34921A &= passed_Ω;
-            results.Add(new DiagnosticsResult(label: $"Channel(s) {channels}: ", message: $"{Math.Round(resistance[0], 3, MidpointRounding.ToEven)}Ω", passed: passed_Ω));
+            results.Add(new DiagnosticsResult(Label: $"Channel(s) {channels}: ", Message: $"{Math.Round(resistance[0], 3, MidpointRounding.ToEven)}Ω", Event: (passed_Ω ? EVENTS.PASS : EVENTS.FAIL)));
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34932A(SLOTS slot, Double Ω) {
-            return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(label: "", message: "", passed: false) });
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34932A(SLOTS Slot, Double Ω) {
+            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "", Message: "", Event: EVENTS.PASS) });
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34932As(Double Ω) {
@@ -191,8 +195,8 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             return Results;
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34938A(SLOTS slot, Double Ω) {
-            return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(label: "", message: "", passed: false) });
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34938A(SLOTS Slot, Double Ω) {
+            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "", Message: "", Event: EVENTS.PASS) });
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34938As(Double Ω) {
@@ -202,8 +206,8 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             return Results;
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34939A(SLOTS slot, Double Ω) {
-            return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(label: "", message: "", passed: false) });
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34939A(SLOTS Slot, Double Ω) {
+            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "", Message: "", Event: EVENTS.PASS) });
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34939As(Double Ω) {
@@ -213,8 +217,8 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             return Results;
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34952A(SLOTS slot) {
-            return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(label: "", message: "", passed: false) });
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34952A(SLOTS Slot) {
+            return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "", Message: "", Event: EVENTS.FAIL) });
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34952As(Double Ω) {

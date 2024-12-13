@@ -7,8 +7,8 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Interfaces {
     public class DiagnosticsResult {
         public readonly String Label;
         public readonly String Message;
-        public Boolean Passed;
-        public DiagnosticsResult(String label, String message) { Label = label; Message = message; }
-        public DiagnosticsResult(String label, String message, Boolean passed) { Label = label; Message = message; Passed = passed; }
+        public EVENTS Event;
+        public DiagnosticsResult(String Label, String Message) { this.Label = Label; this.Message = Message; }
+        public DiagnosticsResult(String Label, String Message, EVENTS Event) { this.Label = Label; this.Message = Message; this.Event = Event; }
     }
 }

@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diagnostics", "..\TestPlan\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exec", "..\TestExec\Exec.csproj", "{314614CB-6E17-4B74-A9F9-CE4699F78C9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSequencer", "..\TestSequencer\TestSequencer\TestSequencer.csproj", "{07A85E09-B78E-4D27-B1F9-B089EB1ACE6A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSequencer", "..\TestPlanConfig\TestSequencer\TestSequencer.csproj", "{07A85E09-B78E-4D27-B1F9-B089EB1ACE6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

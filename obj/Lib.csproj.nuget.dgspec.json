@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\phils\\source\\repos\\Lib\\Lib.csproj": {}
+    "C:\\Users\\phils\\Source\\Repos\\Lib\\Lib.csproj": {}
   },
   "projects": {
-    "C:\\Users\\phils\\source\\repos\\Lib\\Lib.csproj": {
+    "C:\\Users\\phils\\Source\\Repos\\Lib\\Lib.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\phils\\source\\repos\\Lib\\Lib.csproj",
+        "projectUniqueName": "C:\\Users\\phils\\Source\\Repos\\Lib\\Lib.csproj",
         "projectName": "Lib",
-        "projectPath": "C:\\Users\\phils\\source\\repos\\Lib\\Lib.csproj",
+        "projectPath": "C:\\Users\\phils\\Source\\Repos\\Lib\\Lib.csproj",
         "packagesPath": "C:\\Users\\phils\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\phils\\source\\repos\\Lib\\obj\\",
+        "outputPath": "C:\\Users\\phils\\Source\\Repos\\Lib\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "UsingMicrosoftNETSdk": false,
@@ -38,7 +38,7 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "all"
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -50,27 +50,27 @@
             },
             "Serilog": {
               "target": "Package",
-              "version": "[4.1.0, )"
+              "version": "[4.2.0, )"
             },
             "System.Buffers": {
               "target": "Package",
-              "version": "[4.5.1, )"
+              "version": "[4.6.0, )"
             },
             "System.Diagnostics.DiagnosticSource": {
               "target": "Package",
-              "version": "[8.0.1, )"
+              "version": "[9.0.0, )"
             },
             "System.Memory": {
               "target": "Package",
-              "version": "[4.5.5, )"
+              "version": "[4.6.0, )"
             },
             "System.Numerics.Vectors": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.6.0, )"
             },
             "System.Runtime.CompilerServices.Unsafe": {
               "target": "Package",
-              "version": "[6.0.0, )"
+              "version": "[6.1.0, )"
             },
             "System.Runtime.InteropServices.WindowsRuntime": {
               "target": "Package",
@@ -86,11 +86,11 @@
             },
             "System.Threading.Channels": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[9.0.0, )"
             },
             "System.Threading.Tasks.Extensions": {
               "target": "Package",
-              "version": "[4.5.4, )"
+              "version": "[4.6.0, )"
             }
           }
         }
