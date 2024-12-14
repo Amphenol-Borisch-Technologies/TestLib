@@ -145,23 +145,23 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
 
             _ = MessageBox.Show($"Please connect 34921A diagnostic connectors to 34980A SLOT {slot} Banks 1 & 2.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            SCPI.ROUTe.CLOSe.Command($"@{slot}001:{slot}020"); // Bank 1 all relays, to test ABUS relays.
-            MeasureAndRecord_34921A(channels: $"911", Ω, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(channels: $"921,912,922", Ω, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(channels: $"921,913,923", Ω, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(channels: $"921,914,924", Ω, ref passed_34921A, ref results);
-            SCPI.ROUTe.OPEN.Command($"@{slot}001:{slot}020");
+            SCPI.ROUTe.CLOSe.Command($"@{slot}001:{slot}020");                                    // Bank 1 all relays connected to Bank 1 diagnostic shorting connector.
+            MeasureAndRecord_34921A(channels: $"911", Ω, ref passed_34921A, ref results);         // ABus1 COM1 directly connected to all Bank 1 relays and thus diagnostic shorting connector.
+            MeasureAndRecord_34921A(channels: $"921,912,922", Ω, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus2, to test ABus2.
+            MeasureAndRecord_34921A(channels: $"921,913,923", Ω, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus3, to test ABus3.
+            MeasureAndRecord_34921A(channels: $"921,914,924", Ω, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus4, to test ABus4.
+            SCPI.ROUTe.OPEN.Command($"@{slot}001:{slot}020");                                     // Reference Keysight 34921A-34925A Low Frequency Multiplexer Modules, 34921A Simplified Schematic.
 
             SCPI.ROUTe.CLOSe.Command($"@{slot}911"); // DMM Measure.
             for (Int32 i = 1; i < 21; i++) MeasureAndRecord_34921A(channels: $"@{slot}{i:D3}", Ω, ref passed_34921A, ref results); // Bank 1 individual relays.
             SCPI.ROUTe.OPEN.Command($"@{slot}911");
 
-            SCPI.ROUTe.CLOSe.Command($"@{slot}021:{slot}040"); // Bank 2 all relays, to test ABUS relays.
-            MeasureAndRecord_34921A(channels: $"921", Ω, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(channels: $"911,912,922", Ω, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(channels: $"911,913,923", Ω, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(channels: $"911,914,924", Ω, ref passed_34921A, ref results);
-            SCPI.ROUTe.OPEN.Command($"@{slot}021:{slot}040");
+            SCPI.ROUTe.CLOSe.Command($"@{slot}021:{slot}040");                                    // Bank 2 all relays connected to Bank 2 diagnostic shorting connector.
+            MeasureAndRecord_34921A(channels: $"921", Ω, ref passed_34921A, ref results);         // ABus1 COM2 directly connected to all Bank 2 relays and thus diagnostic shorting connector.
+            MeasureAndRecord_34921A(channels: $"911,912,922", Ω, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus2, to test ABus2.
+            MeasureAndRecord_34921A(channels: $"911,913,923", Ω, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus3, to test ABus3.
+            MeasureAndRecord_34921A(channels: $"911,914,924", Ω, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus4, to test ABus4.
+            SCPI.ROUTe.OPEN.Command($"@{slot}021:{slot}040");                                     // Reference Keysight 34921A-34925A Low Frequency Multiplexer Modules, 34921A Simplified Schematic.
 
             SCPI.ROUTe.CLOSe.Command($"@{slot}921"); // DMM Measure.
             for (Int32 i = 21; i < 41; i++) MeasureAndRecord_34921A(channels: $"@{slot}{i:D3}", Ω, ref passed_34921A, ref results); // Bank 2 individual relays.
