@@ -10,7 +10,7 @@ using ABT.TestExec.Lib.InstrumentDrivers.Interfaces;
 namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
 
     public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IRelays, IDiagnostics {
-        public enum MODULES_34980A { M34921A, M34932A, M34938A, M34939A, M34952A }
+        public enum MODULES_34980A { M34921A, M34932A, M34938A, M34939A, M34952A, NONE }
         // NOTE: Update MODULES & Modules as necessary, along with Diagnostics region.
         public static Dictionary<MODULES_34980A, String> Modules = new Dictionary<MODULES_34980A, String>() {
             { MODULES_34980A.M34921A, "34921A" },
@@ -18,6 +18,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             { MODULES_34980A.M34938A, "34938A" },
             { MODULES_34980A.M34939A, "34939A" },
             { MODULES_34980A.M34952A, "34952A" },
+            { MODULES_34980A.NONE, "0" },
         };
         public enum SLOTS { S1 = 1, S2 = 2, S3 = 3, S4 = 4, S5 = 5, S6 = 6, S7 = 7, S8 = 8 }
         public enum TEMPERATURE_UNITS { C, F, K }
@@ -107,6 +108,9 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
                         break;
                     case String s when s == Modules[MODULES_34980A.M34952A]:
                         result_Slot = Diagnostic_34952A(slot);
+                        break;
+                    case String s when s == Modules[MODULES_34980A.NONE]:
+                        result_Slot = Diagnostic_NONE(slot);
                         break;
                     default:
                         throw new NotImplementedException(
@@ -219,6 +223,10 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
             foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules[MODULES_34980A.M34932A]) Results.Add(slot, Diagnostic_34952A(slot));
             return Results;
+        }
+
+        private (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_NONE(SLOTS Slot) {
+            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: $"Slot '{Slot}':", Message: "Empty.", Event: EVENTS.PASS) });
         }
         #endregion Diagnostics
 

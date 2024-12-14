@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\phils\\source\\repos\\Lib\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{5FC19C56-1566-457A-A8AF-A3A69561320C}|..\\TestPlan\\Diagnostics\\Diagnostics.csproj|c:\\users\\phils\\source\\repos\\testplan\\diagnostics\\testoperations\\msmu_34980a.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5FC19C56-1566-457A-A8AF-A3A69561320C}|..\\TestPlan\\Diagnostics\\Diagnostics.csproj|c:\\users\\phils\\source\\repos\\testplan\\diagnostics\\diagnostics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{314614CB-6E17-4B74-A9F9-CE4699F78C9B}|..\\TestExec\\Exec.csproj|c:\\users\\phils\\source\\repos\\testexec\\testexec.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\instrumentdrivers\\interfaces\\iiinstruments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:instrumentdrivers\\interfaces\\iiinstruments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{314614CB-6E17-4B74-A9F9-CE4699F78C9B}|..\\TestExec\\Exec.csproj|c:\\users\\phils\\source\\repos\\testexec\\exec.config.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -14,8 +30,73 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 40,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TestExec.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestExec\\TestExec.cs",
+              "RelativeDocumentMoniker": "..\\TestExec\\TestExec.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestExec\\TestExec.cs",
+              "RelativeToolTip": "..\\TestExec\\TestExec.cs",
+              "ViewState": "AgIAAO4AAAAAAAAAAAAqwAgBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-14T20:50:08.658Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IIinstruments.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Interfaces\\IIinstruments.cs",
+              "RelativeDocumentMoniker": "InstrumentDrivers\\Interfaces\\IIinstruments.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Interfaces\\IIinstruments.cs",
+              "RelativeToolTip": "InstrumentDrivers\\Interfaces\\IIinstruments.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-14T20:49:32.83Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Exec.config.xml",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestExec\\Exec.config.xml",
+              "RelativeDocumentMoniker": "..\\TestExec\\Exec.config.xml",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestExec\\Exec.config.xml",
+              "RelativeToolTip": "..\\TestExec\\Exec.config.xml",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2024-12-14T20:48:35.66Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MSMU_34980A.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
+              "RelativeDocumentMoniker": "..\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
+              "RelativeToolTip": "..\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAACoAAABiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-14T20:46:53.71Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Diagnostics.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\Diagnostics.cs",
+              "RelativeDocumentMoniker": "..\\TestPlan\\Diagnostics\\Diagnostics.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\Diagnostics.cs",
+              "RelativeToolTip": "..\\TestPlan\\Diagnostics\\Diagnostics.cs",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAAAFoAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-14T20:46:44.481Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
@@ -178,13 +259,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "MSMU_34980A_SCPI_NET.cs",
               "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
               "RelativeDocumentMoniker": "InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
               "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
               "RelativeToolTip": "InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
-              "ViewState": "AgIAAIAAAAAAAAAAAAAAABEBAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAHoAAAAAAAAAAAAAAKkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-13T20:05:43.58Z",
               "EditorCaption": ""
