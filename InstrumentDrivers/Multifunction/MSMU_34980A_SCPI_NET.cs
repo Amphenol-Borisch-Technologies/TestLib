@@ -6,14 +6,10 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
 using ABT.TestExec.Lib.InstrumentDrivers.Interfaces;
-using static ABT.TestExec.Lib.InstrumentDrivers.Multifunction.MSMU_34980A_SCPI_NET;
 
 namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
 
     public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IRelays, IDiagnostics {
-        public enum ABUS { A1, A2, A3, A4, AI };
-        public enum BANKS_34921A { B1, B2 }
-        public enum COMS { C1 = 1, C2 = 2 }
         public enum MODULES_34980A { M34921A, M34932A, M34938A, M34939A, M34952A }
         // NOTE: Update MODULES & Modules as necessary, along with Diagnostics region.
         public static Dictionary<MODULES_34980A, String> Modules = new Dictionary<MODULES_34980A, String>() {
@@ -96,7 +92,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             DiagnosticParameter_34980A DP = (o is DiagnosticParameter_34980A dp) ? dp : new DiagnosticParameter_34980A(Ω: 3);
 
             foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) {
-                switch(SystemType(slot)) {
+                switch (SystemType(slot)) {
                     case String s when s == Modules[MODULES_34980A.M34921A]:
                         result_Slot = Diagnostic_34921A(slot, Ω: DP.Ω_34921A);
                         break;
@@ -144,22 +140,27 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             String slot = ((Int32)Slot).ToString("D1");
 
             _ = MessageBox.Show($"Please connect 34921A diagnostic connectors to 34980A SLOT {slot} Banks 1 & 2.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            MeasureAndRecord_34921A(slot, BANKS_34921A.B1, channels: new List<String> { "911" }, Ω, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(slot, BANKS_34921A.B1, channels: new List<String> { "921", "912", "922" }, Ω, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(slot, BANKS_34921A.B1, channels: new List<String> { "921", "913", "923" }, Ω, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(slot, BANKS_34921A.B1, channels: new List<String> { "921", "914", "924" }, Ω, ref passed_34921A, ref results);
+
+            SCPI.ROUTe.CLOSe.Command($"@{slot}001:{slot}020"); // Bank 1 all relays, to test ABUS relays.
+            MeasureAndRecord_34921A(channels: $"911", Ω, ref passed_34921A, ref results);
+            MeasureAndRecord_34921A(channels: $"921,912,922", Ω, ref passed_34921A, ref results);
+            MeasureAndRecord_34921A(channels: $"921,913,923", Ω, ref passed_34921A, ref results);
+            MeasureAndRecord_34921A(channels: $"921,914,924", Ω, ref passed_34921A, ref results);
+            SCPI.ROUTe.OPEN.Command($"@{slot}001:{slot}020");
 
             SCPI.ROUTe.CLOSe.Command($"@{slot}911"); // DMM Measure.
-            for (Int32 i = 1; i < 21; i++) MeasureAndRecord_34921A(channels: $"@{slot}{i:D3}", Ω,  ref passed_34921A, ref results); // Bank 1.
+            for (Int32 i = 1; i < 21; i++) MeasureAndRecord_34921A(channels: $"@{slot}{i:D3}", Ω, ref passed_34921A, ref results); // Bank 1 individual relays.
             SCPI.ROUTe.OPEN.Command($"@{slot}911");
 
-            MeasureAndRecord_34921A(slot, BANKS_34921A.B2, channels: new List<String> { "921" }, Ω, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(slot, BANKS_34921A.B2, channels: new List<String> { "911", "912", "922" }, Ω, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(slot, BANKS_34921A.B2, channels: new List<String> { "911", "913", "923" }, Ω, ref passed_34921A, ref results);
-            MeasureAndRecord_34921A(slot, BANKS_34921A.B2, channels: new List<String> { "911", "914", "924" }, Ω, ref passed_34921A, ref results);
+            SCPI.ROUTe.CLOSe.Command($"@{slot}021:{slot}040"); // Bank 2 all relays, to test ABUS relays.
+            MeasureAndRecord_34921A(channels: $"921", Ω, ref passed_34921A, ref results);
+            MeasureAndRecord_34921A(channels: $"911,912,922", Ω, ref passed_34921A, ref results);
+            MeasureAndRecord_34921A(channels: $"911,913,923", Ω, ref passed_34921A, ref results);
+            MeasureAndRecord_34921A(channels: $"911,914,924", Ω, ref passed_34921A, ref results);
+            SCPI.ROUTe.OPEN.Command($"@{slot}021:{slot}040");
 
             SCPI.ROUTe.CLOSe.Command($"@{slot}921"); // DMM Measure.
-            for (Int32 i = 21; i < 41; i++) MeasureAndRecord_34921A(channels: $"@{slot}{i:D3}", Ω, ref passed_34921A, ref results); // Bank 2.
+            for (Int32 i = 21; i < 41; i++) MeasureAndRecord_34921A(channels: $"@{slot}{i:D3}", Ω, ref passed_34921A, ref results); // Bank 2 individual relays.
             SCPI.ROUTe.OPEN.Command($"@{slot}921");
             SCPI.INSTrument.DMM.DISConnect.Command();
 
@@ -167,15 +168,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             return (Summary: passed_34921A, Details: results);
         }
 
-        private void MeasureAndRecord_34921A(String slot, BANKS_34921A bank, List<String> channels, Double Ω, ref Boolean passed_34921A, ref List<DiagnosticsResult> results) {
-            SCPI.ROUTe.OPEN.Command($"@{slot}001:{slot}040"); // B1 & B2.
-            if (bank is BANKS_34921A.B1) SCPI.ROUTe.CLOSe.Command($"@{slot}001:{slot}020"); // B1
-            if (bank is BANKS_34921A.B2) SCPI.ROUTe.CLOSe.Command($"@{slot}021:{slot}040"); // B2
-            MeasureAndRecord_34921A($"@{slot}" + String.Join($",{slot}", channels), Ω, ref passed_34921A, ref results);
-            SCPI.ROUTe.OPEN.Command($"@{slot}001:{slot}040"); // B1 & B2.
-        }
-
-        private void MeasureAndRecord_34921A(String channels, Double Ω,  ref Boolean passed_34921A, ref List<DiagnosticsResult> results) {
+        private void MeasureAndRecord_34921A(String channels, Double Ω, ref Boolean passed_34921A, ref List<DiagnosticsResult> results) {
             SCPI.ROUTe.CLOSe.Command(channels);
             SCPI.MEASure.SCALar.RESistance.Query(25D, "MAXimum", out Double[] resistance);
             SCPI.ROUTe.OPEN.Command(channels);
@@ -292,7 +285,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
                 sb.AppendLine("Caveats:");
                 sb.AppendLine(" - Whitespace not permitted; '@1001, 1005', '@1001 ,1005' '& '@1001: 1005' all invalid.");
                 sb.AppendLine(" - Range cannot include ABus channels, denoted as #9##.  Thus range '@1001:1902' invalid, but discretes '@1001,1902' valid.");
-                sb.AppendLine(" - Fist & only first channel begins with '@'.  Thus '1001,2001' & '@1001,@2001' both invalid.");
+                sb.AppendLine(" - First & only first channel begins with '@'.  Thus '1001,2001' & '@1001,@2001' both invalid.");
                 throw new ArgumentException(sb.ToString());
                 // https://regex101.com/.
             }
