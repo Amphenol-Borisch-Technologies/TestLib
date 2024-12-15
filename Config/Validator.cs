@@ -4,13 +4,13 @@ using System.Xml;
 using System.Xml.Schema;
 
 namespace ABT.Test.Lib.Config {
-    internal class Validator {
+    internal static class Validator {
         private static Boolean xmlValid = true;
         private static readonly StringBuilder messages = new StringBuilder();
         private static XmlReader reader;
 
-        [STAThreadAttribute]
-        public static void NotMain() {
+        [STAThread]
+        public static void Validate() {
             XmlSchemaSet schemaSet = new XmlSchemaSet();
             schemaSet.Add(null, Properties.Resources.XSD_File);
             XmlReaderSettings settings = new XmlReaderSettings { ValidationType = ValidationType.Schema, Schemas = schemaSet };
