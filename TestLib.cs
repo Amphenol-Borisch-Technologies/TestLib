@@ -6,7 +6,7 @@ using System.Threading;
 using ABT.TestExec.Lib.AppConfig;
 
 namespace ABT.TestExec.Lib {
-    public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, PASS, UNSET }
+    public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, IGNORE, PASS, UNSET }
 
     public static class TestLib {
         public static Dictionary<EVENTS, Color> EventColors = new Dictionary<EVENTS, Color> {
@@ -14,6 +14,7 @@ namespace ABT.TestExec.Lib {
                 { EVENTS.EMERGENCY_STOP, Color.Firebrick },
                 { EVENTS.ERROR, Color.Aqua },
                 { EVENTS.FAIL, Color.Red },
+                { EVENTS.IGNORE, Color.Transparent },
                 { EVENTS.PASS, Color.Green },
                 { EVENTS.UNSET, Color.Gray }
         };

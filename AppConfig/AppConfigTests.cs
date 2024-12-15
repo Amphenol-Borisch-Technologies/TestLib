@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Agilent.CommandExpert.ScpiNet.Ag34401_11.Transport.IgnoredErrors;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -251,6 +252,7 @@ namespace ABT.TestExec.Lib.AppConfig {
             sb.AppendLine($"E-Stopped : {Statistics.EmergencyStopped,L}, {Statistics.PercentEmergencyStopped(),L:P1}");
             sb.AppendLine($"Errored   : {Statistics.Errored,L}, {Statistics.PercentErrored(),L:P1}");
             sb.AppendLine($"Failed    : {Statistics.Failed,L}, {Statistics.PercentFailed(),L:P1}");
+            sb.AppendLine($"Ignored   : {Statistics.Ignored,L}, {Statistics.PercentIgnored(),L:P1}");
             sb.AppendLine($"Passed    : {Statistics.Passed,L}, {Statistics.PercentPassed(),L:P1}");
             sb.AppendLine($"------");
             sb.AppendLine($"Total     : {Statistics.Tested(),L}");
@@ -267,6 +269,7 @@ namespace ABT.TestExec.Lib.AppConfig {
         public UInt32 EmergencyStopped = 0;
         public UInt32 Errored = 0;
         public UInt32 Failed = 0;
+        public UInt32 Ignored = 0;
         public UInt32 Passed = 0;
         private readonly DateTime TestSelected = DateTime.Now;
 
@@ -286,6 +289,9 @@ namespace ABT.TestExec.Lib.AppConfig {
                 case EVENTS.FAIL:
                     Failed++;
                     break;
+                case EVENTS.IGNORE:
+                    Ignored++;
+                    break;
                 case EVENTS.PASS:
                     Passed++;
                     break;
@@ -304,6 +310,7 @@ namespace ABT.TestExec.Lib.AppConfig {
         public Double PercentEmergencyStopped() { return Convert.ToDouble(EmergencyStopped) / Convert.ToDouble(Tested()); }
         public Double PercentErrored() { return Convert.ToDouble(Errored) / Convert.ToDouble(Tested()); }
         public Double PercentFailed() { return Convert.ToDouble(Failed) / Convert.ToDouble(Tested()); }
+        public Double PercentIgnored() { return Convert.ToDouble(Ignored) / Convert.ToDouble(Tested()); }
         public Double PercentPassed() { return Convert.ToDouble(Passed) / Convert.ToDouble(Tested()); }
         public UInt32 Tested() { return Cancelled + EmergencyStopped + Errored + Failed + Passed; }
     }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "f3S/jFwc/1w=",
+  "dgSpecHash": "f/HujxfiEHg=",
   "success": true,
-  "projectFilePath": "C:\\Users\\phils\\source\\repos\\Lib\\Lib.csproj",
+  "projectFilePath": "C:\\Users\\phils\\Source\\Repos\\Lib\\Lib.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\phils\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\9.0.0\\microsoft.bcl.asyncinterfaces.9.0.0.nupkg.sha512",
     "C:\\Users\\phils\\.nuget\\packages\\microsoft.windows.sdk.contracts\\10.0.26100.1742\\microsoft.windows.sdk.contracts.10.0.26100.1742.nupkg.sha512",
