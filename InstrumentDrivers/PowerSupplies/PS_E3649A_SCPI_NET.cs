@@ -1,9 +1,9 @@
 ﻿﻿using System;
 using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.AgE364xD_1_7;
-using ABT.TestExec.Lib.InstrumentDrivers.Interfaces;
+using ABT.Test.Lib.InstrumentDrivers.Interfaces;
 
-namespace ABT.TestExec.Lib.InstrumentDrivers.PowerSupplies {
+namespace ABT.Test.Lib.InstrumentDrivers.PowerSupplies {
     public class PS_E3649A_SCPI_NET : AgE364xD, IInstruments, IPowerSupplyE3649A {
         public String Address { get; }
         public String Detail { get; }

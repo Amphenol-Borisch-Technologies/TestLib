@@ -1,4 +1,4 @@
-﻿namespace ABT.TestExec.Lib.Switching {
+﻿namespace ABT.Test.Lib.Switching {
         /// <summary>Relay Forms A, B &amp; C.</summary>
     public static class RelayForms {
         /// <summary>Relay Form A.</summary>

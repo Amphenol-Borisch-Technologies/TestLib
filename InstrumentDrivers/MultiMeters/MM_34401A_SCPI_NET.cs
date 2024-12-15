@@ -1,9 +1,9 @@
 ﻿﻿using System;
 using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34401_11;
-using ABT.TestExec.Lib.InstrumentDrivers.Interfaces;
+using ABT.Test.Lib.InstrumentDrivers.Interfaces;
 
-namespace ABT.TestExec.Lib.InstrumentDrivers.MultiMeters {
+namespace ABT.Test.Lib.InstrumentDrivers.MultiMeters {
     public class MM_34401A_SCPI_NET : Ag34401, IInstruments {
         public enum MMD { MIN, MAX, DEF }
         public enum TERMINALS { Front, Rear };

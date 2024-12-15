@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 
-namespace ABT.TestExec.Lib {
+namespace ABT.Test.Lib {
 
     class Deserializer {
         static void NotMain() {

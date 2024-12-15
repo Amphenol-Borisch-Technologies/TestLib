@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace ABT.TestExec.Lib.AppConfig {
+namespace ABT.Test.Lib.AppConfig {
     public class AppConfigLogger {
         public readonly Boolean FileEnabled = Boolean.Parse(ConfigurationManager.AppSettings["LOGGER_FileEnabled"].Trim());
         public readonly String FilePath = ConfigurationManager.AppSettings["LOGGER_FilePath"].Trim();

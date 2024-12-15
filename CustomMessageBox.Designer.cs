@@ -1,4 +1,4 @@
-﻿namespace ABT.TestExec.Lib {
+﻿namespace ABT.Test.Lib {
     partial class CustomMessageBox {
         /// <summary>
         /// Required designer variable.

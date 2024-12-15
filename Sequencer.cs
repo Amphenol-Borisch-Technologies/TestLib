@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using ABT.TestExec.Lib;
+using ABT.Test.Lib;
 
-namespace ABT.TestExec.Lib {
+namespace ABT.Test.Lib {
     public interface IAssertionCurrent { String AssertionCurrent(); }
 
     [XmlRoot(nameof(TO))] public class TO : IAssertionCurrent {

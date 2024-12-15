@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\phils\\Source\\Repos\\Lib\\Lib.csproj": {}
+    "C:\\Users\\phils\\source\\repos\\ABT\\Test\\Lib\\Lib.csproj": {}
   },
   "projects": {
-    "C:\\Users\\phils\\Source\\Repos\\Lib\\Lib.csproj": {
+    "C:\\Users\\phils\\source\\repos\\ABT\\Test\\Lib\\Lib.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\phils\\Source\\Repos\\Lib\\Lib.csproj",
+        "projectUniqueName": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\Lib\\Lib.csproj",
         "projectName": "TestLib",
-        "projectPath": "C:\\Users\\phils\\Source\\Repos\\Lib\\Lib.csproj",
+        "projectPath": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\Lib\\Lib.csproj",
         "packagesPath": "C:\\Users\\phils\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\phils\\Source\\Repos\\Lib\\obj\\",
+        "outputPath": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\Lib\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "UsingMicrosoftNETSdk": false,

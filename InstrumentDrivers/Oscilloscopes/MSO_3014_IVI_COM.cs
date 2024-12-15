@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 using Tektronix.Tkdpo2k3k4k.Interop;
-using ABT.TestExec.Lib.InstrumentDrivers.Interfaces;
+using ABT.Test.Lib.InstrumentDrivers.Interfaces;
 
-namespace ABT.TestExec.Lib.InstrumentDrivers.Oscilloscopes {
+namespace ABT.Test.Lib.InstrumentDrivers.Oscilloscopes {
     public class MSO_3014_IVI_COM : Tkdpo2k3k4kClass, IInstruments {
         public String Address { get; }
         public String Detail { get; }

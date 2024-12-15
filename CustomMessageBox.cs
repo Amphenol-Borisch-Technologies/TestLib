@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace ABT.TestExec.Lib {
+namespace ABT.Test.Lib {
     public partial class CustomMessageBox : Form {
         public CustomMessageBox() {
             InitializeComponent();

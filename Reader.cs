@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace ABT.TestExec.Lib {
+namespace ABT.Test.Lib {
     class Reader {
         // TODO: Modify this to read the Test Operation XML sequence files and auto-generate a skeleton C# project.
         // - Copy a standard template project into a folder auto-created based on CCA Number.
