@@ -5,7 +5,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using ABT.TestExec.Lib;
 
-namespace TestSequencer {
+namespace ABT.TestExec.Lib {
     public interface IAssertionCurrent { String AssertionCurrent(); }
 
     [XmlRoot(nameof(TO))] public class TO : IAssertionCurrent {

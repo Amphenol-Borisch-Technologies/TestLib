@@ -11,7 +11,7 @@
 namespace T10 {
     using System;
     using System.Diagnostics;
-    using static TestSequencer.Assertions;
+    using static ABT.TestExec.Lib.Assertions;
     
     
     internal class Class1 {

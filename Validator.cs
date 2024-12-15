@@ -3,7 +3,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 
-namespace TestSequencer {
+namespace ABT.TestExec.Lib {
     internal class Validator {
         private static Boolean xmlValid = true;
         private static readonly StringBuilder messages = new StringBuilder();

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 
-namespace TestSequencer {
+namespace ABT.TestExec.Lib {
 
     class Deserializer {
         static void NotMain() {

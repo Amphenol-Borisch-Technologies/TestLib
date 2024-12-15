@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ABT.TestExec.Lib {
+namespace ABT.TestExec.Lib.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ABT.TestExec.Lib {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ABT.TestExec.Lib.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ABT.TestExec.Lib.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,7 +61,7 @@ namespace ABT.TestExec.Lib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to C:\Users\phils\source\repos\TestSequencer\TestSequencer\T10.xml.
+        ///   Looks up a localized string similar to C:\Users\phils\Source\Repos\Lib\T10.xml.
         /// </summary>
         internal static string XML_File {
             get {
@@ -70,7 +70,7 @@ namespace ABT.TestExec.Lib {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to C:\Users\phils\source\repos\TestSequencer\TestSequencer\Sequencer.xsd.
+        ///   Looks up a localized string similar to C:\Users\phils\Source\Repos\Lib\Sequencer.xsd.
         /// </summary>
         internal static string XSD_File {
             get {

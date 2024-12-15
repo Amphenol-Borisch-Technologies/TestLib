@@ -3,40 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\phils\\source\\repos\\Lib\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\reader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:reader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\generated.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:generated.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\testlib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:testlib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\custommessagebox.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:custommessagebox.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\custommessagebox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:custommessagebox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\appconfig\\appconfigtestelements.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:appconfig\\appconfigtestelements.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\appconfig\\appconfigtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:appconfig\\appconfigtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\appconfig\\appconfiguut.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:appconfig\\appconfiguut.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\appconfig\\appconfiglogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:appconfig\\appconfiglogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\instrumentdrivers\\instruments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:instrumentdrivers\\instruments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\assertions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:assertions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 41,
           "Children": [
             {
               "$type": "Bookmark",
@@ -63,23 +35,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Reader.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\Reader.cs",
-              "RelativeDocumentMoniker": "Reader.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\Reader.cs",
-              "RelativeToolTip": "Reader.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T14:50:26.608Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
             },
             {
               "$type": "Bookmark",
@@ -227,106 +182,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CustomMessageBox.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\CustomMessageBox.Designer.cs",
-              "RelativeDocumentMoniker": "CustomMessageBox.Designer.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\CustomMessageBox.Designer.cs",
-              "RelativeToolTip": "CustomMessageBox.Designer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T14:48:52.728Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "TestLib.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\TestLib.cs",
-              "RelativeDocumentMoniker": "TestLib.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\TestLib.cs",
-              "RelativeToolTip": "TestLib.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Title": "Assertions.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\Assertions.cs",
+              "RelativeDocumentMoniker": "Assertions.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\Assertions.cs",
+              "RelativeToolTip": "Assertions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T14:48:22.607Z",
+              "WhenOpened": "2024-12-15T15:07:45.563Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CustomMessageBox.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\CustomMessageBox.cs",
-              "RelativeDocumentMoniker": "CustomMessageBox.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\CustomMessageBox.cs",
-              "RelativeToolTip": "CustomMessageBox.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAcAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Generated.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\Generated.cs",
+              "RelativeDocumentMoniker": "Generated.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\Generated.cs",
+              "RelativeToolTip": "Generated.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T14:47:55.778Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "AppConfigUUT.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigUUT.cs",
-              "RelativeDocumentMoniker": "AppConfig\\AppConfigUUT.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigUUT.cs",
-              "RelativeToolTip": "AppConfig\\AppConfigUUT.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T14:27:20.593Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AppConfigTests.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigTests.cs",
-              "RelativeDocumentMoniker": "AppConfig\\AppConfigTests.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigTests.cs",
-              "RelativeToolTip": "AppConfig\\AppConfigTests.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAAAB0BAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T14:27:18.177Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "AppConfigTestElements.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigTestElements.cs",
-              "RelativeDocumentMoniker": "AppConfig\\AppConfigTestElements.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigTestElements.cs",
-              "RelativeToolTip": "AppConfig\\AppConfigTestElements.cs",
-              "ViewState": "AgIAAKUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T14:27:17.162Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "AppConfigLogger.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigLogger.cs",
-              "RelativeDocumentMoniker": "AppConfig\\AppConfigLogger.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigLogger.cs",
-              "RelativeToolTip": "AppConfig\\AppConfigLogger.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T14:27:14.89Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Instruments.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Instruments.cs",
-              "RelativeDocumentMoniker": "InstrumentDrivers\\Instruments.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Instruments.cs",
-              "RelativeToolTip": "InstrumentDrivers\\Instruments.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAABRAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T14:12:09.304Z",
+              "WhenOpened": "2024-12-15T15:07:37.183Z",
               "EditorCaption": ""
             }
           ]

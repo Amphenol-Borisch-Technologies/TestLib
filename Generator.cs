@@ -5,7 +5,7 @@ using System.IO;
 using System.Xml.Serialization;
 using Microsoft.CSharp;
 
-namespace TestSequencer {
+namespace ABT.TestExec.Lib {
 
     public static class Generator {
 
@@ -16,7 +16,7 @@ namespace TestSequencer {
             CodeNamespace nameSpace = new CodeNamespace(to.Namespace);
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
             nameSpace.Imports.Add(new CodeNamespaceImport("System.Diagnostics"));
-            nameSpace.Imports.Add(new CodeNamespaceImport("static TestSequencer.Assertions"));
+            nameSpace.Imports.Add(new CodeNamespaceImport("static ABT.TestExec.Lib.Assertions"));
             CodeCompileUnit compileUnit = new CodeCompileUnit();
             _ = compileUnit.Namespaces.Add(nameSpace);
 
@@ -26,7 +26,7 @@ namespace TestSequencer {
                     AddMethod(classDeclaration, to, testGroup, method);
                 }
             }
-            GenerateCode(compileUnit, @"C:\Users\phils\Source\Repos\TestSequencer\TestSequencer\Generated.cs");
+            GenerateCode(compileUnit, @"C:\Users\phils\Source\Repos\Lib\Generated.cs");
         }
 
         private static CodeTypeDeclaration AddClass(CodeNamespace nameSpace, TG tg) {
