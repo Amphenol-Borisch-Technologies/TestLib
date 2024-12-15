@@ -179,10 +179,10 @@ namespace ABT.TestExec.Lib.AppConfig {
         public readonly String ClassName;
         public readonly Object ClassObject;
         public readonly Boolean CancelNotPassed;
-        public String GroupID { get; set; } = String.Empty; // Determined pre-test.
-        public String Value { get; set; } = String.Empty; // Determined during test.
-        public EVENTS Event { get; set; } = EVENTS.UNSET; // Determined post-test.
-        public StringBuilder Message { get; set; } = new StringBuilder(); // Determined during test.
+        public String GroupID { get; set; } = String.Empty;               // Determined pre-test.
+        public String Value { get; set; } = String.Empty;                 // Determined at test.
+        public EVENTS Event { get; set; } = EVENTS.UNSET;                 // Determined post-test.
+        public StringBuilder Message { get; set; } = new StringBuilder(); // Determined at test.
 
         private Measurement(String id, String revision, String description, String className, Boolean cancelNotPassed, String arguments) {
             ID = id;

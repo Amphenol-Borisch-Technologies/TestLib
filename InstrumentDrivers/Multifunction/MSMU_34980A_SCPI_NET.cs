@@ -77,12 +77,13 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
         }
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
+            ResetClear();
             if (SelfTests() is SELF_TEST_RESULTS.FAIL) return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "34980A Diagnostics():", Message: "SelfTests() failed, aborted.", Event: EVENTS.FAIL) });
 
             (Boolean summary, List<DiagnosticsResult> details) result_Slot;
             (Boolean Summary, List<DiagnosticsResult> Details) result_34980A = (true, new List<DiagnosticsResult>());
             DiagnosticParameter_34980A DP = (o is DiagnosticParameter_34980A dp) ? dp : new DiagnosticParameter_34980A(Ω: 3);
-.
+
             foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) {
                 switch (SystemType(slot)) {
                     case "34921A":
@@ -117,14 +118,13 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34921As(Double Ω) {
-            ResetClear();
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
             foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == "34921A") Results.Add(slot, Diagnostic_34921A(slot, Ω));
             return Results;
         }
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34921A(SLOTS Slot, Double Ω) {
-            // TODO: Add current measurement tests for 34921A relays 931, 041, 042, 043 & 044.  Will require an external current source. 
+            // TODO: Add current measurement tests for 34921A relays 931, 041, 042, 043 & 044.  Will require an external current source.
             SCPI.ROUTe.OPEN.ALL.Command(null);
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
@@ -172,48 +172,48 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Multifunction {
             results.Add(new DiagnosticsResult(Label: $"Channel(s) {channels}: ", Message: $"{Math.Round(resistance[0], 3, MidpointRounding.ToEven)}Ω", Event: (passed_Ω ? EVENTS.PASS : EVENTS.FAIL)));
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34932A(SLOTS Slot, Double Ω) {
-            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "Diagnostic_34932A", Message: "Not Implemented yet.", Event: EVENTS.IGNORE) });
-        }
-
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34932As(Double Ω) {
-            ResetClear();
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
             foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == "34932A") Results.Add(slot, Diagnostic_34932A(slot, Ω));
             return Results;
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34938A(SLOTS Slot, Double Ω) {
-            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "Diagnostic_34938A", Message: "Not Implemented yet.", Event: EVENTS.IGNORE) });
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34932A(SLOTS Slot, Double Ω) {
+            SCPI.ROUTe.OPEN.ALL.Command(null);
+            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "Diagnostic_34932A", Message: "Not Implemented yet.", Event: EVENTS.IGNORE) });
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34938As(Double Ω) {
-            ResetClear();
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
             foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == "34938A") Results.Add(slot, Diagnostic_34938A(slot, Ω));
             return Results;
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34939A(SLOTS Slot, Double Ω) {
-            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "Diagnostic_34939A", Message: "Not Implemented yet.", Event: EVENTS.IGNORE) });
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34938A(SLOTS Slot, Double Ω) {
+            SCPI.ROUTe.OPEN.ALL.Command(null);
+            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "Diagnostic_34938A", Message: "Not Implemented yet.", Event: EVENTS.IGNORE) });
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34939As(Double Ω) {
-            ResetClear();
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
             foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == "34932A") Results.Add(slot, Diagnostic_34939A(slot, Ω));
             return Results;
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34952A(SLOTS Slot) {
-            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "Diagnostic_34952A", Message: "Not Implemented yet.", Event: EVENTS.IGNORE) });
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34939A(SLOTS Slot, Double Ω) {
+            SCPI.ROUTe.OPEN.ALL.Command(null);
+            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "Diagnostic_34939A", Message: "Not Implemented yet.", Event: EVENTS.IGNORE) });
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34952As(Double Ω) {
-            ResetClear();
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
             foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == "34932A") Results.Add(slot, Diagnostic_34952A(slot));
             return Results;
+        }
+
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34952A(SLOTS Slot) {
+            SCPI.ROUTe.OPEN.ALL.Command(null);
+            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "Diagnostic_34952A", Message: "Not Implemented yet.", Event: EVENTS.IGNORE) });
         }
         #endregion Diagnostics
 

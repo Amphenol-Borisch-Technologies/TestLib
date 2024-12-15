@@ -36,7 +36,7 @@ namespace ABT.TestExec.Lib.InstrumentDrivers.Oscilloscopes {
         public MSO_3014_IVI_COM(String Address, String Detail) {
             this.Address = Address;
             this.Detail = Detail;
-            InstrumentType = INSTRUMENT_TYPES.OSCILLOSCOPE;
+            InstrumentType = INSTRUMENT_TYPES.OSCILLOSCOPE_MIXED_SIGNAL;
             Initialize(ResourceName: Address, IdQuery: false, Reset: false, OptionString: String.Empty);
         }
     }

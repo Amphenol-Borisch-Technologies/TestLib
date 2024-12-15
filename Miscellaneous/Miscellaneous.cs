@@ -24,7 +24,7 @@ namespace ABT.TestExec.Lib {
         public Double GetSecondsTotal() { return _seconds; }
         public Double GetSecondsElapsed() { return Math.Round((DateTime.Now - _start).TotalSeconds, 2); }
         public Double GetSecondsRemaining() { return Expired() ? 0 : _seconds - GetSecondsElapsed(); }
-        public Boolean Expired() { return GetSecondsElapsed() >= _seconds; }
+        public Boolean Expired() { return GetSecondsElapsed() > _seconds; }
         public Boolean NotExpired() { return !Expired(); }
     }
 

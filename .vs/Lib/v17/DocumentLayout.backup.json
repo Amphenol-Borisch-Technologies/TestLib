@@ -3,38 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\phils\\source\\repos\\Lib\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\reader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:reader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\testlib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:testlib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\instrumentdrivers\\multifunction\\msmu_34980a_scpi_net.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:instrumentdrivers\\multifunction\\msmu_34980a_scpi_net.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\custommessagebox.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:custommessagebox.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5FC19C56-1566-457A-A8AF-A3A69561320C}|..\\TestPlan\\Diagnostics\\Diagnostics.csproj|c:\\users\\phils\\source\\repos\\testplan\\diagnostics\\testoperations\\mso_3014.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\custommessagebox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:custommessagebox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5FC19C56-1566-457A-A8AF-A3A69561320C}|..\\TestPlan\\Diagnostics\\Diagnostics.csproj|c:\\users\\phils\\source\\repos\\testplan\\diagnostics\\testoperations\\msmu_34980a.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5FC19C56-1566-457A-A8AF-A3A69561320C}|..\\TestPlan\\Diagnostics\\Diagnostics.csproj|c:\\users\\phils\\source\\repos\\testplan\\diagnostics\\testoperations\\mm_34401a.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\appconfig\\appconfigtestelements.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:appconfig\\appconfigtestelements.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\appconfig\\appconfigtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:appconfig\\appconfigtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{314614CB-6E17-4B74-A9F9-CE4699F78C9B}|..\\TestExec\\Exec.csproj|c:\\users\\phils\\source\\repos\\testexec\\testexec.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\appconfig\\appconfiguut.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:appconfig\\appconfiguut.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5FC19C56-1566-457A-A8AF-A3A69561320C}|..\\TestPlan\\Diagnostics\\Diagnostics.csproj|c:\\users\\phils\\source\\repos\\testplan\\diagnostics\\testoperations\\ps_e3649a.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\appconfig\\appconfiglogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:appconfig\\appconfiglogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5FC19C56-1566-457A-A8AF-A3A69561320C}|..\\TestPlan\\Diagnostics\\Diagnostics.csproj|c:\\users\\phils\\source\\repos\\testplan\\diagnostics\\testoperations\\ps_e3634a.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\appconfig\\appconfigtestelements.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:appconfig\\appconfigtestelements.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\instrumentdrivers\\instruments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:instrumentdrivers\\instruments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -44,125 +46,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 49,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MSMU_34980A_SCPI_NET.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
-              "RelativeDocumentMoniker": "InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
-              "RelativeToolTip": "InstrumentDrivers\\Multifunction\\MSMU_34980A_SCPI_NET.cs",
-              "ViewState": "AgIAAK8AAAAAAAAAAAAMwMYAAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T09:01:01.995Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "TestExec.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestExec\\TestExec.cs",
-              "RelativeDocumentMoniker": "..\\TestExec\\TestExec.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestExec\\TestExec.cs",
-              "RelativeToolTip": "..\\TestExec\\TestExec.cs",
-              "ViewState": "AgIAAKICAAAAAAAAAAAowLoCAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T08:59:40.487Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MSMU_34980A.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
-              "RelativeDocumentMoniker": "..\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
-              "RelativeToolTip": "..\\TestPlan\\Diagnostics\\TestOperations\\MSMU_34980A.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAowDsAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T08:59:25.984Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AppConfigTests.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigTests.cs",
-              "RelativeDocumentMoniker": "AppConfig\\AppConfigTests.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigTests.cs",
-              "RelativeToolTip": "AppConfig\\AppConfigTests.cs",
-              "ViewState": "AgIAAA4BAAAAAAAAAAAowCYBAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T08:51:09.151Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "AppConfigTestElements.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigTestElements.cs",
-              "RelativeDocumentMoniker": "AppConfig\\AppConfigTestElements.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigTestElements.cs",
-              "RelativeToolTip": "AppConfig\\AppConfigTestElements.cs",
-              "ViewState": "AgIAAJ8AAAAAAAAAAAAowLcAAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T08:51:05.672Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "PS_E3649A.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\PS_E3649A.cs",
-              "RelativeDocumentMoniker": "..\\TestPlan\\Diagnostics\\TestOperations\\PS_E3649A.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\PS_E3649A.cs",
-              "RelativeToolTip": "..\\TestPlan\\Diagnostics\\TestOperations\\PS_E3649A.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAowCsAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T08:50:03.674Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "PS_E3634A.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\PS_E3634A.cs",
-              "RelativeDocumentMoniker": "..\\TestPlan\\Diagnostics\\TestOperations\\PS_E3634A.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\PS_E3634A.cs",
-              "RelativeToolTip": "..\\TestPlan\\Diagnostics\\TestOperations\\PS_E3634A.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAowCsAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T08:49:54.743Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MSO_3014.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\MSO_3014.cs",
-              "RelativeDocumentMoniker": "..\\TestPlan\\Diagnostics\\TestOperations\\MSO_3014.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\MSO_3014.cs",
-              "RelativeToolTip": "..\\TestPlan\\Diagnostics\\TestOperations\\MSO_3014.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAAowCwAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T08:49:48.807Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MM_34401A.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\MM_34401A.cs",
-              "RelativeDocumentMoniker": "..\\TestPlan\\Diagnostics\\TestOperations\\MM_34401A.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestPlan\\Diagnostics\\TestOperations\\MM_34401A.cs",
-              "RelativeToolTip": "..\\TestPlan\\Diagnostics\\TestOperations\\MM_34401A.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAowDIAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T08:42:53.816Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
@@ -178,6 +63,23 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Reader.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\Reader.cs",
+              "RelativeDocumentMoniker": "Reader.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\Reader.cs",
+              "RelativeToolTip": "Reader.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-15T14:50:26.608Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
             },
             {
               "$type": "Bookmark",
@@ -325,15 +227,106 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
+              "Title": "CustomMessageBox.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\CustomMessageBox.Designer.cs",
+              "RelativeDocumentMoniker": "CustomMessageBox.Designer.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\CustomMessageBox.Designer.cs",
+              "RelativeToolTip": "CustomMessageBox.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-15T14:48:52.728Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "TestLib.cs",
               "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\TestLib.cs",
               "RelativeDocumentMoniker": "TestLib.cs",
               "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\TestLib.cs",
               "RelativeToolTip": "TestLib.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABdAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T08:32:29.72Z",
+              "WhenOpened": "2024-12-15T14:48:22.607Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CustomMessageBox.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\CustomMessageBox.cs",
+              "RelativeDocumentMoniker": "CustomMessageBox.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\CustomMessageBox.cs",
+              "RelativeToolTip": "CustomMessageBox.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-15T14:47:55.778Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AppConfigUUT.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigUUT.cs",
+              "RelativeDocumentMoniker": "AppConfig\\AppConfigUUT.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigUUT.cs",
+              "RelativeToolTip": "AppConfig\\AppConfigUUT.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-15T14:27:20.593Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AppConfigTests.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigTests.cs",
+              "RelativeDocumentMoniker": "AppConfig\\AppConfigTests.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigTests.cs",
+              "RelativeToolTip": "AppConfig\\AppConfigTests.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAAB0BAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-15T14:27:18.177Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AppConfigTestElements.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigTestElements.cs",
+              "RelativeDocumentMoniker": "AppConfig\\AppConfigTestElements.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigTestElements.cs",
+              "RelativeToolTip": "AppConfig\\AppConfigTestElements.cs",
+              "ViewState": "AgIAAKUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-15T14:27:17.162Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AppConfigLogger.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigLogger.cs",
+              "RelativeDocumentMoniker": "AppConfig\\AppConfigLogger.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\AppConfig\\AppConfigLogger.cs",
+              "RelativeToolTip": "AppConfig\\AppConfigLogger.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-15T14:27:14.89Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Instruments.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Instruments.cs",
+              "RelativeDocumentMoniker": "InstrumentDrivers\\Instruments.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\InstrumentDrivers\\Instruments.cs",
+              "RelativeToolTip": "InstrumentDrivers\\Instruments.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAABRAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-15T14:12:09.304Z",
               "EditorCaption": ""
             }
           ]

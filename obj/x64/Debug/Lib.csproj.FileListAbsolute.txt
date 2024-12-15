@@ -75,3 +75,4 @@ C:\Users\phils\source\repos\Lib\obj\x64\Debug\Lib.csproj.CoreCompileInputs.cache
 C:\Users\phils\source\repos\Lib\obj\x64\Debug\Lib.csproj.Up2Date
 C:\Users\phils\source\repos\Lib\obj\x64\Debug\Lib.dll
 C:\Users\phils\source\repos\Lib\obj\x64\Debug\Lib.pdb
+C:\Users\phils\Source\Repos\Lib\obj\x64\Debug\TestSequencer.CustomMessageBox.resources

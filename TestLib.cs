@@ -30,7 +30,7 @@ namespace ABT.TestExec.Lib {
         public static CancellationToken CT_EmergencyStop;
         public static String MeasurementIDPresent = String.Empty;
         public static Measurement MeasurementPresent = null;
-        // NOTE: Commented on 11/5/24.  Can find original code in 11/5/24 Git commit.
+        // NOTE: Commented on 11/5/24.  Original code in 11/5/24 Git commit.
         //public static Configuration ConfigMap = GetConfiguration();
         //public static Configuration GetConfiguration() {
         //    ExeConfigurationFileMap ecfm = new ExeConfigurationFileMap {

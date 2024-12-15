@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TO xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Sequencer.xsd" Namespace="T10" Description="Example Test Operation.">
+  <TG Class="Class1" Description="Example Test Group." CancelIfFail="true" Independent="true">
+    <MT Method="Method1" Description="Verify Firmware Revision Text." CancelIfFail="true" Text="7.10" />
+    <MC Method="Method2" Description="Custom Power Method." CancelIfFail="true">
+      <Parameter Key="Volts DC" Value="5V ± 5%" />
+      <Parameter Key="Amperes DC" Value="1.5 ± 10%" />
+      <Parameter Key="Watts DC" Value="7.5375 ± 15%" />
+    </MC>
+    <MP Method="Method3" Description="Programming Process." CancelIfFail="true" Path="C:\Program Files\Microchip\MPLABX\v6.15\mplab_platform\mplab_ipe" Executable="ipecmd.exe" Parameters="/P12LF1552 /E /M /Y /TPPK4 /F&quot;C:\Firmware\U1.hex&quot;" Expected="0" />
+    <!-- M3's Expected return value of 0 corresponds to Executable ipecmd.exe completing successfully. ipecmd.exe returns 1 when failing.-->
+    <MI Method="Method4" Description="Miscellaneous Interval Measurement." CancelIfFail="true" LowComparator="GT" Low="1.5" High="2.5" HighComparator="LE" FractionalDigits="2" UnitPrefix="NONE" Units="NONE" UnitSuffix="NONE"/>
+    <!-- M4's interval corresponds to 1.5 < M2 ≤ 2.5, notated as (1.5, 2.5]. -->
+  </TG>
+  <TG Class="Class2" Description="Rinse and Repeat." CancelIfFail="true" Independent="true">
+    <MC Method="Method5" Description="Custom Power Method." CancelIfFail="true" />
+    <MI Method="Method6" Description="+5VDC Interval Measurement." CancelIfFail="true" LowComparator="GE" Low="4.75" High="5.25" HighComparator="LE" FractionalDigits="3" UnitPrefix="kilo" Units="Volts" UnitSuffix="DC" />
+    <!-- M6's interval corresponds to 4.75 ≤ M6 ≤ 5.25, notated as [4.75, 5.25]. -->
+    <MP Method="Method7" Description="Programming Process." CancelIfFail="true" Path="C:\Program Files\Microchip\MPLABX\v6.15\mplab_platform\mplab_ipe" Executable="ipecmd.exe" Parameters="/P12LF1552 /E /M /Y /TPPK4 /F&quot;C:\Firmware\U2.hex&quot;" Expected="0" />
+    <!-- M7's Expected return value of 0 corresponds to Executable ipecmd.exe completing successfully. ipecmd.exe returns 1 when failing.-->
+    <MT Method="Method8" Description="Verify Firmware Revision Text." CancelIfFail="false" Text="5.29" />
+  </TG>
+</TO>

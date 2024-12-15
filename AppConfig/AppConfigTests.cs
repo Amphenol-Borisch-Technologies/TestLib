@@ -312,6 +312,6 @@ namespace ABT.TestExec.Lib.AppConfig {
         public Double PercentFailed() { return Convert.ToDouble(Failed) / Convert.ToDouble(Tested()); }
         public Double PercentIgnored() { return Convert.ToDouble(Ignored) / Convert.ToDouble(Tested()); }
         public Double PercentPassed() { return Convert.ToDouble(Passed) / Convert.ToDouble(Tested()); }
-        public UInt32 Tested() { return Cancelled + EmergencyStopped + Errored + Failed + Passed; }
+        public UInt32 Tested() { return Cancelled + EmergencyStopped + Errored + Failed + Ignored + Passed; }
     }
 }
