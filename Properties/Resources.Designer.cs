@@ -61,7 +61,7 @@ namespace ABT.Test.Lib.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to C:\Users\phils\Source\Repos\Lib\T10.xml.
+        ///   Looks up a localized string similar to C:\Users\phils\Source\Repos\ABT\Test\Lib\Config\Diagnostics.xml.
         /// </summary>
         internal static string XML_File {
             get {
@@ -70,7 +70,7 @@ namespace ABT.Test.Lib.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to C:\Users\phils\Source\Repos\Lib\Sequencer.xsd.
+        ///   Looks up a localized string similar to C:\Users\phils\Source\Repos\ABT\Test\Lib\Config\Sequencer.xsd.
         /// </summary>
         internal static string XSD_File {
             get {

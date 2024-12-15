@@ -11,7 +11,7 @@
 namespace T10 {
     using System;
     using System.Diagnostics;
-    using static ABT.Test.Lib.Assertions;
+    using static ABT.Test.Lib.Config.Assertions;
     
     
     internal class Class1 {

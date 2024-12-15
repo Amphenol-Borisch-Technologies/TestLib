@@ -3,7 +3,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 
-namespace ABT.Test.Lib {
+namespace ABT.Test.Lib.Config {
     internal class Validator {
         private static Boolean xmlValid = true;
         private static readonly StringBuilder messages = new StringBuilder();

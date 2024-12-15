@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-using ABT.Test.Lib;
 
-namespace ABT.Test.Lib {
+namespace ABT.Test.Lib.Config {
     public interface IAssertionCurrent { String AssertionCurrent(); }
 
     [XmlRoot(nameof(TO))] public class TO : IAssertionCurrent {
