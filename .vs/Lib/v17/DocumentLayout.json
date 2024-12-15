@@ -3,36 +3,13 @@
   "WorkspaceRootPath": "C:\\Users\\phils\\source\\repos\\Lib\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\validator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:validator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{314614CB-6E17-4B74-A9F9-CE4699F78C9B}|..\\TestExec\\Exec.csproj|c:\\users\\phils\\source\\repos\\testexec\\properties\\resources.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\testlib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:testlib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{314614CB-6E17-4B74-A9F9-CE4699F78C9B}|..\\TestExec\\Exec.csproj|c:\\users\\phils\\source\\repos\\testexec\\testexec.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\sequencer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:sequencer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\reader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:reader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\generator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:generator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\generated.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:generated.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\deserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:deserializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|c:\\users\\phils\\source\\repos\\lib\\assertions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|Lib.csproj|solutionrelative:assertions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{314614CB-6E17-4B74-A9F9-CE4699F78C9B}|..\\TestExec\\Exec.csproj|c:\\users\\phils\\source\\repos\\testexec\\testexec.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -207,110 +184,45 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Validator.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\Validator.cs",
-              "RelativeDocumentMoniker": "Validator.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\Validator.cs",
-              "RelativeToolTip": "Validator.cs",
-              "ViewState": "AgIAAEYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "Resources.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestExec\\Properties\\Resources.Designer.cs",
+              "RelativeDocumentMoniker": "..\\TestExec\\Properties\\Resources.Designer.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestExec\\Properties\\Resources.Designer.cs",
+              "RelativeToolTip": "..\\TestExec\\Properties\\Resources.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T15:12:26.242Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "TestLib.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\TestLib.cs",
-              "RelativeDocumentMoniker": "TestLib.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\TestLib.cs",
-              "RelativeToolTip": "TestLib.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T15:12:22.986Z",
+              "WhenOpened": "2024-12-15T16:09:14.707Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Sequencer.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\Sequencer.cs",
-              "RelativeDocumentMoniker": "Sequencer.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\Sequencer.cs",
-              "RelativeToolTip": "Sequencer.cs",
-              "ViewState": "AgIAAI0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T15:12:16.706Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Reader.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\Reader.cs",
-              "RelativeDocumentMoniker": "Reader.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\Reader.cs",
-              "RelativeToolTip": "Reader.cs",
-              "ViewState": "AgIAAEsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T15:12:13.626Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Deserializer.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\Deserializer.cs",
-              "RelativeDocumentMoniker": "Deserializer.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\Deserializer.cs",
-              "RelativeToolTip": "Deserializer.cs",
+              "Title": "TestExec.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestExec\\TestExec.cs",
+              "RelativeDocumentMoniker": "..\\TestExec\\TestExec.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestExec\\TestExec.cs",
+              "RelativeToolTip": "..\\TestExec\\TestExec.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T15:11:19.864Z",
+              "WhenOpened": "2024-12-15T16:08:44.697Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TestExec.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\TestExec\\TestExec.Designer.cs",
+              "RelativeDocumentMoniker": "..\\TestExec\\TestExec.Designer.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\TestExec\\TestExec.Designer.cs",
+              "RelativeToolTip": "..\\TestExec\\TestExec.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAK8AAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-15T16:08:06.916Z",
               "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Generator.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\Generator.cs",
-              "RelativeDocumentMoniker": "Generator.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\Generator.cs",
-              "RelativeToolTip": "Generator.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAAABwAAABXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T15:09:48.028Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Assertions.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\Assertions.cs",
-              "RelativeDocumentMoniker": "Assertions.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\Assertions.cs",
-              "RelativeToolTip": "Assertions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T15:07:45.563Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Generated.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\Lib\\Generated.cs",
-              "RelativeDocumentMoniker": "Generated.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\Lib\\Generated.cs",
-              "RelativeToolTip": "Generated.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T15:07:37.183Z",
-              "EditorCaption": ""
             }
           ]
         }

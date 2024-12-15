@@ -7,8 +7,8 @@
     <ProjectGuid>{24D5E99E-185C-4507-81F0-132D8CB8164E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ABT.TestExec.Lib</RootNamespace>
-    <AssemblyName>Lib</AssemblyName>
+    <RootNamespace>ABT.TestLib</RootNamespace>
+    <AssemblyName>TestLib</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

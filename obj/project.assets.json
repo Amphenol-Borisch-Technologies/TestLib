@@ -2268,7 +2268,7 @@
     "version": "1.0.0",
     "restore": {
       "projectUniqueName": "C:\\Users\\phils\\Source\\Repos\\Lib\\Lib.csproj",
-      "projectName": "Lib",
+      "projectName": "TestLib",
       "projectPath": "C:\\Users\\phils\\Source\\Repos\\Lib\\Lib.csproj",
       "packagesPath": "C:\\Users\\phils\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\phils\\Source\\Repos\\Lib\\obj\\",

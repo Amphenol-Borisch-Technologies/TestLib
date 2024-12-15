@@ -1,0 +1,6 @@
+C:\Users\phils\Source\Repos\Lib\obj\x64\Debug\TestLib.csproj.AssemblyReference.cache
+C:\Users\phils\Source\Repos\Lib\obj\x64\Debug\ABT.TestExec.Lib.AppConfig.SelectTests.resources
+C:\Users\phils\Source\Repos\Lib\obj\x64\Debug\ABT.TestExec.Lib.CustomMessageBox.resources
+C:\Users\phils\Source\Repos\Lib\obj\x64\Debug\ABT.TestLib.Properties.Resources.resources
+C:\Users\phils\Source\Repos\Lib\obj\x64\Debug\TestLib.csproj.GenerateResource.cache
+C:\Users\phils\Source\Repos\Lib\obj\x64\Debug\TestLib.csproj.CoreCompileInputs.cache
