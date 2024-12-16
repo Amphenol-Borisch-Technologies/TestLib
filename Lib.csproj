@@ -117,16 +117,15 @@
     <Compile Include="AppConfig\SelectTests.Designer.cs">
       <DependentUpon>SelectTests.cs</DependentUpon>
     </Compile>
-    <Compile Include="Config\Assertions.cs" />
+    <Compile Include="TestSpecification\Assertions.cs" />
     <Compile Include="CustomMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CustomMessageBox.Designer.cs">
       <DependentUpon>CustomMessageBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Config\Deserializer.cs" />
-    <Compile Include="Config\Generated.cs" />
-    <Compile Include="Config\Generator.cs" />
+    <Compile Include="TestSpecification\Serializing.cs" />
+    <Compile Include="TestSpecification\Generator.cs" />
     <Compile Include="InstrumentDrivers\Generic\SCPI_NET.cs" />
     <Compile Include="InstrumentDrivers\Instruments.cs" />
     <Compile Include="InstrumentDrivers\Interfaces\IDiagnostics.cs" />
@@ -141,16 +140,10 @@
     <Compile Include="Miscellaneous\Miscellaneous.cs" />
     <Compile Include="Processes\ProcessExternal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Config\Reader.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Config\Sequencer.cs" />
+    <Compile Include="TestSpecification\Classes.cs" />
     <Compile Include="Switching\RelayForms.cs" />
     <Compile Include="TestLib.cs" />
-    <Compile Include="Config\Validator.cs" />
+    <Compile Include="TestSpecification\Validator.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.Contracts">
@@ -198,13 +191,9 @@
     <EmbeddedResource Include="CustomMessageBox.resx">
       <DependentUpon>CustomMessageBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\Sequencer.xsd">
+    <None Include="TestSpecification\TestSpecification.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

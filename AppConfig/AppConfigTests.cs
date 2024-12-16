@@ -1,5 +1,4 @@
-﻿using Agilent.CommandExpert.ScpiNet.Ag34401_11.Transport.IgnoredErrors;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;

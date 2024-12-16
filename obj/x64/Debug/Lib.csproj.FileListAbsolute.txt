@@ -112,7 +112,6 @@ C:\Users\phils\source\repos\ABT\Test\Lib\bin\x64\Debug\Ivi.Scope.Interop.xml
 C:\Users\phils\source\repos\ABT\Test\Lib\obj\x64\Debug\Lib.csproj.AssemblyReference.cache
 C:\Users\phils\source\repos\ABT\Test\Lib\obj\x64\Debug\ABT.Test.Lib.AppConfig.SelectTests.resources
 C:\Users\phils\source\repos\ABT\Test\Lib\obj\x64\Debug\ABT.Test.Lib.CustomMessageBox.resources
-C:\Users\phils\source\repos\ABT\Test\Lib\obj\x64\Debug\ABT.Test.Lib.Properties.Resources.resources
 C:\Users\phils\source\repos\ABT\Test\Lib\obj\x64\Debug\Lib.csproj.GenerateResource.cache
 C:\Users\phils\source\repos\ABT\Test\Lib\obj\x64\Debug\Lib.csproj.CoreCompileInputs.cache
 C:\Users\phils\source\repos\ABT\Test\Lib\obj\x64\Debug\Lib.csproj.Up2Date

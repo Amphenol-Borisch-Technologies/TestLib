@@ -4,7 +4,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace ABT.Test.Lib.Config {
+namespace ABT.Test.Lib.TestSpecification {
     public interface IAssertionCurrent { String AssertionCurrent(); }
 
     [XmlRoot(nameof(TO))] public class TO : IAssertionCurrent {

@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
 using ABT.Test.Lib.InstrumentDrivers.Interfaces;
-using static ABT.Test.Lib.InstrumentDrivers.Multifunction.MSMU_34980A_SCPI_NET;
 
 namespace ABT.Test.Lib.InstrumentDrivers.Multifunction {
 

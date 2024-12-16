@@ -5,18 +5,18 @@ using System.IO;
 using System.Xml.Serialization;
 using Microsoft.CSharp;
 
-namespace ABT.Test.Lib.Config {
+namespace ABT.Test.Lib.TestSpecification {
 
     public static class Generator {
-
-        public static void NotMain() {
+        public static void Generate(String FileImplementationCSharp) {
+            if (!Directory.Exists(Path.GetDirectoryName(FileImplementationCSharp))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(FileImplementationCSharp)}' does not exist.");
             TO to;
-            using (FileStream fs = new FileStream(Properties.Resources.XML_File, FileMode.Open)) { to = (TO)(new XmlSerializer(typeof(TO))).Deserialize(fs); }
+            using (FileStream fs = new FileStream(FileImplementationCSharp, FileMode.Create)) { to = (TO)(new XmlSerializer(typeof(TO))).Deserialize(fs); }
 
             CodeNamespace nameSpace = new CodeNamespace(to.Namespace);
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
             nameSpace.Imports.Add(new CodeNamespaceImport("System.Diagnostics"));
-            nameSpace.Imports.Add(new CodeNamespaceImport("static ABT.Test.Lib.Config.Assertions"));
+            nameSpace.Imports.Add(new CodeNamespaceImport("static ABT.Test.Lib.TestSpecification "));
             CodeCompileUnit compileUnit = new CodeCompileUnit();
             _ = compileUnit.Namespaces.Add(nameSpace);
 
@@ -26,7 +26,15 @@ namespace ABT.Test.Lib.Config {
                     AddMethod(classDeclaration, to, testGroup, method);
                 }
             }
-            GenerateCode(compileUnit, @"C:\Users\phils\Source\Repos\ABT\Test\Lib\Config\Generated.cs");
+
+            CSharpCodeProvider provider = new CSharpCodeProvider();
+            CodeGeneratorOptions options = new CodeGeneratorOptions {
+                BlankLinesBetweenMembers = true,
+                BracingStyle = "Block",
+                IndentString = "    "
+            };
+
+            using (StreamWriter sourceWriter = new StreamWriter(FileImplementationCSharp)) { provider.GenerateCodeFromCompileUnit(compileUnit, sourceWriter, options); }
         }
 
         private static CodeTypeDeclaration AddClass(CodeNamespace nameSpace, TG tg) {
@@ -54,7 +62,7 @@ namespace ABT.Test.Lib.Config {
                 else _ = memberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{(to.TestGroups[testGroup - 1]).AssertionPrior()}"));
 
                 _ = memberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{((IAssertionCurrent)to.TestGroups[testGroup]).AssertionCurrent()}"));
-                
+
                 if (testGroup < to.TestGroups.Count - 1) _ = memberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{(to.TestGroups[testGroup + 1]).AssertionNext()}"));
                 else _ = memberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{TO.DEBUG_ASSERT}{nameof(Assertions.TG_Next)}{TO.BEGIN}{nameof(TG.Class)}{TO.CS}{TO.NONE}{TO.END}"));
             }
@@ -72,17 +80,6 @@ namespace ABT.Test.Lib.Config {
 
             _ = memberMethod.Statements.Add(new CodeSnippetStatement("\t\t\treturn String.Empty;"));
             _ = classDeclaration.Members.Add(memberMethod);
-        }
-
-        private static void GenerateCode(CodeCompileUnit compileUnit, String outputFileName) {
-            CSharpCodeProvider provider = new CSharpCodeProvider();
-            CodeGeneratorOptions options = new CodeGeneratorOptions {
-                BlankLinesBetweenMembers = true,
-                BracingStyle = "Block",
-                IndentString = "    "
-            };
-
-            using (StreamWriter sourceWriter = new StreamWriter(outputFileName)) { provider.GenerateCodeFromCompileUnit(compileUnit, sourceWriter, options); }
         }
     }
 }
