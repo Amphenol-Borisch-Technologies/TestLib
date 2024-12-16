@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace ABT.Test.TestLib.TestPlan {
+namespace ABT.Test.TestLib.TestConfig {
 
     public static class Serializing {
         public static void Serialize(TO to, String FileSpecificationXML) {

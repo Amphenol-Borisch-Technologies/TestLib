@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ABT.Test.TestLib.TestPlan {
+namespace ABT.Test.TestLib.TestConfig {
     internal static class Assertions {
         internal static Boolean TO(String Namespace, String Description, String TestGroups) { return true; }
         internal static Boolean TG(String Class, String Description, String CancelIfFail, String Independent, String Methods) { return true; }
