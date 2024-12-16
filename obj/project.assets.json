@@ -2267,11 +2267,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\Lib\\TestLib.csproj",
+      "projectUniqueName": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\TestLib\\TestLib.csproj",
       "projectName": "TestLib",
-      "projectPath": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\Lib\\TestLib.csproj",
+      "projectPath": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\TestLib\\TestLib.csproj",
       "packagesPath": "C:\\Users\\phils\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\Lib\\obj\\",
+      "outputPath": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\TestLib\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "UsingMicrosoftNETSdk": false,
