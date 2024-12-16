@@ -2267,9 +2267,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\Lib\\Lib.csproj",
+      "projectUniqueName": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\Lib\\TestLib.csproj",
       "projectName": "TestLib",
-      "projectPath": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\Lib\\Lib.csproj",
+      "projectPath": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\Lib\\TestLib.csproj",
       "packagesPath": "C:\\Users\\phils\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\Lib\\obj\\",
       "projectStyle": "PackageReference",

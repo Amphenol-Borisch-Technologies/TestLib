@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
-using ABT.Test.Lib.AppConfig;
+using ABT.Test.TestLib.AppConfig;
 
-namespace ABT.Test.Lib {
+namespace ABT.Test.TestLib {
     public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, IGNORE, PASS, UNSET }
 
     public static class TestLib {

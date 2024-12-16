@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace ABT.Test.Lib {
+namespace ABT.Test.TestLib {
     public class TimerMilliSeconds {
         private readonly Int32 _milliSeconds;
         private readonly DateTime _start;

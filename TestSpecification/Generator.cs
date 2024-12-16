@@ -5,7 +5,7 @@ using System.IO;
 using System.Xml.Serialization;
 using Microsoft.CSharp;
 
-namespace ABT.Test.Lib.TestSpecification {
+namespace ABT.Test.TestLib.TestSpecification {
 
     public static class Generator {
         public static void Generate(String FileImplementationCSharp) {
@@ -16,7 +16,7 @@ namespace ABT.Test.Lib.TestSpecification {
             CodeNamespace nameSpace = new CodeNamespace(to.Namespace);
             nameSpace.Imports.Add(new CodeNamespaceImport("System"));
             nameSpace.Imports.Add(new CodeNamespaceImport("System.Diagnostics"));
-            nameSpace.Imports.Add(new CodeNamespaceImport("static ABT.Test.Lib.TestSpecification "));
+            nameSpace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestSpecification "));
             CodeCompileUnit compileUnit = new CodeCompileUnit();
             _ = compileUnit.Namespaces.Add(nameSpace);
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ABT.Test.Lib.InstrumentDrivers.Interfaces {
+namespace ABT.Test.TestLib.InstrumentDrivers.Interfaces {
     public enum AC { Amps, Volts }
     public enum DC { Amps, Volts }
     public enum OUTPUTS2 { OUTput1, OUTput2 };

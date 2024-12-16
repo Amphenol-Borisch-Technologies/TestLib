@@ -1,9 +1,9 @@
 ﻿﻿using System;
 using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.AgE363x_1_7;
-using ABT.Test.Lib.InstrumentDrivers.Interfaces;
+using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 
-namespace ABT.Test.Lib.InstrumentDrivers.PowerSupplies  {
+namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies  {
     public class PS_E3634A_SCPI_NET : AgE363x, IInstruments, IPowerSupplyOutputs1 {
         public enum RANGE { P25V, P50V }
 

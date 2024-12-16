@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace ABT.Test.Lib.AppConfig {
+namespace ABT.Test.TestLib.AppConfig {
     public enum UNITS_SI { amperes, celcius, farads, henries, hertz, NotApplicable, ohms, seconds, siemens, volt_amperes, volts, watts }
     public enum UNITS_SI_MODIFIER { AC, DC, Peak, PP, NotApplicable, RMS }
 

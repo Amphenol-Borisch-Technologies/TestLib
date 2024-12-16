@@ -5,9 +5,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
-using ABT.Test.Lib.InstrumentDrivers.Interfaces;
+using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 
-namespace ABT.Test.Lib.InstrumentDrivers.Multifunction {
+namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
     public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IRelays, IDiagnostics {
         public enum SLOTS { S1 = 1, S2 = 2, S3 = 3, S4 = 4, S5 = 5, S6 = 6, S7 = 7, S8 = 8 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ABT.Test.Lib.InstrumentDrivers.Interfaces {
+namespace ABT.Test.TestLib.InstrumentDrivers.Interfaces {
     public interface IDiagnostics { (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null); }
 
     public class DiagnosticsResult {
