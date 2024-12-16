@@ -11,6 +11,12 @@
   //  
     -->
 
+  <xs:simpleType name="ValidCSharpNamespace">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(?:[A-Za-z_][A-Za-z0-9_]*)(?:\.[A-Za-z_][A-Za-z0-9_]*)*"/>
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="UniqueCSharpIdentifier">
     <xs:restriction base="xs:ID">
       <xs:pattern value="[a-zA-Z_][a-zA-Z0-9_]{1,1023}"/>
@@ -529,13 +535,13 @@
       <xs:sequence>
         <xs:element name="TG" type="TestGroup" minOccurs="1" maxOccurs="unbounded"/>
       </xs:sequence>
-      <xs:attribute name="Namespace" type="UniqueCSharpIdentifier" use="required">
+      <xs:attribute name="Namespace" type="ValidCSharpNamespace" use="required">
         <xs:annotation>
           <xs:documentation xml:lang="en">
             <![CDATA[
               Namespace attribute:
               - Required.
-              - Type: UniqueCSharpIdentifier.
+              - Type: ValidCSharpNamespace.
           
               Name of C# Namespace TestGroup's Class file is a part of.
               - Note, Namespaces are not Windows Folder names, even if both can be identically named and are often conflated.
