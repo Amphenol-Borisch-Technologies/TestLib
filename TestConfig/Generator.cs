@@ -2,21 +2,22 @@
 using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.IO;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 using Microsoft.CSharp;
 
 namespace ABT.Test.TestLib.TestConfig {
 
     public static class Generator {
-        public static void Generate(String FileImplementationCSharp) {
-            if (!Directory.Exists(Path.GetDirectoryName(FileImplementationCSharp))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(FileImplementationCSharp)}' does not exist.");
+        public static void Generate(String FileSpecificationXML) {
+            if (!Directory.Exists(Path.GetDirectoryName(FileSpecificationXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(FileSpecificationXML)}' does not exist.");
             TO to;
-            using (FileStream fileStream = new FileStream(FileImplementationCSharp, FileMode.Create)) { to = (TO)(new XmlSerializer(typeof(TO))).Deserialize(fileStream); }
+            using (FileStream fileStream = new FileStream(FileSpecificationXML, FileMode.Open)) { to = (TO)(new XmlSerializer(typeof(TO))).Deserialize(fileStream); }
 
             CodeNamespace codeNameSpace = new CodeNamespace(to.Namespace);
             codeNameSpace.Imports.Add(new CodeNamespaceImport("System"));
             codeNameSpace.Imports.Add(new CodeNamespaceImport("System.Diagnostics"));
-            codeNameSpace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestConfig "));
+            codeNameSpace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestConfig.Assertions"));
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
             _ = codeCompileUnit.Namespaces.Add(codeNameSpace);
 
@@ -34,6 +35,9 @@ namespace ABT.Test.TestLib.TestConfig {
                 IndentString = "    "
             };
 
+            String ns = to.Namespace.LastIndexOf('.') == -1 ? to.Namespace : to.Namespace.Substring(to.Namespace.LastIndexOf('.') + 1);
+
+            String FileImplementationCSharp = Path.GetDirectoryName(FileSpecificationXML) + @"\" + ns + ".new.cs";
             using (StreamWriter streamWriter = new StreamWriter(FileImplementationCSharp)) { cSharpCodeProvider.GenerateCodeFromCompileUnit(codeCompileUnit, streamWriter, codeGeneratorOptions); }
         }
 
