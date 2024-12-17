@@ -75,7 +75,7 @@ namespace ABT.Test.TestLib.TestConfig {
 
             if (!validSpecification) {
                 stringBuilder.AppendLine($"Invalid XML Test Specification File: file:///{FileSpecificationXML}.{Environment.NewLine}");
-                CustomMessageBox.Show(Title: "Invalid XML Test Specification File", Message: stringBuilder.ToString(), OptionalIcon: System.Drawing.SystemIcons.Error);
+                Miscellaneous.CustomMessageBox.Show(Title: "Invalid XML Test Specification File", Message: stringBuilder.ToString(), OptionalIcon: System.Drawing.SystemIcons.Error);
             }
             return validSpecification;
         }

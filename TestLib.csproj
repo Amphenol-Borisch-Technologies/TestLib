@@ -118,10 +118,10 @@
       <DependentUpon>SelectTests.cs</DependentUpon>
     </Compile>
     <Compile Include="TestConfig\Assertions.cs" />
-    <Compile Include="CustomMessageBox.cs">
+    <Compile Include="Miscellaneous\CustomMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomMessageBox.Designer.cs">
+    <Compile Include="Miscellaneous\CustomMessageBox.Designer.cs">
       <DependentUpon>CustomMessageBox.cs</DependentUpon>
     </Compile>
     <Compile Include="TestConfig\Serializing.cs" />
@@ -188,7 +188,7 @@
       <DependentUpon>SelectTests.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomMessageBox.resx">
+    <EmbeddedResource Include="Miscellaneous\CustomMessageBox.resx">
       <DependentUpon>CustomMessageBox.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
