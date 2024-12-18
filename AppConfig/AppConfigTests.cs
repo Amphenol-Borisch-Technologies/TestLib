@@ -4,22 +4,21 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using ABT.Test.TestLib.TestConfig;
 
 namespace ABT.Test.TestLib.AppConfig {
-    public enum UNITS_SI { amperes, celcius, farads, henries, hertz, NotApplicable, ohms, seconds, siemens, volt_amperes, volts, watts }
-    public enum UNITS_SI_MODIFIER { AC, DC, Peak, PP, NotApplicable, RMS }
 
-    public abstract class MeasurementAbstract {
-        public const Char SA = '|'; // Arguments separator character.  Must match Arguments separator character used in Tests's App.config.
-        public const Char SK = '='; // Key/Values separator character.  Must match Key/Values separator character used in Tests's App.config.
+    public abstract class MeasurementAbstract {                                                                                 // Superceded by M.
+        public const Char SA = '|';                                                                                             // Obsolete field.
+        public const Char SK = '=';                                                                                             // Obsolete field.
 
-        private protected MeasurementAbstract() { }
+        private protected MeasurementAbstract() { }                                                                             // Obsolete; no constructor needed.
 
-        public abstract String ArgumentsGet();
+        public abstract String ArgumentsGet();                                                                                  // Superceded by AssertionM().
 
         public static Dictionary<String, String> ArgumentsSplit(String Arguments) {
             Dictionary<String, String> argDictionary = new Dictionary<String, String>();
-            if (String.Equals(Arguments, MeasurementCustom.NOT_APPLICABLE)) argDictionary.Add(MeasurementCustom.NOT_APPLICABLE, MeasurementCustom.NOT_APPLICABLE);
+            if (String.Equals(Arguments, MeasurementCustom.NONE)) argDictionary.Add(MeasurementCustom.NONE, MeasurementCustom.NONE);
             else {
                 String[] args = Arguments.Split(SA);
                 String[] kvp;
@@ -29,19 +28,19 @@ namespace ABT.Test.TestLib.AppConfig {
                 }
             }
             return argDictionary;
-        }
+        }                                                                                                                       // Superceded by M's properties.
 
         public static String ArgumentsJoin(Dictionary<String, String> Arguments) {
             IEnumerable<String> keys = Arguments.Select(a => String.Format($"{a.Key}{Char.ToString(SK)}{a.Value}"));
             return String.Join(Char.ToString(SA), keys);
-        }
+        }                                                                                                                       // Superceded by AssertionM().
 
-        internal abstract void ArgumentsValidate(String id, String arguments, Dictionary<String, String> argsDict);
+        internal abstract void ArgumentsValidate(String id, String arguments, Dictionary<String, String> argsDict);             // Superceded by C:\Users\phils\source\repos\ABT\Test\TestLib\TestConfig\TestPlan.xsd
     }
 
-    public class MeasurementCustom : MeasurementAbstract {
-        public readonly String Arguments;
-        public static readonly String NOT_APPLICABLE = Enum.GetName(typeof(UNITS_SI), UNITS_SI.NotApplicable);
+    public class MeasurementCustom : MeasurementAbstract {                                                                      // Superceded by MC.
+        public readonly String Arguments;                                                                                       // Superceded by MC's properties.
+        public static readonly String NONE = Enum.GetName(typeof(MI_Units), MI_Units.NONE);
 
         public MeasurementCustom(String ID, String Arguments) {
             Dictionary<String, String> argsDict = ArgumentsSplit(Arguments);
@@ -53,7 +52,7 @@ namespace ABT.Test.TestLib.AppConfig {
 
         internal override void ArgumentsValidate(String id, String arguments, Dictionary<String, String> argsDict) {
             if (argsDict.Count == 0) throw new ArgumentException($"{nameof(MeasurementCustom)} ID '{id}' requires 1 or more case-sensitive arguments:{Environment.NewLine}" +
-                $"   Example: '{NOT_APPLICABLE}'{Environment.NewLine}" +
+                $"   Example: '{NONE}'{Environment.NewLine}" +
                 $"   Or     : 'Key{SK}Value'{Environment.NewLine}" +
                 $"   Or     : 'Key1{SK}Value1{SA}{Environment.NewLine}" +
                 $"             Key2{SK}Value2{SA}{Environment.NewLine}" +
@@ -63,11 +62,11 @@ namespace ABT.Test.TestLib.AppConfig {
     }
 
     public class MeasurementNumeric : MeasurementAbstract {
-        public readonly Double Low;                                                                   private const String _LOW = nameof(Low);
-        public readonly Double High;                                                                  private const String _HIGH = nameof(High);
-        public readonly Int32 FD;                                                                     private const String _FD = nameof(FD);
-        public readonly UNITS_SI Units_SI = UNITS_SI.NotApplicable;                                   private const String _UNITS_SI = nameof(Units_SI);
-        public readonly UNITS_SI_MODIFIER Units_SI_Modifier = UNITS_SI_MODIFIER.NotApplicable;        private const String _UNITS_SI_MODIFIER = nameof(Units_SI_Modifier);
+        public readonly Double Low;                                                 private const String _LOW = nameof(Low);
+        public readonly Double High;                                                private const String _HIGH = nameof(High);
+        public readonly Int32 FD;                                                   private const String _FD = nameof(FD);
+        public readonly MI_Units Units_SI = MI_Units.NONE;                          private const String _UNITS_SI = nameof(Units_SI);
+        public readonly MI_UnitSuffix Units_SI_Modifier = MI_UnitSuffix.NONE;       private const String _UNITS_SI_MODIFIER = nameof(Units_SI_Modifier);
 
         public MeasurementNumeric(String ID, String Arguments) {
             Dictionary<String, String> argsDict = ArgumentsSplit(Arguments);
@@ -76,12 +75,12 @@ namespace ABT.Test.TestLib.AppConfig {
             Low = Double.Parse(argsDict[_LOW], NumberStyles.Float, CultureInfo.CurrentCulture);
             FD = Int32.Parse(argsDict[_FD], NumberStyles.Integer, CultureInfo.CurrentCulture);
 
-            String[] units_si = Enum.GetNames(typeof(UNITS_SI)).Select(s => s.ToLower()).ToArray();
+            String[] units_si = Enum.GetNames(typeof(MI_Units)).Select(s => s.ToLower()).ToArray();
             if (units_si.Any(argsDict[_UNITS_SI].ToLower().Contains)) {
-                Units_SI = (UNITS_SI)Enum.Parse(typeof(UNITS_SI), argsDict[_UNITS_SI], ignoreCase: true);
-                String[] si_units_modifiers = Enum.GetNames(typeof(UNITS_SI_MODIFIER)).Select(s => s.ToLower()).ToArray();
+                Units_SI = (MI_Units)Enum.Parse(typeof(MI_Units), argsDict[_UNITS_SI], ignoreCase: true);
+                String[] si_units_modifiers = Enum.GetNames(typeof(MI_UnitSuffix)).Select(s => s.ToLower()).ToArray();
                 if (si_units_modifiers.Any(argsDict[_UNITS_SI_MODIFIER].ToLower().Contains)) {
-                    Units_SI_Modifier = (UNITS_SI_MODIFIER)Enum.Parse(typeof(UNITS_SI_MODIFIER), argsDict[_UNITS_SI_MODIFIER], ignoreCase: true);
+                    Units_SI_Modifier = (MI_UnitSuffix)Enum.Parse(typeof(MI_UnitSuffix), argsDict[_UNITS_SI_MODIFIER], ignoreCase: true);
                 }
             }
         }
@@ -190,18 +189,18 @@ namespace ABT.Test.TestLib.AppConfig {
     }
 
     public class AppConfigTest {
-        public readonly String TestElementID;
-        public readonly Boolean IsOperation;
-        public readonly String TestElementDescription;
-        public readonly String TestElementRevision;
-        public readonly List<String> GroupIDsSequence = new List<String>();
-        public readonly Dictionary<String, Group> Groups = new Dictionary<String, Group>();
-        public readonly Dictionary<String, List<String>> GroupIDsToMeasurementIDs = new Dictionary<String, List<String>>();
-        public readonly List<String> TestMeasurementIDsSequence = new List<String>();
-        public readonly Dictionary<String, Measurement> Measurements = new Dictionary<String, Measurement>();
-        public readonly Int32 FormattingLengthGroupID = 0;
-        public readonly Int32 FormattingLengthMeasurementID = 0;
-        public Statistics Statistics { get; set; } = new Statistics();
+        public readonly String TestElementID;                                                                                   // TO.Namespace
+        public readonly Boolean IsOperation;                                                                                    // Always true for TO.  True or false for TG.
+        public readonly String TestElementDescription;                                                                          // TO.Description.
+        public readonly String TestElementRevision;                                                                             // Obsolete field.
+        public readonly List<String> GroupIDsSequence = new List<String>();                                                     // TO.TestGroups contains both sequence & TG objects.
+        public readonly Dictionary<String, Group> Groups = new Dictionary<String, Group>();                                     // TO.TestGroups contains both sequence & TG objects.
+        public readonly Dictionary<String, List<String>> GroupIDsToMeasurementIDs = new Dictionary<String, List<String>>();     // Obsolete field.
+        public readonly List<String> TestMeasurementIDsSequence = new List<String>();                                           // TG.Methods contains both sequence & M objects.
+        public readonly Dictionary<String, Measurement> Measurements = new Dictionary<String, Measurement>();                   // TG.Methods contains both sequence & M objects.
+        public readonly Int32 FormattingLengthGroupID = 0;                                                                      // Added to TO.
+        public readonly Int32 FormattingLengthMeasurementID = 0;                                                                // Added to TO.
+        public Statistics Statistics { get; set; } = new Statistics();                                                          // Added to TO.
         private AppConfigTest() {
             Dictionary<String, Operation> allOperations = Operation.Get();
             Dictionary<String, Group> allGroups = Group.Get();
@@ -240,9 +239,9 @@ namespace ABT.Test.TestLib.AppConfig {
 
             IEnumerable<String> duplicateIDs = TestMeasurementIDsSequence.GroupBy(x => x).Where(g => g.Count() > 1).Select(x => x.Key);
             if (duplicateIDs.Count() !=0) throw new InvalidOperationException($"Duplicated TestMeasurementIDs '{String.Join("', '", duplicateIDs)}'.");
-        }
+        }                                                                                             // Obsolete; no constructor needed.                                   
 
-        public static AppConfigTest Get() { return new AppConfigTest(); }
+        public static AppConfigTest Get() { return new AppConfigTest(); }                                                       // Obsolete; no constructor needed.
 
         public String StatisticsDisplay() {
             const Int32 L = 6;
@@ -256,61 +255,10 @@ namespace ABT.Test.TestLib.AppConfig {
             sb.AppendLine($"------");
             sb.AppendLine($"Total     : {Statistics.Tested(),L}");
             return sb.ToString();
-        }
+        }                                                                                   // Added to TO.
 
-        public String StatisticsStatus() { return $"   Failed: {Statistics.Failed}     Passed: {Statistics.Passed}   "; }
+        public String StatisticsStatus() { return $"   Failed: {Statistics.Failed}     Passed: {Statistics.Passed}   "; }       // Added to TO.
 
-        public String StatusTime() { return $"   Time: {Statistics.Time()}"; }
-    }
-
-    public class Statistics {
-        public UInt32 Cancelled = 0;
-        public UInt32 EmergencyStopped = 0;
-        public UInt32 Errored = 0;
-        public UInt32 Failed = 0;
-        public UInt32 Ignored = 0;
-        public UInt32 Passed = 0;
-        private readonly DateTime TestSelected = DateTime.Now;
-
-        public Statistics() { }
-
-        public void Update(EVENTS Event) { 
-            switch(Event) {
-                case EVENTS.CANCEL:
-                    Cancelled++;
-                    break;
-                case EVENTS.EMERGENCY_STOP:
-                    EmergencyStopped++;
-                    break;
-                case EVENTS.ERROR:
-                    Errored++;
-                    break;
-                case EVENTS.FAIL:
-                    Failed++;
-                    break;
-                case EVENTS.IGNORE:
-                    Ignored++;
-                    break;
-                case EVENTS.PASS:
-                    Passed++;
-                    break;
-                case EVENTS.UNSET:
-                    throw new ArgumentException($"Event '{Event}' illegal argument for {System.Reflection.MethodBase.GetCurrentMethod().Name}.");
-                default:
-                    throw new NotImplementedException($"Event '{Event}' not implemented.");
-            }
-        }
-
-        public String Time() {
-            TimeSpan elapsedTime = DateTime.Now - TestSelected;
-            return $"{(elapsedTime.Days != 0 ? elapsedTime.Days.ToString() + ":" : String.Empty)}{elapsedTime.Hours}:{elapsedTime.Minutes:00}";
-        }
-        public Double PercentCancelled() { return Convert.ToDouble(Cancelled) / Convert.ToDouble(Tested()); }
-        public Double PercentEmergencyStopped() { return Convert.ToDouble(EmergencyStopped) / Convert.ToDouble(Tested()); }
-        public Double PercentErrored() { return Convert.ToDouble(Errored) / Convert.ToDouble(Tested()); }
-        public Double PercentFailed() { return Convert.ToDouble(Failed) / Convert.ToDouble(Tested()); }
-        public Double PercentIgnored() { return Convert.ToDouble(Ignored) / Convert.ToDouble(Tested()); }
-        public Double PercentPassed() { return Convert.ToDouble(Passed) / Convert.ToDouble(Tested()); }
-        public UInt32 Tested() { return Cancelled + EmergencyStopped + Errored + Failed + Ignored + Passed; }
+        public String StatusTime() { return $"   Time: {Statistics.Time()}"; }                                                  // Added to TO.
     }
 }

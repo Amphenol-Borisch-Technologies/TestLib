@@ -193,6 +193,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="TestConfig\TestPlan - Copy.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="TestConfig\TestPlan.xsd">
       <SubType>Designer</SubType>
     </None>
