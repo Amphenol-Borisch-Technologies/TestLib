@@ -13,8 +13,8 @@ namespace ABT.Test.TestLib.AppConfig {
             IEnumerable<XElement> IS = XElement.Load(ConfigurationTestExec).Elements("InstrumentsStationary");
             // Now add InstrumentsStationary listed in app.config, but must first read their Address, Detail & ClassName from TestExec.ConfigurationTestExec.
             foreach (KeyValuePair<String, String> kvp in InstrumentsStationary) {
-                var v = IS.Descendants("InstrumentStationary").FirstOrDefault(e => (String)e.Attribute("ID") == kvp.Key) ?? throw new ArgumentException($"Instrument with ID '{kvp.Key}' not present in file '{ConfigurationTestExec}'.");
-                Instruments.Add(kvp.Key, Activator.CreateInstance(Type.GetType(kvp.Value), new Object[] { v.Attribute("Address").Value, v.Attribute("Detail").Value }));
+                XElement XE = IS.Descendants("InstrumentStationary").FirstOrDefault(xe => (String)xe.Attribute("ID") == kvp.Key) ?? throw new ArgumentException($"Instrument with ID '{kvp.Key}' not present in file '{ConfigurationTestExec}'.");
+                Instruments.Add(kvp.Key, Activator.CreateInstance(Type.GetType(kvp.Value), new Object[] { XE.Attribute("Address").Value, XE.Attribute("Detail").Value }));
             }
             return Instruments;
         }
