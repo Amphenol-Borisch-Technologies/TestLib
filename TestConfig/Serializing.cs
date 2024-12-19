@@ -6,20 +6,20 @@ using System.Xml.Serialization;
 namespace ABT.Test.TestLib.TestConfig {
 
     public static class Serializing {
-        public static void Serialize(TO to, String FileSpecificationXML) {
-            if (!Directory.Exists(Path.GetDirectoryName(FileSpecificationXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(FileSpecificationXML)}' does not exist.");
-            using (FileStream fileStream = new FileStream(FileSpecificationXML, FileMode.Create)) new XmlSerializer(typeof(TO)).Serialize(fileStream, to);
+        public static void Serialize(TO to, String FileSpecXML) {
+            if (!Directory.Exists(Path.GetDirectoryName(FileSpecXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(FileSpecXML)}' does not exist.");
+            using (FileStream fileStream = new FileStream(FileSpecXML, FileMode.Create)) new XmlSerializer(typeof(TO)).Serialize(fileStream, to);
         }
 
-        public static TO Deserialize(String FileSpecificationXML) {
-            if (!File.Exists(FileSpecificationXML)) throw new ArgumentException($"XML Test Specification File '{FileSpecificationXML}' does not exist.");
+        public static TO Deserialize(String FileSpecXML) {
+            if (!File.Exists(FileSpecXML)) throw new ArgumentException($"XML Test Specification File '{FileSpecXML}' does not exist.");
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(TO));
-            using (FileStream fileStream = new FileStream(FileSpecificationXML, FileMode.Open)) return (TO)xmlSerializer.Deserialize(fileStream);
+            using (FileStream fileStream = new FileStream(FileSpecXML, FileMode.Open)) return (TO)xmlSerializer.Deserialize(fileStream);
         }
 
         public static String Format(TO to) {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine($"{nameof(TO.Namespace)}   : {to.Namespace}");
+            stringBuilder.AppendLine($"{nameof(TO.NamespaceLeaf)}   : {to.NamespaceLeaf}");
             stringBuilder.AppendLine($"{nameof(TO.Description)} : {to.Description}");
             foreach (TG tg in to.TestGroups) {
                 stringBuilder.AppendLine();
@@ -36,7 +36,7 @@ namespace ABT.Test.TestLib.TestConfig {
                     else {
                         StringBuilder sb = new StringBuilder();
                         sb.AppendLine($"Method '{nameof(M.Method)}' not implemented:");
-                        sb.AppendLine($"\t{nameof(TO.Namespace)}   : {to.Namespace}");
+                        sb.AppendLine($"\t{nameof(TO.NamespaceLeaf)}   : {to.NamespaceLeaf}");
                         sb.AppendLine($"\t{nameof(TO.Description)} : {to.Description}");
                         sb.AppendLine($"\t\t{nameof(TG.Class)}        : {tg.Class}");
                         sb.AppendLine($"\t\t{nameof(TG.Description)}  : {tg.Description}");
