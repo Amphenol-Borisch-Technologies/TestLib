@@ -6,15 +6,15 @@ using System.Xml.Serialization;
 namespace ABT.Test.TestLib.TestConfig {
 
     public static class Serializing {
-        public static void Serialize(NS ns, String FileSpecXML) {
-            if (!Directory.Exists(Path.GetDirectoryName(FileSpecXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(FileSpecXML)}' does not exist.");
-            using (FileStream fileStream = new FileStream(FileSpecXML, FileMode.Create)) new XmlSerializer(typeof(NS)).Serialize(fileStream, ns);
+        public static void Serialize(NS ns, String TestSpecXML) {
+            if (!Directory.Exists(Path.GetDirectoryName(TestSpecXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(TestSpecXML)}' does not exist.");
+            using (FileStream fileStream = new FileStream(TestSpecXML, FileMode.Create)) new XmlSerializer(typeof(NS)).Serialize(fileStream, ns);
         }
 
-        public static NS Deserialize(String FileSpecXML) {
-            if (!File.Exists(FileSpecXML)) throw new ArgumentException($"XML Test Specification File '{FileSpecXML}' does not exist.");
+        public static NS Deserialize(String TestSpecXML) {
+            if (!File.Exists(TestSpecXML)) throw new ArgumentException($"XML Test Specification File '{TestSpecXML}' does not exist.");
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(NS));
-            using (FileStream fileStream = new FileStream(FileSpecXML, FileMode.Open)) return (NS)xmlSerializer.Deserialize(fileStream);
+            using (FileStream fileStream = new FileStream(TestSpecXML, FileMode.Open)) return (NS)xmlSerializer.Deserialize(fileStream);
         }
 
         public static String Format(NS ns) {

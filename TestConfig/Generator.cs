@@ -9,10 +9,10 @@ using Microsoft.CSharp;
 namespace ABT.Test.TestLib.TestConfig {
 
     public static class Generator {
-        public static void Generate(String FileSpecXML) {
-            if (!Directory.Exists(Path.GetDirectoryName(FileSpecXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(FileSpecXML)}' does not exist.");
+        public static void Generate(String TestSpecXML) {
+            if (!Directory.Exists(Path.GetDirectoryName(TestSpecXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(TestSpecXML)}' does not exist.");
             NS ns;
-            using (FileStream fileStream = new FileStream(FileSpecXML, FileMode.Open)) { ns = (NS)(new XmlSerializer(typeof(NS))).Deserialize(fileStream); }
+            using (FileStream fileStream = new FileStream(TestSpecXML, FileMode.Open)) { ns = (NS)(new XmlSerializer(typeof(NS))).Deserialize(fileStream); }
             CodeCompileUnit codeCompileUnit=new CodeCompileUnit();
 
             for (Int32 testOperation = 0; testOperation < ns.TestOperations.Count; testOperation++) {
@@ -33,7 +33,7 @@ namespace ABT.Test.TestLib.TestConfig {
                 IndentString = "    "
             };
 
-            String FileImplementationCSharp = Path.GetDirectoryName(FileSpecXML) + @"\" + Path.GetFileNameWithoutExtension(FileSpecXML) + ".new.cs";
+            String FileImplementationCSharp = Path.GetDirectoryName(TestSpecXML) + @"\" + "TestImplementation.cs";
             using (StreamWriter streamWriter = new StreamWriter(FileImplementationCSharp)) { cSharpCodeProvider.GenerateCodeFromCompileUnit(codeCompileUnit, streamWriter, codeGeneratorOptions); }
         }
 

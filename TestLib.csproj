@@ -193,7 +193,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="TestConfig\TestSpec.xsd">
+    <None Include="TestConfig\TestSpecification.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
