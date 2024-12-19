@@ -551,15 +551,15 @@
     <xs:attribute ref="Description" use="required"/>
   </xs:complexType>
 
-  <xs:element name="NS">
+  <xs:element name="TS">
     <xs:annotation>
       <xs:documentation xml:lang="en">
         <![CDATA[
-          NS element:
+          TS element:
           - Required, 1 occurrence.
-          - Type: NameSpace.
+          - Type: root element.
           
-          Root element, container for 1 or more TO elements of type TestOperation.
+          - Test Specification root element, container for 1 or more TO elements of type TestOperation.
         ]]>
       </xs:documentation>
     </xs:annotation>

@@ -6,22 +6,22 @@ using System.Xml.Serialization;
 namespace ABT.Test.TestLib.TestConfig {
 
     public static class Serializing {
-        public static void Serialize(NS ns, String TestSpecXML) {
+        public static void Serialize(TS ts, String TestSpecXML) {
             if (!Directory.Exists(Path.GetDirectoryName(TestSpecXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(TestSpecXML)}' does not exist.");
-            using (FileStream fileStream = new FileStream(TestSpecXML, FileMode.Create)) new XmlSerializer(typeof(NS)).Serialize(fileStream, ns);
+            using (FileStream fileStream = new FileStream(TestSpecXML, FileMode.Create)) new XmlSerializer(typeof(TS)).Serialize(fileStream, ts);
         }
 
-        public static NS Deserialize(String TestSpecXML) {
+        public static TS Deserialize(String TestSpecXML) {
             if (!File.Exists(TestSpecXML)) throw new ArgumentException($"XML Test Specification File '{TestSpecXML}' does not exist.");
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(NS));
-            using (FileStream fileStream = new FileStream(TestSpecXML, FileMode.Open)) return (NS)xmlSerializer.Deserialize(fileStream);
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(TS));
+            using (FileStream fileStream = new FileStream(TestSpecXML, FileMode.Open)) return (TS)xmlSerializer.Deserialize(fileStream);
         }
 
-        public static String Format(NS ns) {
+        public static String Format(TS ts) {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine($"{nameof(NS.NamespaceRoot)}   : {ns.NamespaceRoot}");
-            stringBuilder.AppendLine($"{nameof(TO.Description)} : {ns.Description}");
-            foreach (TO to in ns.TestOperations) {
+            stringBuilder.AppendLine($"{nameof(TS.NamespaceRoot)}   : {ts.NamespaceRoot}");
+            stringBuilder.AppendLine($"{nameof(TO.Description)} : {ts.Description}");
+            foreach (TO to in ts.TestOperations) {
                 stringBuilder.AppendLine($"{nameof(TO.NamespaceLeaf)}   : {to.NamespaceLeaf}");
                 stringBuilder.AppendLine($"{nameof(TO.Description)} : {to.Description}");
                 foreach (TG tg in to.TestGroups) {

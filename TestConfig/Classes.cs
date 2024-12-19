@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 namespace ABT.Test.TestLib.TestConfig {
     public interface IAssertionCurrent { String AssertionCurrent(); }
 
-    [XmlRoot(nameof(NS))] public class NS : IAssertionCurrent {
+    [XmlRoot(nameof(TS))] public class TS : IAssertionCurrent {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(NamespaceRoot))] public String NamespaceRoot { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
@@ -46,17 +46,17 @@ namespace ABT.Test.TestLib.TestConfig {
         [XmlElement(nameof(TG))] public List<TG> TestGroups { get; set; }
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{NS.DEBUG_ASSERT}{GetType().Name}{NS.BEGIN}");
-            sb.Append($"{nameof(NamespaceLeaf)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(NamespaceLeaf)).GetValue(this))}{NS.CONTINUE}");
-            sb.Append($"{nameof(Description)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}");
-            sb.Append($"{NS.CONTINUE}{nameof(TestGroups)}{NS.CS}{TGs()}");
-            sb.Append($"{NS.END}");
+            sb.Append($"{TS.DEBUG_ASSERT}{GetType().Name}{TS.BEGIN}");
+            sb.Append($"{nameof(NamespaceLeaf)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(NamespaceLeaf)).GetValue(this))}{TS.CONTINUE}");
+            sb.Append($"{nameof(Description)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}");
+            sb.Append($"{TS.CONTINUE}{nameof(TestGroups)}{TS.CS}{TGs()}");
+            sb.Append($"{TS.END}");
             return sb.ToString();
         }
         private String TGs() {
             StringBuilder sb = new StringBuilder();
-            foreach (TG tg in TestGroups) sb.Append($"{tg.Class}{NS.DIVIDER}");
-            return NS.EF(sb.Remove(sb.Length - NS.DIVIDER.Length, NS.DIVIDER.Length).ToString()); // Remove trailing DIVIDER.
+            foreach (TG tg in TestGroups) sb.Append($"{tg.Class}{TS.DIVIDER}");
+            return TS.EF(sb.Remove(sb.Length - TS.DIVIDER.Length, TS.DIVIDER.Length).ToString()); // Remove trailing DIVIDER.
         }
     }
 
@@ -75,26 +75,26 @@ namespace ABT.Test.TestLib.TestConfig {
         public readonly Int32 FormattingLengthMeasurementID = 0;
         public Statistics Statistics { get; set; } = new Statistics();
 
-        public String AssertionPrior() { return $"{NS.DEBUG_ASSERT}{nameof(Assertions.TG_Prior)}{NS.BEGIN}{nameof(Class)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{NS.END}"; }
+        public String AssertionPrior() { return $"{TS.DEBUG_ASSERT}{nameof(Assertions.TG_Prior)}{TS.BEGIN}{nameof(Class)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{TS.END}"; }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{NS.DEBUG_ASSERT}{GetType().Name}{NS.BEGIN}");
-            sb.Append($"{nameof(Class)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{NS.CONTINUE}");
-            sb.Append($"{nameof(Description)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}{NS.CONTINUE}");
-            sb.Append($"{nameof(CancelIfFail)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(CancelIfFail)).GetValue(this).ToString().ToLower())}{NS.CONTINUE}");
-            sb.Append($"{nameof(Independent)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Independent)).GetValue(this).ToString().ToLower())}");
-            sb.Append($"{NS.CONTINUE}{nameof(Methods)}{NS.CS}{Ms()}");
-            sb.Append($"{NS.END}");
+            sb.Append($"{TS.DEBUG_ASSERT}{GetType().Name}{TS.BEGIN}");
+            sb.Append($"{nameof(Class)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{TS.CONTINUE}");
+            sb.Append($"{nameof(Description)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}{TS.CONTINUE}");
+            sb.Append($"{nameof(CancelIfFail)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(CancelIfFail)).GetValue(this).ToString().ToLower())}{TS.CONTINUE}");
+            sb.Append($"{nameof(Independent)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Independent)).GetValue(this).ToString().ToLower())}");
+            sb.Append($"{TS.CONTINUE}{nameof(Methods)}{TS.CS}{Ms()}");
+            sb.Append($"{TS.END}");
             return sb.ToString();
         }
         private String Ms() {
             StringBuilder sb = new StringBuilder();
-            foreach (M m in Methods) sb.Append($"{m.Method}{NS.DIVIDER}");
-            return NS.EF(sb.Remove(sb.Length - NS.DIVIDER.Length, NS.DIVIDER.Length).ToString()); // Remove trailing NS.DIVIDER.
+            foreach (M m in Methods) sb.Append($"{m.Method}{TS.DIVIDER}");
+            return TS.EF(sb.Remove(sb.Length - TS.DIVIDER.Length, TS.DIVIDER.Length).ToString()); // Remove trailing TS.DIVIDER.
         }
 
-        public String AssertionNext() { return $"{NS.DEBUG_ASSERT}{nameof(Assertions.TG_Next)}{NS.BEGIN}{nameof(Class)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{NS.END}"; }
+        public String AssertionNext() { return $"{TS.DEBUG_ASSERT}{nameof(Assertions.TG_Next)}{TS.BEGIN}{nameof(Class)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{TS.END}"; }
 
         public String StatisticsDisplay() {
             const Int32 L = 6;
@@ -122,17 +122,17 @@ namespace ABT.Test.TestLib.TestConfig {
         [XmlAttribute(nameof(CancelIfFail))] public Boolean CancelIfFail { get; set; }
         [XmlAttribute(nameof(Event))] public EVENTS Event { get; set; }
         [XmlAttribute(nameof(EventDetail))] public String EventDetail { get; set; }
-        public String AssertionPrior() { return $"{NS.DEBUG_ASSERT}{nameof(Assertions.M_Prior)}{NS.BEGIN}{nameof(Method)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{NS.END}"; }
+        public String AssertionPrior() { return $"{TS.DEBUG_ASSERT}{nameof(Assertions.M_Prior)}{TS.BEGIN}{nameof(Method)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{TS.END}"; }
 
         private protected String AssertionM() {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{nameof(Method)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{NS.CONTINUE}");
-            sb.Append($"{nameof(Description)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}{NS.CONTINUE}");
-            sb.Append($"{nameof(CancelIfFail)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(CancelIfFail)).GetValue(this).ToString().ToLower())}");
+            sb.Append($"{nameof(Method)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{TS.CONTINUE}");
+            sb.Append($"{nameof(Description)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}{TS.CONTINUE}");
+            sb.Append($"{nameof(CancelIfFail)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(CancelIfFail)).GetValue(this).ToString().ToLower())}");
             return sb.ToString();
         }
 
-        public String AssertionNext() { return $"{NS.DEBUG_ASSERT}{nameof(Assertions.M_Next)}{NS.BEGIN}{nameof(Method)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{NS.END}"; }
+        public String AssertionNext() { return $"{TS.DEBUG_ASSERT}{nameof(Assertions.M_Next)}{TS.BEGIN}{nameof(Method)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{TS.END}"; }
     }
 
     public class MC : M, IAssertionCurrent {
@@ -140,16 +140,16 @@ namespace ABT.Test.TestLib.TestConfig {
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{NS.DEBUG_ASSERT}{GetType().Name}{NS.BEGIN}");
+            sb.Append($"{TS.DEBUG_ASSERT}{GetType().Name}{TS.BEGIN}");
             sb.Append($"{AssertionM()}");
-            if (Parameters.Count > 0) sb.Append($"{NS.CONTINUE}{nameof(Parameters)}{NS.CS}{Ps()}");
-            sb.Append($"{NS.END}");
+            if (Parameters.Count > 0) sb.Append($"{TS.CONTINUE}{nameof(Parameters)}{TS.CS}{Ps()}");
+            sb.Append($"{TS.END}");
             return sb.ToString();
         }
         private String Ps() {
             StringBuilder sb = new StringBuilder();
-            foreach (Parameter p in Parameters) sb.Append($"{p.Key}={p.Value}{NS.DIVIDER}");
-            return NS.EF(sb.Remove(sb.Length - NS.DIVIDER.Length, NS.DIVIDER.Length).ToString()); // Remove trailing NS.DIVIDER.
+            foreach (Parameter p in Parameters) sb.Append($"{p.Key}={p.Value}{TS.DIVIDER}");
+            return TS.EF(sb.Remove(sb.Length - TS.DIVIDER.Length, TS.DIVIDER.Length).ToString()); // Remove trailing TS.DIVIDER.
         }
     }
 
@@ -172,16 +172,16 @@ namespace ABT.Test.TestLib.TestConfig {
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{NS.DEBUG_ASSERT}{GetType().Name}{NS.BEGIN}");
-            sb.Append($"{AssertionM()}{NS.CONTINUE}");
-            sb.Append($"{nameof(LowComparator)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(LowComparator)).GetValue(this))}{NS.CONTINUE}");
-            sb.Append($"{nameof(Low)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Low)).GetValue(this))}{NS.CONTINUE}");
-            sb.Append($"{nameof(High)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(High)).GetValue(this))}{NS.CONTINUE}");
-            sb.Append($"{nameof(HighComparator)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(HighComparator)).GetValue(this))}{NS.CONTINUE}");
-            sb.Append($"{nameof(FractionalDigits)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(FractionalDigits)).GetValue(this))}{NS.CONTINUE}");
-            sb.Append($"{nameof(UnitPrefix)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(UnitPrefix)).GetValue(this))}{NS.CONTINUE}");
-            sb.Append($"{nameof(Units)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Units)).GetValue(this))}{NS.CONTINUE}");
-            sb.Append($"{nameof(UnitSuffix)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(UnitSuffix)).GetValue(this))}{NS.END}");
+            sb.Append($"{TS.DEBUG_ASSERT}{GetType().Name}{TS.BEGIN}");
+            sb.Append($"{AssertionM()}{TS.CONTINUE}");
+            sb.Append($"{nameof(LowComparator)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(LowComparator)).GetValue(this))}{TS.CONTINUE}");
+            sb.Append($"{nameof(Low)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Low)).GetValue(this))}{TS.CONTINUE}");
+            sb.Append($"{nameof(High)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(High)).GetValue(this))}{TS.CONTINUE}");
+            sb.Append($"{nameof(HighComparator)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(HighComparator)).GetValue(this))}{TS.CONTINUE}");
+            sb.Append($"{nameof(FractionalDigits)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(FractionalDigits)).GetValue(this))}{TS.CONTINUE}");
+            sb.Append($"{nameof(UnitPrefix)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(UnitPrefix)).GetValue(this))}{TS.CONTINUE}");
+            sb.Append($"{nameof(Units)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Units)).GetValue(this))}{TS.CONTINUE}");
+            sb.Append($"{nameof(UnitSuffix)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(UnitSuffix)).GetValue(this))}{TS.END}");
             return sb.ToString();
         }
     }
@@ -201,12 +201,12 @@ namespace ABT.Test.TestLib.TestConfig {
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{NS.DEBUG_ASSERT}{GetType().Name}{NS.BEGIN}");
-            sb.Append($"{AssertionM()}{NS.CONTINUE}");
-            sb.Append($"{nameof(Path)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Path)).GetValue(this))}{NS.CONTINUE}");
-            sb.Append($"{nameof(Executable)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Executable)).GetValue(this))}{NS.CONTINUE}");
-            sb.Append($"{nameof(Parameters)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Parameters)).GetValue(this))}{NS.CONTINUE}");
-            sb.Append($"{nameof(Expected)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Expected)).GetValue(this))}{NS.END}");
+            sb.Append($"{TS.DEBUG_ASSERT}{GetType().Name}{TS.BEGIN}");
+            sb.Append($"{AssertionM()}{TS.CONTINUE}");
+            sb.Append($"{nameof(Path)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Path)).GetValue(this))}{TS.CONTINUE}");
+            sb.Append($"{nameof(Executable)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Executable)).GetValue(this))}{TS.CONTINUE}");
+            sb.Append($"{nameof(Parameters)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Parameters)).GetValue(this))}{TS.CONTINUE}");
+            sb.Append($"{nameof(Expected)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Expected)).GetValue(this))}{TS.END}");
             return sb.ToString();
         }
     }
@@ -217,9 +217,9 @@ namespace ABT.Test.TestLib.TestConfig {
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{NS.DEBUG_ASSERT}{GetType().Name}{NS.BEGIN}");
-            sb.Append($"{AssertionM()}{NS.CONTINUE}");
-            sb.Append($"{nameof(Text)}{NS.CS}{NS.EF(GetType().GetProperty(nameof(Text)).GetValue(this))}{NS.END}");
+            sb.Append($"{TS.DEBUG_ASSERT}{GetType().Name}{TS.BEGIN}");
+            sb.Append($"{AssertionM()}{TS.CONTINUE}");
+            sb.Append($"{nameof(Text)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Text)).GetValue(this))}{TS.END}");
             return sb.ToString();
         }
     }
