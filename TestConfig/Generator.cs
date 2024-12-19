@@ -11,20 +11,18 @@ namespace ABT.Test.TestLib.TestConfig {
     public static class Generator {
         public static void Generate(String FileSpecXML) {
             if (!Directory.Exists(Path.GetDirectoryName(FileSpecXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(FileSpecXML)}' does not exist.");
-            TO to;
-            using (FileStream fileStream = new FileStream(FileSpecXML, FileMode.Open)) { to = (TO)(new XmlSerializer(typeof(TO))).Deserialize(fileStream); }
+            NS ns;
+            using (FileStream fileStream = new FileStream(FileSpecXML, FileMode.Open)) { ns = (NS)(new XmlSerializer(typeof(NS))).Deserialize(fileStream); }
+            CodeCompileUnit codeCompileUnit=new CodeCompileUnit();
 
-            CodeNamespace codeNameSpace = new CodeNamespace(to.NamespaceLeaf);
-            codeNameSpace.Imports.Add(new CodeNamespaceImport("System"));
-            codeNameSpace.Imports.Add(new CodeNamespaceImport("System.Diagnostics"));
-            codeNameSpace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestConfig.Assertions"));
-            CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
-            _ = codeCompileUnit.Namespaces.Add(codeNameSpace);
-
-            for (Int32 testGroup = 0; testGroup < to.TestGroups.Count; testGroup++) {
-                CodeTypeDeclaration codeTypeDeclaration = AddClass(codeNameSpace, to.TestGroups[testGroup]);
-                for (Int32 method = 0; method < to.TestGroups[testGroup].Methods.Count; method++) {
-                    AddMethod(codeTypeDeclaration, to, testGroup, method);
+            for (Int32 testOperation = 0; testOperation < ns.TestOperations.Count; testOperation++) {
+                CodeNamespace codeNamespace = GetNamespace(ns, testOperation);
+                _ = codeCompileUnit.Namespaces.Add(codeNamespace);
+                for (Int32 testGroup = 0; testGroup < ns.TestOperations[testOperation].TestGroups.Count; testGroup++) {
+                    CodeTypeDeclaration codeTypeDeclaration = AddClass(codeNamespace,  ns.TestOperations[testOperation].TestGroups[testGroup]);
+                    for (Int32 method = 0; method <  ns.TestOperations[testOperation].TestGroups[testGroup].Methods.Count; method++) {
+                        AddMethod(codeTypeDeclaration,  ns.TestOperations[testOperation], testGroup, method);
+                    }
                 }
             }
 
@@ -35,18 +33,26 @@ namespace ABT.Test.TestLib.TestConfig {
                 IndentString = "    "
             };
 
-            String ns = to.NamespaceLeaf.LastIndexOf('.') == -1 ? to.NamespaceLeaf : to.NamespaceLeaf.Substring(to.NamespaceLeaf.LastIndexOf('.') + 1);
-
-            String FileImplementationCSharp = Path.GetDirectoryName(FileSpecXML) + @"\" + ns + ".new.cs";
+            String FileImplementationCSharp = Path.GetDirectoryName(FileSpecXML) + @"\" + Path.GetFileNameWithoutExtension(FileSpecXML) + ".new.cs";
             using (StreamWriter streamWriter = new StreamWriter(FileImplementationCSharp)) { cSharpCodeProvider.GenerateCodeFromCompileUnit(codeCompileUnit, streamWriter, codeGeneratorOptions); }
         }
 
-        private static CodeTypeDeclaration AddClass(CodeNamespace codeNameSpace, TG tg) {
+
+
+        private static CodeNamespace GetNamespace(NS ns, Int32 testOperation) {
+            CodeNamespace codeNamespace = new CodeNamespace(ns.NamespaceRoot + "." + ns.TestOperations[testOperation].NamespaceLeaf);
+            codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport("System.Diagnostics"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestConfig.Assertions"));
+            return codeNamespace;
+        }
+
+        private static CodeTypeDeclaration AddClass(CodeNamespace codeNamespace, TG tg) {
             CodeTypeDeclaration codeTypeDeclaration = new CodeTypeDeclaration(tg.Class) {
                 IsClass = true,
                 TypeAttributes = System.Reflection.TypeAttributes.NotPublic | System.Reflection.TypeAttributes.Class,
             };
-            _ = codeNameSpace.Types.Add(codeTypeDeclaration);
+            _ = codeNamespace.Types.Add(codeTypeDeclaration);
             return codeTypeDeclaration;
         }
 

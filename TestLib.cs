@@ -27,7 +27,7 @@ namespace ABT.Test.TestLib {
         public static AppConfigUUT ConfigUUT = AppConfigUUT.Get();
 
         public static AppConfigTest ConfigTest = null;  // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
-        public static TO TestOperation = null;          // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static NS Namespace = null;              // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static CancellationToken CT_Cancel;
         public static CancellationToken CT_EmergencyStop;
         public static String MeasurementIDPresent = String.Empty;

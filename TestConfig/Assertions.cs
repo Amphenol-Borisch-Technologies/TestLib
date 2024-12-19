@@ -2,7 +2,8 @@
 
 namespace ABT.Test.TestLib.TestConfig {
     public static class Assertions {
-        public static Boolean TO(String Namespace, String Description, String TestGroups) { return true; }
+        public static Boolean NS(String NamespaceRoot, String Description, String TestOperations) { return true; }
+        public static Boolean TO(String NamespaceLeaf, String Description, String TestGroups) { return true; }
         public static Boolean TG(String Class, String Description, String CancelIfFail, String Independent, String Methods) { return true; }
         public static Boolean TG_Prior(String Class) { return true; }
         public static Boolean TG_Next(String Class) { return true; }
