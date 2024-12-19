@@ -82,7 +82,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:attribute>
-  
+
   <xs:attributeGroup name="MethodAttributes">
     <xs:attribute name="Method" type="UniqueCSharpIdentifier" use="required">
       <xs:annotation>
@@ -519,33 +519,65 @@
     </xs:attribute>
   </xs:complexType>
 
-  <xs:element name="TO">
+  <xs:complexType name="TestOperation">
     <xs:annotation>
       <xs:documentation xml:lang="en">
         <![CDATA[
           TO element:
-          - Required, 1 occurrence.
+          - Required, 1 or more occurrences.
           - Type: TestOperation.
+                      
+          Container for 1 or more TG elements.
+        ]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="TG" type="TestGroup" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="NamespaceLeaf" type="ValidCSharpNamespace" use="required">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          <![CDATA[
+            Class attribute:
+            - Required.
+            - Type: ValidCSharpNamespace.
           
-          Root element, container for 1 or more TG elements of type TestGroup.
+            Terminating or "leaf" namespace of C# class in file in TestOperation's Namespace.
+            - Note, Class names are not Windows File names, even if both can be identically named and are often conflated.
+          ]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute ref="Description" use="required"/>
+  </xs:complexType>
+
+  <xs:element name="NS">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        <![CDATA[
+          NS element:
+          - Required, 1 occurrence.
+          - Type: NameSpace.
+          
+          Root element, container for 1 or more TO elements of type TestOperation.
         ]]>
       </xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="TG" type="TestGroup" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:element name="TO" minOccurs="1" maxOccurs="unbounded"/>
       </xs:sequence>
-      <xs:attribute name="Namespace" type="ValidCSharpNamespace" use="required">
+      <xs:attribute name="NamespaceRoot" type="ValidCSharpNamespace" use="required">
         <xs:annotation>
           <xs:documentation xml:lang="en">
             <![CDATA[
-              Namespace attribute:
-              - Required.
-              - Type: ValidCSharpNamespace.
+            Class attribute:
+            - Required.
+            - Type: ValidCSharpNamespace.
           
-              Name of C# Namespace TestGroup's Class file is a part of.
-              - Note, Namespaces are not Windows Folder names, even if both can be identically named and are often conflated.
-            ]]>
+            Beginning or "root" namespace of C# class in file in TestOperation's Namespace.
+            - Note, Class names are not Windows File names, even if both can be identically named and are often conflated.
+          ]]>
           </xs:documentation>
         </xs:annotation>
       </xs:attribute>
@@ -554,6 +586,10 @@
     <xs:unique name="UniqueClass">
       <xs:selector xpath="TG"/>
       <xs:field xpath="@Class"/>
+    </xs:unique>
+    <xs:unique name="UniqueNamespaceLeaf">
+      <xs:selector xpath="TO"/>
+      <xs:field xpath="@NamespaceLeaf"/>
     </xs:unique>
   </xs:element>
 </xs:schema>
