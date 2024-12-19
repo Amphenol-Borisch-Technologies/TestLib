@@ -565,7 +565,7 @@
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="TO" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:element name="TO" type="TestOperation" minOccurs="1" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute name="NamespaceRoot" type="ValidCSharpNamespace" use="required">
         <xs:annotation>
