@@ -37,8 +37,6 @@ namespace ABT.Test.TestLib.TestConfig {
             using (StreamWriter streamWriter = new StreamWriter(FileImplementationCSharp)) { cSharpCodeProvider.GenerateCodeFromCompileUnit(codeCompileUnit, streamWriter, codeGeneratorOptions); }
         }
 
-
-
         private static CodeNamespace GetNamespace(TS ts, Int32 testOperation) {
             CodeNamespace codeNamespace = new CodeNamespace(ts.NamespaceRoot + "." + ts.TestOperations[testOperation].NamespaceLeaf);
             codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
