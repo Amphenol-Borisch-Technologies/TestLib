@@ -1,76 +1,64 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using ABT.Test.TestLib.AppConfig;
 
 namespace ABT.Test.TestLib.TestConfig {
     public partial class TestSelect : Form {
-        public String Selection { get; private set; }
+        internal static (String ID, Int32 Index, Object TestObject) Selection { get; private set; }
 
         public TestSelect() {
             InitializeComponent();
-            ListSelections.MultiSelect = false;
-            radioButtonTestOperations.Checked = true;
-            radioButtonTestGroups.Checked = false;
-            radioButtonTestGroups.Enabled = true;
-            ListViewRefresh();
-            FormRefresh();
+            listTO.MultiSelect = false;
+            listTG.MultiSelect = false;
+            ListLoad(listTO);
         }
 
-        private void ListViewRefresh() {
-            ListSelections.Clear();
-            ListSelections.View = View.Details;
-            ListSelections.Columns.Add("ID");
-            ListSelections.Columns.Add("Description");
+        private void ListClear(ListView listView) {
+            listView.Clear();
+            listView.View = View.Details;
+            listView.Columns.Add("ID");
+            listView.Columns.Add("Description");
+            if (listView == listTG) {
+                OK.Enabled = false;
+                ListClear(listTG);
+            }
         }
 
-        private void FormRefresh() {
-            if (radioButtonTestOperations.Checked) foreach (TO to in TestLib.TestSpecification.TestOperations) ListSelections.Items.Add(new ListViewItem(new String[] { to.NamespaceLeaf, to.Description }));
-
-
-            else for (TG tg in TestLib.TestSpecification.TestOperations) if (kvp.Value.Selectable) ListSelections.Items.Add(new ListViewItem(new String[] { kvp.Key, kvp.Value.Description }));
-            ListSelections.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.ColumnContent);
-            ListSelections.Columns[1].Width = -2;
+        private void ListLoad(ListView listView) {
+            ListClear(listView);
+            if (listView == listTG) foreach (TO to in TestLib.TestSpecification.TestOperations) listTO.Items.Add(new ListViewItem(new String[] { to.NamespaceLeaf, to.Description }));
+            else foreach (TG tg in TestLib.TestSpecification.TestOperations[listTO.SelectedItems[0].Index].TestGroups) listTG.Items.Add(new ListViewItem(new String[] { tg.Class, tg.Description }));
+            listView.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.ColumnContent);
+            listView.Columns[1].Width = -2;
             // https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.columnheader.width?redirectedfrom=MSDN&view=windowsdesktop-7.0#System_Windows_Forms_ColumnHeader_Width
-            ListSelections.ResetText();
-            OK.Enabled = false;
+            listView.ResetText();
         }
 
         private void OK_Click(Object sender, EventArgs e) {
-            if (ListSelections.SelectedItems.Count == 1) {
-                Selection = ListSelections.SelectedItems[0].Text;
-
+            if (listTG.SelectedItems.Count == 1) {
+                Selection = (listTG.SelectedItems[0].Text, listTG.SelectedItems[0].Index, TestLib.TestSpecification.TestOperations[listTO.SelectedItems[0].Index].TestGroups[listTG.SelectedItems[0].Index] );
+                DialogResult = DialogResult.OK;
+            } else if (listTO.SelectedItems.Count == 1) {
+                Selection = (listTG.SelectedItems[0].Text, listTG.SelectedItems[0].Index, TestLib.TestSpecification.TestOperations[listTO.SelectedItems[0].Index]);
                 DialogResult = DialogResult.OK;
             }
         }
 
         private void List_MouseDoubleClick(Object sender, MouseEventArgs e) { OK_Click(sender, e); }
 
-        public static (String TestElementID, Boolean IsOperation) Get(Dictionary<String, Operation> testOperations, Dictionary<String, Group> testGroups) {
-            TestSelect selectTests = new TestSelect(testOperations, testGroups);
-            selectTests.ShowDialog(); // Waits until user clicks OK button.
-            String testElementID = selectTests.ListSelections.SelectedItems[0].Text;
-            Boolean isOperation = selectTests.radioButtonTestOperations.Checked;
-            selectTests.Dispose();
-            return (testElementID, isOperation);
+        public static (String ID, Int32 Index, Object TestObject) Get() {
+            TestSelect testSelect = new TestSelect();
+            testSelect.ShowDialog(); // Waits until user clicks OK button.
+            testSelect.Dispose();
+            return Selection;
         }
 
-        private void List_SelectionChanged(Object sender, ListViewItemSelectionChangedEventArgs e) {
-            radioButtonTestGroups.Enabled = true;
+        private void List_TOChanged(Object sender, ListViewItemSelectionChangedEventArgs e) {
+            ListLoad(listTG);
             OK.Enabled = true;
         }
 
-        private void GroupBoxSelect_CheckedChanged(Object sender, EventArgs e) {
-            if (((RadioButton)sender).Checked) { // Do stuff only if the radio button is checked (or the action will run twice).
-                ListViewRefresh();
-                FormRefresh();
-            }
-        }
-
-        private void SelectTests_Load(Object sender, EventArgs e) { }
-
-        private void LabelSelections_Click(Object sender, EventArgs e) {
-
+        private void List_TGChanged(Object sender, ListViewItemSelectionChangedEventArgs e) {
+            OK.Enabled = true;
         }
     }
 }
