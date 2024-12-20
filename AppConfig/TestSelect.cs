@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace ABT.Test.TestLib.TestConfig {
     public partial class TestSelect : Form {
-        internal static (String ID, Int32 Index, Object TestObject) Selection { get; private set; }
+        internal static Object TestObject { get; private set; }
 
         public TestSelect() {
             InitializeComponent();
@@ -17,7 +17,7 @@ namespace ABT.Test.TestLib.TestConfig {
             listView.View = View.Details;
             listView.Columns.Add("ID");
             listView.Columns.Add("Description");
-            if (listView == listTG) {
+            if (listView == listTO) {
                 OK.Enabled = false;
                 ListClear(listTG);
             }
@@ -37,25 +37,25 @@ namespace ABT.Test.TestLib.TestConfig {
 
         private void OK_Click(Object sender, EventArgs e) {
             if (listTG.SelectedItems.Count == 1) {
-                Selection = (listTG.SelectedItems[0].Text, listTG.SelectedItems[0].Index, TestLib.TestSpecification.TestOperations[listTO.SelectedItems[0].Index].TestGroups[listTG.SelectedItems[0].Index] );
+                TestObject =TestLib.TestSpecification.TestOperations[listTO.SelectedItems[0].Index].TestGroups[listTG.SelectedItems[0].Index];
                 DialogResult = DialogResult.OK;
             } else if (listTO.SelectedItems.Count == 1) {
-                Selection = (listTO.SelectedItems[0].Text, listTO.SelectedItems[0].Index, TestLib.TestSpecification.TestOperations[listTO.SelectedItems[0].Index]);
+                TestObject = TestLib.TestSpecification.TestOperations[listTO.SelectedItems[0].Index];
                 DialogResult = DialogResult.OK;
             }
         }
 
         private void List_MouseDoubleClick(Object sender, MouseEventArgs e) { OK_Click(sender, e); }
 
-        public static (String ID, Int32 Index, Object TestObject) Get() {
+        public static Object Get() {
             TestSelect testSelect = new TestSelect();
             testSelect.ShowDialog(); // Waits until user clicks OK button.
             testSelect.Dispose();
-            return Selection;
+            return TestObject;
         }
 
         private void List_TOChanged(Object sender, ListViewItemSelectionChangedEventArgs e) {
-            ListLoad(listTG);
+            if (listTO.SelectedItems.Count == 1) ListLoad(listTG);
             OK.Enabled = true;
         }
 

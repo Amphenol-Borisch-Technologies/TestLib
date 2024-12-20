@@ -1,0 +1,389 @@
+<doc>
+	<assembly>
+		<name>Agilent.Agilent34952A.Interop</name>
+	</assembly>
+	<members>
+		<member name="T:Agilent.Agilent34952A.Interop.Agilent34952A">
+			<summary />
+		</member>
+		<member name="T:Agilent.Agilent34952A.Interop.IAgilent34952A">
+			<summary>Agilent34952A root interface.</summary>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952A.DAC">
+			<summary>Retrieves a pointer to the DAC interface.</summary>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952A.Digital">
+			<summary>Retrieves a pointer to the Digital interface.</summary>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952A.Totalize">
+			<summary>Retrieves a pointer to the Totalize interface.</summary>
+		</member>
+		<member name="T:Agilent.Agilent34952A.Interop.IAgilent34952ADAC">
+			<summary>IAgilent34952ADAC  interface.</summary>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952ADAC.Voltage(System.String)">
+			<summary>Sets or gets the output voltage level for the specified channels</summary>
+			<param name="ChannelList">One or more channels in the form sccc, DAC channels only.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADAC.get_Voltage(System.String)">
+			<summary>Sets or gets the output voltage level for the specified channels</summary>
+			<param name="ChannelList">One or more channels in the form sccc, DAC channels only.</param>
+			<returns>Sets or gets the output voltage level for the specified channels</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADAC.set_Voltage(System.String,System.Double)">
+			<summary>Sets or gets the output voltage level for the specified channels</summary>
+			<param name="ChannelList">One or more channels in the form sccc, DAC channels only.</param>
+			<param name="Val">Sets or gets the output voltage level for the specified channels</param>
+		</member>
+		<member name="T:Agilent.Agilent34952A.Interop.IAgilent34952ADigital">
+			<summary>IAgilent34952ADigital  interface.</summary>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.Configure(System.String,Agilent.Agilent34952A.Interop.Agilent34952ADigitalModeEnum,Agilent.Agilent34952A.Interop.Agilent34952ADirectionEnum)">
+			<summary>Configures the specified digital input or output channels for the desired width.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<param name="Mode">Digital Mode.</param>
+			<param name="Direction">Direction - Input or Output.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.QueryLastByte(System.String)">
+			<summary>Returns the last 8-bit (byte) value written to the specified output channels.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<returns>8-bit data</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.QueryLastWord(System.String)">
+			<summary>Returns the last 16-bit value written to the specified output channels (specified channel must be either the first channel or third channel on the module).</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<returns>16-bit data</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.ReadBit(System.String,System.Int32)">
+			<summary>Reads the value of the specified bit location (0 through 31) on the specified digital input channels and sends the results directly to the instrument output buffer.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<param name="BitNumber">The bit number can vary from 0 to the maximum bit that the channel is capable of, as determined by its present width setting (i.e. Byte, Word, LongWord):
+Channel 01: BitNumber can range from 0 to 31
+Channel 02: BitNumber can range from 0 to 7
+Channel 03: BitNumber can range from 0 to 15
+Channel 04: BitNumber can range from 0 to 7</param>
+			<returns>Returns bit value of the specified bit location.</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.ReadByte(System.String)">
+			<summary>Performs an 8-bit read on the specified digital input channels and sends the results directly to the instrument's output buffer.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<returns>8-bit data</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.ReadWord(System.String)">
+			<summary>Performs a 16-bit read on the specified digital input channel (specified channel must be either the first channel or third channel on the module) and sends the results directly to the instrument's output buffer.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<returns>16-bit data</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.ReadLongWord(System.String)">
+			<summary>Performs a 32-bit read on the specified digital input channel (specified channel must be the first channel on a bank of 4 channels) and sends the results directly to the instrument's output buffer.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<returns>32-bit data</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.WriteBit(System.String,System.Int32,System.Int32)">
+			<summary>Sets or clears individual bits on the specified digital output channels.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<param name="BitNumber">The bit number can vary from 0 to the maximum bit that the channel is capable of, as determined by its present width setting (i.e. Byte, Word, LongWord):
+Channel 01: BitNumber can range from 0 to 31
+Channel 02: BitNumber can range from 0 to 7
+Channel 03: BitNumber can range from 0 to 15
+Channel 04: BitNumber can range from 0 to 7</param>
+			<param name="Data">A value of 0 or 1 to be written.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.WriteByte(System.String,System.Byte)">
+			<summary>Outputs the specified 8-bit (byte) value on the specified digital output channels.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<param name="Data">A data byte to be written.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.WriteWord(System.String,System.Int16)">
+			<summary>Outputs the specified 16-bit pattern on the specified digital output channels (must be either first or third channel on a module).</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<param name="Data">Data to be written.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.WriteLongWord(System.String,System.Int32)">
+			<summary>Outputs the specified 32-bit pattern on the specified digital output channels (must be the first channel on a bank of 4 channels).</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<param name="Data">Data to be written.</param>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.ComparisonData(System.String)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.get_ComparisonData(System.String)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<returns>Sets or gets the data bit pattern for comparisons on the digital modules</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.set_ComparisonData(System.String,System.Byte)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<param name="Val">Sets or gets the data bit pattern for comparisons on the digital modules</param>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.ComparisonEnable(System.String)">
+			<summary>Disables or enables the pattern comparison mode on the digital modules. This command applies to digital input operations on the specified bank (DIO1 or DIO2).</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.get_ComparisonEnable(System.String)">
+			<summary>Disables or enables the pattern comparison mode on the digital modules. This command applies to digital input operations on the specified bank (DIO1 or DIO2).</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<returns>Disables or enables the pattern comparison mode on the digital modules. This command applies to digital input operations on the specified bank (DIO1 or DIO2).</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.set_ComparisonEnable(System.String,System.Boolean)">
+			<summary>Disables or enables the pattern comparison mode on the digital modules. This command applies to digital input operations on the specified bank (DIO1 or DIO2).</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<param name="Val">Disables or enables the pattern comparison mode on the digital modules. This command applies to digital input operations on the specified bank (DIO1 or DIO2).</param>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.ComparisonMask(System.String)">
+			<summary>Sets or gets mask bit pattern for specified channels.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.get_ComparisonMask(System.String)">
+			<summary>Sets or gets mask bit pattern for specified channels.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<returns>Sets or gets mask bit pattern for specified channels.</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.set_ComparisonMask(System.String,System.Int32)">
+			<summary>Sets or gets mask bit pattern for specified channels.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<param name="Val">Sets or gets mask bit pattern for specified channels.</param>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.ComparisonType(System.String)">
+			<summary>Sets or gets the comparison type used on the specified channels.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.get_ComparisonType(System.String)">
+			<summary>Sets or gets the comparison type used on the specified channels.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<returns>Sets or gets the comparison type used on the specified channels.</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.set_ComparisonType(System.String,Agilent.Agilent34952A.Interop.Agilent34952AComparisonTypeEnum)">
+			<summary>Sets or gets the comparison type used on the specified channels.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<param name="Val">Sets or gets the comparison type used on the specified channels.</param>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.State(System.String)">
+			<summary>Returns the present state (INPut or OUTput) of the specified channel.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.get_State(System.String)">
+			<summary>Returns the present state (INPut or OUTput) of the specified channel.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc: digital input/output channels only.</param>
+			<returns>Returns the present state (INPut or OUTput) of the specified channel.</returns>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.Direction(System.String)">
+			<summary>Sets or gets the state of the channel - input or output.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc. Must be single entry for the getter. For 34952A - channels s001 through s004</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.get_Direction(System.String)">
+			<summary>Sets or gets the state of the channel - input or output.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc. Must be single entry for the getter. For 34952A - channels s001 through s004</param>
+			<returns>Sets or gets the state of the channel - input or output.</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.set_Direction(System.String,Agilent.Agilent34952A.Interop.Agilent34952ADirectionEnum)">
+			<summary>Sets or gets the state of the channel - input or output.</summary>
+			<param name="ChannelList">One or more digital input or output channels in the form sccc. Must be single entry for the getter. For 34952A - channels s001 through s004</param>
+			<param name="Val">Sets or gets the state of the channel - input or output.</param>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.ComparisonDataByte(System.String)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.get_ComparisonDataByte(System.String)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+			<returns>Sets or gets the data bit pattern for comparisons on the digital modules.</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.set_ComparisonDataByte(System.String,System.Byte)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+			<param name="Val">Sets or gets the data bit pattern for comparisons on the digital modules.</param>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.ComparisonDataWord(System.String)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.get_ComparisonDataWord(System.String)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+			<returns>Sets or gets the data bit pattern for comparisons on the digital modules.</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.set_ComparisonDataWord(System.String,System.Int16)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+			<param name="Val">Sets or gets the data bit pattern for comparisons on the digital modules.</param>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.ComparisonDataLongWord(System.String)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.get_ComparisonDataLongWord(System.String)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+			<returns>Sets or gets the data bit pattern for comparisons on the digital modules.</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.set_ComparisonDataLongWord(System.String,System.Int32)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+			<param name="Val">Sets or gets the data bit pattern for comparisons on the digital modules.</param>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.ComparisonMaskByte(System.String)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.get_ComparisonMaskByte(System.String)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+			<returns>Sets or gets the data bit pattern for comparisons on the digital modules.</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.set_ComparisonMaskByte(System.String,System.Byte)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+			<param name="Val">Sets or gets the data bit pattern for comparisons on the digital modules.</param>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.ComparisonMaskWord(System.String)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.get_ComparisonMaskWord(System.String)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+			<returns>Sets or gets the data bit pattern for comparisons on the digital modules.</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.set_ComparisonMaskWord(System.String,System.Int16)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+			<param name="Val">Sets or gets the data bit pattern for comparisons on the digital modules.</param>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.ComparisonMaskLongWord(System.String)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.get_ComparisonMaskLongWord(System.String)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+			<returns>Sets or gets the data bit pattern for comparisons on the digital modules.</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ADigital.set_ComparisonMaskLongWord(System.String,System.Int32)">
+			<summary>Sets or gets the data bit pattern for comparisons on the digital modules.</summary>
+			<param name="ChannelList">One or more channels in the form sccc.</param>
+			<param name="Val">Sets or gets the data bit pattern for comparisons on the digital modules.</param>
+		</member>
+		<member name="T:Agilent.Agilent34952A.Interop.IAgilent34952ATotalize">
+			<summary>IAgilent34952ATotalize interface.</summary>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ATotalize.ClearTotal(System.String)">
+			<summary>Immediately clears the count on the specified totalizer channels</summary>
+			<param name="ChannelList">For module 34952A this is channel s005.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ATotalize.Configure(System.String,Agilent.Agilent34952A.Interop.Agilent34952ATotalizeTypeEnum,Agilent.Agilent34952A.Interop.Agilent34952ATotalizeThresholdModeEnum,Agilent.Agilent34952A.Interop.Agilent34952ATotalizeSlopeEnum)">
+			<summary>Configures specified channels on a 34952A module.</summary>
+			<param name="ChannelList">One or more totalizer channels in the form sccc - totalizer channels only.</param>
+			<param name="Type">Totalize type.</param>
+			<param name="Mode">Totalize Threshold Mode.</param>
+			<param name="Slope">Totalize Slope.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ATotalize.ReadData(System.String)">
+			<summary>Reads the count on the specified totalizer channel.</summary>
+			<param name="ChannelList">One or more totalizer channels in the form sccc - totalizer channels only.</param>
+			<returns>Returns count on the specified totalizer channel.</returns>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952ATotalize.Mode(System.String)">
+			<summary>Sets or gets the threshold at which an edge is detected on the specified totalizer channels.</summary>
+			<param name="ChannelList">One or more totalizer channels in the form sccc - totalizer channels only.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ATotalize.get_Mode(System.String)">
+			<summary>Sets or gets the threshold at which an edge is detected on the specified totalizer channels.</summary>
+			<param name="ChannelList">One or more totalizer channels in the form sccc - totalizer channels only.</param>
+			<returns>Sets or gets the threshold at which an edge is detected on the specified totalizer channels.</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ATotalize.set_Mode(System.String,Agilent.Agilent34952A.Interop.Agilent34952ATotalizeThresholdModeEnum)">
+			<summary>Sets or gets the threshold at which an edge is detected on the specified totalizer channels.</summary>
+			<param name="ChannelList">One or more totalizer channels in the form sccc - totalizer channels only.</param>
+			<param name="Val">Sets or gets the threshold at which an edge is detected on the specified totalizer channels.</param>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952ATotalize.ReadType(System.String)">
+			<summary>Enables or disables an automatic reset of the count on the specified totalizer channels.</summary>
+			<param name="ChannelList">One or more totalizer channels in the form sccc - totalizer channels only.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ATotalize.get_ReadType(System.String)">
+			<summary>Enables or disables an automatic reset of the count on the specified totalizer channels.</summary>
+			<param name="ChannelList">One or more totalizer channels in the form sccc - totalizer channels only.</param>
+			<returns>Enables or disables an automatic reset of the count on the specified totalizer channels.</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ATotalize.set_ReadType(System.String,Agilent.Agilent34952A.Interop.Agilent34952ATotalizeTypeEnum)">
+			<summary>Enables or disables an automatic reset of the count on the specified totalizer channels.</summary>
+			<param name="ChannelList">One or more totalizer channels in the form sccc - totalizer channels only.</param>
+			<param name="Val">Enables or disables an automatic reset of the count on the specified totalizer channels.</param>
+		</member>
+		<member name="P:Agilent.Agilent34952A.Interop.IAgilent34952ATotalize.Slope(System.String)">
+			<summary>Sets or gets the specified totalizer channels to count on the rising edge (positive) or falling edge (negative) of the input signal.</summary>
+			<param name="ChannelList">One or more totalizer channels in the form sccc - totalizer channels only.</param>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ATotalize.get_Slope(System.String)">
+			<summary>Sets or gets the specified totalizer channels to count on the rising edge (positive) or falling edge (negative) of the input signal.</summary>
+			<param name="ChannelList">One or more totalizer channels in the form sccc - totalizer channels only.</param>
+			<returns>Sets or gets the specified totalizer channels to count on the rising edge (positive) or falling edge (negative) of the input signal.</returns>
+		</member>
+		<member name="M:Agilent.Agilent34952A.Interop.IAgilent34952ATotalize.set_Slope(System.String,Agilent.Agilent34952A.Interop.Agilent34952ATotalizeSlopeEnum)">
+			<summary>Sets or gets the specified totalizer channels to count on the rising edge (positive) or falling edge (negative) of the input signal.</summary>
+			<param name="ChannelList">One or more totalizer channels in the form sccc - totalizer channels only.</param>
+			<param name="Val">Sets or gets the specified totalizer channels to count on the rising edge (positive) or falling edge (negative) of the input signal.</param>
+		</member>
+		<member name="T:Agilent.Agilent34952A.Interop.Agilent34952AComparisonTypeEnum">
+			<summary>Enumeration for the comparison types.</summary>
+		</member>
+		<member name="F:Agilent.Agilent34952A.Interop.Agilent34952AComparisonTypeEnum.Agilent34952AComparisonTypeEqual">
+			<summary>Alarm is generated when the data read from the bank is equal to CALCulate:COMPare:DATA after being masked by CALCulate:COMPare:MASK</summary>
+		</member>
+		<member name="F:Agilent.Agilent34952A.Interop.Agilent34952AComparisonTypeEnum.Agilent34952AComparisonTypeNotEqual">
+			<summary>Alarm is generated when the data read from the bank is NOT equal to CALCulate:COMPare:DATA after being masked by CALCulate:COMPare:MASK</summary>
+		</member>
+		<member name="T:Agilent.Agilent34952A.Interop.Agilent34952ADigitalModeEnum">
+			<summary>Enumeration for the digital channel width types.</summary>
+		</member>
+		<member name="F:Agilent.Agilent34952A.Interop.Agilent34952ADigitalModeEnum.Agilent34952ADigitalModeByte">
+			<summary>Digital channel width is one byte.</summary>
+		</member>
+		<member name="F:Agilent.Agilent34952A.Interop.Agilent34952ADigitalModeEnum.Agilent34952ADigitalModeWord">
+			<summary>Digital channel width is two bytes.</summary>
+		</member>
+		<member name="F:Agilent.Agilent34952A.Interop.Agilent34952ADigitalModeEnum.Agilent34952ADigitalModeLWord">
+			<summary>Digital channel width is four bytes.</summary>
+		</member>
+		<member name="T:Agilent.Agilent34952A.Interop.Agilent34952ADirectionEnum">
+			<summary>Enumerates the options for digital channels - input or output.</summary>
+		</member>
+		<member name="F:Agilent.Agilent34952A.Interop.Agilent34952ADirectionEnum.Agilent34952ADirectionInput">
+			<summary>Configures the channel as input device</summary>
+		</member>
+		<member name="F:Agilent.Agilent34952A.Interop.Agilent34952ADirectionEnum.Agilent34952ADirectionOutput">
+			<summary>Configures the channels as an output device.</summary>
+		</member>
+		<member name="T:Agilent.Agilent34952A.Interop.Agilent34952ATotalizeSlopeEnum">
+			<summary>Enumeration for the slope types.</summary>
+		</member>
+		<member name="F:Agilent.Agilent34952A.Interop.Agilent34952ATotalizeSlopeEnum.Agilent34952ATotalizeSlopePositive">
+			<summary>Totalizer counts on the rising edge.</summary>
+		</member>
+		<member name="F:Agilent.Agilent34952A.Interop.Agilent34952ATotalizeSlopeEnum.Agilent34952ATotalizeSlopeNegative">
+			<summary>Totalizer counts on the falling edge.</summary>
+		</member>
+		<member name="T:Agilent.Agilent34952A.Interop.Agilent34952ATotalizeThresholdModeEnum">
+			<summary>Enumeration for the threshold types.</summary>
+		</member>
+		<member name="F:Agilent.Agilent34952A.Interop.Agilent34952ATotalizeThresholdModeEnum.Agilent34952ATotalizeThresholdModeAC">
+			<summary>Detect changes through AC (zero volts) threshold levels.</summary>
+		</member>
+		<member name="F:Agilent.Agilent34952A.Interop.Agilent34952ATotalizeThresholdModeEnum.Agilent34952ATotalizeThresholdModeTTL">
+			<summary>Detect changes through TTL threshold levels.</summary>
+		</member>
+		<member name="T:Agilent.Agilent34952A.Interop.Agilent34952ATotalizeTypeEnum">
+			<summary>Enumeration for the totalize types.</summary>
+		</member>
+		<member name="F:Agilent.Agilent34952A.Interop.Agilent34952ATotalizeTypeEnum.Agilent34952ATotalizeTypeRead">
+			<summary>Totalize type is read only.</summary>
+		</member>
+		<member name="F:Agilent.Agilent34952A.Interop.Agilent34952ATotalizeTypeEnum.Agilent34952ATotalizeTypeRReset">
+			<summary>Totalize type is read and reset count to zero.</summary>
+		</member>
+	</members>
+</doc>

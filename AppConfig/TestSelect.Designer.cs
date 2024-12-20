@@ -103,7 +103,7 @@ namespace ABT.Test.TestLib.TestConfig {
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(912, 791);
+            this.ClientSize = new System.Drawing.Size(912, 828);
             this.ControlBox = false;
             this.Controls.Add(this.labelTG);
             this.Controls.Add(this.listTG);
