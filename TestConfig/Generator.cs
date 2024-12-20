@@ -13,15 +13,15 @@ namespace ABT.Test.TestLib.TestConfig {
             if (!Directory.Exists(Path.GetDirectoryName(TestSpecXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(TestSpecXML)}' does not exist.");
             TS ts;
             using (FileStream fileStream = new FileStream(TestSpecXML, FileMode.Open)) { ts = (TS)(new XmlSerializer(typeof(TS))).Deserialize(fileStream); }
-            CodeCompileUnit codeCompileUnit=new CodeCompileUnit();
+            CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
 
             for (Int32 testOperation = 0; testOperation < ts.TestOperations.Count; testOperation++) {
                 CodeNamespace codeNamespace = GetNamespace(ts, testOperation);
                 _ = codeCompileUnit.Namespaces.Add(codeNamespace);
                 for (Int32 testGroup = 0; testGroup < ts.TestOperations[testOperation].TestGroups.Count; testGroup++) {
-                    CodeTypeDeclaration codeTypeDeclaration = AddClass(codeNamespace,  ts.TestOperations[testOperation].TestGroups[testGroup]);
-                    for (Int32 method = 0; method <  ts.TestOperations[testOperation].TestGroups[testGroup].Methods.Count; method++) {
-                        AddMethod(codeTypeDeclaration,  ts.TestOperations[testOperation], testGroup, method);
+                    CodeTypeDeclaration codeTypeDeclaration = AddClass(codeNamespace, ts.TestOperations[testOperation].TestGroups[testGroup]);
+                    for (Int32 method = 0; method < ts.TestOperations[testOperation].TestGroups[testGroup].Methods.Count; method++) {
+                        AddMethod(codeTypeDeclaration, ts.TestOperations[testOperation], testGroup, method);
                     }
                 }
             }
@@ -33,8 +33,16 @@ namespace ABT.Test.TestLib.TestConfig {
                 IndentString = "    "
             };
 
-            String FileImplementationCSharp = Path.GetDirectoryName(TestSpecXML) + @"\" + "TestImplementation.cs";
-            using (StreamWriter streamWriter = new StreamWriter(FileImplementationCSharp)) { cSharpCodeProvider.GenerateCodeFromCompileUnit(codeCompileUnit, streamWriter, codeGeneratorOptions); }
+            SaveFileDialog saveFileDialog = new SaveFileDialog {
+                Filter = "C# files (*.cs)|*.cs",
+                Title = "Save the generated Test Implementation C# file",
+                DefaultExt = "cs",
+                InitialDirectory = Path.GetDirectoryName(TestSpecXML) + @"\" 
+            };
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK) {
+                using (StreamWriter streamWriter = new StreamWriter(saveFileDialog.FileName)) { cSharpCodeProvider.GenerateCodeFromCompileUnit(codeCompileUnit, streamWriter, codeGeneratorOptions); }
+            }
         }
 
         private static CodeNamespace GetNamespace(TS ts, Int32 testOperation) {
