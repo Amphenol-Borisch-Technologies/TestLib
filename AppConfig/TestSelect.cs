@@ -25,8 +25,10 @@ namespace ABT.Test.TestLib.TestConfig {
 
         private void ListLoad(ListView listView) {
             ListClear(listView);
-            if (listView == listTG) foreach (TO to in TestLib.TestSpecification.TestOperations) listTO.Items.Add(new ListViewItem(new String[] { to.NamespaceLeaf, to.Description }));
-            else foreach (TG tg in TestLib.TestSpecification.TestOperations[listTO.SelectedItems[0].Index].TestGroups) listTG.Items.Add(new ListViewItem(new String[] { tg.Class, tg.Description }));
+            if (listView == listTO) foreach (TO to in TestLib.TestSpecification.TestOperations) listTO.Items.Add(new ListViewItem(new String[] { to.NamespaceLeaf, to.Description }));
+            else foreach (TG tg in TestLib.TestSpecification.TestOperations[listTO.SelectedItems[0].Index].TestGroups) {
+                    if (tg.Independent) listTG.Items.Add(new ListViewItem(new String[] { tg.Class, tg.Description }));
+                }
             listView.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.ColumnContent);
             listView.Columns[1].Width = -2;
             // https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.columnheader.width?redirectedfrom=MSDN&view=windowsdesktop-7.0#System_Windows_Forms_ColumnHeader_Width
@@ -38,7 +40,7 @@ namespace ABT.Test.TestLib.TestConfig {
                 Selection = (listTG.SelectedItems[0].Text, listTG.SelectedItems[0].Index, TestLib.TestSpecification.TestOperations[listTO.SelectedItems[0].Index].TestGroups[listTG.SelectedItems[0].Index] );
                 DialogResult = DialogResult.OK;
             } else if (listTO.SelectedItems.Count == 1) {
-                Selection = (listTG.SelectedItems[0].Text, listTG.SelectedItems[0].Index, TestLib.TestSpecification.TestOperations[listTO.SelectedItems[0].Index]);
+                Selection = (listTO.SelectedItems[0].Text, listTO.SelectedItems[0].Index, TestLib.TestSpecification.TestOperations[listTO.SelectedItems[0].Index]);
                 DialogResult = DialogResult.OK;
             }
         }
