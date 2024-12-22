@@ -4,7 +4,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace ABT.Test.TestLib.TestConfig {
+namespace ABT.Test.TestLib.TestSpec {
     public interface IAssertionCurrent { String AssertionCurrent(); }
 
     [XmlRoot(nameof(TS))] public class TS : IAssertionCurrent {
@@ -12,6 +12,7 @@ namespace ABT.Test.TestLib.TestConfig {
         [XmlAttribute(nameof(NamespaceRoot))] public String NamespaceRoot { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlElement(nameof(TO))] public List<TO> TestOperations { get; set; }
+        public Statistics Statistics { get; set; } = new Statistics();
         internal const String DEBUG_ASSERT = "Debug.Assert(";
         internal const String BEGIN = "(";
         internal const String CS = ": ";
@@ -19,6 +20,25 @@ namespace ABT.Test.TestLib.TestConfig {
         internal const String END = "));";
         internal const String DIVIDER = "|";
         internal const String NONE = "\"NONE\"";
+        
+        public String StatisticsDisplay() {
+            const Int32 L = 6;
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"Cancelled : {Statistics.Cancelled,L}, {Statistics.PercentCancelled(),L:P1}");
+            sb.AppendLine($"E-Stopped : {Statistics.EmergencyStopped,L}, {Statistics.PercentEmergencyStopped(),L:P1}");
+            sb.AppendLine($"Errored   : {Statistics.Errored,L}, {Statistics.PercentErrored(),L:P1}");
+            sb.AppendLine($"Failed    : {Statistics.Failed,L}, {Statistics.PercentFailed(),L:P1}");
+            sb.AppendLine($"Ignored   : {Statistics.Ignored,L}, {Statistics.PercentIgnored(),L:P1}");
+            sb.AppendLine($"Passed    : {Statistics.Passed,L}, {Statistics.PercentPassed(),L:P1}");
+            sb.AppendLine($"------");
+            sb.AppendLine($"Total     : {Statistics.Tested(),L}");
+            return sb.ToString();
+        }
+
+        public String StatisticsStatus() { return $"   Failed: {Statistics.Failed}     Passed: {Statistics.Passed}   "; }
+
+        public String StatusTime() { return $"   Time: {Statistics.Time()}"; }
+
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{DEBUG_ASSERT}{GetType().Name}{BEGIN}");
@@ -28,10 +48,12 @@ namespace ABT.Test.TestLib.TestConfig {
             sb.Append($"{END}");
             return sb.ToString();
         }
+
         public static String EF(Object o) {
             String s = (o.ToString()).Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\'", "\\\'");
             return $"\"{s}\"";
         }
+
         private String TOs() {
             StringBuilder sb = new StringBuilder();
             foreach (TO to in TestOperations) sb.Append($"{to.NamespaceLeaf}{DIVIDER}");
@@ -73,7 +95,6 @@ namespace ABT.Test.TestLib.TestConfig {
         public List<M> Methods { get; set; }
         public readonly Int32 FormattingLengthGroupID = 0;
         public readonly Int32 FormattingLengthMeasurementID = 0;
-        public Statistics Statistics { get; set; } = new Statistics();
 
         public String AssertionPrior() { return $"{TS.DEBUG_ASSERT}{nameof(Assertions.TG_Prior)}{TS.BEGIN}{nameof(Class)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{TS.END}"; }
 
@@ -95,24 +116,6 @@ namespace ABT.Test.TestLib.TestConfig {
         }
 
         public String AssertionNext() { return $"{TS.DEBUG_ASSERT}{nameof(Assertions.TG_Next)}{TS.BEGIN}{nameof(Class)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{TS.END}"; }
-
-        public String StatisticsDisplay() {
-            const Int32 L = 6;
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"Cancelled : {Statistics.Cancelled,L}, {Statistics.PercentCancelled(),L:P1}");
-            sb.AppendLine($"E-Stopped : {Statistics.EmergencyStopped,L}, {Statistics.PercentEmergencyStopped(),L:P1}");
-            sb.AppendLine($"Errored   : {Statistics.Errored,L}, {Statistics.PercentErrored(),L:P1}");
-            sb.AppendLine($"Failed    : {Statistics.Failed,L}, {Statistics.PercentFailed(),L:P1}");
-            sb.AppendLine($"Ignored   : {Statistics.Ignored,L}, {Statistics.PercentIgnored(),L:P1}");
-            sb.AppendLine($"Passed    : {Statistics.Passed,L}, {Statistics.PercentPassed(),L:P1}");
-            sb.AppendLine($"------");
-            sb.AppendLine($"Total     : {Statistics.Tested(),L}");
-            return sb.ToString();
-        }
-
-        public String StatisticsStatus() { return $"   Failed: {Statistics.Failed}     Passed: {Statistics.Passed}   "; }
-
-        public String StatusTime() { return $"   Time: {Statistics.Time()}"; }
     }
 
     public abstract class M {
@@ -136,6 +139,7 @@ namespace ABT.Test.TestLib.TestConfig {
     }
 
     public class MC : M, IAssertionCurrent {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlElement(nameof(Parameter))] public List<Parameter> Parameters { get; set; }
 
         public String AssertionCurrent() {

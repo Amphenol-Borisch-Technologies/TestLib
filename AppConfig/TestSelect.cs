@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace ABT.Test.TestLib.TestConfig {
+namespace ABT.Test.TestLib.TestSpec {
     public partial class TestSelect : Form {
         internal static Object TestObject { get; private set; }
 

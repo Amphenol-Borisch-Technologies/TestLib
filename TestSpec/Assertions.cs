@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ABT.Test.TestLib.TestConfig {
+namespace ABT.Test.TestLib.TestSpec {
     public static class Assertions {
         public static Boolean NS(String NamespaceRoot, String Description, String TestOperations) { return true; }
         public static Boolean TO(String NamespaceLeaf, String Description, String TestGroups) { return true; }

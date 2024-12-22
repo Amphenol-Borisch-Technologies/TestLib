@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using ABT.Test.TestLib.TestConfig;
+using ABT.Test.TestLib.TestSpec;
 
 namespace ABT.Test.TestLib.AppConfig {
 
@@ -35,7 +35,7 @@ namespace ABT.Test.TestLib.AppConfig {
             return String.Join(Char.ToString(SA), keys);
         }                                                                                                                       // Superceded by AssertionM().
 
-        internal abstract void ArgumentsValidate(String id, String arguments, Dictionary<String, String> argsDict);             // Superceded by C:\Users\phils\source\repos\ABT\Test\TestLib\TestConfig\TestPlan.xsd
+        internal abstract void ArgumentsValidate(String id, String arguments, Dictionary<String, String> argsDict);             // Superceded by C:\Users\phils\source\repos\ABT\Test\TestLib\TestSpec\TestPlan.xsd
     }
 
     public class MeasurementCustom : MeasurementAbstract {                                                                      // Superceded by MC.

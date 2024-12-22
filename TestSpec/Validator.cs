@@ -4,7 +4,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 
-namespace ABT.Test.TestLib.TestConfig {
+namespace ABT.Test.TestLib.TestSpec {
     public static class Validator {
         private static Boolean validSpecification = true;
         private static readonly StringBuilder stringBuilder = new StringBuilder();
