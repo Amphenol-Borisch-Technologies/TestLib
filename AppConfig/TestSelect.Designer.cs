@@ -33,7 +33,7 @@ namespace ABT.Test.TestLib.TestSpec {
             // 
             this.OK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.OK.Enabled = false;
-            this.OK.Location = new System.Drawing.Point(294, 384);
+            this.OK.Location = new System.Drawing.Point(324, 383);
             this.OK.Margin = new System.Windows.Forms.Padding(2);
             this.OK.Name = "OK";
             this.OK.Size = new System.Drawing.Size(58, 36);
