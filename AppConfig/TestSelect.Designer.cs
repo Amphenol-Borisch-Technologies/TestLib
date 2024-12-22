@@ -45,7 +45,7 @@ namespace ABT.Test.TestLib.TestSpec {
             this.OK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.OK.Enabled = false;
             this.OK.Location = new System.Drawing.Point(310, 588);
-            this.OK.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.OK.Margin = new System.Windows.Forms.Padding(2);
             this.OK.Name = "OK";
             this.OK.Size = new System.Drawing.Size(58, 36);
             this.OK.TabIndex = 2;
@@ -111,7 +111,7 @@ namespace ABT.Test.TestLib.TestSpec {
             this.Controls.Add(this.OK);
             this.Controls.Add(this.LabelTO);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "TestSelect";

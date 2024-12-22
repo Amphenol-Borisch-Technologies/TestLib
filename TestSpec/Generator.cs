@@ -37,7 +37,7 @@ namespace ABT.Test.TestLib.TestSpec {
                 Filter = "C# files (*.cs)|*.cs",
                 Title = "Save the generated Test Program C# file",
                 DefaultExt = "cs",
-                InitialDirectory = Path.GetDirectoryName(TestSpecXML) + @"\" 
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\" 
             };
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK) {

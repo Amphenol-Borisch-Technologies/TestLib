@@ -18,6 +18,7 @@ namespace ABT.Test.TestLib.TestSpec {
             listView.View = View.Details;
             listView.Columns.Add("ID");
             listView.Columns.Add("Description");
+            listView.HeaderStyle = ColumnHeaderStyle.Nonclickable;
             if (listView == listTO) {
                 OK.Enabled = false;
                 ListClear(listTG);
