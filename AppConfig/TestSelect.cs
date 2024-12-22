@@ -46,8 +46,8 @@ namespace ABT.Test.TestLib.TestSpec {
                         if (tg.Independent) TestList.Items.Add(new ListViewItem(new String[] { to.NamespaceLeaf, tg.Class, tg.Description }));
                 }
             }
+            foreach (ColumnHeader ch in TestList.Columns) ch.Width = -2;
             TestList.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.ColumnContent);
-            TestList.Columns[1].Width = -2;
             // https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.columnheader.width?redirectedfrom=MSDN&view=windowsdesktop-7.0#System_Windows_Forms_ColumnHeader_Width
             TestList.ResetText();
             OK.Enabled = false;
@@ -64,7 +64,7 @@ namespace ABT.Test.TestLib.TestSpec {
                 TestGroup = null;
             } else {
                 TestOperation = TestLib.TestSpec.TestOperations.Find(to => to.NamespaceLeaf.Equals(TestList.SelectedItems[0].Text));
-                TestGroup = TestLib.TestSpec.TestOperations[TestList.SelectedItems[0].Index].TestGroups[TestList.SelectedItems[0].Index];
+                TestGroup = TestOperation.TestGroups.Find(tg => tg.Class.Equals(TestList.SelectedItems[0].SubItems[1].Text));
             }
             DialogResult = DialogResult.OK;
         }
