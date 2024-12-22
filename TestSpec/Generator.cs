@@ -35,7 +35,7 @@ namespace ABT.Test.TestLib.TestSpec {
 
             SaveFileDialog saveFileDialog = new SaveFileDialog {
                 Filter = "C# files (*.cs)|*.cs",
-                Title = "Save the generated Test Implementation C# file",
+                Title = "Save the generated Test Program C# file",
                 DefaultExt = "cs",
                 InitialDirectory = Path.GetDirectoryName(TestSpecXML) + @"\" 
             };

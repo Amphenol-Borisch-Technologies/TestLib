@@ -3,7 +3,8 @@ using System.Windows.Forms;
 
 namespace ABT.Test.TestLib.TestSpec {
     public partial class TestSelect : Form {
-        internal static Object TestObject { get; private set; }
+        internal static TO TestOperation { get; private set; }
+        internal static TG TestGroup { get; private set; }
 
         public TestSelect() {
             InitializeComponent();
@@ -25,8 +26,8 @@ namespace ABT.Test.TestLib.TestSpec {
 
         private void ListLoad(ListView listView) {
             ListClear(listView);
-            if (listView == listTO) foreach (TO to in TestLib.TestSpecification.TestOperations) listTO.Items.Add(new ListViewItem(new String[] { to.NamespaceLeaf, to.Description }));
-            else foreach (TG tg in TestLib.TestSpecification.TestOperations[listTO.SelectedItems[0].Index].TestGroups) {
+            if (listView == listTO) foreach (TO to in TestLib.TestSpec.TestOperations) listTO.Items.Add(new ListViewItem(new String[] { to.NamespaceLeaf, to.Description }));
+            else foreach (TG tg in TestLib.TestSpec.TestOperations[listTO.SelectedItems[0].Index].TestGroups) {
                     if (tg.Independent) listTG.Items.Add(new ListViewItem(new String[] { tg.Class, tg.Description }));
                 }
             listView.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -36,22 +37,19 @@ namespace ABT.Test.TestLib.TestSpec {
         }
 
         private void OK_Click(Object sender, EventArgs e) {
-            if (listTG.SelectedItems.Count == 1) {
-                TestObject =TestLib.TestSpecification.TestOperations[listTO.SelectedItems[0].Index].TestGroups[listTG.SelectedItems[0].Index];
-                DialogResult = DialogResult.OK;
-            } else if (listTO.SelectedItems.Count == 1) {
-                TestObject = TestLib.TestSpecification.TestOperations[listTO.SelectedItems[0].Index];
-                DialogResult = DialogResult.OK;
-            }
+            TestOperation = TestLib.TestSpec.TestOperations[listTO.SelectedItems[0].Index];
+            if (listTG.SelectedItems.Count == 1) TestGroup = TestLib.TestSpec.TestOperations[listTO.SelectedItems[0].Index].TestGroups[listTG.SelectedItems[0].Index];
+            else TestGroup = null;
+            DialogResult = DialogResult.OK;
         }
 
         private void List_MouseDoubleClick(Object sender, MouseEventArgs e) { OK_Click(sender, e); }
 
-        public static Object Get() {
+        public static (TO, TG) Get() {
             TestSelect testSelect = new TestSelect();
             testSelect.ShowDialog(); // Waits until user clicks OK button.
             testSelect.Dispose();
-            return TestObject;
+            return (TestOperation, TestGroup);
         }
 
         private void List_TOChanged(Object sender, ListViewItemSelectionChangedEventArgs e) {

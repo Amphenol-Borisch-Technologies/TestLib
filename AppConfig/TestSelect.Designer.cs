@@ -32,9 +32,10 @@ namespace ABT.Test.TestLib.TestSpec {
             // 
             this.LabelTO.AutoSize = true;
             this.LabelTO.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.LabelTO.Location = new System.Drawing.Point(16, 7);
+            this.LabelTO.Location = new System.Drawing.Point(12, 6);
+            this.LabelTO.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LabelTO.Name = "LabelTO";
-            this.LabelTO.Size = new System.Drawing.Size(103, 16);
+            this.LabelTO.Size = new System.Drawing.Size(82, 13);
             this.LabelTO.TabIndex = 0;
             this.LabelTO.Text = "Test Operations";
             this.LabelTO.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -43,10 +44,10 @@ namespace ABT.Test.TestLib.TestSpec {
             // 
             this.OK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.OK.Enabled = false;
-            this.OK.Location = new System.Drawing.Point(413, 724);
-            this.OK.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.OK.Location = new System.Drawing.Point(310, 588);
+            this.OK.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.OK.Name = "OK";
-            this.OK.Size = new System.Drawing.Size(77, 44);
+            this.OK.Size = new System.Drawing.Size(58, 36);
             this.OK.TabIndex = 2;
             this.OK.Text = "OK";
             this.OK.UseVisualStyleBackColor = true;
@@ -58,12 +59,11 @@ namespace ABT.Test.TestLib.TestSpec {
             this.listTO.GridLines = true;
             this.listTO.HideSelection = false;
             this.listTO.LabelWrap = false;
-            this.listTO.Location = new System.Drawing.Point(13, 27);
-            this.listTO.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listTO.Location = new System.Drawing.Point(10, 22);
             this.listTO.MultiSelect = false;
             this.listTO.Name = "listTO";
             this.listTO.ShowGroups = false;
-            this.listTO.Size = new System.Drawing.Size(887, 312);
+            this.listTO.Size = new System.Drawing.Size(666, 156);
             this.listTO.TabIndex = 0;
             this.listTO.UseCompatibleStateImageBehavior = false;
             this.listTO.View = System.Windows.Forms.View.Details;
@@ -76,12 +76,11 @@ namespace ABT.Test.TestLib.TestSpec {
             this.listTG.GridLines = true;
             this.listTG.HideSelection = false;
             this.listTG.LabelWrap = false;
-            this.listTG.Location = new System.Drawing.Point(13, 379);
-            this.listTG.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listTG.Location = new System.Drawing.Point(10, 206);
             this.listTG.MultiSelect = false;
             this.listTG.Name = "listTG";
             this.listTG.ShowGroups = false;
-            this.listTG.Size = new System.Drawing.Size(887, 312);
+            this.listTG.Size = new System.Drawing.Size(666, 351);
             this.listTG.TabIndex = 1;
             this.listTG.UseCompatibleStateImageBehavior = false;
             this.listTG.View = System.Windows.Forms.View.Details;
@@ -92,18 +91,19 @@ namespace ABT.Test.TestLib.TestSpec {
             // 
             this.labelTG.AutoSize = true;
             this.labelTG.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.labelTG.Location = new System.Drawing.Point(16, 359);
+            this.labelTG.Location = new System.Drawing.Point(12, 190);
+            this.labelTG.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelTG.Name = "labelTG";
-            this.labelTG.Size = new System.Drawing.Size(81, 16);
+            this.labelTG.Size = new System.Drawing.Size(65, 13);
             this.labelTG.TabIndex = 0;
             this.labelTG.Text = "Test Groups";
             this.labelTG.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // TestSelect
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(912, 828);
+            this.ClientSize = new System.Drawing.Size(684, 673);
             this.ControlBox = false;
             this.Controls.Add(this.labelTG);
             this.Controls.Add(this.listTG);
@@ -111,7 +111,7 @@ namespace ABT.Test.TestLib.TestSpec {
             this.Controls.Add(this.OK);
             this.Controls.Add(this.LabelTO);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "TestSelect";
