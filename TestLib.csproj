@@ -108,7 +108,6 @@
   <ItemGroup>
     <Compile Include="AppConfig\AppConfigInstruments.cs" />
     <Compile Include="AppConfig\AppConfigLogger.cs" />
-    <Compile Include="AppConfig\AppConfigTestElements.cs" />
     <Compile Include="AppConfig\AppConfigUUT.cs" />
     <Compile Include="AppConfig\TestSelect.cs">
       <SubType>Form</SubType>
