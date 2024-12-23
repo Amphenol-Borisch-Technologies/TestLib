@@ -54,7 +54,7 @@ namespace ABT.Test.TestLib.TestSpec {
             return $"\"{s}\"";
         }
 
-        private String TOs() {
+        public String TOs() {
             StringBuilder sb = new StringBuilder();
             foreach (TO to in TestOperations) sb.Append($"{to.NamespaceLeaf}{DIVIDER}");
             return EF(sb.Remove(sb.Length - DIVIDER.Length, DIVIDER.Length).ToString()); // Remove trailing DIVIDER.
@@ -77,7 +77,7 @@ namespace ABT.Test.TestLib.TestSpec {
             return sb.ToString();
         }
 
-        private String TGs() {
+        public String TGs() {
             StringBuilder sb = new StringBuilder();
             foreach (TG tg in TestGroups) sb.Append($"{tg.Class}{TS.DIVIDER}");
             return TS.EF(sb.Remove(sb.Length - TS.DIVIDER.Length, TS.DIVIDER.Length).ToString()); // Remove trailing DIVIDER.
@@ -111,7 +111,7 @@ namespace ABT.Test.TestLib.TestSpec {
             sb.Append($"{TS.END}");
             return sb.ToString();
         }
-        private String Ms() {
+        public String Ms() {
             StringBuilder sb = new StringBuilder();
             foreach (M m in Methods) sb.Append($"{m.Method}{TS.DIVIDER}");
             return TS.EF(sb.Remove(sb.Length - TS.DIVIDER.Length, TS.DIVIDER.Length).ToString()); // Remove trailing TS.DIVIDER.
@@ -153,7 +153,7 @@ namespace ABT.Test.TestLib.TestSpec {
             sb.Append($"{TS.END}");
             return sb.ToString();
         }
-        private String Ps() {
+        public String Ps() {
             StringBuilder sb = new StringBuilder();
             foreach (Parameter p in Parameters) sb.Append($"{p.Key}={p.Value}{TS.DIVIDER}");
             return TS.EF(sb.Remove(sb.Length - TS.DIVIDER.Length, TS.DIVIDER.Length).ToString()); // Remove trailing TS.DIVIDER.

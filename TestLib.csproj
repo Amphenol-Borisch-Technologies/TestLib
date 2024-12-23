@@ -109,14 +109,7 @@
     <Compile Include="AppConfig\AppConfigInstruments.cs" />
     <Compile Include="AppConfig\AppConfigLogger.cs" />
     <Compile Include="AppConfig\AppConfigTestElements.cs" />
-    <Compile Include="AppConfig\AppConfigTests.cs" />
     <Compile Include="AppConfig\AppConfigUUT.cs" />
-    <Compile Include="AppConfig\SelectTests.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AppConfig\SelectTests.Designer.cs">
-      <DependentUpon>SelectTests.cs</DependentUpon>
-    </Compile>
     <Compile Include="AppConfig\TestSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -190,10 +183,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AppConfig\SelectTests.resx">
-      <DependentUpon>SelectTests.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="AppConfig\TestSelect.resx">
       <DependentUpon>TestSelect.cs</DependentUpon>
       <SubType>Designer</SubType>
