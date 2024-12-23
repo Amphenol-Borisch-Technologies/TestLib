@@ -96,11 +96,11 @@
       </xs:annotation>
     </xs:attribute>
     <xs:attribute ref="Description" use="required"/>
-    <xs:attribute name="CancelIfFail" type="xs:boolean" use="required">
+    <xs:attribute name="CancelNotPassed" type="xs:boolean" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
-            CancelIfFail attribute:
+            CancelNotPassed attribute:
             - Required.
             - Type: xs:boolean.
                   
@@ -491,15 +491,15 @@
       </xs:annotation>
     </xs:attribute>
     <xs:attribute ref="Description" use="required"/>
-    <xs:attribute name="CancelIfFail" type="xs:boolean" use="required">
+    <xs:attribute name="CancelNotPassed" type="xs:boolean" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
-            CancelIfFail attribute:
+            CancelNotPassed attribute:
             - Required.
             - Type: xs:boolean.
 
-            Determines if subsequent testing is cancelled if any group method with CancelIfFail=true fails. Ignores failing CancelIfFail=false
+            Determines if subsequent testing is cancelled if any group method with CancelNotPassed=true doesn't pass. Ignores failing CancelNotPassed=false.
           ]]>
         </xs:documentation>
       </xs:annotation>

@@ -88,7 +88,7 @@ namespace ABT.Test.TestLib.TestSpec {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Class))] public String Class { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
-        [XmlAttribute(nameof(CancelIfFail))] public Boolean CancelIfFail { get; set; }
+        [XmlAttribute(nameof(CancelNotPassed))] public Boolean CancelNotPassed { get; set; }
         [XmlAttribute(nameof(Independent))] public Boolean Independent { get; set; }
         [XmlElement(nameof(MC), typeof(MC))]
         [XmlElement(nameof(MI), typeof(MI))]
@@ -105,7 +105,7 @@ namespace ABT.Test.TestLib.TestSpec {
             sb.Append($"{TS.DEBUG_ASSERT}{GetType().Name}{TS.BEGIN}");
             sb.Append($"{nameof(Class)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{TS.CONTINUE}");
             sb.Append($"{nameof(Description)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(CancelIfFail)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(CancelIfFail)).GetValue(this).ToString().ToLower())}{TS.CONTINUE}");
+            sb.Append($"{nameof(CancelNotPassed)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(CancelNotPassed)).GetValue(this).ToString().ToLower())}{TS.CONTINUE}");
             sb.Append($"{nameof(Independent)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Independent)).GetValue(this).ToString().ToLower())}");
             sb.Append($"{TS.CONTINUE}{nameof(Methods)}{TS.CS}{Ms()}");
             sb.Append($"{TS.END}");
@@ -124,7 +124,7 @@ namespace ABT.Test.TestLib.TestSpec {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Method))] public String Method { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
-        [XmlAttribute(nameof(CancelIfFail))] public Boolean CancelIfFail { get; set; }
+        [XmlAttribute(nameof(CancelNotPassed))] public Boolean CancelNotPassed { get; set; }
         public Object Value { get; set; }
         public EVENTS Event { get; set; }
         public StringBuilder Log { get; set; }
@@ -134,7 +134,7 @@ namespace ABT.Test.TestLib.TestSpec {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{nameof(Method)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{TS.CONTINUE}");
             sb.Append($"{nameof(Description)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(CancelIfFail)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(CancelIfFail)).GetValue(this).ToString().ToLower())}");
+            sb.Append($"{nameof(CancelNotPassed)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(CancelNotPassed)).GetValue(this).ToString().ToLower())}");
             return sb.ToString();
         }
 

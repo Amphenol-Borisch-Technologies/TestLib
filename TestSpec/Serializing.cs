@@ -28,10 +28,10 @@ namespace ABT.Test.TestLib.TestSpec {
                     stringBuilder.AppendLine();
                     stringBuilder.AppendLine($"\t{nameof(TG.Class)}        : {tg.Class}");
                     stringBuilder.AppendLine($"\t{nameof(TG.Description)}  : {tg.Description}");
-                    stringBuilder.AppendLine($"\t{nameof(TG.CancelIfFail)} : {tg.CancelIfFail}");
+                    stringBuilder.AppendLine($"\t{nameof(TG.CancelNotPassed)} : {tg.CancelNotPassed}");
                     stringBuilder.AppendLine($"\t{nameof(TG.Independent)}  : {tg.Independent}");
                     foreach (M m in tg.Methods) {
-                        stringBuilder.AppendLine($"\t\t\t{nameof(M.Method)}: {m.Method}, {nameof(M.Description)}: {m.Description}, {nameof(M.CancelIfFail)}: {m.CancelIfFail}");
+                        stringBuilder.AppendLine($"\t\t\t{nameof(M.Method)}: {m.Method}, {nameof(M.Description)}: {m.Description}, {nameof(M.CancelNotPassed)}: {m.CancelNotPassed}");
                         if (m is MC mc) foreach (Parameter p in mc.Parameters) stringBuilder.AppendLine($"    {nameof(Parameter)} {nameof(Parameter.Key)}: {p.Key}, {nameof(Parameter.Value)}: {p.Value}");
                         else if (m is MI mi) stringBuilder.AppendLine($"\t\t\t\t{nameof(MI.LowComparator)}: {mi.LowComparator}, {nameof(MI.Low)}: {mi.Low}, {nameof(MI.High)}: {mi.High}, {nameof(MI.HighComparator)}: {mi.HighComparator}, {nameof(MI.FractionalDigits)}: {mi.FractionalDigits}, {nameof(MI.UnitPrefix)}: {mi.UnitPrefix}, {nameof(MI.Units)}: {mi.Units}, {nameof(MI.UnitSuffix)}: {mi.UnitSuffix}");
                         else if (m is MP mp) stringBuilder.AppendLine($"\t\t\t\t{nameof(MP.Path)}: {mp.Path}, {nameof(MP.Executable)}: {mp.Executable}, {nameof(MP.Parameters)}: {mp.Parameters}, {nameof(MP.Expected)}: {mp.Expected}");
@@ -43,11 +43,11 @@ namespace ABT.Test.TestLib.TestSpec {
                             sb.AppendLine($"\t{nameof(TO.Description)} : {to.Description}");
                             sb.AppendLine($"\t\t{nameof(TG.Class)}        : {tg.Class}");
                             sb.AppendLine($"\t\t{nameof(TG.Description)}  : {tg.Description}");
-                            sb.AppendLine($"\t\t{nameof(TG.CancelIfFail)} : {tg.CancelIfFail}");
+                            sb.AppendLine($"\t\t{nameof(TG.CancelNotPassed)} : {tg.CancelNotPassed}");
                             sb.AppendLine($"\t\t{nameof(TG.Independent)}  : {tg.Independent}");
                             sb.AppendLine($"\t\t\t{nameof(M.Method)}       : {m.Method}");
                             sb.AppendLine($"\t\t\t{nameof(M.Description)}  : {m.Description}");
-                            sb.AppendLine($"\t\t\t{nameof(M.CancelIfFail)} : {m.CancelIfFail}");
+                            sb.AppendLine($"\t\t\t{nameof(M.CancelNotPassed)} : {m.CancelNotPassed}");
                             throw new NotImplementedException(sb.ToString());
                         }
                     }
