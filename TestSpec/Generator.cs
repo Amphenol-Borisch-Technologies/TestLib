@@ -66,7 +66,7 @@ namespace ABT.Test.TestLib.TestSpec {
         private static void AddMethod(CodeTypeDeclaration codeTypeDeclaration, TO to, Int32 testGroup, Int32 method) {
             CodeMemberMethod codeMemberMethod = new CodeMemberMethod {
                 Name = to.TestGroups[testGroup].Methods[method].Method,
-                Attributes = MemberAttributes.Static,
+                Attributes = MemberAttributes.Static | MemberAttributes.Assembly,
                 ReturnType = new CodeTypeReference(typeof(String))
             };
             // Test Operation
