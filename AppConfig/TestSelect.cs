@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -34,14 +33,14 @@ namespace ABT.Test.TestLib.TestSpec {
                 Text = "Select Test Operation";
                 TestList.Columns.Add("Operation");
                 TestList.Columns.Add("Description");
-                foreach (TO to in TestLib.TestSpec.TestOperations) TestList.Items.Add(new ListViewItem(new String[] { to.NamespaceLeaf, to.Description }));
+                foreach (TO to in TestSelection.TS.TestOperations) TestList.Items.Add(new ListViewItem(new String[] { to.NamespaceLeaf, to.Description }));
             } else {
                 TestOperations.Checked = false;
                 Text = "Select Test Group";
                 TestList.Columns.Add("Operation");
                 TestList.Columns.Add("Group");
                 TestList.Columns.Add("Description");
-                foreach (TO to in TestLib.TestSpec.TestOperations) {
+                foreach (TO to in TestSelection.TS.TestOperations) {
                     foreach (TG tg in to.TestGroups)
                         if (tg.Independent) TestList.Items.Add(new ListViewItem(new String[] { to.NamespaceLeaf, tg.Class, tg.Description }));
                 }
@@ -60,10 +59,10 @@ namespace ABT.Test.TestLib.TestSpec {
         private void OK_Click(Object sender, EventArgs e) {
             Debug.Assert(TestList.SelectedItems.Count == 1);
             if (TestOperations.Checked) {
-                TestOperation = TestLib.TestSpec.TestOperations[TestList.SelectedItems[0].Index];
+                TestOperation = TestSelection.TS.TestOperations[TestList.SelectedItems[0].Index];
                 TestGroup = null;
             } else {
-                TestOperation = TestLib.TestSpec.TestOperations.Find(to => to.NamespaceLeaf.Equals(TestList.SelectedItems[0].Text));
+                TestOperation = TestSelection.TS.TestOperations.Find(to => to.NamespaceLeaf.Equals(TestList.SelectedItems[0].Text));
                 TestGroup = TestOperation.TestGroups.Find(tg => tg.Class.Equals(TestList.SelectedItems[0].SubItems[1].Text));
             }
             DialogResult = DialogResult.OK;
