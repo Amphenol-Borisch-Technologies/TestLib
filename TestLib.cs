@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
+using System.Windows.Forms;
 using ABT.Test.TestLib.AppConfig;
 using ABT.Test.TestLib.TestSpec;
+using Agilent.CommandExpert.ScpiNet.Ag34401_11.Transport.Visa.Clear;
 
 namespace ABT.Test.TestLib {
     public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, IGNORE, PASS, UNSET }
@@ -30,6 +32,19 @@ namespace ABT.Test.TestLib {
         public static TS TestSpec = null;               // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static TO TestOperation = null;          // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static TG TestGroup = null;              // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static TO CurrentTO = null;              // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static TG CurrentTG = null;              // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static M CurrentM = null;                // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static class Current {                   // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+            public static TO TO = null;
+            public static TG TG = null;
+            public static M M = null;
+            public static void Nullify() {
+                TO = null;
+                TG = null;
+                M = null;
+            }
+        }
         public static String TestSpecXSD = @"C:\Users\phils\source\repos\ABT\Test\TestLib\TestSpec\TestSpec.xsd";
         public static String BaseDirectory = null;      // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static CancellationToken CT_Cancel;

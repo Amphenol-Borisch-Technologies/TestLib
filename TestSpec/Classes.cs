@@ -66,6 +66,7 @@ namespace ABT.Test.TestLib.TestSpec {
         [XmlAttribute(nameof(NamespaceLeaf))] public String NamespaceLeaf { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlElement(nameof(TG))] public List<TG> TestGroups { get; set; }
+
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{TS.DEBUG_ASSERT}{GetType().Name}{TS.BEGIN}");
@@ -75,6 +76,7 @@ namespace ABT.Test.TestLib.TestSpec {
             sb.Append($"{TS.END}");
             return sb.ToString();
         }
+
         private String TGs() {
             StringBuilder sb = new StringBuilder();
             foreach (TG tg in TestGroups) sb.Append($"{tg.Class}{TS.DIVIDER}");
@@ -123,8 +125,9 @@ namespace ABT.Test.TestLib.TestSpec {
         [XmlAttribute(nameof(Method))] public String Method { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(CancelIfFail))] public Boolean CancelIfFail { get; set; }
-        [XmlAttribute(nameof(Event))] public EVENTS Event { get; set; }
-        [XmlAttribute(nameof(EventDetail))] public String EventDetail { get; set; }
+        public Object Value { get; set; }
+        public EVENTS Event { get; set; }
+        public StringBuilder Log { get; set; }
         public String AssertionPrior() { return $"{TS.DEBUG_ASSERT}{nameof(Assertions.M_Prior)}{TS.BEGIN}{nameof(Method)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{TS.END}"; }
 
         private protected String AssertionM() {
