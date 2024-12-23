@@ -110,8 +110,9 @@ namespace ABT.Test.TestLib {
             TO = null;
             TG = null;
         }
-        public static Boolean IsOperation() { return TS != null && TO != null && TG == null; }
-        public static Boolean IsGroup() { return !IsOperation(); }
+        public static Boolean IsNotNull() { return TS != null && TO != null; }
+        public static Boolean IsOperation() { return IsNotNull() && TG == null; }
+        public static Boolean IsGroup() { return IsNotNull() && TG != null; }
     }
 
     public static class TestIndex {
