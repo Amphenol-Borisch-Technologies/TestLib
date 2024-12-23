@@ -127,7 +127,7 @@ namespace ABT.Test.TestLib.TestSpec {
         [XmlAttribute(nameof(CancelNotPassed))] public Boolean CancelNotPassed { get; set; }
         public Object Value { get; set; }
         public EVENTS Event { get; set; }
-        public StringBuilder Log { get; set; }
+        public StringBuilder Log { get; set; } = new StringBuilder();
         public String AssertionPrior() { return $"{TS.DEBUG_ASSERT}{nameof(Assertions.M_Prior)}{TS.BEGIN}{nameof(Method)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{TS.END}"; }
 
         private protected String AssertionM() {
