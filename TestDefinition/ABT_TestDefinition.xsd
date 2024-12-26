@@ -5,8 +5,8 @@
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            elementFormDefault="qualified">
 
-<xs:import schemaLocation="file://C://Users//phils//source//repos//ABT//Test//TestLib//TestDefinition//ABT_Test.xsd"
-           namespace="ABT_Test"/>
+  <xs:import schemaLocation="file://C://Users//phils//source//repos//ABT//Test//TestLib//TestDefinition//ABT_Test.xsd"
+             namespace="ABT_Test"/>
 
   <xs:element name="TestDefinition">
     <xs:annotation>

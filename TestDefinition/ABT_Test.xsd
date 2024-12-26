@@ -4,7 +4,7 @@
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:abt_test="ABT_Test"
            elementFormDefault="qualified">
-  
+
   <xs:simpleType name="ValidCSharpNamespace">
     <xs:annotation>
       <xs:documentation xml:lang="en">
@@ -95,16 +95,16 @@
     </xs:restriction>
   </xs:simpleType>
 
-    <xs:attribute name="Folder" type="abt_test:ValidWindowsPath">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
+  <xs:attribute name="Folder" type="abt_test:ValidWindowsPath">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        <![CDATA[
             Folder attribute:
             - Type: ValidWindowsPath.
           ]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
 
   <xs:attributeGroup name="SerialNumberAttributes">
     <xs:annotation>
