@@ -92,17 +92,6 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:attribute name="Name" type="xs:string">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          Name attribute:
-          - Type: xs:string.
-        ]]>
-      </xs:documentation>
-    </xs:annotation>
-  </xs:attribute>
-
   <xs:attribute name="Folder" type="ValidWindowsPath">
     <xs:annotation>
       <xs:documentation xml:lang="en">
@@ -146,7 +135,9 @@
         <xs:documentation xml:lang="en">
           <![CDATA[
           SerialRegEx attribute:
-          - Type: xs:string.
+          - Optional.
+          - RegEx to validate Serial Number entry.
+          - Type: xs:string + xs:restriction + xs:pattern.
           ]]>
         </xs:documentation>
       </xs:annotation>
@@ -179,15 +170,16 @@
   </xs:attributeGroup>
 
   <xs:complexType name="Customer">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          Customer complexType:
-          - Type: Customer.
-          ]]>
-      </xs:documentation>
-    </xs:annotation>
-    <xs:attribute ref="Name" use="required">
+    <xs:attribute name="Name" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          <![CDATA[
+          Name attribute:
+          - Required.
+          - Type: xs:string.
+        ]]>
+        </xs:documentation>
+      </xs:annotation>
     </xs:attribute>
     <xs:attribute name="Division" type="xs:string" use="optional">
       <xs:annotation>
@@ -214,14 +206,6 @@
   </xs:complexType>
 
   <xs:complexType name="TestSpecification">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          TestSpecification complexType:
-          - Type: TestSpecification.
-          ]]>
-      </xs:documentation>
-    </xs:annotation>
     <xs:attribute name="Document" type="xs:string" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
@@ -269,26 +253,10 @@
   </xs:complexType>
 
   <xs:complexType name="Documentation">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          Documentation complexType:
-          - Type: Documentation.
-        ]]>
-      </xs:documentation>
-    </xs:annotation>
     <xs:attribute ref="Folder" use="required"/>
   </xs:complexType>
 
   <xs:complexType name="Repository">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          Repository complexType:
-          -Type: Repository:
-        ]]>
-      </xs:documentation>
-    </xs:annotation>
     <xs:attribute name="URL" type="xs:anyURI" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
@@ -311,7 +279,17 @@
         ]]>
       </xs:documentation>
     </xs:annotation>
-    <xs:attribute ref="Name" use="required"/>
+    <xs:attribute name="Name" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          <![CDATA[
+          Name attribute:
+          - Required.
+          - Type: xs:string.
+        ]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="Language" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
@@ -344,14 +322,6 @@
   </xs:complexType>
 
   <xs:complexType name="Modification">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          Modification complexType:
-          -Type: Modification.
-        ]]>
-      </xs:documentation>
-    </xs:annotation>
     <xs:attribute name="Who" type="xs:string" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
@@ -410,14 +380,6 @@
   </xs:complexType>
 
   <xs:complexType name="TDR">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          TDR complexType:
-          -Type: TDR.
-        ]]>
-      </xs:documentation>
-    </xs:annotation>
     <xs:attribute ref="Folder" use="required"/>
     <xs:attributeGroup ref="SerialNumberAttributes"/>
   </xs:complexType>
@@ -446,26 +408,10 @@
   </xs:complexType>
 
   <xs:complexType name="Stationary">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          Stationary complexType:
-          -Type: Stationary.
-        ]]>
-      </xs:documentation>
-    </xs:annotation>
     <xs:attributeGroup ref="InstrumentAttributeGroup"/>
   </xs:complexType>
 
   <xs:complexType name="Mobile">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          Mobile complexType:
-          -Type: Mobile.
-        ]]>
-      </xs:documentation>
-    </xs:annotation>
     <xs:attributeGroup ref="InstrumentAttributeGroup"/>
     <xs:attribute name="Detail" type="xs:string" use="required">
       <xs:annotation>
@@ -515,9 +461,39 @@
           </xs:annotation>
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="Customer" type="Customer" minOccurs="1" maxOccurs="1"/>
-              <xs:element name="TestSpecification" type="TestSpecification" minOccurs="1" maxOccurs="unbounded"/>
-              <xs:element name="Documentation" type="Documentation" minOccurs="0" maxOccurs="unbounded"/>
+              <xs:element name="Customer" type="Customer" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">
+                    <![CDATA[
+                    Customer element.
+                    - Required, 1 occurence.
+                    - Type: Customer.
+                  ]]>
+                  </xs:documentation>
+                </xs:annotation>                
+              </xs:element>
+              <xs:element name="TestSpecification" type="TestSpecification" minOccurs="1" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">
+                    <![CDATA[
+                    TestSpecification element.
+                    - Required, 1 or more occurences.
+                    - Type: TestSpecification.
+                  ]]>
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="Documentation" type="Documentation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">
+                    <![CDATA[
+                    Documentation element.
+                    - Optional, 0 or more occurences.
+                    - Type: Documentation.
+                  ]]>
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
             </xs:sequence>
             <xs:attribute name="Number" type="xs:string" use="required">
               <xs:annotation>
@@ -641,9 +617,39 @@
           </xs:annotation>
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="Developer" type="Developer" minOccurs="1" maxOccurs="unbounded" />
-              <xs:element name="Documentation" type="Documentation" minOccurs="0" maxOccurs="unbounded"/>
-              <xs:element name="Repository" type="Repository" minOccurs="0" maxOccurs="unbounded"/>
+              <xs:element name="Developer" type="Developer" minOccurs="1" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">
+                    <![CDATA[
+                    Developer element.
+                    - Required, 1 or more occurences.
+                    - Type: Developer.
+                  ]]>
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="Documentation" type="Documentation" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">
+                    <![CDATA[
+                    Documentation element.
+                    - Optional, 0 or more occurences.
+                    - Type: Documentation.
+                  ]]>
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="Repository" type="Repository" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">
+                    <![CDATA[
+                    Repository element.
+                    - Optional, 0 or more occurences.
+                    - Type: Repository.
+                  ]]>
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
             </xs:sequence>
             <xs:attribute name="Released" type="xs:date" use="required">
               <xs:annotation>
@@ -670,7 +676,17 @@
           </xs:annotation>
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="Modification" type="Modification" minOccurs="0" maxOccurs="unbounded"/>
+              <xs:element name="Modification" type="Modification" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">
+                    <![CDATA[
+                    Modification element.
+                    - Optional, 0 or more occurences.
+                    - Type: Modification.
+                  ]]>
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -686,6 +702,15 @@
           </xs:annotation>
           <xs:complexType>
             <xs:choice>
+              <xs:annotation>
+                <xs:documentation xml:lang="en">
+                  <![CDATA[
+                    SQL or TDR elements.
+                    - Choice, 1 occurence.
+                    - Types: SQL or TDR.
+                  ]]>
+                </xs:documentation>
+              </xs:annotation>
               <xs:element name="TDR" type="TDR" minOccurs="1" maxOccurs="1"/>
               <xs:element name="SQL" type="SQL" minOccurs="1" maxOccurs="1"/>
             </xs:choice>
@@ -703,8 +728,28 @@
           </xs:annotation>
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="Stationary" type="Stationary" minOccurs="0" maxOccurs="unbounded"/>
-              <xs:element name="Mobile" type="Mobile" minOccurs="0" maxOccurs="unbounded"/>
+              <xs:element name="Stationary" type="Stationary" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">
+                    <![CDATA[
+                      Stationary element.
+                      - Optional, 0 or more occurences.
+                      - Type: Stationary.
+                    ]]>
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="Mobile" type="Mobile" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">
+                    <![CDATA[
+                      Mobile element.
+                      - Optional, 0 or more occurences.
+                      - Type: Mobile.
+                    ]]>
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
