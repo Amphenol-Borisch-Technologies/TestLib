@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace ABT.Test.TestLib.TestSpec {
+namespace ABT.Test.TestLib.TestDefinition {
     public partial class TestSelect : Form {
         internal static TO TestOperation { get; private set; }
         internal static TG TestGroup { get; private set; }

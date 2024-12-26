@@ -4,22 +4,22 @@ using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 
-namespace ABT.Test.TestLib.TestSpec {
+namespace ABT.Test.TestLib.TestDefinition {
     public static class Validator {
         private static Boolean validSpecification = true;
         private static readonly StringBuilder stringBuilder = new StringBuilder();
         private static XmlReader xmlReader;
 
-        public static Boolean ValidSpecification(String TestSpecXSD, String TestSpecXML) {
-            if (!File.Exists(TestSpecXSD)) throw new ArgumentException($"XSD Test Specification File '{TestSpecXSD}' does not exist.");
-            if (!File.Exists(TestSpecXML)) throw new ArgumentException($"XML Test Specification File '{TestSpecXML}' does not exist.");
+        public static Boolean ValidSpecification(String TestDefinitionXSD, String TestDefinitionXML) {
+            if (!File.Exists(TestDefinitionXSD)) throw new ArgumentException($"XSD Test Specification File '{TestDefinitionXSD}' does not exist.");
+            if (!File.Exists(TestDefinitionXML)) throw new ArgumentException($"XML Test Specification File '{TestDefinitionXML}' does not exist.");
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
-            xmlSchemaSet.Add(null, TestSpecXSD);
+            xmlSchemaSet.Add(null, TestDefinitionXSD);
             XmlReaderSettings xmlReaderSettings = new XmlReaderSettings { ValidationType = ValidationType.Schema, Schemas = xmlSchemaSet };
             xmlReaderSettings.ValidationEventHandler += ValidationCallback;
 
             try {
-                using (xmlReader = XmlReader.Create(TestSpecXML, xmlReaderSettings)) {
+                using (xmlReader = XmlReader.Create(TestDefinitionXML, xmlReaderSettings)) {
                     Double low, high;
                     while (xmlReader.Read()) {
                         if (xmlReader.NodeType == XmlNodeType.Element && String.Equals(xmlReader.Name, nameof(MI))) {
@@ -74,7 +74,7 @@ namespace ABT.Test.TestLib.TestSpec {
             }
 
             if (!validSpecification) {
-                stringBuilder.AppendLine($"Invalid XML Test Specification File: file:///{TestSpecXML}.{Environment.NewLine}");
+                stringBuilder.AppendLine($"Invalid XML Test Specification File: file:///{TestDefinitionXML}.{Environment.NewLine}");
                 Miscellaneous.CustomMessageBox.Show(Title: "Invalid XML Test Specification File", Message: stringBuilder.ToString(), OptionalIcon: System.Drawing.SystemIcons.Error);
             }
             return validSpecification;

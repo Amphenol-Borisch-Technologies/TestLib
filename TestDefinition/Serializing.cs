@@ -3,18 +3,18 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace ABT.Test.TestLib.TestSpec {
+namespace ABT.Test.TestLib.TestDefinition {
 
     public static class Serializing {
-        public static void Serialize(TS ts, String TestSpecXML) {
-            if (!Directory.Exists(Path.GetDirectoryName(TestSpecXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(TestSpecXML)}' does not exist.");
-            using (FileStream fileStream = new FileStream(TestSpecXML, FileMode.Create)) new XmlSerializer(typeof(TS)).Serialize(fileStream, ts);
+        public static void Serialize(TS ts, String TestDefinitionXML) {
+            if (!Directory.Exists(Path.GetDirectoryName(TestDefinitionXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(TestDefinitionXML)}' does not exist.");
+            using (FileStream fileStream = new FileStream(TestDefinitionXML, FileMode.Create)) new XmlSerializer(typeof(TS)).Serialize(fileStream, ts);
         }
 
-        public static TS Deserialize(String TestSpecXML) {
-            if (!File.Exists(TestSpecXML)) throw new ArgumentException($"XML Test Specification File '{TestSpecXML}' does not exist.");
+        public static TS Deserialize(String TestDefinitionXML) {
+            if (!File.Exists(TestDefinitionXML)) throw new ArgumentException($"XML Test Specification File '{TestDefinitionXML}' does not exist.");
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(TS));
-            using (FileStream fileStream = new FileStream(TestSpecXML, FileMode.Open)) return (TS)xmlSerializer.Deserialize(fileStream);
+            using (FileStream fileStream = new FileStream(TestDefinitionXML, FileMode.Open)) return (TS)xmlSerializer.Deserialize(fileStream);
         }
 
         public static String Format(TS ts) {

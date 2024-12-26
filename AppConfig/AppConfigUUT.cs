@@ -8,7 +8,7 @@ namespace ABT.Test.TestLib.AppConfig {
         public readonly String Number = ConfigurationManager.AppSettings["UUT_Number"].Trim();
         public readonly String Revision = ConfigurationManager.AppSettings["UUT_Revision"].Trim();
         public readonly String Description = ConfigurationManager.AppSettings["UUT_Description"].Trim();
-        public readonly String TestSpec = ConfigurationManager.AppSettings["UUT_TestSpecification"].Trim();
+        public readonly String TestDefinition = ConfigurationManager.AppSettings["UUT_TestDefinitionification"].Trim();
         public readonly String DocumentationFolder = ConfigurationManager.AppSettings["UUT_DocumentationFolder"].Trim();
         public readonly String ManualsFolder = ConfigurationManager.AppSettings["UUT_ManualsFolder"].Trim();
         public readonly String EMailTestEngineer =  ConfigurationManager.AppSettings["UUT_TestEngineerEmail"].Trim();

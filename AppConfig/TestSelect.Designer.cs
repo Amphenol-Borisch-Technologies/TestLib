@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace ABT.Test.TestLib.TestSpec {
+namespace ABT.Test.TestLib.TestDefinition {
     partial class TestSelect {
         /// <summary>
         /// Required designer variable.

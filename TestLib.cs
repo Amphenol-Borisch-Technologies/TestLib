@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using ABT.Test.TestLib.AppConfig;
-using ABT.Test.TestLib.TestSpec;
+using ABT.Test.TestLib.TestDefinition;
 
 namespace ABT.Test.TestLib {
     public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, IGNORE, PASS, UNSET }
@@ -26,7 +26,7 @@ namespace ABT.Test.TestLib {
         public static readonly AppConfigLogger ConfigLogger = AppConfigLogger.Get();
         public static AppConfigUUT ConfigUUT = AppConfigUUT.Get();
 
-        public static String TestSpecXSD = @"C:\Users\phils\source\repos\ABT\Test\TestLib\TestSpec\TestSpec.xsd";
+        public static String TestDefinitionXSD = @"C:\Users\phils\source\repos\ABT\Test\TestLib\TestDefinition\TestDefinition.xsd";
         public static String BaseDirectory = null;      // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static CancellationToken CT_Cancel;
         public static CancellationToken CT_EmergencyStop;

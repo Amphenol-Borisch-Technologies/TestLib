@@ -6,13 +6,13 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using Microsoft.CSharp;
 
-namespace ABT.Test.TestLib.TestSpec {
+namespace ABT.Test.TestLib.TestDefinition {
 
     public static class Generator {
-        public static void Generate(String TestSpecXML) {
-            if (!Directory.Exists(Path.GetDirectoryName(TestSpecXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(TestSpecXML)}' does not exist.");
+        public static void Generate(String TestDefinitionXML) {
+            if (!Directory.Exists(Path.GetDirectoryName(TestDefinitionXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(TestDefinitionXML)}' does not exist.");
             TS ts;
-            using (FileStream fileStream = new FileStream(TestSpecXML, FileMode.Open)) { ts = (TS)(new XmlSerializer(typeof(TS))).Deserialize(fileStream); }
+            using (FileStream fileStream = new FileStream(TestDefinitionXML, FileMode.Open)) { ts = (TS)(new XmlSerializer(typeof(TS))).Deserialize(fileStream); }
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
 
             for (Int32 testOperation = 0; testOperation < ts.TestOperations.Count; testOperation++) {
@@ -37,6 +37,7 @@ namespace ABT.Test.TestLib.TestSpec {
                 Filter = "C# files (*.cs)|*.cs",
                 Title = "Save the generated Test Program C# file",
                 DefaultExt = "cs",
+                FileName = "TestGenerated.cs",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\" 
             };
 
@@ -49,7 +50,7 @@ namespace ABT.Test.TestLib.TestSpec {
             CodeNamespace codeNamespace = new CodeNamespace(ts.NamespaceRoot + "." + ts.TestOperations[testOperation].NamespaceLeaf);
             codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("System.Diagnostics"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestSpec.Assertions"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestDefinition.Assertions"));
             return codeNamespace;
         }
 

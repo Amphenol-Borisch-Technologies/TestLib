@@ -5,7 +5,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ABT.Test.TestLib.TestSpec;
+using ABT.Test.TestLib.TestDefinition;
 
 namespace ABT.Test.TestLib.Processes {
     public enum PROCESS_METHOD { ExitCode, Redirect }

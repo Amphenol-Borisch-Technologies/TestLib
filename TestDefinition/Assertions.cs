@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 
-namespace ABT.Test.TestLib.TestSpec {
+namespace ABT.Test.TestLib.TestDefinition {
     public static class Assertions {
         public static Boolean NS(String NamespaceRoot, String Description, String TestOperations) {
             Boolean b = String.Equals(TestSelection.TS.NamespaceRoot, NamespaceRoot);

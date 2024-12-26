@@ -77,10 +77,10 @@ C:\Users\phils\source\repos\ABT\Test\TestLib\bin\x64\Debug\Ivi.Visa.xml
 C:\Users\phils\source\repos\ABT\Test\TestLib\bin\x64\Debug\Tektronix.Tkdpo2k3k4k.Interop.xml
 C:\Users\phils\source\repos\ABT\Test\TestLib\bin\x64\Debug\Ivi.Scope.Interop.xml
 C:\Users\phils\source\repos\ABT\Test\TestLib\obj\x64\Debug\TestLib.csproj.AssemblyReference.cache
-C:\Users\phils\source\repos\ABT\Test\TestLib\obj\x64\Debug\ABT.Test.TestLib.TestSpec.TestSelect.resources
 C:\Users\phils\source\repos\ABT\Test\TestLib\obj\x64\Debug\ABT.Test.TestLib.Miscellaneous.CustomMessageBox.resources
 C:\Users\phils\source\repos\ABT\Test\TestLib\obj\x64\Debug\TestLib.csproj.GenerateResource.cache
 C:\Users\phils\source\repos\ABT\Test\TestLib\obj\x64\Debug\TestLib.csproj.CoreCompileInputs.cache
 C:\Users\phils\source\repos\ABT\Test\TestLib\obj\x64\Debug\TestLib.csproj.Up2Date
 C:\Users\phils\source\repos\ABT\Test\TestLib\obj\x64\Debug\TestLib.dll
 C:\Users\phils\source\repos\ABT\Test\TestLib\obj\x64\Debug\TestLib.pdb
+C:\Users\phils\source\repos\ABT\Test\TestLib\obj\x64\Debug\ABT.Test.TestLib.TestDefinition.TestSelect.resources
