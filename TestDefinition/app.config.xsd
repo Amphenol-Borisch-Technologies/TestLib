@@ -49,131 +49,58 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:complexType name="Part">
-    <xs:sequence>
-      <xs:element name="Customer" type="Customer" minOccurs="1" maxOccurs="unbounded">
-        <xs:annotation>
-          <xs:documentation xml:lang="en">
-            <![CDATA[
-              Customer element:
-              - Required, 1 or more occurrences.
-              - Type: Customer.
-            ]]>
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="TestSpecification" type="TestSpecification" minOccurs="1" maxOccurs="unbounded">
-        <xs:annotation>
-          <xs:documentation xml:lang="en">
-            <![CDATA[
-              TestSpecification element:
-              - Required, 1 or more occurrences.
-              - Type: TestSpecification.
-            ]]>
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="Documentation" type="Documentation" minOccurs="0" maxOccurs="unbounded" >
-        <xs:annotation>
-          <xs:documentation xml:lang="en">
-            <![CDATA[
-              Documentation element:
-              - Optional, 0 or more occurrences.
-              - Type: Documentation.
-            ]]>
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
-    </xs:sequence>
-    <xs:attribute name="Number" type="xs:string" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          Number attribute:
-          - Required.
+  <xs:attribute name="Name" type="xs:string">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        <![CDATA[
+          Name attribute:
           - Type: xs:string.
         ]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="Description" type="xs:string" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          Description attribute:
-          - Required.
-          - Type: xs:string.
-        ]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="Revision" type="xs:string" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          Revision attribute:
-          - Required.
-          - Type: xs:string.
-        ]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="Type" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          Type attribute:
-          - Required.
-          - Type: xs:enumeration.
-        ]]>
-        </xs:documentation>
-      </xs:annotation>
-      <xs:simpleType>
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Component"/>
-          <xs:enumeration value="Harness"/>
-          <xs:enumeration value="Circuit Card Assembly"/>
-          <xs:enumeration value="Sub-Unit"/>
-          <xs:enumeration value="Unit"/>
-          <xs:enumeration value="Sub-System"/>
-          <xs:enumeration value="System"/>
-          <xs:pattern value=".*"/>
-        </xs:restriction>
-      </xs:simpleType>
-    </xs:attribute>
-  </xs:complexType>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+
+  <xs:attribute name="Folder" type="ValidWindowsPath">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        <![CDATA[
+            Folder:
+            - Type: xs:attribute.
+          ]]>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
 
   <xs:complexType name="Customer">
-    <xs:attribute name="Name" type="xs:string" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          Name attribute:
-          - Required.
-          - Type: xs:string.
-        ]]>
-        </xs:documentation>
-      </xs:annotation>
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        <![CDATA[
+          Customer complexType.
+          - Type: Customer.
+          ]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute ref="Name" use="required">
     </xs:attribute>
-    <xs:attribute name="Division" type="xs:string" use="required">
+    <xs:attribute name="Division" type="xs:string" use="optional">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
           Division attribute:
-          - Required.
+          - Optional.
           - Type: xs:string.
-        ]]>
+          ]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="Location" type="xs:string" use="required">
+    <xs:attribute name="Location" type="xs:string" use="optional">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
           Location attribute:
-          - Required.
+          - Optional.
           - Type: xs:string.
-        ]]>
+          ]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -191,35 +118,35 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="Date" type="xs:date" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          Date attribute:
-          - Required.
-          - Type: xs:date.
-        ]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="Title" type="xs:string" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          Title attribute:
-          - Required.
-          - Type: xs:string.
-        ]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
     <xs:attribute name="Revision" type="xs:string" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
-          Revision attribute:
+          Optional attribute:
           - Required.
           - Type: xs:string.
+        ]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="Title" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          <![CDATA[
+          Optional attribute:
+          - Optional.
+          - Type: xs:string.
+        ]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="Date" type="xs:date" use="optional">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          <![CDATA[
+          Date attribute:
+          - Optional.
+          - Type: xs:date.
         ]]>
         </xs:documentation>
       </xs:annotation>
@@ -227,57 +154,43 @@
   </xs:complexType>
 
   <xs:complexType name="Documentation">
-    <xs:attribute name="eDocs" type="ValidWindowsPath">
+    <xs:attribute ref="Folder" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
-          eDocs attribute:
-          - Optional.
-          - Type: xs:ValidWindowsPath.
-        ]]>
+          Documentation:
+          -Type: complexType:
+          ]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="Manuals" type="ValidWindowsPath">
+  </xs:complexType>
+
+  <xs:complexType name="Repository">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        <![CDATA[
+          Repository complexType:
+          -Type: complexType:
+          ]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="URL" type="xs:anyURI" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
-          Manuals attribute:
-          - Optional.
-          - Type: xs:ValidWindowsPath.
-        ]]>
+          URL attribute:
+          -Required.
+          -Type: xs:anyURI:
+          ]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="Developer">
-    <xs:attribute name="Name" type="xs:string" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          Name attribute:
-          - Required.
-          - Type: xs:string.
-        ]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="Date" type="xs:date" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          Date attribute:
-          - Required.
-          - Type: xs:date.
-        ]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-  </xs:complexType>
-
-  <xs:complexType name="Language">
-    <xs:attribute name="Name" use="required">
+    <xs:attribute ref="Name" use="required"/>
+    <xs:attribute name="Language" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
@@ -295,6 +208,7 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
+    <xs:attribute name="Comment" type="xs:string" use="optional"/>
   </xs:complexType>
 
   <xs:complexType name="Modification">
@@ -428,12 +342,12 @@
     <xs:attribute name="RegEx" type="xs:string" use="required"/>
   </xs:complexType>
 
-  <xs:complexType name="InstrumentP">
+  <xs:complexType name="Stationary">
     <xs:attribute name="ID" type="xs:ID" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
-          InstrumentP attribute:
+          ID attribute:
           - Required.
           - Type: xs:ID.
         ]]>
@@ -453,12 +367,12 @@
     </xs:attribute>
   </xs:complexType>
 
-  <xs:complexType name="InstrumentT">
+  <xs:complexType name="Mobile">
     <xs:attribute name="ID" type="xs:ID" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
-          InstrumentP attribute:
+          ID attribute:
           - Required.
           - Type: xs:ID.
         ]]>
@@ -500,142 +414,81 @@
     </xs:attribute>
   </xs:complexType>
 
-
-  <xs:element name="Definition" >
+  <xs:element name="TestDefinition">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="UUT" type="Part" minOccurs="1" maxOccurs="1"/>
-        <xs:element name="Development" minOccurs="1" maxOccurs="1">
+        <xs:element name="UUT" minOccurs="1" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="Developers" minOccurs="1" maxOccurs="1">
+              <xs:element name="Customer" type="Customer" minOccurs="1" maxOccurs="1"/>
+              <xs:element name="TestSpecification" type="TestSpecification" minOccurs="1" maxOccurs="unbounded"/>
+              <xs:element name="Documentation" type="Documentation" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="Number" type="xs:string" use="required"/>
+            <xs:attribute name="Description" type="xs:string" use="required"/>
+            <xs:attribute name="Revision" type="xs:string" use="required"/>
+            <xs:attribute name="Type" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Development">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Developer" type="Developer" minOccurs="1" maxOccurs="unbounded" />
+              <xs:element name="Documentation" type="Documentation" minOccurs="0" maxOccurs="unbounded"/>
+              <xs:element name="Repository" type="Repository" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="Released" type="xs:date" use="required"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Modifications">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Modification" maxOccurs="unbounded">
                 <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="Developer" type="Developer" minOccurs="1" maxOccurs="unbounded">
-                      <xs:annotation>
-                        <xs:documentation xml:lang="en">
-                          <![CDATA[
-                            Developer element:
-                            - Required, 1 or more occurrences.
-                            - Type: Developer.
-                          ]]>
-                        </xs:documentation>
-                      </xs:annotation>
-                    </xs:element>
-                  </xs:sequence>
-                </xs:complexType>
-              </xs:element>
-              <xs:element name="Languages" minOccurs="1" maxOccurs="1">
-                <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="Language" type="Language" minOccurs="1" maxOccurs="unbounded">
-                      <xs:annotation>
-                        <xs:documentation xml:lang="en">
-                          <![CDATA[
-                            Languages element:
-                            - Required, 1 or more occurrences.
-                            - Type: Language.
-                          ]]>
-                        </xs:documentation>
-                      </xs:annotation>
-                    </xs:element>
-                  </xs:sequence>
-                </xs:complexType>
-              </xs:element>
-              <xs:element name="Modifications" minOccurs="1" maxOccurs="1">
-                <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="Modification" type="Modification" minOccurs="0" maxOccurs="unbounded">
-                      <xs:annotation>
-                        <xs:documentation xml:lang="en">
-                          <![CDATA[
-                            Modification element:
-                            - Optional, 0 or more occurrences.
-                            - Type: Modification.
-                          ]]>
-                        </xs:documentation>
-                      </xs:annotation>
-                    </xs:element>
-                  </xs:sequence>
+                  <xs:attribute name="Who" type="xs:string" use="required"/>
+                  <xs:attribute name="What" type="xs:string" use="required"/>
+                  <xs:attribute name="When" type="xs:date" use="required"/>
+                  <xs:attribute name="Where" type="xs:string" use="required"/>
+                  <xs:attribute name="Why" type="xs:string" use="required"/>
                 </xs:complexType>
               </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Logger" minOccurs="1" maxOccurs="1">
+        <xs:element name="TestData">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="File" type="File" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                  <xs:documentation xml:lang="en">
-                    <![CDATA[
-                            File element:
-                            - Optional, 0 or 1 occurrences.
-                            - Type: File.
-                    ]]>
-                  </xs:documentation>
-                </xs:annotation>
-              </xs:element>
-              <xs:element name="SQL" type="SQL" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                  <xs:documentation xml:lang="en">
-                    <![CDATA[
-                            SQL element:
-                            - Optional, 0 or 1 occurrences.
-                            - Type: SQL.
-                    ]]>
-                  </xs:documentation>
-                </xs:annotation>
-              </xs:element>
-              <xs:element name="SerialNumber" type="SerialNumber" minOccurs="1" maxOccurs="1">
-                <xs:annotation>
-                  <xs:documentation xml:lang="en">
-                    <![CDATA[
-                            SerialNumber element:
-                            - Required, 1 occurrence.
-                            - Type: SerialNumber.
-                    ]]>
-                  </xs:documentation>
-                </xs:annotation>
-              </xs:element>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="InstrumentsRequired" minOccurs="1" maxOccurs="1">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="Permanent" minOccurs="1" maxOccurs="1">
+              <xs:element name="TDR">
                 <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="InstrumentP" type="InstrumentP" minOccurs="0" maxOccurs="unbounded">
-                      <xs:annotation>
-                        <xs:documentation xml:lang="en">
-                          <![CDATA[
-                            InstrumentP element:
-                            - Optional, 0 more occurrences.
-                            - Type: InstrumentP.
-                          ]]>
-                        </xs:documentation>
-                      </xs:annotation>
-                    </xs:element>
-                  </xs:sequence>
+                  <xs:attribute name="Folder" type="xs:string"/>
                 </xs:complexType>
               </xs:element>
-              <xs:element name="Temporary" minOccurs="1" maxOccurs="1">
+              <xs:element name="SQL">
                 <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="InstrumentT" type="InstrumentT" minOccurs="0" maxOccurs="unbounded">
-                      <xs:annotation>
-                        <xs:documentation xml:lang="en">
-                          <![CDATA[
-                            InstrumentT element:
-                            - Optional, 0 more occurrences.
-                            - Type: InstrumentT.
-                        ]]>
-                        </xs:documentation>
-                      </xs:annotation>
-                    </xs:element>
-                  </xs:sequence>
+                  <xs:attribute name="ConnectionString" type="xs:string"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="Enabled" type="xs:boolean" use="required"/>
+            <xs:attribute name="SerialEntry" type="xs:string" use="required"/>
+            <xs:attribute name="SerialRegEx" type="xs:string"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Instruments">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Stationary" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="ID" type="xs:string" use="required"/>
+                  <xs:attribute name="ClassName" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Mobile" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="ID" type="xs:string" use="required"/>
+                  <xs:attribute name="ClassName" type="xs:string" use="required"/>
+                  <xs:attribute name="Detail" type="xs:string"/>
+                  <xs:attribute name="Address" type="xs:string"/>
                 </xs:complexType>
               </xs:element>
             </xs:sequence>
@@ -645,3 +498,4 @@
     </xs:complexType>
   </xs:element>
 </xs:schema>
+
