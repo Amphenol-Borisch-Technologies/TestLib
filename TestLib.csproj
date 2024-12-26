@@ -194,7 +194,7 @@
     <None Include="TestDefinition\ABT_Test.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="TestDefinition\app.config.xsd">
+    <None Include="TestDefinition\ABT_TestDefinition.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="TestDefinition\TestDefinition.xsd">
