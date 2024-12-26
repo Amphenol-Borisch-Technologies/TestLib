@@ -38,7 +38,7 @@
                     <![CDATA[
                     Customer element.
                     - Required, 1 occurence.
-                    - Type: Customer.
+                    - Type: abt_test:Customer.
                   ]]>
                   </xs:documentation>
                 </xs:annotation>
@@ -49,7 +49,7 @@
                     <![CDATA[
                     TestSpecification element.
                     - Required, 1 or more occurences.
-                    - Type: TestSpecification.
+                    - Type: abt_test:TestSpecification.
                   ]]>
                   </xs:documentation>
                 </xs:annotation>
@@ -60,7 +60,7 @@
                     <![CDATA[
                     Documentation element.
                     - Optional, 0 or more occurences.
-                    - Type: Documentation.
+                    - Type: abt_test:Documentation.
                   ]]>
                   </xs:documentation>
                 </xs:annotation>
@@ -194,7 +194,7 @@
                     <![CDATA[
                     Developer element.
                     - Required, 1 or more occurences.
-                    - Type: Developer.
+                    - Type: abt_test:Developer.
                   ]]>
                   </xs:documentation>
                 </xs:annotation>
@@ -205,7 +205,7 @@
                     <![CDATA[
                     Documentation element.
                     - Optional, 0 or more occurences.
-                    - Type: Documentation.
+                    - Type: abt_test:Documentation.
                   ]]>
                   </xs:documentation>
                 </xs:annotation>
@@ -216,7 +216,7 @@
                     <![CDATA[
                     Repository element.
                     - Optional, 0 or more occurences.
-                    - Type: Repository.
+                    - Type: abt_test:Repository.
                   ]]>
                   </xs:documentation>
                 </xs:annotation>
@@ -253,7 +253,7 @@
                     <![CDATA[
                     Modification element.
                     - Optional, 0 or more occurences.
-                    - Type: Modification.
+                    - Type: abt_test:Modification.
                   ]]>
                   </xs:documentation>
                 </xs:annotation>
@@ -279,7 +279,7 @@
                     <![CDATA[
                     TDR element.
                     - Choice, 1 occurence.
-                    - Type: TDR.
+                    - Type: abt_test:TDR.
                   ]]>
                   </xs:documentation>
                 </xs:annotation>
@@ -290,7 +290,7 @@
                     <![CDATA[
                     SQL element.
                     - Choice, 1 occurence.
-                    - Type: SQL.
+                    - Type: abt_test:SQL.
                   ]]>
                   </xs:documentation>
                 </xs:annotation>
@@ -316,7 +316,7 @@
                     <![CDATA[
                       Stationary element.
                       - Optional, 0 or more occurences.
-                      - Type: Stationary.
+                      - Type: abt_test:Stationary.
                     ]]>
                   </xs:documentation>
                 </xs:annotation>
@@ -327,7 +327,7 @@
                     <![CDATA[
                       Mobile element.
                       - Optional, 0 or more occurences.
-                      - Type: Mobile.
+                      - Type: abt_test:Mobile.
                     ]]>
                   </xs:documentation>
                 </xs:annotation>
