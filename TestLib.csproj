@@ -191,6 +191,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="TestDefinition\ABT_Test.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="TestDefinition\app.config.xsd">
       <SubType>Designer</SubType>
     </None>
