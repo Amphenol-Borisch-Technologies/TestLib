@@ -17,8 +17,8 @@ namespace ABT.Test.TestLib.TestDefinition {
 
     public class UUT {
         [XmlElement(nameof(Customer))] public Customer Customer { get; set; }
-        [XmlElement(nameof(TestSpecification))] public TestSpecification[] TestSpecification { get; set; }
-        [XmlElement(nameof(Documentation))] public Documentation[] Documentation { get; set; }
+        [XmlElement(nameof(TestSpecification))] public List<TestSpecification> TestSpecification { get; set; }
+        [XmlElement(nameof(Documentation))] public List<Documentation> Documentation { get; set; }
         [XmlAttribute(nameof(Number))] public String Number { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
@@ -35,6 +35,9 @@ namespace ABT.Test.TestLib.TestDefinition {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(NamespaceRoot))] public String NamespaceRoot { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
+        [XmlAttribute(nameof(Simulate))] public Boolean Simulate { get; set; }
+        public String SerialNumber { get; set; } = String.Empty; // Input during testing.
+        public EVENTS Event { get; set; } = EVENTS.UNSET; // Determined post-test.
         [XmlElement(nameof(TO))] public List<TO> TestOperations { get; set; }
         public Statistics Statistics { get; set; } = new Statistics();
         internal const String DEBUG_ASSERT = "Debug.Assert(";

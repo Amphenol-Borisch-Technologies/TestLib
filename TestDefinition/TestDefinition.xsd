@@ -1257,12 +1257,12 @@
           <xs:annotation>
             <xs:documentation xml:lang="en">
               <![CDATA[
-          TS element:
-          - Required, 1 occurrence.
-          - Type: root element.
+                TS element:
+                - Required, 1 occurrence.
+                - Type: root element.
           
-          - Test Specification root element, container for 1 or more TO elements of type TestOperation.
-        ]]>
+                - Test Specification root element, container for 1 or more TO elements of type TestOperation.
+              ]]>
             </xs:documentation>
           </xs:annotation>
           <xs:complexType>
@@ -1273,17 +1273,31 @@
               <xs:annotation>
                 <xs:documentation xml:lang="en">
                   <![CDATA[
-            Class attribute:
-            - Required.
-            - Type: ValidCSharpNamespace.
+                    Class attribute:
+                    - Required.
+                    - Type: ValidCSharpNamespace.
           
-            Beginning or "root" namespace of C# class in file in TestOperation's Namespace.
-            - Note, Class names are not Windows File names, even if both can be identically named and are often conflated.
-          ]]>
+                    Beginning or "root" namespace of C# class in file in TestOperation's Namespace.
+                    - Note, Class names are not Windows File names, even if both can be identically named and are often conflated.
+                  ]]>
                 </xs:documentation>
               </xs:annotation>
             </xs:attribute>
             <xs:attribute ref="Description" use="required"/>
+            <xs:attribute name="Simulate" type="xs:boolean" use="required">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">
+                  <![CDATA[
+                    Simulate attribute:
+                    - Required.
+                    - Type: xs:boolean.
+          
+                    When Simulate="true", the TestSpecification execution is simulated; no Instrumentation or UUT necessary.
+                    Quite limited, useful only for initial TestDefinition.
+                  ]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
           </xs:complexType>
           <xs:unique name="UniqueClass">
             <xs:selector xpath="TG"/>

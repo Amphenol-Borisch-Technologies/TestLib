@@ -22,9 +22,9 @@ namespace ABT.Test.TestLib {
         public const String NONE = "NONE";
         public static Mutex MutexTest = null;
         public const String MutexTestName = nameof(MutexTest);
-        public static Dictionary<String, Object> InstrumentDrivers = null;
-        public static readonly AppConfigLogger ConfigLogger = AppConfigLogger.Get();
-        public static AppConfigUUT ConfigUUT = AppConfigUUT.Get();
+        //public static Dictionary<String, Object> InstrumentDrivers = null;
+        //public static readonly AppConfigLogger ConfigLogger = AppConfigLogger.Get();
+        //public static AppConfigUUT ConfigUUT = AppConfigUUT.Get();
 
         public static String TestDefinitionXSD = @"C:\Users\phils\source\repos\ABT\Test\TestLib\TestDefinition\TestDefinition.xsd";
         public static String BaseDirectory = null;      // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
