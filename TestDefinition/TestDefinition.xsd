@@ -508,7 +508,7 @@
         <xs:documentation xml:lang="en">
           <![CDATA[
             Method attribute:
-            - Required.
+            - Required.  A method is analogous to a leaf in a root/trunk/branch/leaf hierarchy.
             - Type: xs:ID.
           ]]>
         </xs:documentation>
@@ -903,7 +903,7 @@
             - Required.
             - Type: UniqueCSharpIdentifier.
           
-            Name of C# class in file in TestOperation's Namespace.
+            Name of C# class in file in TestOperation's Namespace, similar to a branch in a tree hierarchy.
             - Note, Class names are not Windows File names, even if both can be identically named and are often conflated.
           ]]>
         </xs:documentation>
@@ -953,7 +953,7 @@
     <xs:sequence>
       <xs:element name="TG" type="TestGroup" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attribute name="NamespaceLeaf" type="ValidCSharpNamespace" use="required">
+    <xs:attribute name="NamespaceTrunk" type="ValidCSharpNamespace" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
@@ -961,7 +961,7 @@
             - Required.
             - Type: ValidCSharpNamespace.
           
-            Terminating or "leaf" namespace of C# class in file in TestOperation's Namespace.
+            Middle or "trunk" namespace of C# class in file in TestOperation's Namespace.
             - Note, Class names are not Windows File names, even if both can be identically named and are often conflated.
           ]]>
         </xs:documentation>
@@ -970,223 +970,29 @@
     <xs:attribute ref="Description" use="required"/>
   </xs:complexType>
 
-  <xs:element name="Definition">
+  <xs:element name="TestDefinition">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="UUTs" minOccurs="1" maxOccurs="unbounded">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="UUT" minOccurs="1" maxOccurs="unbounded">
-                <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="Customer" type="Customer" minOccurs="1" maxOccurs="unbounded">
-                      <xs:annotation>
-                        <xs:documentation xml:lang="en">
-                          <![CDATA[
-                            Customer element:
-                            - Required, 1 or more occurrences.
-                            - Type: Customer.
-                          ]]>
-                        </xs:documentation>
-                      </xs:annotation>
-                    </xs:element>
-                    <xs:element name="TestSpecification" type="TestSpecification" minOccurs="1" maxOccurs="unbounded">
-                      <xs:annotation>
-                        <xs:documentation xml:lang="en">
-                          <![CDATA[
-                            TestSpecification element:
-                            - Required, 1 or more occurrences.
-                            - Type: TestSpecification.
-                          ]]>
-                        </xs:documentation>
-                      </xs:annotation>
-                    </xs:element>
-                    <xs:element name="Part" type="Part" minOccurs="1" maxOccurs="unbounded">
-                      <xs:annotation>
-                        <xs:documentation xml:lang="en">
-                          <![CDATA[
-                            PartNumber element:
-                            - Required, 1 or more occurrences.
-                            - Type: PartNumber.
-                          ]]>
-                        </xs:documentation>
-                      </xs:annotation>
-                    </xs:element>
-                    <xs:element name="Documentation" type="Documentation" minOccurs="0" maxOccurs="unbounded" >
-                      <xs:annotation>
-                        <xs:documentation xml:lang="en">
-                          <![CDATA[
-                            Documentation element:
-                            - Optional, 0 or more occurrences.
-                            - Type: Documentation.
-                          ]]>
-                        </xs:documentation>
-                      </xs:annotation>
-                    </xs:element>
-                  </xs:sequence>
-                </xs:complexType>
-              </xs:element>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="Development" minOccurs="1" maxOccurs="1">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="Developers" minOccurs="1" maxOccurs="1">
-                <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="Developer" type="Developer" minOccurs="1" maxOccurs="unbounded">
-                      <xs:annotation>
-                        <xs:documentation xml:lang="en">
-                          <![CDATA[
-                            Developer element:
-                            - Required, 1 or more occurrences.
-                            - Type: Developer.
-                          ]]>
-                        </xs:documentation>
-                      </xs:annotation>
-                    </xs:element>
-                  </xs:sequence>
-                </xs:complexType>
-              </xs:element>
-              <xs:element name="Languages" minOccurs="1" maxOccurs="1">
-                <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="Language" type="Language" minOccurs="1" maxOccurs="unbounded">
-                      <xs:annotation>
-                        <xs:documentation xml:lang="en">
-                          <![CDATA[
-                            Languages element:
-                            - Required, 1 or more occurrences.
-                            - Type: Language.
-                          ]]>
-                        </xs:documentation>
-                      </xs:annotation>
-                    </xs:element>
-                  </xs:sequence>
-                </xs:complexType>
-              </xs:element>
-              <xs:element name="Modifications" minOccurs="1" maxOccurs="1">
-                <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="Modification" type="Modification" minOccurs="0" maxOccurs="unbounded">
-                      <xs:annotation>
-                        <xs:documentation xml:lang="en">
-                          <![CDATA[
-                            Modification element:
-                            - Optional, 0 or more occurrences.
-                            - Type: Modification.
-                          ]]>
-                        </xs:documentation>
-                      </xs:annotation>
-                    </xs:element>
-                  </xs:sequence>
-                </xs:complexType>
-              </xs:element>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="Logger" minOccurs="1" maxOccurs="1">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="File" type="File" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                  <xs:documentation xml:lang="en">
-                    <![CDATA[
-                            File element:
-                            - Optional, 0 or 1 occurrences.
-                            - Type: File.
-                    ]]>
-                  </xs:documentation>
-                </xs:annotation>
-              </xs:element>
-              <xs:element name="SQL" type="SQL" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                  <xs:documentation xml:lang="en">
-                    <![CDATA[
-                            SQL element:
-                            - Optional, 0 or 1 occurrences.
-                            - Type: SQL.
-                    ]]>
-                  </xs:documentation>
-                </xs:annotation>
-              </xs:element>
-              <xs:element name="SerialNumber" type="SerialNumber" minOccurs="1" maxOccurs="1">
-                <xs:annotation>
-                  <xs:documentation xml:lang="en">
-                    <![CDATA[
-                            SerialNumber element:
-                            - Required, 1 occurrence.
-                            - Type: SerialNumber.
-                    ]]>
-                  </xs:documentation>
-                </xs:annotation>
-              </xs:element>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="InstrumentsRequired" minOccurs="1" maxOccurs="1">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="Permanent" minOccurs="1" maxOccurs="1">
-                <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="InstrumentP" type="InstrumentP" minOccurs="0" maxOccurs="unbounded">
-                      <xs:annotation>
-                        <xs:documentation xml:lang="en">
-                          <![CDATA[
-                            InstrumentP element:
-                            - Optional, 0 more occurrences.
-                            - Type: InstrumentP.
-                          ]]>
-                        </xs:documentation>
-                      </xs:annotation>
-                    </xs:element>
-                  </xs:sequence>
-                </xs:complexType>
-              </xs:element>
-              <xs:element name="Temporary" minOccurs="1" maxOccurs="1">
-                <xs:complexType>
-                  <xs:sequence>
-                    <xs:element name="InstrumentT" type="InstrumentT" minOccurs="0" maxOccurs="unbounded">
-                      <xs:annotation>
-                        <xs:documentation xml:lang="en">
-                          <![CDATA[
-                            InstrumentT element:
-                            - Optional, 0 more occurrences.
-                            - Type: InstrumentT.
-                        ]]>
-                        </xs:documentation>
-                      </xs:annotation>
-                    </xs:element>
-                  </xs:sequence>
-                </xs:complexType>
-              </xs:element>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-      </xs:sequence>
-    </xs:complexType>
-    <xs:element name="TS">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
+        <xs:element name="TS">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">
+              <![CDATA[
           TS element:
           - Required, 1 occurrence.
           - Type: root element.
           
           - Test Specification root element, container for 1 or more TO elements of type TestOperation.
         ]]>
-        </xs:documentation>
-      </xs:annotation>
-      <xs:complexType>
-        <xs:sequence>
-          <xs:element name="TO" type="TestOperation" minOccurs="1" maxOccurs="unbounded"/>
-        </xs:sequence>
-        <xs:attribute name="NamespaceRoot" type="ValidCSharpNamespace" use="required">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">
-              <![CDATA[
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TO" type="TestOperation" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="NamespaceRoot" type="ValidCSharpNamespace" use="required">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">
+                  <![CDATA[
             Class attribute:
             - Required.
             - Type: ValidCSharpNamespace.
@@ -1194,19 +1000,21 @@
             Beginning or "root" namespace of C# class in file in TestOperation's Namespace.
             - Note, Class names are not Windows File names, even if both can be identically named and are often conflated.
           ]]>
-            </xs:documentation>
-          </xs:annotation>
-        </xs:attribute>
-        <xs:attribute ref="Description" use="required"/>
-      </xs:complexType>
-      <xs:unique name="UniqueClass">
-        <xs:selector xpath="TG"/>
-        <xs:field xpath="@Class"/>
-      </xs:unique>
-      <xs:unique name="UniqueNamespaceLeaf">
-        <xs:selector xpath="TO"/>
-        <xs:field xpath="@NamespaceLeaf"/>
-      </xs:unique>
-    </xs:element>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute ref="Description" use="required"/>
+          </xs:complexType>
+          <xs:unique name="UniqueClass">
+            <xs:selector xpath="TG"/>
+            <xs:field xpath="@Class"/>
+          </xs:unique>
+          <xs:unique name="UniqueNamespaceTrunk">
+            <xs:selector xpath="TO"/>
+            <xs:field xpath="@NamespaceTrunk"/>
+          </xs:unique>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
   </xs:element>
 </xs:schema>
