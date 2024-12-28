@@ -144,7 +144,7 @@
       <xs:simpleType>
         <xs:restriction base="xs:string">
           <xs:enumeration value="Barcode"/>
-          <xs:enumeration value="Barcode+Keyboard"/>
+          <xs:enumeration value="BarcodeεKeyboard"/>
           <xs:enumeration value="Keyboard"/>
         </xs:restriction>
       </xs:simpleType>
@@ -307,7 +307,7 @@
       </xs:annotation>
       <xs:simpleType>
         <xs:restriction base="xs:string">
-          <xs:enumeration value="C#"/>
+          <xs:enumeration value="CSharp"/>
           <xs:enumeration value="Python"/>
           <xs:enumeration value="VEE"/>
         </xs:restriction>
@@ -1016,11 +1016,11 @@
                 </xs:documentation>
               </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="Type" use="required">
+            <xs:attribute name="Category" use="required">
               <xs:annotation>
                 <xs:documentation xml:lang="en">
                   <![CDATA[
-                    Type attribute:
+                    Category attribute:
                     - Required.
                     - Type: xs:enumeration.
                   ]]>
@@ -1039,7 +1039,7 @@
                       </xs:documentation>
                     </xs:annotation>
                   </xs:enumeration>
-                  <xs:enumeration value="Circuit Card">
+                  <xs:enumeration value="CircuitCard">
                     <xs:annotation>
                       <xs:documentation xml:lang="en">
                         <![CDATA[
@@ -1252,7 +1252,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="TS">
+        <xs:element name="TS" minOccurs="1" maxOccurs="1">
           <xs:annotation>
             <xs:documentation xml:lang="en">
               <![CDATA[

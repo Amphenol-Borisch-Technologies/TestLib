@@ -37,7 +37,7 @@ namespace ABT.Test.TestLib.TestDefinition {
                 Filter = "C# files (*.cs)|*.cs",
                 Title = "Save the generated Test Program C# file",
                 DefaultExt = "cs",
-                FileName = "TestGenerated.cs",
+                FileName = "TestImplementation.cs",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\" 
             };
 
@@ -47,7 +47,7 @@ namespace ABT.Test.TestLib.TestDefinition {
         }
 
         private static CodeNamespace GetNamespace(TS ts, Int32 testOperation) {
-            CodeNamespace codeNamespace = new CodeNamespace(ts.NamespaceRoot + "." + ts.TestOperations[testOperation].NamespaceLeaf);
+            CodeNamespace codeNamespace = new CodeNamespace(ts.NamespaceRoot + "." + ts.TestOperations[testOperation].NamespaceTrunk);
             codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("System.Diagnostics"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestDefinition.Assertions"));

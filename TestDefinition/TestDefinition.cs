@@ -3,11 +3,35 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
-
 namespace ABT.Test.TestLib.TestDefinition {
     public interface IAssertionCurrent { String AssertionCurrent(); }
 
-    [XmlRoot(nameof(TS))] public class TS : IAssertionCurrent {
+    [XmlRoot(nameof(TestDefinition))] public class TestDefinition {
+        [XmlElement(nameof(UUT))] public UUT UUT { get; set; }
+        [XmlElement(nameof(Development))] public Development Development { get; set; }
+        [XmlArray(nameof(Modifications))] public Modification[] Modifications { get; set; }
+        [XmlElement(nameof(TestData))] public TestData TestData { get; set; }
+        [XmlElement(nameof(Instruments))] public Instruments Instruments { get; set; }
+        [XmlElement(nameof(TS))] public TS TS { get; set; }
+    }
+
+    public class UUT {
+        [XmlElement(nameof(Customer))] public Customer Customer { get; set; }
+        [XmlElement(nameof(TestSpecification))] public TestSpecification[] TestSpecification { get; set; }
+        [XmlElement(nameof(Documentation))] public Documentation[] Documentation { get; set; }
+        [XmlAttribute(nameof(Number))] public String Number { get; set; }
+        [XmlAttribute(nameof(Description))] public String Description { get; set; }
+        [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
+        [XmlAttribute(nameof(Category))] public Category Category { get; set; }
+    }
+
+    public class Customer {
+        [XmlAttribute(nameof(Name))] public String Name { get; set; }
+        [XmlAttribute(nameof(Division))] public String Division { get; set; }
+        [XmlAttribute(nameof(Location))] public String Location { get; set; }
+    }
+
+    public class TS : IAssertionCurrent {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(NamespaceRoot))] public String NamespaceRoot { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
@@ -56,21 +80,21 @@ namespace ABT.Test.TestLib.TestDefinition {
 
         public String TOs() {
             StringBuilder sb = new StringBuilder();
-            foreach (TO to in TestOperations) sb.Append($"{to.NamespaceLeaf}{DIVIDER}");
+            foreach (TO to in TestOperations) sb.Append($"{to.NamespaceTrunk}{DIVIDER}");
             return EF(sb.Remove(sb.Length - DIVIDER.Length, DIVIDER.Length).ToString()); // Remove trailing DIVIDER.
         }
     }
 
     public class TO : IAssertionCurrent {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
-        [XmlAttribute(nameof(NamespaceLeaf))] public String NamespaceLeaf { get; set; }
+        [XmlAttribute(nameof(NamespaceTrunk))] public String NamespaceTrunk { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlElement(nameof(TG))] public List<TG> TestGroups { get; set; }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{TS.DEBUG_ASSERT}{GetType().Name}{TS.BEGIN}");
-            sb.Append($"{nameof(NamespaceLeaf)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(NamespaceLeaf)).GetValue(this))}{TS.CONTINUE}");
+            sb.Append($"{nameof(NamespaceTrunk)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(NamespaceTrunk)).GetValue(this))}{TS.CONTINUE}");
             sb.Append($"{nameof(Description)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}");
             sb.Append($"{TS.CONTINUE}{nameof(TestGroups)}{TS.CS}{TGs()}");
             sb.Append($"{TS.END}");
@@ -280,5 +304,82 @@ namespace ABT.Test.TestLib.TestDefinition {
         public Double PercentIgnored() { return Convert.ToDouble(Ignored) / Convert.ToDouble(Tested()); }
         public Double PercentPassed() { return Convert.ToDouble(Passed) / Convert.ToDouble(Tested()); }
         public UInt32 Tested() { return Cancelled + EmergencyStopped + Errored + Failed + Ignored + Passed; }
+    }
+
+    public class Mobile {
+        [XmlAttribute(nameof(ID))] public String ID { get; set; }
+        [XmlAttribute(nameof(FullyQualifiedMethod))] public String FullyQualifiedMethod { get; set; }
+        [XmlAttribute(nameof(Detail))] public String Detail { get; set; }
+        [XmlAttribute(nameof(Address))] public String Address { get; set; }
+    }
+
+    public class Stationary {
+        [XmlAttribute(nameof(ID))] public String ID { get; set; }
+        [XmlAttribute(nameof(FullyQualifiedMethod))] public String FullyQualifiedMethod { get; set; }
+    }
+
+    public class SQL {
+        [XmlAttribute(nameof(ConnectionString))] public String ConnectionString { get; set; }
+        [XmlAttribute(nameof(SerialEntry))] public SerialEntry SerialEntry { get; set; }
+        [XmlAttribute(nameof(SerialRegEx))] public String SerialRegEx { get; set; }
+    }
+
+    public enum SerialEntry { Barcode, BarcodeεKeyboard, Keyboard }
+
+    public class TDR {
+        [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
+        [XmlAttribute(nameof(SerialEntry))] public SerialEntry SerialEntry { get; set; }
+        [XmlAttribute(nameof(SerialRegEx))] public String SerialRegEx { get; set; }
+    }
+
+    public class Modification {
+        [XmlAttribute(nameof(Who))] public String Who { get; set; }
+        [XmlAttribute(nameof(What))] public String What { get; set; }
+        [XmlAttribute(nameof(When))] public System.DateTime When { get; set; }
+        [XmlAttribute(nameof(Where))] public String Where { get; set; }
+        [XmlAttribute(nameof(Why))] public String Why { get; set; }
+    }
+
+    public class Repository {
+        [XmlAttribute(nameof(URL))] public String URL { get; set; }
+    }
+
+    public class Developer {
+        [XmlAttribute(nameof(Name))] public String Name { get; set; }
+        [XmlAttribute(nameof(Language))] public Language Language { get; set; }
+        [XmlAttribute(nameof(Comment))] public String Comment { get; set; }
+    }
+
+    public enum Language { CSharp, Python, VEE }
+
+    public class Documentation {
+        [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
+    }
+
+    public class TestSpecification {
+        [XmlAttribute(nameof(Document))] public String Document { get; set; }
+        [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
+        [XmlAttribute(nameof(Title))] public String Title { get; set; }
+        [XmlAttribute(nameof(Date))] public System.DateTime Date { get; set; }
+    }
+
+    public enum Category { Component, CircuitCard, Harness, Unit, System }
+
+    public class Development {
+        [XmlElement(nameof(Developer))] public Developer[] Developer { get; set; }
+        [XmlElement(nameof(Documentation))] public Documentation[] Documentation { get; set; }
+        [XmlElement(nameof(Repository))] public Repository[] Repository { get; set; }
+        [XmlAttribute(nameof(Released))] public System.DateTime Released { get; set; }
+    }
+
+    public class TestData {
+        [XmlElement(nameof(SQL), typeof(SQL))]
+        [XmlElement(nameof(TDR), typeof(TDR))]
+        public Object Item { get; set; }
+    }
+
+    public class Instruments {
+        [XmlElement(nameof(Stationary))] public Stationary[] Stationary { get; set; }
+        [XmlElement(nameof(Mobile))] public Mobile[] Mobile { get; set; }
     }
 }

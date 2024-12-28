@@ -22,7 +22,7 @@ namespace ABT.Test.TestLib.TestDefinition {
             stringBuilder.AppendLine($"{nameof(TS.NamespaceRoot)}   : {ts.NamespaceRoot}");
             stringBuilder.AppendLine($"{nameof(TO.Description)} : {ts.Description}");
             foreach (TO to in ts.TestOperations) {
-                stringBuilder.AppendLine($"{nameof(TO.NamespaceLeaf)}   : {to.NamespaceLeaf}");
+                stringBuilder.AppendLine($"{nameof(TO.NamespaceTrunk)}   : {to.NamespaceTrunk}");
                 stringBuilder.AppendLine($"{nameof(TO.Description)} : {to.Description}");
                 foreach (TG tg in to.TestGroups) {
                     stringBuilder.AppendLine();
@@ -39,7 +39,7 @@ namespace ABT.Test.TestLib.TestDefinition {
                         else {
                             StringBuilder sb = new StringBuilder();
                             sb.AppendLine($"Method '{nameof(M.Method)}' not implemented:");
-                            sb.AppendLine($"\t{nameof(TO.NamespaceLeaf)}   : {to.NamespaceLeaf}");
+                            sb.AppendLine($"\t{nameof(TO.NamespaceTrunk)}   : {to.NamespaceTrunk}");
                             sb.AppendLine($"\t{nameof(TO.Description)} : {to.Description}");
                             sb.AppendLine($"\t\t{nameof(TG.Class)}        : {tg.Class}");
                             sb.AppendLine($"\t\t{nameof(TG.Description)}  : {tg.Description}");

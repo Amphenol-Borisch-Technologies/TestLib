@@ -138,8 +138,10 @@
     <Compile Include="Miscellaneous\Miscellaneous.cs" />
     <Compile Include="Processes\ProcessExternal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestDefinition\Classes.cs" />
     <Compile Include="Switching\RelayForms.cs" />
+    <Compile Include="TestDefinition\TestDefinition.cs">
+      <DependentUpon>TestDefinition.xsd</DependentUpon>
+    </Compile>
     <Compile Include="TestLib.cs" />
     <Compile Include="TestDefinition\Validator.cs" />
   </ItemGroup>

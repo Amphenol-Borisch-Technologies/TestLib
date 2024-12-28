@@ -33,7 +33,7 @@ namespace ABT.Test.TestLib.TestDefinition {
                 Text = "Select Test Operation";
                 TestList.Columns.Add("Operation");
                 TestList.Columns.Add("Description");
-                foreach (TO to in TestSelection.TS.TestOperations) TestList.Items.Add(new ListViewItem(new String[] { to.NamespaceLeaf, to.Description }));
+                foreach (TO to in TestSelection.TS.TestOperations) TestList.Items.Add(new ListViewItem(new String[] { to.NamespaceTrunk, to.Description }));
             } else {
                 TestOperations.Checked = false;
                 Text = "Select Test Group";
@@ -42,7 +42,7 @@ namespace ABT.Test.TestLib.TestDefinition {
                 TestList.Columns.Add("Description");
                 foreach (TO to in TestSelection.TS.TestOperations) {
                     foreach (TG tg in to.TestGroups)
-                        if (tg.Independent) TestList.Items.Add(new ListViewItem(new String[] { to.NamespaceLeaf, tg.Class, tg.Description }));
+                        if (tg.Independent) TestList.Items.Add(new ListViewItem(new String[] { to.NamespaceTrunk, tg.Class, tg.Description }));
                 }
             }
             foreach (ColumnHeader ch in TestList.Columns) ch.Width = -2;
@@ -62,7 +62,7 @@ namespace ABT.Test.TestLib.TestDefinition {
                 TestOperation = TestSelection.TS.TestOperations[TestList.SelectedItems[0].Index];
                 TestGroup = null;
             } else {
-                TestOperation = TestSelection.TS.TestOperations.Find(to => to.NamespaceLeaf.Equals(TestList.SelectedItems[0].Text));
+                TestOperation = TestSelection.TS.TestOperations.Find(to => to.NamespaceTrunk.Equals(TestList.SelectedItems[0].Text));
                 TestGroup = TestOperation.TestGroups.Find(tg => tg.Class.Equals(TestList.SelectedItems[0].SubItems[1].Text));
             }
             DialogResult = DialogResult.OK;

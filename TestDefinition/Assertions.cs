@@ -12,7 +12,7 @@ namespace ABT.Test.TestLib.TestDefinition {
         }
 
         public static Boolean TO(String NamespaceLeaf, String Description, String TestGroups) {
-            Boolean b = String.Equals(TestIndex.TO.NamespaceLeaf, NamespaceLeaf);
+            Boolean b = String.Equals(TestIndex.TO.NamespaceTrunk, NamespaceLeaf);
             b &= String.Equals(TestIndex.TO.Description, Description);
             b &= String.Equals(TestIndex.TO.TGs().Replace("\"", ""), TestGroups);
             return b;
