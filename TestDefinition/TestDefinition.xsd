@@ -854,10 +854,11 @@
         <xs:documentation xml:lang="en">
           <![CDATA[
             Class attribute:
-            - Required.
+          - Required, 1 or more occurrences.
             - Type: UniqueCSharpIdentifier.
-          
-            Name of C# class in file in TestOperation's Namespace, similar to a branch in a tree hierarchy.
+            
+            A class is analogous to a branch in a root/trunk/branch/leaf hierarchy.         
+            Name of C# class in file in TestOperation's Namespace.
             - Note, Class names are not Windows File names, even if both can be identically named and are often conflated.
           ]]>
         </xs:documentation>
