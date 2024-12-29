@@ -41,26 +41,26 @@ namespace ABT.Test.TestLib {
     }
 
     public static class TestSelection {
-        public static TS TS { get; set; } = null;
-        public static TO TO { get; set; } = null;
-        public static TG TG { get; set; } = null;
+        public static TestSpace TestSpace { get; set; } = null;
+        public static TestOperation TestOperation { get; set; } = null;
+        public static TestGroup TestGroup { get; set; } = null;
         public static void Nullify() {
-            TS = null;
-            TO = null;
-            TG = null;
+            TestSpace = null;
+            TestOperation = null;
+            TestGroup = null;
         }
-        public static Boolean IsNotNull() { return TS != null && TO != null; }
-        public static Boolean IsOperation() { return IsNotNull() && TG == null; }
-        public static Boolean IsGroup() { return IsNotNull() && TG != null; }
+        public static Boolean IsNotNull() { return TestSpace != null && TestOperation != null; }
+        public static Boolean IsOperation() { return IsNotNull() && TestGroup == null; }
+        public static Boolean IsGroup() { return IsNotNull() && TestGroup != null; }
     }
 
     public static class TestIndex {
-        public static TO TO { get; set; } = null;
-        public static TG TG { get; set; } = null;
+        public static TestOperation TestOperation { get; set; } = null;
+        public static TestGroup TestGroup { get; set; } = null;
         public static M M { get; set; } = null;
         public static void Nullify() {
-            TO = null;
-            TG = null;
+            TestOperation = null;
+            TestGroup = null;
             M = null;
         }
     }

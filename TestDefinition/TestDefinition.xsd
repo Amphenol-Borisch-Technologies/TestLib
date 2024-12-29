@@ -488,12 +488,10 @@
     <xs:annotation>
       <xs:documentation xml:lang="en">
         <![CDATA[
-          MC element:
+          MethodCustom complexType:
           - Optional, 0 or more occurrences.
           - Type: MethodCustom.
           - Returns: an EVENT enum member converted to System.String.
-                      
-          Invokes a .Net System.Diagnostics.Process.  Must return Process result as a System.String.
         ]]>
       </xs:documentation>
     </xs:annotation>
@@ -547,7 +545,7 @@
     <xs:annotation>
       <xs:documentation xml:lang="en">
         <![CDATA[
-          MI element:
+          MethodInterval complexType:
           - Optional, 0 or more occurrences.
           - Type: MethodInterval.
           - Returns: System.Double converted to System.String.
@@ -744,7 +742,7 @@
     <xs:annotation>
       <xs:documentation xml:lang="en">
         <![CDATA[
-          MP element:
+          MP complexType:
           - Optional, 0 or more occurrences.
           - Type: MethodProcess.
           - Returns: System.Diagnostics.Process result as a System.String
@@ -812,7 +810,7 @@
     <xs:annotation>
       <xs:documentation xml:lang="en">
         <![CDATA[
-          MT element:
+          MT complexType:
           - Optional, 0 or more occurrences.
           - Type: MethodTextual.
           - Returns: System.String.
@@ -829,23 +827,23 @@
     <xs:annotation>
       <xs:documentation xml:lang="en">
         <![CDATA[
-          TG element:
+          TestGroup complexType:
           - Required, 1 or more occurrences.
           - Type: TestGroup.
           - Restriction: name must be unique within it's TestOperation.
                       
-          Container for 1 or more MT, MP, MN and/or MT elements, respectively types MethodCustom, MethodInterval, MethodProcess & MethodTextual.
+          Container for 1 or more MethodCustom, MethodProcess, MethodInterval and/or MethodText elements.
         ]]>
       </xs:documentation>
     </xs:annotation>
     <xs:choice minOccurs="1" maxOccurs="unbounded">
-      <xs:element name="MC" type="MethodCustom">
+      <xs:element name="MethodCustom" type="MethodCustom">
         <xs:unique name="uniqueKey">
           <xs:selector xpath="Parameter"/>
           <xs:field xpath="@Key"/>
         </xs:unique>
       </xs:element>
-      <xs:element name="MI" type="MethodInterval"/>
+      <xs:element name="MethodInterval" type="MethodInterval"/>
       <xs:element name="MP" type="MethodProcess"/>
       <xs:element name="MT" type="MethodTextual"/>
     </xs:choice>
@@ -858,7 +856,6 @@
             - Type: UniqueCSharpIdentifier.
             
             A class is analogous to a branch in a root/trunk/branch/leaf hierarchy.         
-            Name of C# class in file in TestOperation's Namespace.
             - Note, Class names are not Windows File names, even if both can be identically named and are often conflated.
           ]]>
         </xs:documentation>
@@ -897,7 +894,7 @@
     <xs:annotation>
       <xs:documentation xml:lang="en">
         <![CDATA[
-          TO element:
+          TestOperation complexType:
           - Required, 1 or more occurrences.
           - Type: TestOperation.
                       
@@ -906,18 +903,18 @@
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="TG" type="TestGroup" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="TestGroup" type="TestGroup" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="NamespaceTrunk" type="ValidCSharpNamespace" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
-            Class attribute:
+            NamespaceTrunk attribute:
             - Required.
             - Type: ValidCSharpNamespace.
           
-            Middle or "trunk" namespace of C# class in file in TestOperation's Namespace.
-            - Note, Class names are not Windows File names, even if both can be identically named and are often conflated.
+            NamespaceTrunk is analogous to a trunk in a root/trunk/branch/leaf hierarchy.
+            - Note, namespaces are not Windows paths, even if both can be similarly named and are often conflated.
           ]]>
         </xs:documentation>
       </xs:annotation>
@@ -1253,32 +1250,32 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="TS" minOccurs="1" maxOccurs="1">
+        <xs:element name="TestSpace" minOccurs="1" maxOccurs="1">
           <xs:annotation>
             <xs:documentation xml:lang="en">
               <![CDATA[
-                TS element:
+                TestSpace element:
                 - Required, 1 occurrence.
-                - Type: root element.
+                - Type: xs:element.
           
-                - Test Specification root element, container for 1 or more TO elements of type TestOperation.
+                - TestSpace element, container for 1 or more TestOperation elements of type TestOperation.
               ]]>
             </xs:documentation>
           </xs:annotation>
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="TO" type="TestOperation" minOccurs="1" maxOccurs="unbounded"/>
+              <xs:element name="TestOperation" type="TestOperation" minOccurs="1" maxOccurs="unbounded"/>
             </xs:sequence>
             <xs:attribute name="NamespaceRoot" type="ValidCSharpNamespace" use="required">
               <xs:annotation>
                 <xs:documentation xml:lang="en">
                   <![CDATA[
-                    Class attribute:
+                    NamespaceRoot attribute:
                     - Required.
                     - Type: ValidCSharpNamespace.
           
-                    Beginning or "root" namespace of C# class in file in TestOperation's Namespace.
-                    - Note, Class names are not Windows File names, even if both can be identically named and are often conflated.
+                    NamespaceRoot is analogous to the root in a root/trunk/branch/leaf hierarchy.
+                    - Note, namespaces are not Windows paths, even if both can be similarly named and are often conflated.
                   ]]>
                 </xs:documentation>
               </xs:annotation>
@@ -1300,11 +1297,11 @@
             </xs:attribute>
           </xs:complexType>
           <xs:unique name="UniqueClass">
-            <xs:selector xpath="TG"/>
+            <xs:selector xpath="TestGroup"/>
             <xs:field xpath="@Class"/>
           </xs:unique>
           <xs:unique name="UniqueNamespaceTrunk">
-            <xs:selector xpath="TO"/>
+            <xs:selector xpath="TestOperation"/>
             <xs:field xpath="@NamespaceTrunk"/>
           </xs:unique>
         </xs:element>

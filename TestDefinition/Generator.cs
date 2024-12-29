@@ -11,17 +11,17 @@ namespace ABT.Test.TestLib.TestDefinition {
     public static class Generator {
         public static void Generate(String TestDefinitionXML) {
             if (!Directory.Exists(Path.GetDirectoryName(TestDefinitionXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(TestDefinitionXML)}' does not exist.");
-            TS ts;
-            using (FileStream fileStream = new FileStream(TestDefinitionXML, FileMode.Open)) { ts = (TS)(new XmlSerializer(typeof(TS))).Deserialize(fileStream); }
+            TestSpace testSpace;
+            using (FileStream fileStream = new FileStream(TestDefinitionXML, FileMode.Open)) { testSpace = (TestSpace)(new XmlSerializer(typeof(TestSpace))).Deserialize(fileStream); }
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
 
-            for (Int32 testOperation = 0; testOperation < ts.TestOperations.Count; testOperation++) {
-                CodeNamespace codeNamespace = GetNamespace(ts, testOperation);
+            for (Int32 testOperation = 0; testOperation < testSpace.TestOperations.Count; testOperation++) {
+                CodeNamespace codeNamespace = GetNamespace(testSpace, testOperation);
                 _ = codeCompileUnit.Namespaces.Add(codeNamespace);
-                for (Int32 testGroup = 0; testGroup < ts.TestOperations[testOperation].TestGroups.Count; testGroup++) {
-                    CodeTypeDeclaration codeTypeDeclaration = AddClass(codeNamespace, ts.TestOperations[testOperation].TestGroups[testGroup]);
-                    for (Int32 method = 0; method < ts.TestOperations[testOperation].TestGroups[testGroup].Methods.Count; method++) {
-                        AddMethod(codeTypeDeclaration, ts.TestOperations[testOperation], testGroup, method);
+                for (Int32 testGroup = 0; testGroup < testSpace.TestOperations[testOperation].TestGroups.Count; testGroup++) {
+                    CodeTypeDeclaration codeTypeDeclaration = AddClass(codeNamespace, testSpace.TestOperations[testOperation].TestGroups[testGroup]);
+                    for (Int32 method = 0; method < testSpace.TestOperations[testOperation].TestGroups[testGroup].Methods.Count; method++) {
+                        AddMethod(codeTypeDeclaration, testSpace.TestOperations[testOperation], testGroup, method);
                     }
                 }
             }
@@ -46,16 +46,16 @@ namespace ABT.Test.TestLib.TestDefinition {
             }
         }
 
-        private static CodeNamespace GetNamespace(TS ts, Int32 testOperation) {
-            CodeNamespace codeNamespace = new CodeNamespace(ts.NamespaceRoot + "." + ts.TestOperations[testOperation].NamespaceTrunk);
+        private static CodeNamespace GetNamespace(TestSpace testSpace, Int32 testOperation) {
+            CodeNamespace codeNamespace = new CodeNamespace(testSpace.NamespaceRoot + "." + testSpace.TestOperations[testOperation].NamespaceTrunk);
             codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("System.Diagnostics"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestDefinition.Assertions"));
             return codeNamespace;
         }
 
-        private static CodeTypeDeclaration AddClass(CodeNamespace codeNamespace, TG tg) {
-            CodeTypeDeclaration codeTypeDeclaration = new CodeTypeDeclaration(tg.Class) {
+        private static CodeTypeDeclaration AddClass(CodeNamespace codeNamespace, TestGroup testGroup) {
+            CodeTypeDeclaration codeTypeDeclaration = new CodeTypeDeclaration(testGroup.Class) {
                 IsClass = true,
                 TypeAttributes = System.Reflection.TypeAttributes.NotPublic | System.Reflection.TypeAttributes.Class,
             };
@@ -64,35 +64,35 @@ namespace ABT.Test.TestLib.TestDefinition {
         }
 
 
-        private static void AddMethod(CodeTypeDeclaration codeTypeDeclaration, TO to, Int32 testGroup, Int32 method) {
+        private static void AddMethod(CodeTypeDeclaration codeTypeDeclaration, TestOperation testOperation, Int32 testGroup, Int32 method) {
             CodeMemberMethod codeMemberMethod = new CodeMemberMethod {
-                Name = to.TestGroups[testGroup].Methods[method].Method,
+                Name = testOperation.TestGroups[testGroup].Methods[method].Method,
                 Attributes = MemberAttributes.Static | MemberAttributes.Assembly,
                 ReturnType = new CodeTypeReference(typeof(String))
             };
             // Test Operation
-            if (testGroup == 0 && method == 0) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{((IAssertionCurrent)to).AssertionCurrent()}"));
+            if (testGroup == 0 && method == 0) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{((IAssertionCurrent)testOperation).AssertionCurrent()}"));
 
             // Test Groups
             if (method == 0) {
-                if (testGroup == 0) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{TS.DEBUG_ASSERT}{nameof(Assertions.TG_Prior)}{TS.BEGIN}{nameof(TG.Class)}{TS.CS}{TS.NONE}{TS.END}"));
-                else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{(to.TestGroups[testGroup - 1]).AssertionPrior()}"));
+                if (testGroup == 0) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{UUT.DEBUG_ASSERT}{nameof(Assertions.TG_Prior)}{UUT.BEGIN}{nameof(TestGroup.Class)}{UUT.CS}{UUT.NONE}{UUT.END}"));
+                else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{(testOperation.TestGroups[testGroup - 1]).AssertionPrior()}"));
 
-                _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{((IAssertionCurrent)to.TestGroups[testGroup]).AssertionCurrent()}"));
+                _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{((IAssertionCurrent)testOperation.TestGroups[testGroup]).AssertionCurrent()}"));
 
-                if (testGroup < to.TestGroups.Count - 1) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{(to.TestGroups[testGroup + 1]).AssertionNext()}"));
-                else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{TS.DEBUG_ASSERT}{nameof(Assertions.TG_Next)}{TS.BEGIN}{nameof(TG.Class)}{TS.CS}{TS.NONE}{TS.END}"));
+                if (testGroup < testOperation.TestGroups.Count - 1) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{(testOperation.TestGroups[testGroup + 1]).AssertionNext()}"));
+                else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{UUT.DEBUG_ASSERT}{nameof(Assertions.TG_Next)}{UUT.BEGIN}{nameof(TestGroup.Class)}{UUT.CS}{UUT.NONE}{UUT.END}"));
             }
 
             // Methods
             {
-                if (method == 0) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{TS.DEBUG_ASSERT}{nameof(Assertions.M_Prior)}{TS.BEGIN}{nameof(M.Method)}{TS.CS}{TS.NONE}{TS.END}"));
-                else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{(to.TestGroups[testGroup].Methods[method - 1]).AssertionPrior()}"));
+                if (method == 0) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{UUT.DEBUG_ASSERT} {nameof(Assertions.M_Prior)} {UUT.BEGIN} {nameof(M.Method)} {UUT.CS} {UUT.NONE}{UUT.END}"));
+                else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{(testOperation.TestGroups[testGroup].Methods[method - 1]).AssertionPrior()}"));
 
-                _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{((IAssertionCurrent)to.TestGroups[testGroup].Methods[method]).AssertionCurrent()}"));
+                _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{((IAssertionCurrent)testOperation.TestGroups[testGroup].Methods[method]).AssertionCurrent()}"));
 
-                if (method < to.TestGroups[testGroup].Methods.Count - 1) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{(to.TestGroups[testGroup].Methods[method + 1]).AssertionNext()}"));
-                else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{TS.DEBUG_ASSERT}{nameof(Assertions.M_Next)}{TS.BEGIN}{nameof(M.Method)}{TS.CS}{TS.NONE}{TS.END}"));
+                if (method < testOperation.TestGroups[testGroup].Methods.Count - 1) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{(testOperation.TestGroups[testGroup].Methods[method + 1]).AssertionNext()}"));
+                else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{UUT.DEBUG_ASSERT}{nameof(Assertions.M_Next)}{UUT.BEGIN}{nameof(M.Method)}{UUT.CS}{UUT.NONE}{UUT.END}"));
             }
 
             _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement("\t\t\treturn String.Empty;"));

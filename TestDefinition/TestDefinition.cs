@@ -6,16 +6,17 @@ using System.Xml.Serialization;
 namespace ABT.Test.TestLib.TestDefinition {
     public interface IAssertionCurrent { String AssertionCurrent(); }
 
-    [XmlRoot(nameof(TestDefinition))] public class TestDefinition {
+    [XmlRoot(nameof(TestDefinition))]
+    public class TestDefinition {
         [XmlElement(nameof(UUT))] public UUT UUT { get; set; }
         [XmlElement(nameof(Development))] public Development Development { get; set; }
         [XmlArray(nameof(Modifications))] public Modification[] Modifications { get; set; }
         [XmlElement(nameof(TestData))] public TestData TestData { get; set; }
         [XmlElement(nameof(Instruments))] public Instruments Instruments { get; set; }
-        [XmlElement(nameof(TS))] public TS TS { get; set; }
+        [XmlElement(nameof(TestSpace))] public TestSpace TestSpace { get; set; }
     }
 
-    public class UUT {
+    public class UUT : IAssertionCurrent {
         [XmlElement(nameof(Customer))] public Customer Customer { get; set; }
         [XmlElement(nameof(TestSpecification))] public List<TestSpecification> TestSpecification { get; set; }
         [XmlElement(nameof(Documentation))] public List<Documentation> Documentation { get; set; }
@@ -23,23 +24,6 @@ namespace ABT.Test.TestLib.TestDefinition {
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
         [XmlAttribute(nameof(Category))] public Category Category { get; set; }
-    }
-
-    public class Customer {
-        [XmlAttribute(nameof(Name))] public String Name { get; set; }
-        [XmlAttribute(nameof(Division))] public String Division { get; set; }
-        [XmlAttribute(nameof(Location))] public String Location { get; set; }
-    }
-
-    public class TS : IAssertionCurrent {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
-        [XmlAttribute(nameof(NamespaceRoot))] public String NamespaceRoot { get; set; }
-        [XmlAttribute(nameof(Description))] public String Description { get; set; }
-        [XmlAttribute(nameof(Simulate))] public Boolean Simulate { get; set; }
-        public String SerialNumber { get; set; } = String.Empty; // Input during testing.
-        public EVENTS Event { get; set; } = EVENTS.UNSET; // Determined post-test.
-        [XmlElement(nameof(TO))] public List<TO> TestOperations { get; set; }
-        public Statistics Statistics { get; set; } = new Statistics();
         internal const String DEBUG_ASSERT = "Debug.Assert(";
         internal const String BEGIN = "(";
         internal const String CS = ": ";
@@ -47,7 +31,187 @@ namespace ABT.Test.TestLib.TestDefinition {
         internal const String END = "));";
         internal const String DIVIDER = "|";
         internal const String NONE = "\"NONE\"";
-        
+
+        public String AssertionCurrent() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"{DEBUG_ASSERT}{GetType().Name}{BEGIN}");
+            sb.Append($"{nameof(Number)}{CS}{EF(GetType().GetProperty(nameof(Number)).GetValue(this))}{CONTINUE}");
+            sb.Append($"{nameof(Description)}{CS}{EF(GetType().GetProperty(nameof(Description)).GetValue(this))}{CONTINUE}");
+            sb.Append($"{nameof(Revision)}{CS}{EF(GetType().GetProperty(nameof(Revision)).GetValue(this))}{CONTINUE}");
+            sb.Append($"{nameof(Category)}{CS}{EF(GetType().GetProperty(nameof(Category)).GetValue(this))}");
+            sb.Append($"{END}");
+            return sb.ToString();
+        }
+
+        public static String EF(Object o) {
+            String s = (o.ToString()).Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\'", "\\\'");
+            return $"\"{s}\"";
+        }
+    }
+
+    public class Customer : IAssertionCurrent {
+        [XmlAttribute(nameof(Name))] public String Name { get; set; }
+        [XmlAttribute(nameof(Division))] public String Division { get; set; }
+        [XmlAttribute(nameof(Location))] public String Location { get; set; }
+
+        public String AssertionCurrent() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
+            sb.Append($"{nameof(Name)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Name)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Division)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Division)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Location)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Location)).GetValue(this))}");
+            sb.Append($"{UUT.END}");
+            return sb.ToString();
+        }
+    }
+
+    public class Stationary : IAssertionCurrent {
+        [XmlAttribute(nameof(ID))] public String ID { get; set; }
+        [XmlAttribute(nameof(FullyQualifiedMethod))] public String FullyQualifiedMethod { get; set; }
+
+        public String AssertionCurrent() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
+            sb.Append($"{nameof(ID)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(ID)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(FullyQualifiedMethod)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(FullyQualifiedMethod)).GetValue(this))}");
+            sb.Append($"{UUT.END}");
+            return sb.ToString();
+        }
+    }
+
+    public class Mobile : Stationary {
+        [XmlAttribute(nameof(Detail))] public String Detail { get; set; }
+        [XmlAttribute(nameof(Address))] public String Address { get; set; }
+
+        public new String AssertionCurrent() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
+            sb.Append($"{nameof(ID)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(ID)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(FullyQualifiedMethod)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(FullyQualifiedMethod)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Detail)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Detail)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Address)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Address)).GetValue(this))}");
+            sb.Append($"{UUT.END}");
+            return sb.ToString();
+        }
+    }
+
+    public abstract class SerialNumber {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
+        [XmlAttribute(nameof(SerialEntry))] public SerialEntry SerialEntry { get; set; }
+        [XmlAttribute(nameof(SerialRegEx))] public String SerialRegEx { get; set; }
+    }
+
+    public class SQL : SerialNumber, IAssertionCurrent {
+        [XmlAttribute(nameof(ConnectionString))] public String ConnectionString { get; set; }
+
+        public String AssertionCurrent() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
+            sb.Append($"{nameof(ConnectionString)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(ConnectionString)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(SerialEntry)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(SerialEntry)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(SerialRegEx)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(SerialRegEx)).GetValue(this))}");
+            sb.Append($"{UUT.END}");
+            return sb.ToString();
+        }
+    }
+
+    public enum SerialEntry { Barcode, BarcodeεKeyboard, Keyboard }
+
+    public class TDR : SerialNumber, IAssertionCurrent {
+        [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
+
+        public String AssertionCurrent() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
+            sb.Append($"{nameof(Folder)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Folder)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(SerialEntry)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(SerialEntry)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(SerialRegEx)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(SerialRegEx)).GetValue(this))}");
+            sb.Append($"{UUT.END}");
+            return sb.ToString();
+        }
+    }
+
+    public class Modification {
+        [XmlAttribute(nameof(Who))] public String Who { get; set; }
+        [XmlAttribute(nameof(What))] public String What { get; set; }
+        [XmlAttribute(nameof(When))] public System.DateTime When { get; set; }
+        [XmlAttribute(nameof(Where))] public String Where { get; set; }
+        [XmlAttribute(nameof(Why))] public String Why { get; set; }
+    }
+
+    public class Repository {
+        [XmlAttribute(nameof(URL))] public String URL { get; set; }
+    }
+
+    public class Developer {
+        [XmlAttribute(nameof(Name))] public String Name { get; set; }
+        [XmlAttribute(nameof(Language))] public Language Language { get; set; }
+        [XmlAttribute(nameof(Comment))] public String Comment { get; set; }
+    }
+
+    public enum Language { CSharp, Python, VEE }
+
+    public class Documentation {
+        [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
+    }
+
+    public class TestSpecification : IAssertionCurrent {
+        [XmlAttribute(nameof(Document))] public String Document { get; set; }
+        [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
+        [XmlAttribute(nameof(Title))] public String Title { get; set; }
+        [XmlAttribute(nameof(Date))] public System.DateTime Date { get; set; }
+
+        public String AssertionCurrent() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
+            sb.Append($"{nameof(Document)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Document)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Revision)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Revision)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Title)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Title)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Date)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Date)).GetValue(this))}");
+            sb.Append($"{UUT.END}");
+            return sb.ToString();
+        }
+    }
+
+    public enum Category { Component, CircuitCard, Harness, Unit, System }
+
+    public class Development {
+        [XmlElement(nameof(Developer))] public Developer[] Developer { get; set; }
+        [XmlElement(nameof(Documentation))] public Documentation[] Documentation { get; set; }
+        [XmlElement(nameof(Repository))] public Repository[] Repository { get; set; }
+        [XmlAttribute(nameof(Released))] public System.DateTime Released { get; set; }
+    }
+
+    public class TestData {
+        [XmlElement(nameof(SQL), typeof(SQL))]
+        [XmlElement(nameof(TDR), typeof(TDR))]
+        public Object Item { get; set; }
+    }
+
+    public class Instruments : IAssertionCurrent {
+        [XmlElement(nameof(Stationary))] public Stationary[] Stationary { get; set; }
+        [XmlElement(nameof(Mobile))] public Mobile[] Mobile { get; set; }
+
+        public String AssertionCurrent() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
+            sb.Append($"{nameof(Stationary)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Stationary)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Mobile)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Mobile)).GetValue(this))}");
+            sb.Append($"{UUT.END}");
+            return sb.ToString();
+        }
+    }
+
+    public class TestSpace : IAssertionCurrent {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
+        [XmlAttribute(nameof(NamespaceRoot))] public String NamespaceRoot { get; set; }
+        [XmlAttribute(nameof(Description))] public String Description { get; set; }
+        [XmlAttribute(nameof(Simulate))] public Boolean Simulate { get; set; }
+        public String SerialNumber { get; set; } = String.Empty; // Input during testing.
+        public EVENTS Event { get; set; } = EVENTS.UNSET; // Determined post-test.
+        [XmlElement(nameof(TestOperation))] public List<TestOperation> TestOperations { get; set; }
+        public Statistics Statistics { get; set; } = new Statistics();
+
         public String StatisticsDisplay() {
             const Int32 L = 6;
             StringBuilder sb = new StringBuilder();
@@ -68,83 +232,78 @@ namespace ABT.Test.TestLib.TestDefinition {
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{DEBUG_ASSERT}{GetType().Name}{BEGIN}");
-            sb.Append($"{nameof(NamespaceRoot)}{CS}{EF(GetType().GetProperty(nameof(NamespaceRoot)).GetValue(this))}{CONTINUE}");
-            sb.Append($"{nameof(Description)}{CS}{EF(GetType().GetProperty(nameof(Description)).GetValue(this))}");
-            sb.Append($"{CONTINUE}{nameof(TestOperations)}{CS}{TOs()}");
-            sb.Append($"{END}");
+            sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
+            sb.Append($"{nameof(NamespaceRoot)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(NamespaceRoot)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Description)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}");
+            sb.Append($"{UUT.CONTINUE}{nameof(TestOperations)}{UUT.CS}{TOs()}");
+            sb.Append($"{UUT.END}");
             return sb.ToString();
-        }
-
-        public static String EF(Object o) {
-            String s = (o.ToString()).Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\'", "\\\'");
-            return $"\"{s}\"";
         }
 
         public String TOs() {
             StringBuilder sb = new StringBuilder();
-            foreach (TO to in TestOperations) sb.Append($"{to.NamespaceTrunk}{DIVIDER}");
-            return EF(sb.Remove(sb.Length - DIVIDER.Length, DIVIDER.Length).ToString()); // Remove trailing DIVIDER.
+            foreach (TestOperation to in TestOperations) sb.Append($"{to.NamespaceTrunk}{UUT.DIVIDER}");
+            return UUT.EF(sb.Remove(sb.Length - UUT.DIVIDER.Length, UUT.DIVIDER.Length).ToString()); // Remove trailing DIVIDER.
         }
     }
 
-    public class TO : IAssertionCurrent {
+    public class TestOperation : IAssertionCurrent {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(NamespaceTrunk))] public String NamespaceTrunk { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
-        [XmlElement(nameof(TG))] public List<TG> TestGroups { get; set; }
+        [XmlElement(nameof(TestGroups))] public List<TestGroup> TestGroups { get; set; }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{TS.DEBUG_ASSERT}{GetType().Name}{TS.BEGIN}");
-            sb.Append($"{nameof(NamespaceTrunk)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(NamespaceTrunk)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(Description)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}");
-            sb.Append($"{TS.CONTINUE}{nameof(TestGroups)}{TS.CS}{TGs()}");
-            sb.Append($"{TS.END}");
+            sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
+            sb.Append($"{nameof(NamespaceTrunk)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(NamespaceTrunk)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Description)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}");
+            sb.Append($"{UUT.CONTINUE}{nameof(TestGroups)}{UUT.CS}{TGs()}");
+            sb.Append($"{UUT.END}");
             return sb.ToString();
         }
 
         public String TGs() {
             StringBuilder sb = new StringBuilder();
-            foreach (TG tg in TestGroups) sb.Append($"{tg.Class}{TS.DIVIDER}");
-            return TS.EF(sb.Remove(sb.Length - TS.DIVIDER.Length, TS.DIVIDER.Length).ToString()); // Remove trailing DIVIDER.
+            foreach (TestGroup testGroup in TestGroups) sb.Append($"{testGroup.Class}{UUT.DIVIDER}");
+            return UUT.EF(sb.Remove(sb.Length - UUT.DIVIDER.Length, UUT.DIVIDER.Length).ToString()); // Remove trailing DIVIDER.
         }
     }
 
-    public class TG : IAssertionCurrent {
+    public class TestGroup : IAssertionCurrent {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Class))] public String Class { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(CancelNotPassed))] public Boolean CancelNotPassed { get; set; }
         [XmlAttribute(nameof(Independent))] public Boolean Independent { get; set; }
-        [XmlElement(nameof(MC), typeof(MC))]
-        [XmlElement(nameof(MI), typeof(MI))]
+        [XmlElement(nameof(MethodCustom), typeof(MethodCustom))]
+        [XmlElement(nameof(MethodInterval), typeof(MethodInterval))]
         [XmlElement(nameof(MP), typeof(MP))]
         [XmlElement(nameof(MT), typeof(MT))]
         public List<M> Methods { get; set; }
         public readonly Int32 FormattingLengthGroupID = 0;
         public readonly Int32 FormattingLengthMeasurementID = 0;
 
-        public String AssertionPrior() { return $"{TS.DEBUG_ASSERT}{nameof(Assertions.TG_Prior)}{TS.BEGIN}{nameof(Class)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{TS.END}"; }
+        public String AssertionPrior() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.TG_Prior)}{UUT.BEGIN}{nameof(Class)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{UUT.END}"; }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{TS.DEBUG_ASSERT}{GetType().Name}{TS.BEGIN}");
-            sb.Append($"{nameof(Class)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(Description)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(CancelNotPassed)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(CancelNotPassed)).GetValue(this).ToString().ToLower())}{TS.CONTINUE}");
-            sb.Append($"{nameof(Independent)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Independent)).GetValue(this).ToString().ToLower())}");
-            sb.Append($"{TS.CONTINUE}{nameof(Methods)}{TS.CS}{Ms()}");
-            sb.Append($"{TS.END}");
+            sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
+            sb.Append($"{nameof(Class)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Description)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(CancelNotPassed)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(CancelNotPassed)).GetValue(this).ToString().ToLower())}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Independent)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Independent)).GetValue(this).ToString().ToLower())}");
+            sb.Append($"{UUT.CONTINUE}{nameof(Methods)}{UUT.CS}{Ms()}");
+            sb.Append($"{UUT.END}");
             return sb.ToString();
         }
         public String Ms() {
             StringBuilder sb = new StringBuilder();
-            foreach (M m in Methods) sb.Append($"{m.Method}{TS.DIVIDER}");
-            return TS.EF(sb.Remove(sb.Length - TS.DIVIDER.Length, TS.DIVIDER.Length).ToString()); // Remove trailing TS.DIVIDER.
+            foreach (M m in Methods) sb.Append($"{m.Method}{UUT.DIVIDER}");
+            return UUT.EF(sb.Remove(sb.Length - UUT.DIVIDER.Length, UUT.DIVIDER.Length).ToString()); // Remove trailing UUT.DIVIDER.
         }
 
-        public String AssertionNext() { return $"{TS.DEBUG_ASSERT}{nameof(Assertions.TG_Next)}{TS.BEGIN}{nameof(Class)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{TS.END}"; }
+        public String AssertionNext() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.TG_Next)}{UUT.BEGIN}{nameof(Class)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{UUT.END}"; }
     }
 
     public abstract class M {
@@ -155,35 +314,35 @@ namespace ABT.Test.TestLib.TestDefinition {
         public Object Value { get; set; }
         public EVENTS Event { get; set; }
         public StringBuilder Log { get; set; } = new StringBuilder();
-        public String AssertionPrior() { return $"{TS.DEBUG_ASSERT}{nameof(Assertions.M_Prior)}{TS.BEGIN}{nameof(Method)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{TS.END}"; }
+        public String AssertionPrior() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.M_Prior)}{UUT.BEGIN}{nameof(Method)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{UUT.END}"; }
 
         private protected String AssertionM() {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{nameof(Method)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(Description)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(CancelNotPassed)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(CancelNotPassed)).GetValue(this).ToString().ToLower())}");
+            sb.Append($"{nameof(Method)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Description)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(CancelNotPassed)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(CancelNotPassed)).GetValue(this).ToString().ToLower())}");
             return sb.ToString();
         }
 
-        public String AssertionNext() { return $"{TS.DEBUG_ASSERT}{nameof(Assertions.M_Next)}{TS.BEGIN}{nameof(Method)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{TS.END}"; }
+        public String AssertionNext() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.M_Next)}{UUT.BEGIN}{nameof(Method)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{UUT.END}"; }
     }
 
-    public class MC : M, IAssertionCurrent {
+    public class MethodCustom : M, IAssertionCurrent {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlElement(nameof(Parameter))] public List<Parameter> Parameters { get; set; }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{TS.DEBUG_ASSERT}{GetType().Name}{TS.BEGIN}");
+            sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{AssertionM()}");
-            if (Parameters.Count > 0) sb.Append($"{TS.CONTINUE}{nameof(Parameters)}{TS.CS}{Ps()}");
-            sb.Append($"{TS.END}");
+            if (Parameters.Count > 0) sb.Append($"{UUT.CONTINUE}{nameof(Parameters)}{UUT.CS}{Ps()}");
+            sb.Append($"{UUT.END}");
             return sb.ToString();
         }
         public String Ps() {
             StringBuilder sb = new StringBuilder();
-            foreach (Parameter p in Parameters) sb.Append($"{p.Key}={p.Value}{TS.DIVIDER}");
-            return TS.EF(sb.Remove(sb.Length - TS.DIVIDER.Length, TS.DIVIDER.Length).ToString()); // Remove trailing TS.DIVIDER.
+            foreach (Parameter p in Parameters) sb.Append($"{p.Key}={p.Value}{UUT.DIVIDER}");
+            return UUT.EF(sb.Remove(sb.Length - UUT.DIVIDER.Length, UUT.DIVIDER.Length).ToString()); // Remove trailing UUT.DIVIDER.
         }
     }
 
@@ -193,7 +352,7 @@ namespace ABT.Test.TestLib.TestDefinition {
         [XmlAttribute(nameof(Value))] public String Value { get; set; }
     }
 
-    public class MI : M, IAssertionCurrent {
+    public class MethodInterval : M, IAssertionCurrent {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(LowComparator))] public MI_LowComparator LowComparator { get; set; }
         [XmlAttribute(nameof(Low))] public Double Low { get; set; }
@@ -206,16 +365,16 @@ namespace ABT.Test.TestLib.TestDefinition {
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{TS.DEBUG_ASSERT}{GetType().Name}{TS.BEGIN}");
-            sb.Append($"{AssertionM()}{TS.CONTINUE}");
-            sb.Append($"{nameof(LowComparator)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(LowComparator)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(Low)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Low)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(High)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(High)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(HighComparator)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(HighComparator)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(FractionalDigits)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(FractionalDigits)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(UnitPrefix)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(UnitPrefix)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(Units)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Units)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(UnitSuffix)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(UnitSuffix)).GetValue(this))}{TS.END}");
+            sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
+            sb.Append($"{AssertionM()}{UUT.CONTINUE}");
+            sb.Append($"{nameof(LowComparator)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(LowComparator)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Low)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Low)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(High)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(High)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(HighComparator)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(HighComparator)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(FractionalDigits)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(FractionalDigits)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(UnitPrefix)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(UnitPrefix)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Units)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Units)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(UnitSuffix)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(UnitSuffix)).GetValue(this))}{UUT.END}");
             return sb.ToString();
         }
     }
@@ -235,12 +394,12 @@ namespace ABT.Test.TestLib.TestDefinition {
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{TS.DEBUG_ASSERT}{GetType().Name}{TS.BEGIN}");
-            sb.Append($"{AssertionM()}{TS.CONTINUE}");
-            sb.Append($"{nameof(Path)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Path)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(Executable)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Executable)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(Parameters)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Parameters)).GetValue(this))}{TS.CONTINUE}");
-            sb.Append($"{nameof(Expected)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Expected)).GetValue(this))}{TS.END}");
+            sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
+            sb.Append($"{AssertionM()}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Path)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Path)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Executable)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Executable)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Parameters)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Parameters)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Expected)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Expected)).GetValue(this))}{UUT.END}");
             return sb.ToString();
         }
     }
@@ -251,9 +410,9 @@ namespace ABT.Test.TestLib.TestDefinition {
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{TS.DEBUG_ASSERT}{GetType().Name}{TS.BEGIN}");
-            sb.Append($"{AssertionM()}{TS.CONTINUE}");
-            sb.Append($"{nameof(Text)}{TS.CS}{TS.EF(GetType().GetProperty(nameof(Text)).GetValue(this))}{TS.END}");
+            sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
+            sb.Append($"{AssertionM()}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Text)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Text)).GetValue(this))}{UUT.END}");
             return sb.ToString();
         }
     }
@@ -269,8 +428,8 @@ namespace ABT.Test.TestLib.TestDefinition {
 
         public Statistics() { }
 
-        public void Update(EVENTS Event) { 
-            switch(Event) {
+        public void Update(EVENTS Event) {
+            switch (Event) {
                 case EVENTS.CANCEL:
                     Cancelled++;
                     break;
@@ -307,82 +466,5 @@ namespace ABT.Test.TestLib.TestDefinition {
         public Double PercentIgnored() { return Convert.ToDouble(Ignored) / Convert.ToDouble(Tested()); }
         public Double PercentPassed() { return Convert.ToDouble(Passed) / Convert.ToDouble(Tested()); }
         public UInt32 Tested() { return Cancelled + EmergencyStopped + Errored + Failed + Ignored + Passed; }
-    }
-
-    public class Mobile {
-        [XmlAttribute(nameof(ID))] public String ID { get; set; }
-        [XmlAttribute(nameof(FullyQualifiedMethod))] public String FullyQualifiedMethod { get; set; }
-        [XmlAttribute(nameof(Detail))] public String Detail { get; set; }
-        [XmlAttribute(nameof(Address))] public String Address { get; set; }
-    }
-
-    public class Stationary {
-        [XmlAttribute(nameof(ID))] public String ID { get; set; }
-        [XmlAttribute(nameof(FullyQualifiedMethod))] public String FullyQualifiedMethod { get; set; }
-    }
-
-    public class SQL {
-        [XmlAttribute(nameof(ConnectionString))] public String ConnectionString { get; set; }
-        [XmlAttribute(nameof(SerialEntry))] public SerialEntry SerialEntry { get; set; }
-        [XmlAttribute(nameof(SerialRegEx))] public String SerialRegEx { get; set; }
-    }
-
-    public enum SerialEntry { Barcode, BarcodeεKeyboard, Keyboard }
-
-    public class TDR {
-        [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
-        [XmlAttribute(nameof(SerialEntry))] public SerialEntry SerialEntry { get; set; }
-        [XmlAttribute(nameof(SerialRegEx))] public String SerialRegEx { get; set; }
-    }
-
-    public class Modification {
-        [XmlAttribute(nameof(Who))] public String Who { get; set; }
-        [XmlAttribute(nameof(What))] public String What { get; set; }
-        [XmlAttribute(nameof(When))] public System.DateTime When { get; set; }
-        [XmlAttribute(nameof(Where))] public String Where { get; set; }
-        [XmlAttribute(nameof(Why))] public String Why { get; set; }
-    }
-
-    public class Repository {
-        [XmlAttribute(nameof(URL))] public String URL { get; set; }
-    }
-
-    public class Developer {
-        [XmlAttribute(nameof(Name))] public String Name { get; set; }
-        [XmlAttribute(nameof(Language))] public Language Language { get; set; }
-        [XmlAttribute(nameof(Comment))] public String Comment { get; set; }
-    }
-
-    public enum Language { CSharp, Python, VEE }
-
-    public class Documentation {
-        [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
-    }
-
-    public class TestSpecification {
-        [XmlAttribute(nameof(Document))] public String Document { get; set; }
-        [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
-        [XmlAttribute(nameof(Title))] public String Title { get; set; }
-        [XmlAttribute(nameof(Date))] public System.DateTime Date { get; set; }
-    }
-
-    public enum Category { Component, CircuitCard, Harness, Unit, System }
-
-    public class Development {
-        [XmlElement(nameof(Developer))] public Developer[] Developer { get; set; }
-        [XmlElement(nameof(Documentation))] public Documentation[] Documentation { get; set; }
-        [XmlElement(nameof(Repository))] public Repository[] Repository { get; set; }
-        [XmlAttribute(nameof(Released))] public System.DateTime Released { get; set; }
-    }
-
-    public class TestData {
-        [XmlElement(nameof(SQL), typeof(SQL))]
-        [XmlElement(nameof(TDR), typeof(TDR))]
-        public Object Item { get; set; }
-    }
-
-    public class Instruments {
-        [XmlElement(nameof(Stationary))] public Stationary[] Stationary { get; set; }
-        [XmlElement(nameof(Mobile))] public Mobile[] Mobile { get; set; }
     }
 }

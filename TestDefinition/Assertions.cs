@@ -5,36 +5,36 @@ using System.Linq;
 namespace ABT.Test.TestLib.TestDefinition {
     public static class Assertions {
         public static Boolean NS(String NamespaceRoot, String Description, String TestOperations) {
-            Boolean b = String.Equals(TestSelection.TS.NamespaceRoot, NamespaceRoot);
-            b &= String.Equals(TestSelection.TS.Description, Description);
-            b &= String.Equals(TestSelection.TS.TOs().Replace("\"", ""), TestOperations);
+            Boolean b = String.Equals(TestSelection.TestSpace.NamespaceRoot, NamespaceRoot);
+            b &= String.Equals(TestSelection.TestSpace.Description, Description);
+            b &= String.Equals(TestSelection.TestSpace.TOs().Replace("\"", ""), TestOperations);
             return b;
         }
 
-        public static Boolean TO(String NamespaceLeaf, String Description, String TestGroups) {
-            Boolean b = String.Equals(TestIndex.TO.NamespaceTrunk, NamespaceLeaf);
-            b &= String.Equals(TestIndex.TO.Description, Description);
-            b &= String.Equals(TestIndex.TO.TGs().Replace("\"", ""), TestGroups);
+        public static Boolean TestOperation(String NamespaceLeaf, String Description, String TestGroups) {
+            Boolean b = String.Equals(TestIndex.TestOperation.NamespaceTrunk, NamespaceLeaf);
+            b &= String.Equals(TestIndex.TestOperation.Description, Description);
+            b &= String.Equals(TestIndex.TestOperation.TGs().Replace("\"", ""), TestGroups);
             return b;
         }
 
-        public static Boolean TG(String Class, String Description, String CancelNotPassed, String Independent, String Methods) {
-            Boolean b = String.Equals(TestIndex.TG.Class, Class);
-            b &= String.Equals(TestIndex.TG.Description, Description);
-            b &= String.Equals(TestIndex.TG.CancelNotPassed.ToString().ToLower(), CancelNotPassed);
-            b &= String.Equals(TestIndex.TG.Independent.ToString().ToLower(), Independent);
-            b &= String.Equals(TestIndex.TG.Ms().Replace("\"", ""), Methods);
+        public static Boolean TestGroup(String Class, String Description, String CancelNotPassed, String Independent, String Methods) {
+            Boolean b = String.Equals(TestIndex.TestGroup.Class, Class);
+            b &= String.Equals(TestIndex.TestGroup.Description, Description);
+            b &= String.Equals(TestIndex.TestGroup.CancelNotPassed.ToString().ToLower(), CancelNotPassed);
+            b &= String.Equals(TestIndex.TestGroup.Independent.ToString().ToLower(), Independent);
+            b &= String.Equals(TestIndex.TestGroup.Ms().Replace("\"", ""), Methods);
             return b;
         }
 
         public static Boolean TG_Prior(String Class) {
-            if (TestIndex.TO.TestGroups.First() == TestIndex.TG) return String.Equals(Class, TS.NONE.Replace("\"", ""));
-            return (1 + TestIndex.TO.TestGroups.FindIndex(c => c.Class == Class) == TestIndex.TO.TestGroups.IndexOf(TestIndex.TG));
+            if (TestIndex.TestOperation.TestGroups.First() == TestIndex.TestGroup) return String.Equals(Class, UUT.NONE.Replace("\"", ""));
+            return (1 + TestIndex.TestOperation.TestGroups.FindIndex(c => c.Class == Class) == TestIndex.TestOperation.TestGroups.IndexOf(TestIndex.TestGroup));
         }
 
         public static Boolean TG_Next(String Class) {
-            if (TestIndex.TO.TestGroups.Last() == TestIndex.TG) return String.Equals(Class, TS.NONE.Replace("\"", ""));
-            return (TestIndex.TO.TestGroups.FindIndex(c => c.Class == Class) == TestIndex.TO.TestGroups.IndexOf(TestIndex.TG) + 1);
+            if (TestIndex.TestOperation.TestGroups.Last() == TestIndex.TestGroup) return String.Equals(Class, UUT.NONE.Replace("\"", ""));
+            return (TestIndex.TestOperation.TestGroups.FindIndex(c => c.Class == Class) == TestIndex.TestOperation.TestGroups.IndexOf(TestIndex.TestGroup) + 1);
         }
 
         public static Boolean M(String Method, String Description, String CancelNotPassed) {
@@ -44,26 +44,26 @@ namespace ABT.Test.TestLib.TestDefinition {
             return b;
         }
 
-        public static Boolean MC(String Method, String Description, String CancelNotPassed, String Parameters = null) {
-            Debug.Assert(TestIndex.M is MC);
+        public static Boolean MethodCustom(String Method, String Description, String CancelNotPassed, String Parameters = null) {
+            Debug.Assert(TestIndex.M is MethodCustom);
             Boolean b = M(Method, Description, CancelNotPassed);
-            MC mc = (MC)TestIndex.M;
-            if (Parameters != null) b &= String.Equals(mc.Ps().Replace("\"", ""), Parameters);
+            MethodCustom methodCustom = (MethodCustom)TestIndex.M;
+            if (Parameters != null) b &= String.Equals(methodCustom.Ps().Replace("\"", ""), Parameters);
             return b;
         }
 
-        public static Boolean MI(String Method, String Description, String CancelNotPassed, String LowComparator, String Low, String High, String HighComparator, String FractionalDigits, String UnitPrefix, String Units, String UnitSuffix) {
-            Debug.Assert(TestIndex.M is MI);
+        public static Boolean MethodInterval(String Method, String Description, String CancelNotPassed, String LowComparator, String Low, String High, String HighComparator, String FractionalDigits, String UnitPrefix, String Units, String UnitSuffix) {
+            Debug.Assert(TestIndex.M is MethodInterval);
             Boolean b = M(Method, Description, CancelNotPassed);
-            MI mi = (MI)TestIndex.M;
-            b &= String.Equals(mi.LowComparator, LowComparator);
-            b &= String.Equals(mi.Low, Low);
-            b &= String.Equals(mi.High, High);
-            b &= String.Equals(mi.HighComparator, HighComparator);
-            b &= String.Equals(mi.FractionalDigits, FractionalDigits);
-            b &= String.Equals(mi.UnitPrefix, UnitPrefix);
-            b &= String.Equals(mi.Units, Units);
-            b &= String.Equals(mi.UnitSuffix, UnitSuffix);
+            MethodInterval methodInterval = (MethodInterval)TestIndex.M;
+            b &= String.Equals(methodInterval.LowComparator, LowComparator);
+            b &= String.Equals(methodInterval.Low, Low);
+            b &= String.Equals(methodInterval.High, High);
+            b &= String.Equals(methodInterval.HighComparator, HighComparator);
+            b &= String.Equals(methodInterval.FractionalDigits, FractionalDigits);
+            b &= String.Equals(methodInterval.UnitPrefix, UnitPrefix);
+            b &= String.Equals(methodInterval.Units, Units);
+            b &= String.Equals(methodInterval.UnitSuffix, UnitSuffix);
             return b;
         }
 
@@ -87,13 +87,13 @@ namespace ABT.Test.TestLib.TestDefinition {
         }
 
         public static Boolean M_Prior(String Method) {
-            if (TestIndex.TG.Methods.First() == TestIndex.M) return String.Equals(Method, TS.NONE.Replace("\"", ""));
-            return (1 + TestIndex.TG.Methods.FindIndex(m => m.Method == Method) == TestIndex.TG.Methods.IndexOf(TestIndex.M));
+            if (TestIndex.TestGroup.Methods.First() == TestIndex.M) return String.Equals(Method, UUT.NONE.Replace("\"", ""));
+            return (1 + TestIndex.TestGroup.Methods.FindIndex(m => m.Method == Method) == TestIndex.TestGroup.Methods.IndexOf(TestIndex.M));
         }
 
         public static Boolean M_Next(String Method) {
-            if (TestIndex.TG.Methods.Last() == TestIndex.M) return String.Equals(Method, TS.NONE.Replace("\"", ""));
-            return (TestIndex.TG.Methods.FindIndex(m => m.Method == Method) == TestIndex.TG.Methods.IndexOf(TestIndex.M) + 1);
+            if (TestIndex.TestGroup.Methods.Last() == TestIndex.M) return String.Equals(Method, UUT.NONE.Replace("\"", ""));
+            return (TestIndex.TestGroup.Methods.FindIndex(m => m.Method == Method) == TestIndex.TestGroup.Methods.IndexOf(TestIndex.M) + 1);
         }
     }
 }

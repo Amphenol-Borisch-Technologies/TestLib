@@ -4,8 +4,8 @@ using System.Windows.Forms;
 
 namespace ABT.Test.TestLib.TestDefinition {
     public partial class TestSelect : Form {
-        internal static TO TestOperation { get; private set; }
-        internal static TG TestGroup { get; private set; }
+        internal static TestOperation TestOperation { get; private set; }
+        internal static TestGroup TestGroup { get; private set; }
 
         public TestSelect() {
             InitializeComponent();
@@ -15,7 +15,7 @@ namespace ABT.Test.TestLib.TestDefinition {
             ListLoad();
         }
 
-        public static (TO, TG) Get() {
+        public static (TestOperation, TestGroup) Get() {
             TestSelect testSelect = new TestSelect();
             testSelect.ShowDialog(); // Waits until user clicks OK button.
             testSelect.Dispose();
@@ -33,16 +33,16 @@ namespace ABT.Test.TestLib.TestDefinition {
                 Text = "Select Test Operation";
                 TestList.Columns.Add("Operation");
                 TestList.Columns.Add("Description");
-                foreach (TO to in TestSelection.TS.TestOperations) TestList.Items.Add(new ListViewItem(new String[] { to.NamespaceTrunk, to.Description }));
+                foreach (TestOperation testOperation in TestSelection.TestSpace.TestOperations) TestList.Items.Add(new ListViewItem(new String[] { testOperation.NamespaceTrunk, testOperation.Description }));
             } else {
                 TestOperations.Checked = false;
                 Text = "Select Test Group";
                 TestList.Columns.Add("Operation");
                 TestList.Columns.Add("Group");
                 TestList.Columns.Add("Description");
-                foreach (TO to in TestSelection.TS.TestOperations) {
-                    foreach (TG tg in to.TestGroups)
-                        if (tg.Independent) TestList.Items.Add(new ListViewItem(new String[] { to.NamespaceTrunk, tg.Class, tg.Description }));
+                foreach (TestOperation testOperation in TestSelection.TestSpace.TestOperations) {
+                    foreach (TestGroup testGroup in testOperation.TestGroups)
+                        if (testGroup.Independent) TestList.Items.Add(new ListViewItem(new String[] { testOperation.NamespaceTrunk, testGroup.Class, testGroup.Description }));
                 }
             }
             foreach (ColumnHeader ch in TestList.Columns) ch.Width = -2;
@@ -59,10 +59,10 @@ namespace ABT.Test.TestLib.TestDefinition {
         private void OK_Click(Object sender, EventArgs e) {
             Debug.Assert(TestList.SelectedItems.Count == 1);
             if (TestOperations.Checked) {
-                TestOperation = TestSelection.TS.TestOperations[TestList.SelectedItems[0].Index];
+                TestOperation = TestSelection.TestSpace.TestOperations[TestList.SelectedItems[0].Index];
                 TestGroup = null;
             } else {
-                TestOperation = TestSelection.TS.TestOperations.Find(to => to.NamespaceTrunk.Equals(TestList.SelectedItems[0].Text));
+                TestOperation = TestSelection.TestSpace.TestOperations.Find(to => to.NamespaceTrunk.Equals(TestList.SelectedItems[0].Text));
                 TestGroup = TestOperation.TestGroups.Find(tg => tg.Class.Equals(TestList.SelectedItems[0].SubItems[1].Text));
             }
             DialogResult = DialogResult.OK;

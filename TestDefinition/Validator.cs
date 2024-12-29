@@ -22,7 +22,7 @@ namespace ABT.Test.TestLib.TestDefinition {
                 using (xmlReader = XmlReader.Create(TestDefinitionXML, xmlReaderSettings)) {
                     Double low, high;
                     while (xmlReader.Read()) {
-                        if (xmlReader.NodeType == XmlNodeType.Element && String.Equals(xmlReader.Name, nameof(MI))) {
+                        if (xmlReader.NodeType == XmlNodeType.Element && String.Equals(xmlReader.Name, nameof(MethodInterval))) {
                             // NOTE: This if block required because Microsoft's Visual Studio only supports XML Schema 1.0.
                             // - If Visual Studio supported XSD 1.1, then <xs:assert test="@Low le @High"/> would obviate this block.
                             #region TLDR below compares just some of the many mainstream XML editing options.
@@ -51,18 +51,18 @@ namespace ABT.Test.TestLib.TestDefinition {
                             //   - XML editing integrated with Visual Studio is incredibly convenient.
                             //   - As a multi-purpose editor, can develop C# .Net applications.  Plus many other languages.
                             #endregion
-                            low = Double.Parse(xmlReader.GetAttribute(nameof(MI.Low)));
-                            high = Double.Parse(xmlReader.GetAttribute(nameof(MI.High)));
+                            low = Double.Parse(xmlReader.GetAttribute(nameof(MethodInterval.Low)));
+                            high = Double.Parse(xmlReader.GetAttribute(nameof(MethodInterval.High)));
                             if (low > high) {
                                 validSpecification = false;
-                                stringBuilder.AppendLine($"MethodInterval's {nameof(MI.Low)} > {nameof(MI.High)}:");
+                                stringBuilder.AppendLine($"MethodInterval's {nameof(MethodInterval.Low)} > {nameof(MethodInterval.High)}:");
                                 stringBuilder.AppendLine($"\tLine Number   : {(xmlReader as IXmlLineInfo).LineNumber}");
                                 stringBuilder.AppendLine($"\tLine Position : {(xmlReader as IXmlLineInfo).LinePosition}");
                                 stringBuilder.AppendLine($"\tNode Type     : {xmlReader.NodeType}");
-                                stringBuilder.AppendLine($"\t\t{nameof(MI.Description)}   : {xmlReader.GetAttribute(nameof(MI.Description))}");
-                                stringBuilder.AppendLine($"\t\t{nameof(MI.Method)}        : {xmlReader.GetAttribute(nameof(MI.Method))}");
-                                stringBuilder.AppendLine($"\t\t{nameof(MI.Low)}           : {xmlReader.GetAttribute(nameof(MI.Low))}");
-                                stringBuilder.AppendLine($"\t\t{nameof(MI.High)}          : {xmlReader.GetAttribute(nameof(MI.High))}{Environment.NewLine}{Environment.NewLine}");
+                                stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.Description)}   : {xmlReader.GetAttribute(nameof(MethodInterval.Description))}");
+                                stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.Method)}        : {xmlReader.GetAttribute(nameof(MethodInterval.Method))}");
+                                stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.Low)}           : {xmlReader.GetAttribute(nameof(MethodInterval.Low))}");
+                                stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.High)}          : {xmlReader.GetAttribute(nameof(MethodInterval.High))}{Environment.NewLine}{Environment.NewLine}");
                             }
                         }
                     }
