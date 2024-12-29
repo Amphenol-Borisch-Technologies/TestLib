@@ -60,7 +60,7 @@ namespace ABT.Test.TestLib.TestDefinition {
                                 stringBuilder.AppendLine($"\tLine Position : {(xmlReader as IXmlLineInfo).LinePosition}");
                                 stringBuilder.AppendLine($"\tNode Type     : {xmlReader.NodeType}");
                                 stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.Description)}   : {xmlReader.GetAttribute(nameof(MethodInterval.Description))}");
-                                stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.Method)}        : {xmlReader.GetAttribute(nameof(MethodInterval.Method))}");
+                                stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.Name)}          : {xmlReader.GetAttribute(nameof(MethodInterval.Name))}");
                                 stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.Low)}           : {xmlReader.GetAttribute(nameof(MethodInterval.Low))}");
                                 stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.High)}          : {xmlReader.GetAttribute(nameof(MethodInterval.High))}{Environment.NewLine}{Environment.NewLine}");
                             }

@@ -284,7 +284,7 @@ namespace ABT.Test.TestLib.TestDefinition {
         public readonly Int32 FormattingLengthGroupID = 0;
         public readonly Int32 FormattingLengthMeasurementID = 0;
 
-        public String AssertionPrior() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.TG_Prior)}{UUT.BEGIN}{nameof(Class)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{UUT.END}"; }
+        public String AssertionPrior() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.TestGroupPrior)}{UUT.BEGIN}{nameof(Class)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{UUT.END}"; }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
@@ -299,32 +299,32 @@ namespace ABT.Test.TestLib.TestDefinition {
         }
         public String Ms() {
             StringBuilder sb = new StringBuilder();
-            foreach (M m in Methods) sb.Append($"{m.Method}{UUT.DIVIDER}");
+            foreach (M m in Methods) sb.Append($"{m.Name}{UUT.DIVIDER}");
             return UUT.EF(sb.Remove(sb.Length - UUT.DIVIDER.Length, UUT.DIVIDER.Length).ToString()); // Remove trailing UUT.DIVIDER.
         }
 
-        public String AssertionNext() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.TG_Next)}{UUT.BEGIN}{nameof(Class)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{UUT.END}"; }
+        public String AssertionNext() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.TestGroupNext)}{UUT.BEGIN}{nameof(Class)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{UUT.END}"; }
     }
 
     public abstract class M {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
-        [XmlAttribute(nameof(Method))] public String Method { get; set; }
+        [XmlAttribute(nameof(Name))] public String Name { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(CancelNotPassed))] public Boolean CancelNotPassed { get; set; }
         public Object Value { get; set; }
         public EVENTS Event { get; set; }
         public StringBuilder Log { get; set; } = new StringBuilder();
-        public String AssertionPrior() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.M_Prior)}{UUT.BEGIN}{nameof(Method)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{UUT.END}"; }
+        public String AssertionPrior() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.MethodPrior)}{UUT.BEGIN}{nameof(Name)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Name)).GetValue(this))}{UUT.END}"; }
 
         private protected String AssertionM() {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"{nameof(Method)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Name)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Name)).GetValue(this))}{UUT.CONTINUE}");
             sb.Append($"{nameof(Description)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}{UUT.CONTINUE}");
             sb.Append($"{nameof(CancelNotPassed)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(CancelNotPassed)).GetValue(this).ToString().ToLower())}");
             return sb.ToString();
         }
 
-        public String AssertionNext() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.M_Next)}{UUT.BEGIN}{nameof(Method)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Method)).GetValue(this))}{UUT.END}"; }
+        public String AssertionNext() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.MethodNext)}{UUT.BEGIN}{nameof(Name)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Name)).GetValue(this))}{UUT.END}"; }
     }
 
     public class MethodCustom : M, IAssertionCurrent {

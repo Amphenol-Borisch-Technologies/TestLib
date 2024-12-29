@@ -31,21 +31,21 @@ namespace ABT.Test.TestLib.TestDefinition {
                     stringBuilder.AppendLine($"\t{nameof(TestGroup.CancelNotPassed)} : {testGroup.CancelNotPassed}");
                     stringBuilder.AppendLine($"\t{nameof(TestGroup.Independent)}     : {testGroup.Independent}");
                     foreach (M m in testGroup.Methods) {
-                        stringBuilder.AppendLine($"\t\t\t{nameof(M.Method)}: {m.Method}, {nameof(m.Description)}: {m.Description}, {nameof(m.CancelNotPassed)}: {m.CancelNotPassed}");
+                        stringBuilder.AppendLine($"\t\t\t{nameof(M.Name)}: {m.Name}, {nameof(m.Description)}: {m.Description}, {nameof(m.CancelNotPassed)}: {m.CancelNotPassed}");
                         if (m is MethodCustom mc) foreach (Parameter p in mc.Parameters) stringBuilder.AppendLine($"    {nameof(Parameter)} {nameof(Parameter.Key)}: {p.Key}, {nameof(Parameter.Value)}: {p.Value}");
                         else if (m is MethodInterval mi) stringBuilder.AppendLine($"\t\t\t\t{nameof(mi.LowComparator)}: {mi.LowComparator}, {nameof(mi.Low)}: {mi.Low}, {nameof(mi.High)}: {mi.High}, {nameof(mi.HighComparator)}: {mi.HighComparator}, {nameof(mi.FractionalDigits)}: {mi.FractionalDigits}, {nameof(mi.UnitPrefix)}: {mi.UnitPrefix}, {nameof(mi.Units)}: {mi.Units}, {nameof(mi.UnitSuffix)}: {mi.UnitSuffix}");
                         else if (m is MethodProcess mp) stringBuilder.AppendLine($"\t\t\t\t{nameof(mp.Path)}: {mp.Path}, {nameof(mp.Executable)}: {mp.Executable}, {nameof(mp.Parameters)}: {mp.Parameters}, {nameof(mp.Expected)}: {mp.Expected}");
                         else if (m is MethodTextual mt) stringBuilder.AppendLine($"\t\t\t\t{nameof(mt.Text)}: {mt.Text}");
                         else {
                             StringBuilder sb = new StringBuilder();
-                            sb.AppendLine($"Method '{nameof(M.Method)}' not implemented:");
+                            sb.AppendLine($"Method '{nameof(M.Name)}' not implemented:");
                             sb.AppendLine($"\t{nameof(TestOperation.NamespaceTrunk)} : {testOperation.NamespaceTrunk}");
                             sb.AppendLine($"\t{nameof(TestOperation.Description)}    : {testOperation.Description}");
                             sb.AppendLine($"\t\t{nameof(TestGroup.Class)}            : {testGroup.Class}");
                             sb.AppendLine($"\t\t{nameof(TestGroup.Description)}      : {testGroup.Description}");
                             sb.AppendLine($"\t\t{nameof(TestGroup.CancelNotPassed)}  : {testGroup.CancelNotPassed}");
                             sb.AppendLine($"\t\t{nameof(TestGroup.Independent)}      : {testGroup.Independent}");
-                            sb.AppendLine($"\t\t\t{nameof(M.Method)}                 : {m.Method}");
+                            sb.AppendLine($"\t\t\t{nameof(M.Name)}                   : {m.Name}");
                             sb.AppendLine($"\t\t\t{nameof(M.Description)}            : {m.Description}");
                             sb.AppendLine($"\t\t\t{nameof(M.CancelNotPassed)}        : {m.CancelNotPassed}");
                             throw new NotImplementedException(sb.ToString());
