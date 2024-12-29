@@ -278,8 +278,8 @@ namespace ABT.Test.TestLib.TestDefinition {
         [XmlAttribute(nameof(Independent))] public Boolean Independent { get; set; }
         [XmlElement(nameof(MethodCustom), typeof(MethodCustom))]
         [XmlElement(nameof(MethodInterval), typeof(MethodInterval))]
-        [XmlElement(nameof(MP), typeof(MP))]
-        [XmlElement(nameof(MT), typeof(MT))]
+        [XmlElement(nameof(MethodProcess), typeof(MethodProcess))]
+        [XmlElement(nameof(MethodTextual), typeof(MethodTextual))]
         public List<M> Methods { get; set; }
         public readonly Int32 FormattingLengthGroupID = 0;
         public readonly Int32 FormattingLengthMeasurementID = 0;
@@ -385,7 +385,7 @@ namespace ABT.Test.TestLib.TestDefinition {
     public enum MI_Units { NONE, Amperes, Celcius, Farads, Henries, Hertz, Ohms, Seconds, Siemens, Volts, VoltAmperes, Watts }
     public enum MI_UnitSuffix { NONE, AC, DC, Peak, PP, RMS }
 
-    public class MP : M, IAssertionCurrent {
+    public class MethodProcess : M, IAssertionCurrent {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Path))] public String Path { get; set; }
         [XmlAttribute(nameof(Executable))] public String Executable { get; set; }
@@ -404,7 +404,7 @@ namespace ABT.Test.TestLib.TestDefinition {
         }
     }
 
-    public class MT : M, IAssertionCurrent {
+    public class MethodTextual : M, IAssertionCurrent {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Text))] public String Text { get; set; }
 

@@ -31,11 +31,11 @@ namespace ABT.Test.TestLib.TestDefinition {
                     stringBuilder.AppendLine($"\t{nameof(TestGroup.CancelNotPassed)} : {testGroup.CancelNotPassed}");
                     stringBuilder.AppendLine($"\t{nameof(TestGroup.Independent)}     : {testGroup.Independent}");
                     foreach (M m in testGroup.Methods) {
-                        stringBuilder.AppendLine($"\t\t\t{nameof(M.Method)}: {m.Method}, {nameof(M.Description)}: {m.Description}, {nameof(M.CancelNotPassed)}: {m.CancelNotPassed}");
+                        stringBuilder.AppendLine($"\t\t\t{nameof(M.Method)}: {m.Method}, {nameof(m.Description)}: {m.Description}, {nameof(m.CancelNotPassed)}: {m.CancelNotPassed}");
                         if (m is MethodCustom mc) foreach (Parameter p in mc.Parameters) stringBuilder.AppendLine($"    {nameof(Parameter)} {nameof(Parameter.Key)}: {p.Key}, {nameof(Parameter.Value)}: {p.Value}");
-                        else if (m is MethodInterval mi) stringBuilder.AppendLine($"\t\t\t\t{nameof(MethodInterval.LowComparator)}: {mi.LowComparator}, {nameof(MethodInterval.Low)}: {mi.Low}, {nameof(MethodInterval.High)}: {mi.High}, {nameof(MethodInterval.HighComparator)}: {mi.HighComparator}, {nameof(MethodInterval.FractionalDigits)}: {mi.FractionalDigits}, {nameof(MethodInterval.UnitPrefix)}: {mi.UnitPrefix}, {nameof(MethodInterval.Units)}: {mi.Units}, {nameof(MethodInterval.UnitSuffix)}: {mi.UnitSuffix}");
-                        else if (m is MP mp) stringBuilder.AppendLine($"\t\t\t\t{nameof(MP.Path)}: {mp.Path}, {nameof(MP.Executable)}: {mp.Executable}, {nameof(MP.Parameters)}: {mp.Parameters}, {nameof(MP.Expected)}: {mp.Expected}");
-                        else if (m is MT mt) stringBuilder.AppendLine($"\t\t\t\t{nameof(MT.Text)}: {mt.Text}");
+                        else if (m is MethodInterval mi) stringBuilder.AppendLine($"\t\t\t\t{nameof(mi.LowComparator)}: {mi.LowComparator}, {nameof(mi.Low)}: {mi.Low}, {nameof(mi.High)}: {mi.High}, {nameof(mi.HighComparator)}: {mi.HighComparator}, {nameof(mi.FractionalDigits)}: {mi.FractionalDigits}, {nameof(mi.UnitPrefix)}: {mi.UnitPrefix}, {nameof(mi.Units)}: {mi.Units}, {nameof(mi.UnitSuffix)}: {mi.UnitSuffix}");
+                        else if (m is MethodProcess mp) stringBuilder.AppendLine($"\t\t\t\t{nameof(mp.Path)}: {mp.Path}, {nameof(mp.Executable)}: {mp.Executable}, {nameof(mp.Parameters)}: {mp.Parameters}, {nameof(mp.Expected)}: {mp.Expected}");
+                        else if (m is MethodTextual mt) stringBuilder.AppendLine($"\t\t\t\t{nameof(mt.Text)}: {mt.Text}");
                         else {
                             StringBuilder sb = new StringBuilder();
                             sb.AppendLine($"Method '{nameof(M.Method)}' not implemented:");

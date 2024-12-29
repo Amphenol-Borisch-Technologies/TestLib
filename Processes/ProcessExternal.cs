@@ -37,7 +37,7 @@ namespace ABT.Test.TestLib.Processes {
             PostDisconnect?.Invoke();
         }
 
-        public static String ExitCode(MP MP) { return ProcessExitCode(MP.Parameters, MP.Executable, MP.Path); }
+        public static String ExitCode(MethodProcess methodProcess) { return ProcessExitCode(methodProcess.Parameters, methodProcess.Executable, methodProcess.Path); }
 
         private static Form FormInterconnectGet() {
             Form form = new Form() { Size = new Size(0, 0) };
@@ -94,7 +94,7 @@ namespace ABT.Test.TestLib.Processes {
             else return (standardError, standardOutput, exitCode);
         }
 
-        public static (String StandardError, String StandardOutput, Int32 ExitCode) Redirect(MP MP) { return ProcessRedirect(MP.Parameters, MP.Executable, MP.Path, MP.Expected); }
+        public static (String StandardError, String StandardOutput, Int32 ExitCode) Redirect(MethodProcess methodProcess) { return ProcessRedirect(methodProcess.Parameters, methodProcess.Executable, methodProcess.Path, methodProcess.Expected); }
 
         private static void DisableQuickEdit(IntPtr processHandle) {
             // https://stackoverflow.com/questions/13656846/how-to-programmatic-disable-c-sharp-console-applications-quick-edit-mode

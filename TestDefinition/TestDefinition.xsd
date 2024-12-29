@@ -742,7 +742,7 @@
     <xs:annotation>
       <xs:documentation xml:lang="en">
         <![CDATA[
-          MP complexType:
+          MethodProcess complexType:
           - Optional, 0 or more occurrences.
           - Type: MethodProcess.
           - Returns: System.Diagnostics.Process result as a System.String
@@ -810,7 +810,7 @@
     <xs:annotation>
       <xs:documentation xml:lang="en">
         <![CDATA[
-          MT complexType:
+          MethodTextual complexType:
           - Optional, 0 or more occurrences.
           - Type: MethodTextual.
           - Returns: System.String.
@@ -844,8 +844,8 @@
         </xs:unique>
       </xs:element>
       <xs:element name="MethodInterval" type="MethodInterval"/>
-      <xs:element name="MP" type="MethodProcess"/>
-      <xs:element name="MT" type="MethodTextual"/>
+      <xs:element name="MethodProcess" type="MethodProcess"/>
+      <xs:element name="MethodTextual" type="MethodTextual"/>
     </xs:choice>
     <xs:attribute name="Class" type="UniqueCSharpIdentifier" use="required">
       <xs:annotation>

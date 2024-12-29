@@ -67,22 +67,22 @@ namespace ABT.Test.TestLib.TestDefinition {
             return b;
         }
 
-        public static Boolean MP(String Method, String Description, String CancelNotPassed, String Path, String Executable, String Parameters, String Expected) {
-            Debug.Assert(TestIndex.M is MP);
+        public static Boolean MethodProcess(String Method, String Description, String CancelNotPassed, String Path, String Executable, String Parameters, String Expected) {
+            Debug.Assert(TestIndex.M is MethodProcess);
             Boolean b = M(Method, Description, CancelNotPassed);
-            MP mp = (MP)TestIndex.M;
-            b &= String.Equals(mp.Path, Path);
-            b &= String.Equals(mp.Executable, Executable);
-            b &= String.Equals(mp.Parameters, Parameters);
-            b &= String.Equals(mp.Expected, Expected);
+            MethodProcess methodProcess = (MethodProcess)TestIndex.M;
+            b &= String.Equals(methodProcess.Path, Path);
+            b &= String.Equals(methodProcess.Executable, Executable);
+            b &= String.Equals(methodProcess.Parameters, Parameters);
+            b &= String.Equals(methodProcess.Expected, Expected);
             return b;
         }
 
-        public static Boolean MT(String Method, String Description, String CancelNotPassed, String Text) {
-            Debug.Assert(TestIndex.M is MT);
+        public static Boolean MethodTextual(String Method, String Description, String CancelNotPassed, String Text) {
+            Debug.Assert(TestIndex.M is MethodTextual);
             Boolean b = M(Method, Description, CancelNotPassed);
-            MT mt = (MT)TestIndex.M;
-            b &= String.Equals(mt.Text, Text);
+            MethodTextual methodTextual = (MethodTextual)TestIndex.M;
+            b &= String.Equals(methodTextual.Text, Text);
             return b;
         }
 
