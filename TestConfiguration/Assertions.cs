@@ -3,9 +3,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace ABT.Test.TestLib.TestDefinition {
+namespace ABT.Test.TestLib.TestConfiguration {
     public static class Assertions {
-        public static Boolean NS(String NamespaceRoot, String Description, String TestOperations) {
+        public static Boolean TestSpace(String NamespaceRoot, String Description, String TestOperations) {
             Boolean b = String.Equals(TestSelection.TestSpace.NamespaceRoot, NamespaceRoot);
             b &= String.Equals(TestSelection.TestSpace.Description, Description);
             b &= String.Equals(TestSelection.TestSpace.TOs().Replace("\"", ""), TestOperations);

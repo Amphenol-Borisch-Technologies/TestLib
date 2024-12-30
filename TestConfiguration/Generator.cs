@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using Microsoft.CSharp;
 
-namespace ABT.Test.TestLib.TestDefinition {
+namespace ABT.Test.TestLib.TestConfiguration {
 
     public static class Generator {
         public static void Generate(String TestDefinitionXML) {
@@ -50,7 +50,7 @@ namespace ABT.Test.TestLib.TestDefinition {
             CodeNamespace codeNamespace = new CodeNamespace(testSpace.NamespaceRoot + "." + testSpace.TestOperations[testOperation].NamespaceTrunk);
             codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("System.Diagnostics"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestDefinition.Assertions"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestConfiguration.Assertions"));
             return codeNamespace;
         }
 

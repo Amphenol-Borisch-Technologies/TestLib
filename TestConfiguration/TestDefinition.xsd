@@ -14,7 +14,7 @@
       <xs:documentation xml:lang="en">
         <![CDATA[
           ValidCSharpNamespace simpleType:
-          - RegEx to validate a C# namespace; for example, "ABT.Test.TestLib.TestDefinition".
+          - RegEx to validate a C# namespace; for example, "ABT.Test.TestLib.TestConfiguration".
           - Type: xs:string + xs:restriction + xs:pattern.
         ]]>
       </xs:documentation>
@@ -127,15 +127,15 @@
       <xs:documentation xml:lang="en">
         <![CDATA[
           SerialNumberAttributes attributeGroup:
-          - Type: SerialEntry + SerialRegEx.
+          - Type: SerialNumberEntry + SerialNumberRegEx.
           ]]>
       </xs:documentation>
     </xs:annotation>
-    <xs:attribute name="SerialEntry" use="required">
+    <xs:attribute name="SerialNumberEntry" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
-          SerialEntry attribute:
+          SerialNumberEntry attribute:
           - Required.
           - Type: xs:enumeration.
           ]]>
@@ -149,11 +149,11 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-    <xs:attribute name="SerialRegEx" type="xs:string" use="optional">
+    <xs:attribute name="SerialNumberRegEx" type="xs:string" use="optional">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
-          SerialRegEx attribute:
+          SerialNumberRegEx attribute:
           - Optional.
           - RegEx to validate Serial Number entry.
           - Type: xs:string + xs:restriction + xs:pattern.
@@ -175,11 +175,11 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="FullyQualifiedMethod" type="ValidCSharpNamespace" use="required">
+    <xs:attribute name="NameSpaceClassName" type="ValidCSharpNamespace" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
-          FullyQualifiedMethod attribute:
+          NameSpaceClassName attribute:
           - Required.
           - Type: ValidCSharpNamespace.
           ]]>
@@ -398,17 +398,17 @@
     </xs:attribute>
   </xs:complexType>
 
-  <xs:complexType name="TDR">
+  <xs:complexType name="TextFiles">
     <xs:attribute ref="Folder" use="required"/>
     <xs:attributeGroup ref="SerialNumberAttributes"/>
   </xs:complexType>
 
-  <xs:complexType name="SQL">
+  <xs:complexType name="SQLDB">
     <xs:annotation>
       <xs:documentation xml:lang="en">
         <![CDATA[
-          SQL complexType:
-          -Type: SQL.
+          SQLDB complexType:
+          -Type: SQLDB.
         ]]>
       </xs:documentation>
     </xs:annotation>
@@ -1188,24 +1188,24 @@
           </xs:annotation>
           <xs:complexType>
             <xs:choice>
-              <xs:element name="TDR" type="TDR" minOccurs="0" maxOccurs="1">
+              <xs:element name="TextFiles" type="TextFiles" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                   <xs:documentation xml:lang="en">
                     <![CDATA[
-                    TDR element.
+                    TextFiles element.
                     - Choice, 1 occurence.
-                    - Type: TDR.
+                    - Type: TextFiles.
                   ]]>
                   </xs:documentation>
                 </xs:annotation>
               </xs:element>
-              <xs:element name="SQL" type="SQL" minOccurs="0" maxOccurs="1">
+              <xs:element name="SQLDB" type="SQLDB" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                   <xs:documentation xml:lang="en">
                     <![CDATA[
-                    SQL element.
+                    SQLDB element.
                     - Choice, 1 occurence.
-                    - Type: SQL.
+                    - Type: SQLDB.
                   ]]>
                   </xs:documentation>
                 </xs:annotation>

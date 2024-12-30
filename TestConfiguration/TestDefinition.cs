@@ -5,7 +5,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace ABT.Test.TestLib.TestDefinition {
+namespace ABT.Test.TestLib.TestConfiguration {
     public interface IAssertionCurrent { String AssertionCurrent(); }
 
     [XmlRoot(nameof(TestDefinition))]
@@ -69,13 +69,13 @@ namespace ABT.Test.TestLib.TestDefinition {
 
     public class Stationary : IAssertionCurrent {
         [XmlAttribute(nameof(ID))] public String ID { get; set; }
-        [XmlAttribute(nameof(FullyQualifiedMethod))] public String FullyQualifiedMethod { get; set; }
+        [XmlAttribute(nameof(NameSpaceClassName))] public String NameSpaceClassName { get; set; }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{nameof(ID)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(ID)).GetValue(this))}{UUT.CONTINUE}");
-            sb.Append($"{nameof(FullyQualifiedMethod)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(FullyQualifiedMethod)).GetValue(this))}");
+            sb.Append($"{nameof(NameSpaceClassName)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(NameSpaceClassName)).GetValue(this))}");
             sb.Append($"{UUT.END}");
             return sb.ToString();
         }
@@ -89,7 +89,7 @@ namespace ABT.Test.TestLib.TestDefinition {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{nameof(ID)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(ID)).GetValue(this))}{UUT.CONTINUE}");
-            sb.Append($"{nameof(FullyQualifiedMethod)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(FullyQualifiedMethod)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(NameSpaceClassName)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(NameSpaceClassName)).GetValue(this))}{UUT.CONTINUE}");
             sb.Append($"{nameof(Detail)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Detail)).GetValue(this))}{UUT.CONTINUE}");
             sb.Append($"{nameof(Address)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Address)).GetValue(this))}");
             sb.Append($"{UUT.END}");
@@ -99,35 +99,35 @@ namespace ABT.Test.TestLib.TestDefinition {
 
     public abstract class SerialNumber {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
-        [XmlAttribute(nameof(SerialEntry))] public SerialEntry SerialEntry { get; set; }
-        [XmlAttribute(nameof(SerialRegEx))] public String SerialRegEx { get; set; }
+        [XmlAttribute(nameof(SerialNumberEntry))] public SerialNumberEntry SerialNumberEntry { get; set; }
+        [XmlAttribute(nameof(SerialNumberRegEx))] public String SerialNumberRegEx { get; set; }
     }
 
-    public class SQL : SerialNumber, IAssertionCurrent {
+    public class SQLDB : SerialNumber, IAssertionCurrent {
         [XmlAttribute(nameof(ConnectionString))] public String ConnectionString { get; set; }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{nameof(ConnectionString)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(ConnectionString)).GetValue(this))}{UUT.CONTINUE}");
-            sb.Append($"{nameof(SerialEntry)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(SerialEntry)).GetValue(this))}{UUT.CONTINUE}");
-            sb.Append($"{nameof(SerialRegEx)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(SerialRegEx)).GetValue(this))}");
+            sb.Append($"{nameof(SerialNumberEntry)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(SerialNumberEntry)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(SerialNumberRegEx)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(SerialNumberRegEx)).GetValue(this))}");
             sb.Append($"{UUT.END}");
             return sb.ToString();
         }
     }
 
-    public enum SerialEntry { Barcode, BarcodeεKeyboard, Keyboard }
+    public enum SerialNumberEntry { Barcode, BarcodeεKeyboard, Keyboard }
 
-    public class TDR : SerialNumber, IAssertionCurrent {
+    public class TextFiles : SerialNumber, IAssertionCurrent {
         [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{nameof(Folder)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Folder)).GetValue(this))}{UUT.CONTINUE}");
-            sb.Append($"{nameof(SerialEntry)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(SerialEntry)).GetValue(this))}{UUT.CONTINUE}");
-            sb.Append($"{nameof(SerialRegEx)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(SerialRegEx)).GetValue(this))}");
+            sb.Append($"{nameof(SerialNumberEntry)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(SerialNumberEntry)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(SerialNumberRegEx)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(SerialNumberRegEx)).GetValue(this))}");
             sb.Append($"{UUT.END}");
             return sb.ToString();
         }
@@ -185,8 +185,8 @@ namespace ABT.Test.TestLib.TestDefinition {
     }
 
     public class TestData {
-        [XmlElement(nameof(SQL), typeof(SQL))]
-        [XmlElement(nameof(TDR), typeof(TDR))]
+        [XmlElement(nameof(SQLDB), typeof(SQLDB))]
+        [XmlElement(nameof(TextFiles), typeof(TextFiles))]
         public Object Item { get; set; }
     }
 

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
-using ABT.Test.TestLib.AppConfig;
-using ABT.Test.TestLib.TestDefinition;
+using ABT.Test.TestLib.TestConfiguration;
 
 namespace ABT.Test.TestLib {
     public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, IGNORE, PASS, UNSET }
@@ -26,8 +25,9 @@ namespace ABT.Test.TestLib {
         //public static readonly AppConfigLogger ConfigLogger = AppConfigLogger.Get();
         //public static AppConfigUUT ConfigUUT = AppConfigUUT.Get();
 
-        public static String TestDefinitionXSD = @"C:\Users\phils\source\repos\ABT\Test\TestLib\TestDefinition\TestDefinition.xsd";
-        public static String BaseDirectory = null;      // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static String TestDefinitionXSD = AppDomain.CurrentDomain.BaseDirectory.Remove(AppDomain.CurrentDomain.BaseDirectory.IndexOf(@"\bin\")) + @"\TestDefinition.xsd";
+        public static TestDefinition testDefinition = null; // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static String BaseDirectory = null;   // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static CancellationToken CT_Cancel;
         public static CancellationToken CT_EmergencyStop;
         // NOTE: Commented on 11/5/24.  Original code in 11/5/24 Git commit.
