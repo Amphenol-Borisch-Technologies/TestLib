@@ -21,7 +21,7 @@ namespace ABT.Test.TestLib {
         public const String NONE = "NONE";
         public static Mutex MutexTest = null;
         public const String MutexTestName = nameof(MutexTest);
-        //public static Dictionary<String, Object> InstrumentDrivers = null;
+        public static Dictionary<String, Object> InstrumentDrivers = null;
         //public static readonly AppConfigLogger ConfigLogger = AppConfigLogger.Get();
         //public static AppConfigUUT ConfigUUT = AppConfigUUT.Get();
 

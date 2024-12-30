@@ -144,7 +144,6 @@
       <xs:simpleType>
         <xs:restriction base="xs:string">
           <xs:enumeration value="Barcode"/>
-          <xs:enumeration value="BarcodeεKeyboard"/>
           <xs:enumeration value="Keyboard"/>
         </xs:restriction>
       </xs:simpleType>
@@ -175,11 +174,11 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="NameSpaceClassName" type="ValidCSharpNamespace" use="required">
+    <xs:attribute name="NameSpacedClassName" type="ValidCSharpNamespace" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
-          NameSpaceClassName attribute:
+          NameSpacedClassName attribute:
           - Required.
           - Type: ValidCSharpNamespace.
           ]]>
