@@ -57,11 +57,11 @@ namespace ABT.Test.TestLib {
     public static class TestIndex {
         public static TestOperation TestOperation { get; set; } = null;
         public static TestGroup TestGroup { get; set; } = null;
-        public static M M { get; set; } = null;
+        public static Method Method { get; set; } = null;
         public static void Nullify() {
             TestOperation = null;
             TestGroup = null;
-            M = null;
+            Method = null;
         }
     }
 }

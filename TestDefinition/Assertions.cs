@@ -38,25 +38,25 @@ namespace ABT.Test.TestLib.TestDefinition {
             return (TestIndex.TestOperation.TestGroups.FindIndex(c => c.Class == Class) == TestIndex.TestOperation.TestGroups.IndexOf(TestIndex.TestGroup) + 1);
         }
 
-        public static Boolean M(String Name, String Description, String CancelNotPassed) {
-            Boolean b = String.Equals(TestIndex.M.Name, Name);
-            b &= String.Equals(TestIndex.M.Description, Description);
-            b &= String.Equals(TestIndex.M.CancelNotPassed.ToString().ToLower(), CancelNotPassed);
+        public static Boolean Method(String Name, String Description, String CancelNotPassed) {
+            Boolean b = String.Equals(TestIndex.Method.Name, Name);
+            b &= String.Equals(TestIndex.Method.Description, Description);
+            b &= String.Equals(TestIndex.Method.CancelNotPassed.ToString().ToLower(), CancelNotPassed);
             return b;
         }
 
         public static Boolean MethodCustom(String Name, String Description, String CancelNotPassed, String Parameters = null) {
-            Debug.Assert(TestIndex.M is MethodCustom);
-            Boolean b = M(Name, Description, CancelNotPassed);
-            MethodCustom methodCustom = (MethodCustom)TestIndex.M;
+            Debug.Assert(TestIndex.Method is MethodCustom);
+            Boolean b = Method(Name, Description, CancelNotPassed);
+            MethodCustom methodCustom = (MethodCustom)TestIndex.Method;
             if (Parameters != null) b &= String.Equals(methodCustom.Ps().Replace("\"", ""), Parameters);
             return b;
         }
 
         public static Boolean MethodInterval(String Name, String Description, String CancelNotPassed, String LowComparator, String Low, String High, String HighComparator, String FractionalDigits, String UnitPrefix, String Units, String UnitSuffix) {
-            Debug.Assert(TestIndex.M is MethodInterval);
-            Boolean b = M(Name, Description, CancelNotPassed);
-            MethodInterval methodInterval = (MethodInterval)TestIndex.M;
+            Debug.Assert(TestIndex.Method is MethodInterval);
+            Boolean b = Method(Name, Description, CancelNotPassed);
+            MethodInterval methodInterval = (MethodInterval)TestIndex.Method;
             b &= String.Equals(methodInterval.LowComparator, LowComparator);
             b &= String.Equals(methodInterval.Low, Low);
             b &= String.Equals(methodInterval.High, High);
@@ -69,9 +69,9 @@ namespace ABT.Test.TestLib.TestDefinition {
         }
 
         public static Boolean MethodProcess(String Name, String Description, String CancelNotPassed, String Path, String Executable, String Parameters, String Expected) {
-            Debug.Assert(TestIndex.M is MethodProcess);
-            Boolean b = M(Name, Description, CancelNotPassed);
-            MethodProcess methodProcess = (MethodProcess)TestIndex.M;
+            Debug.Assert(TestIndex.Method is MethodProcess);
+            Boolean b = Method(Name, Description, CancelNotPassed);
+            MethodProcess methodProcess = (MethodProcess)TestIndex.Method;
             b &= String.Equals(methodProcess.Path, Path);
             b &= String.Equals(methodProcess.Executable, Executable);
             b &= String.Equals(methodProcess.Parameters, Parameters);
@@ -80,21 +80,21 @@ namespace ABT.Test.TestLib.TestDefinition {
         }
 
         public static Boolean MethodTextual(String Name, String Description, String CancelNotPassed, String Text) {
-            Debug.Assert(TestIndex.M is MethodTextual);
-            Boolean b = M(Name, Description, CancelNotPassed);
-            MethodTextual methodTextual = (MethodTextual)TestIndex.M;
+            Debug.Assert(TestIndex.Method is MethodTextual);
+            Boolean b = Method(Name, Description, CancelNotPassed);
+            MethodTextual methodTextual = (MethodTextual)TestIndex.Method;
             b &= String.Equals(methodTextual.Text, Text);
             return b;
         }
 
         public static Boolean MethodPrior(String Name) {
-            if (TestIndex.TestGroup.Methods.First() == TestIndex.M) return String.Equals(Name, UUT.NONE.Replace("\"", ""));
-            return (1 + TestIndex.TestGroup.Methods.FindIndex(m => m.Name == Name) == TestIndex.TestGroup.Methods.IndexOf(TestIndex.M));
+            if (TestIndex.TestGroup.Methods.First() == TestIndex.Method) return String.Equals(Name, UUT.NONE.Replace("\"", ""));
+            return (1 + TestIndex.TestGroup.Methods.FindIndex(m => m.Name == Name) == TestIndex.TestGroup.Methods.IndexOf(TestIndex.Method));
         }
 
         public static Boolean MethodNext(String Name) {
-            if (TestIndex.TestGroup.Methods.Last() == TestIndex.M) return String.Equals(Name, UUT.NONE.Replace("\"", ""));
-            return (TestIndex.TestGroup.Methods.FindIndex(m => m.Name == Name) == TestIndex.TestGroup.Methods.IndexOf(TestIndex.M) + 1);
+            if (TestIndex.TestGroup.Methods.Last() == TestIndex.Method) return String.Equals(Name, UUT.NONE.Replace("\"", ""));
+            return (TestIndex.TestGroup.Methods.FindIndex(m => m.Name == Name) == TestIndex.TestGroup.Methods.IndexOf(TestIndex.Method) + 1);
         }
     }
 }
