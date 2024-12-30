@@ -11,6 +11,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
     [XmlRoot(nameof(TestDefinition))]
     public class TestDefinition {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlElement(nameof(UUT))] public UUT UUT { get; set; }
         [XmlElement(nameof(Development))] public Development Development { get; set; }
         [XmlArray(nameof(Modifications))] public List<Modification> Modifications { get; set; }
@@ -20,6 +21,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class UUT : IAssertionCurrent {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlElement(nameof(Customer))] public Customer Customer { get; set; }
         [XmlElement(nameof(TestSpecification))] public List<TestSpecification> TestSpecification { get; set; }
         [XmlElement(nameof(Documentation))] public List<Documentation> Documentation { get; set; }
@@ -53,6 +55,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class Customer : IAssertionCurrent {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Name))] public String Name { get; set; }
         [XmlAttribute(nameof(Division))] public String Division { get; set; }
         [XmlAttribute(nameof(Location))] public String Location { get; set; }
@@ -69,6 +72,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class TestSpecification : IAssertionCurrent {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Document))] public String Document { get; set; }
         [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
         [XmlAttribute(nameof(Title))] public String Title { get; set; }
@@ -87,12 +91,14 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class Documentation {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
     }
 
     public enum Category { Component, CircuitCard, Harness, Unit, System }
 
     public class Development {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlElement(nameof(Developer))] public List<Developer> Developer { get; set; }
         [XmlElement(nameof(Documentation))] public List<Documentation> Documentation { get; set; }
         [XmlElement(nameof(Repository))] public List<Repository> Repository { get; set; }
@@ -100,6 +106,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class Developer {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Name))] public String Name { get; set; }
         [XmlAttribute(nameof(Language))] public Language Language { get; set; }
         [XmlAttribute(nameof(Comment))] public String Comment { get; set; }
@@ -109,10 +116,12 @@ namespace ABT.Test.TestLib.TestConfiguration {
     public enum Language { CSharp, Python, VEE }
 
     public class Repository {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(URL))] public String URL { get; set; }
     }
 
     public class Modification {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Who))] public String Who { get; set; }
         [XmlAttribute(nameof(What))] public String What { get; set; }
         [XmlAttribute(nameof(When))] public System.DateTime When { get; set; }
@@ -121,6 +130,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class TestData {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlElement(nameof(SQLDB), typeof(SQLDB))]
         [XmlElement(nameof(TextFiles), typeof(TextFiles))]
         public Object Item { get; set; }
@@ -137,6 +147,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     public enum SerialNumberEntry { Barcode, Keyboard }
 
     public class SQLDB : SerialNumber, IAssertionCurrent {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(ConnectionString))] public String ConnectionString { get; set; }
 
         public String AssertionCurrent() {
@@ -151,6 +162,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class TextFiles : SerialNumber, IAssertionCurrent {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
 
         public String AssertionCurrent() {
@@ -165,9 +177,9 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class Instruments : IAssertionCurrent {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlElement(nameof(Stationary))] public List<Stationary> Stationary { get; set; }
         [XmlElement(nameof(Mobile))] public List<Mobile> Mobile { get; set; }
-        public Dictionary<String, Object> Instrument = null;
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
@@ -177,55 +189,10 @@ namespace ABT.Test.TestLib.TestConfiguration {
             sb.Append($"{UUT.END}");
             return sb.ToString();
         }
-
-        public Dictionary<String, Object> GetInstruments(String ConfigurationTestExec) {
-            Dictionary<String, Object> Instruments = GetMobile();
-            foreach (KeyValuePair<String, Object> kvp in GetStationary(ConfigurationTestExec)) Instruments.Add(kvp.Key, kvp.Value);
-            return Instruments;
-        }
-
-        private Dictionary<String, Object> GetStationary(String ConfigurationTestExec) {
-            Dictionary<String, String> dictionary = new Dictionary<String, String>();
-            foreach (Stationary stationary in Stationary) try { dictionary.Add(stationary.ID, stationary.NameSpacedClassName);        } catch (Exception e) {
-                StringBuilder sb = new StringBuilder().AppendLine();
-                sb.AppendLine($"Issue with Instrument Stationary:");
-                sb.AppendLine($"   ID              : {stationary.ID}");
-                sb.AppendLine($"   ClassName       : {stationary.NameSpacedClassName}{Environment.NewLine}");
-                sb.AppendLine($"Exception Message(s):");
-                sb.AppendLine($"{e}{Environment.NewLine}");
-                throw new ArgumentException(sb.ToString());
-            }
-
-            IEnumerable<XElement> IS = XElement.Load(ConfigurationTestExec).Elements("Instruments");
-            // Now add InstrumentsStationary listed in app.config, but must first read their Address, Detail & ClassName from TestExec.ConfigurationTestExec.
-            Dictionary<String, Object> instruments = new Dictionary<String, Object>();
-            foreach (KeyValuePair<String, String> kvp in dictionary) {
-                XElement XE = IS.Descendants("Stationary").FirstOrDefault(xe => (String)xe.Attribute("ID") == kvp.Key) ?? throw new ArgumentException($"Instrument with ID '{kvp.Key}' not present in file '{ConfigurationTestExec}'.");
-                instruments.Add(kvp.Key, Activator.CreateInstance(Type.GetType(kvp.Value), new Object[] { XE.Attribute("Address").Value, XE.Attribute("Detail").Value }));
-            }
-            return instruments;
-        }
-
-        private Dictionary<String, Object> GetMobile() {
-            Dictionary<String, Object> instruments = new Dictionary<String, Object>();
-            foreach (Mobile mobile in Mobile) try {
-                instruments.Add(mobile.ID, Activator.CreateInstance(Type.GetType(mobile.NameSpacedClassName), new Object[] { mobile.Address, mobile.Detail }));
-            } catch (Exception e) {
-                StringBuilder sb = new StringBuilder().AppendLine();
-                sb.AppendLine($"Issue with Instrument Mobile:");
-                sb.AppendLine($"   ID              : {mobile.ID}");
-                sb.AppendLine($"   Detail          : {mobile.Detail}");
-                sb.AppendLine($"   Address         : {mobile.Address}");
-                sb.AppendLine($"   ClassName       : {mobile.NameSpacedClassName}{Environment.NewLine}");
-                sb.AppendLine($"Exception Message(s):");
-                sb.AppendLine($"{e}{Environment.NewLine}");
-                throw new ArgumentException(sb.ToString());
-            }
-            return instruments;
-        }
     }
 
     public class Stationary : IAssertionCurrent {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(ID))] public String ID { get; set; }
         [XmlAttribute(nameof(NameSpacedClassName))] public String NameSpacedClassName { get; set; }
 
@@ -240,6 +207,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class Mobile : Stationary {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Detail))] public String Detail { get; set; }
         [XmlAttribute(nameof(Address))] public String Address { get; set; }
 

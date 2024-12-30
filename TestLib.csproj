@@ -106,8 +106,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppConfig\AppConfigLogger.cs" />
-    <Compile Include="AppConfig\AppConfigUUT.cs" />
     <Compile Include="AppConfig\TestSelect.cs">
       <SubType>Form</SubType>
     </Compile>

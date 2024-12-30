@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Text;
 using System.Threading;
+using System.Xml.Linq;
 using ABT.Test.TestLib.TestConfiguration;
 
 namespace ABT.Test.TestLib {
@@ -22,22 +24,60 @@ namespace ABT.Test.TestLib {
         public static Mutex MutexTest = null;
         public const String MutexTestName = nameof(MutexTest);
         public static Dictionary<String, Object> InstrumentDrivers = null;
-        //public static readonly AppConfigLogger ConfigLogger = AppConfigLogger.Get();
-        //public static AppConfigUUT ConfigUUT = AppConfigUUT.Get();
 
         public static String TestDefinitionXSD = AppDomain.CurrentDomain.BaseDirectory.Remove(AppDomain.CurrentDomain.BaseDirectory.IndexOf(@"\bin\")) + @"\TestDefinition.xsd";
-        public static TestDefinition testDefinition = null; // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
-        public static String BaseDirectory = null;   // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static TestDefinition testDefinition = null;                 // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static Dictionary<String, Object> TestInstruments = null;    // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static String BaseDirectory = null;                          // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static CancellationToken CT_Cancel;
         public static CancellationToken CT_EmergencyStop;
-        // NOTE: Commented on 11/5/24.  Original code in 11/5/24 Git commit.
-        //public static Configuration ConfigMap = GetConfiguration();
-        //public static Configuration GetConfiguration() {
-        //    ExeConfigurationFileMap ecfm = new ExeConfigurationFileMap {
-        //        ExeConfigFilename = @"C:\Users\phils\source\repos\ABT\TestExec\Tests\Diagnostics\bin\x64\Debug\Diagnostics.exe.config"
-        //    };
-        //    return ConfigurationManager.OpenMappedExeConfiguration(ecfm, ConfigurationUserLevel.None);
-        //}
+
+        public static Dictionary<String, Object> GetInstruments(String ConfigurationTestExec, TestDefinition testDefinition) {
+            Dictionary<String, Object> Instruments = GetMobile(testDefinition.Instruments.Mobile);
+            foreach (KeyValuePair<String, Object> kvp in GetStationary(ConfigurationTestExec, testDefinition.Instruments.Stationary)) Instruments.Add(kvp.Key, kvp.Value);
+            return Instruments;
+        }
+
+        private static Dictionary<String, Object> GetMobile(Mobile mobile) {
+            Dictionary<String, Object> instruments = new Dictionary<String, Object>();
+            foreach (Mobile m in mobile) try {
+                instruments.Add(m.ID, Activator.CreateInstance(Type.GetType(m.NameSpacedClassName), new Object[] { m.Address, m.Detail }));
+            } catch (Exception e) {
+                StringBuilder sb = new StringBuilder().AppendLine();
+                sb.AppendLine($"Issue with Instrument Mobile:");
+                sb.AppendLine($"   ID              : {m.ID}");
+                sb.AppendLine($"   Detail          : {m.Detail}");
+                sb.AppendLine($"   Address         : {m.Address}");
+                sb.AppendLine($"   ClassName       : {m.NameSpacedClassName}{Environment.NewLine}");
+                sb.AppendLine($"Exception Message(s):");
+                sb.AppendLine($"{e}{Environment.NewLine}");
+                throw new ArgumentException(sb.ToString());
+            }
+            return instruments;
+        }
+
+        private static Dictionary<String, Object> GetStationary(String ConfigurationTestExec, Stationary stationary) {
+            Dictionary<String, String> dictionary = new Dictionary<String, String>();
+            foreach (Stationary s in stationary) try { dictionary.Add(s.ID, s.NameSpacedClassName);
+            } catch (Exception e) {
+                StringBuilder sb = new StringBuilder().AppendLine();
+                sb.AppendLine($"Issue with Instrument Stationary:");
+                sb.AppendLine($"   ID              : {s.ID}");
+                sb.AppendLine($"   ClassName       : {s.NameSpacedClassName}{Environment.NewLine}");
+                sb.AppendLine($"Exception Message(s):");
+                sb.AppendLine($"{e}{Environment.NewLine}");
+                throw new ArgumentException(sb.ToString());
+            }
+
+            IEnumerable<XElement> IS = XElement.Load(ConfigurationTestExec).Elements("Instruments");
+            // Now add InstrumentsStationary listed in app.config, but must first read their Address, Detail & ClassName from TestExec.ConfigurationTestExec.
+            Dictionary<String, Object> instruments = new Dictionary<String, Object>();
+            foreach (KeyValuePair<String, String> kvp in dictionary) {
+                XElement XE = IS.Descendants("Stationary").FirstOrDefault(xe => (String)xe.Attribute("ID") == kvp.Key) ?? throw new ArgumentException($"Instrument with ID '{kvp.Key}' not present in file '{ConfigurationTestExec}'.");
+                instruments.Add(kvp.Key, Activator.CreateInstance(Type.GetType(kvp.Value), new Object[] { XE.Attribute("Address").Value, XE.Attribute("Detail").Value }));
+            }
+            return instruments;
+        }
     }
 
     public static class TestSelection {
