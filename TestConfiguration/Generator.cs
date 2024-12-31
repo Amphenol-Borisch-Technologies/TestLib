@@ -13,12 +13,14 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
         public static void Generate(String TestDefinitionXML) {
             if (!File.Exists(TestDefinitionXML)) throw new ArgumentException($"XML File '{TestDefinitionXML}' does not exist.");
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(new StringReader(TestDefinitionXML));
-            XmlNode node = xmlDoc.SelectSingleNode(nameof(TestSpace)) ?? throw new InvalidOperationException($"Element '{nameof(TestSpace)}' not found in XML file '{TestDefinitionXML}'.");
             TestSpace testSpace;
-            XmlSerializer serializer = new XmlSerializer(typeof(TestSpace));
-            using (StringReader stringReader = new StringReader(node.OuterXml)) { testSpace = (TestSpace)serializer.Deserialize(stringReader); }
+            using (FileStream fileStream = new FileStream(TestDefinitionXML, FileMode.Open)) {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(fileStream);
+                XmlNode node = xmlDoc.SelectSingleNode(nameof(TestSpace)) ?? throw new InvalidOperationException($"Element '{nameof(TestSpace)}' not found in XML file '{TestDefinitionXML}'.");
+                XmlSerializer serializer = new XmlSerializer(typeof(TestSpace));
+                using (StringReader stringReader = new StringReader(node.OuterXml)) { testSpace = (TestSpace)serializer.Deserialize(stringReader); }
+            }
 
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
             for (Int32 testOperation = 0; testOperation < testSpace.TestOperations.Count; testOperation++) {
