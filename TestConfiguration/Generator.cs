@@ -12,17 +12,9 @@ namespace ABT.Test.TestLib.TestConfiguration {
     public static class Generator {
 
         public static void Generate(String TestDefinitionXML) {
-            if (!File.Exists(TestDefinitionXML)) throw new ArgumentException($"XML File '{TestDefinitionXML}' does not exist.");
-            TestSpace testSpace;
-            using (FileStream fileStream = new FileStream(TestDefinitionXML, FileMode.Open)) {
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(fileStream);
-                XmlNode node = xmlDoc.SelectSingleNode(nameof(TestSpace)) ?? throw new InvalidOperationException($"Element '{nameof(TestSpace)}' not found in XML file '{TestDefinitionXML}'.");
-                XmlSerializer serializer = new XmlSerializer(typeof(TestSpace));
-                using (StringReader stringReader = new StringReader(node.OuterXml)) { testSpace = (TestSpace)serializer.Deserialize(stringReader); }
-            }
-
+            TestSpace testSpace = DeserializeFromXml<TestSpace>(TestDefinitionXML);
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
+
             for (Int32 testOperation = 0; testOperation < testSpace.TestOperations.Count; testOperation++) {
                 CodeNamespace codeNamespace = GetNamespace(testSpace, testOperation);
                 _ = codeCompileUnit.Namespaces.Add(codeNamespace);
@@ -54,6 +46,21 @@ namespace ABT.Test.TestLib.TestConfiguration {
             }
         }
 
+        public static T DeserializeFromXml<T>(String xmlFile) {
+            if (!File.Exists(xmlFile)) throw new ArgumentException($"XML File '{xmlFile}' does not exist.");
+            T t;
+            using (FileStream fileStream = new FileStream(xmlFile, FileMode.Open)) {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(fileStream);
+                XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlDoc.NameTable);
+                nsmgr.AddNamespace("default", xmlDoc.DocumentElement.NamespaceURI);
+                XmlNode xmlNode = xmlDoc.SelectSingleNode($"//default:{typeof(T).Name}", nsmgr) ?? throw new InvalidOperationException($"Element '{typeof(T).Name}' not found in XML file '{xmlFile}'.");
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                using (StringReader stringReader = new StringReader(xmlNode.OuterXml)) { t = (T)serializer.Deserialize(stringReader); }
+            }
+            return t;
+        }
+
         private static CodeNamespace GetNamespace(TestSpace testSpace, Int32 testOperation) {
             CodeNamespace codeNamespace = new CodeNamespace(testSpace.NamespaceRoot + "." + testSpace.TestOperations[testOperation].NamespaceTrunk);
             codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
@@ -70,7 +77,6 @@ namespace ABT.Test.TestLib.TestConfiguration {
             _ = codeNamespace.Types.Add(codeTypeDeclaration);
             return codeTypeDeclaration;
         }
-
 
         private static void AddMethod(CodeTypeDeclaration codeTypeDeclaration, TestOperation testOperation, Int32 testGroup, Int32 method) {
             CodeMemberMethod codeMemberMethod = new CodeMemberMethod {
