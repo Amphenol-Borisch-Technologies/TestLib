@@ -3,18 +3,23 @@ using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.IO;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.CSharp;
 
 namespace ABT.Test.TestLib.TestConfiguration {
 
     public static class Generator {
-        public static void Generate(String TestDefinitionXML) {
-            if (!Directory.Exists(Path.GetDirectoryName(TestDefinitionXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(TestDefinitionXML)}' does not exist.");
-            TestSpace testSpace;
-            using (FileStream fileStream = new FileStream(TestDefinitionXML, FileMode.Open)) { testSpace = (TestSpace)(new XmlSerializer(typeof(TestSpace), new XmlRootAttribute(nameof(TestSpace)))).Deserialize(fileStream); }
-            CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
 
+        public static void Generate(String TestDefinitionXML) {
+            if (!File.Exists(TestDefinitionXML)) throw new ArgumentException($"XML File '{TestDefinitionXML}' does not exist.");
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(new StringReader(TestDefinitionXML));
+            XmlNode node = xmlDoc.SelectSingleNode(nameof(TestSpace)) ?? throw new InvalidOperationException($"Element '{nameof(TestSpace)}' not found in XML file '{TestDefinitionXML}'.");
+            using (StringReader stringReader = new StringReader(node.OuterXml)) { XmlSerializer serializer = new XmlSerializer(typeof(TestSpace));
+            TestSpace testSpace = (TestSpace)serializer.Deserialize(stringReader);
+  
+            CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
             for (Int32 testOperation = 0; testOperation < testSpace.TestOperations.Count; testOperation++) {
                 CodeNamespace codeNamespace = GetNamespace(testSpace, testOperation);
                 _ = codeCompileUnit.Namespaces.Add(codeNamespace);
@@ -38,7 +43,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 Title = "Save the generated Test Program C# file",
                 DefaultExt = "cs",
                 FileName = "TestImplementation.cs",
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\" 
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\"
             };
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK) {
