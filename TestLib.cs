@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Xml.Linq;
@@ -26,12 +29,18 @@ namespace ABT.Test.TestLib {
         public const String MutexTestName = nameof(MutexTest);
         public static Dictionary<String, Object> InstrumentDrivers = null;
 
-        public static String TestDefinitionXSD = AppDomain.CurrentDomain.BaseDirectory.Remove(AppDomain.CurrentDomain.BaseDirectory.IndexOf(@"\bin\")) + @"\TestDefinition.xsd";
+        public static String TestDefinitionXSD = GetExecutingStatementDirectory() + @"\TestConfiguration\TestDefinition.xsd";
         public static TestDefinition testDefinition = null;              // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static Dictionary<String, Object> testInstruments = null; // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static String BaseDirectory = null;                       // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static CancellationToken CT_Cancel;
         public static CancellationToken CT_EmergencyStop;
+
+        public static String GetExecutingStatementDirectory() {
+            StackFrame stackFrame = new StackFrame(1, true);
+            String fileName = stackFrame.GetFileName();
+            return fileName != null ? Path.GetDirectoryName(fileName) : null;
+        }
 
         public static Dictionary<String, Object> GetInstruments(String ConfigurationTestExec) {
             Dictionary<String, Object> Instruments = GetMobile();
