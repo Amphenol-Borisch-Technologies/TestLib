@@ -16,9 +16,10 @@ namespace ABT.Test.TestLib.TestConfiguration {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(new StringReader(TestDefinitionXML));
             XmlNode node = xmlDoc.SelectSingleNode(nameof(TestSpace)) ?? throw new InvalidOperationException($"Element '{nameof(TestSpace)}' not found in XML file '{TestDefinitionXML}'.");
-            using (StringReader stringReader = new StringReader(node.OuterXml)) { XmlSerializer serializer = new XmlSerializer(typeof(TestSpace));
-            TestSpace testSpace = (TestSpace)serializer.Deserialize(stringReader);
-  
+            TestSpace testSpace;
+            XmlSerializer serializer = new XmlSerializer(typeof(TestSpace));
+            using (StringReader stringReader = new StringReader(node.OuterXml)) { testSpace = (TestSpace)serializer.Deserialize(stringReader); }
+
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
             for (Int32 testOperation = 0; testOperation < testSpace.TestOperations.Count; testOperation++) {
                 CodeNamespace codeNamespace = GetNamespace(testSpace, testOperation);
