@@ -12,7 +12,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public static void Generate(String TestDefinitionXML) {
             if (!Directory.Exists(Path.GetDirectoryName(TestDefinitionXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(TestDefinitionXML)}' does not exist.");
             TestSpace testSpace;
-            using (FileStream fileStream = new FileStream(TestDefinitionXML, FileMode.Open)) { testSpace = (TestSpace)(new XmlSerializer(typeof(TestSpace))).Deserialize(fileStream); }
+            using (FileStream fileStream = new FileStream(TestDefinitionXML, FileMode.Open)) { testSpace = (TestSpace)(new XmlSerializer(typeof(TestSpace), new XmlRootAttribute(nameof(TestSpace)))).Deserialize(fileStream); }
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
 
             for (Int32 testOperation = 0; testOperation < testSpace.TestOperations.Count; testOperation++) {
