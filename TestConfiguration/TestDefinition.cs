@@ -226,9 +226,10 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(NamespaceRoot))] public String NamespaceRoot { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(Simulate))] public Boolean Simulate { get; set; }
+        [XmlElement(nameof(TestOperation))] public List<TestOperation> TestOperations { get; set; }
         public String SerialNumber { get; set; } = String.Empty; // Input during testing.
         public EVENTS Event { get; set; } = EVENTS.UNSET; // Determined post-test.
-        [XmlElement(nameof(TestOperation))] public List<TestOperation> TestOperations { get; set; }
+
         public Statistics Statistics { get; set; } = new Statistics();
 
         public String StatisticsDisplay() {
@@ -270,7 +271,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(NamespaceTrunk))] public String NamespaceTrunk { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
-        [XmlElement(nameof(TestGroups))] public List<TestGroup> TestGroups { get; set; }
+        [XmlElement(nameof(TestGroup))] public List<TestGroup> TestGroups { get; set; }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
