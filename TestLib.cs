@@ -84,15 +84,13 @@ namespace ABT.Test.TestLib {
     }
 
     public static class TestSelection {
-        public static TestSpace TestSpace { get; set; } = null;
         public static TestOperation TestOperation { get; set; } = null;
         public static TestGroup TestGroup { get; set; } = null;
         public static void Nullify() {
-            TestSpace = null;
             TestOperation = null;
             TestGroup = null;
         }
-        public static Boolean IsNotNull() { return TestSpace != null && TestOperation != null; }
+        public static Boolean IsNotNull() { return TestOperation != null; }
         public static Boolean IsOperation() { return IsNotNull() && TestGroup == null; }
         public static Boolean IsGroup() { return IsNotNull() && TestGroup != null; }
     }
