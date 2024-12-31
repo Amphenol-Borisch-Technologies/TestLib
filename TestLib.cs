@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Xml.Linq;
@@ -26,54 +27,56 @@ namespace ABT.Test.TestLib {
         public static Dictionary<String, Object> InstrumentDrivers = null;
 
         public static String TestDefinitionXSD = AppDomain.CurrentDomain.BaseDirectory.Remove(AppDomain.CurrentDomain.BaseDirectory.IndexOf(@"\bin\")) + @"\TestDefinition.xsd";
-        public static TestDefinition testDefinition = null;                 // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
-        public static Dictionary<String, Object> TestInstruments = null;    // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
-        public static String BaseDirectory = null;                          // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static TestDefinition testDefinition = null;              // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static Dictionary<String, Object> testInstruments = null; // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static String BaseDirectory = null;                       // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static CancellationToken CT_Cancel;
         public static CancellationToken CT_EmergencyStop;
 
-        public static Dictionary<String, Object> GetInstruments(String ConfigurationTestExec, TestDefinition testDefinition) {
-            Dictionary<String, Object> Instruments = GetMobile(testDefinition.Instruments.Mobile);
-            foreach (KeyValuePair<String, Object> kvp in GetStationary(ConfigurationTestExec, testDefinition.Instruments.Stationary)) Instruments.Add(kvp.Key, kvp.Value);
+        public static Dictionary<String, Object> GetInstruments(String ConfigurationTestExec) {
+            Dictionary<String, Object> Instruments = GetMobile();
+            foreach (KeyValuePair<String, Object> kvp in GetStationary(ConfigurationTestExec)) Instruments.Add(kvp.Key, kvp.Value);
             return Instruments;
         }
 
-        private static Dictionary<String, Object> GetMobile(Mobile mobile) {
+        private static Dictionary<String, Object> GetMobile() {
             Dictionary<String, Object> instruments = new Dictionary<String, Object>();
-            foreach (Mobile m in mobile) try {
-                instruments.Add(m.ID, Activator.CreateInstance(Type.GetType(m.NameSpacedClassName), new Object[] { m.Address, m.Detail }));
-            } catch (Exception e) {
-                StringBuilder sb = new StringBuilder().AppendLine();
-                sb.AppendLine($"Issue with Instrument Mobile:");
-                sb.AppendLine($"   ID              : {m.ID}");
-                sb.AppendLine($"   Detail          : {m.Detail}");
-                sb.AppendLine($"   Address         : {m.Address}");
-                sb.AppendLine($"   ClassName       : {m.NameSpacedClassName}{Environment.NewLine}");
-                sb.AppendLine($"Exception Message(s):");
-                sb.AppendLine($"{e}{Environment.NewLine}");
-                throw new ArgumentException(sb.ToString());
-            }
+            foreach (Mobile mobile in testDefinition.Instruments.Mobile) try {
+                    instruments.Add(mobile.ID, Activator.CreateInstance(Type.GetType(mobile.NameSpacedClassName), new Object[] { mobile.Address, mobile.Detail }));
+                } catch (Exception e) {
+                    StringBuilder sb = new StringBuilder().AppendLine();
+                    sb.AppendLine($"Issue with Mobile Instrument:");
+                    sb.AppendLine($"   ID              : {mobile.ID}");
+                    sb.AppendLine($"   Detail          : {mobile.Detail}");
+                    sb.AppendLine($"   Address         : {mobile.Address}");
+                    sb.AppendLine($"   ClassName       : {mobile.NameSpacedClassName}{Environment.NewLine}");
+                    sb.AppendLine($"Exception Message(s):");
+                    sb.AppendLine($"{e}{Environment.NewLine}");
+                    throw new ArgumentException(sb.ToString());
+                }
             return instruments;
         }
 
-        private static Dictionary<String, Object> GetStationary(String ConfigurationTestExec, Stationary stationary) {
+        private static Dictionary<String, Object> GetStationary(String ConfigurationTestExec) {
             Dictionary<String, String> dictionary = new Dictionary<String, String>();
-            foreach (Stationary s in stationary) try { dictionary.Add(s.ID, s.NameSpacedClassName);
-            } catch (Exception e) {
-                StringBuilder sb = new StringBuilder().AppendLine();
-                sb.AppendLine($"Issue with Instrument Stationary:");
-                sb.AppendLine($"   ID              : {s.ID}");
-                sb.AppendLine($"   ClassName       : {s.NameSpacedClassName}{Environment.NewLine}");
-                sb.AppendLine($"Exception Message(s):");
-                sb.AppendLine($"{e}{Environment.NewLine}");
-                throw new ArgumentException(sb.ToString());
+            foreach (Stationary stationary in testDefinition.Instruments.Stationary) {
+                try {
+                    dictionary.Add(stationary.ID, stationary.NameSpacedClassName);
+                } catch (Exception e) {
+                    StringBuilder sb = new StringBuilder().AppendLine();
+                    sb.AppendLine($"Issue with Stationary Instrument:");
+                    sb.AppendLine($"   ID              : {stationary.ID}");
+                    sb.AppendLine($"   ClassName       : {stationary.NameSpacedClassName}{Environment.NewLine}");
+                    sb.AppendLine($"Exception Message(s):");
+                    sb.AppendLine($"{e}{Environment.NewLine}");
+                    throw new ArgumentException(sb.ToString());
+                }
             }
 
             IEnumerable<XElement> IS = XElement.Load(ConfigurationTestExec).Elements("Instruments");
-            // Now add InstrumentsStationary listed in app.config, but must first read their Address, Detail & ClassName from TestExec.ConfigurationTestExec.
             Dictionary<String, Object> instruments = new Dictionary<String, Object>();
             foreach (KeyValuePair<String, String> kvp in dictionary) {
-                XElement XE = IS.Descendants("Stationary").FirstOrDefault(xe => (String)xe.Attribute("ID") == kvp.Key) ?? throw new ArgumentException($"Instrument with ID '{kvp.Key}' not present in file '{ConfigurationTestExec}'.");
+                XElement XE = IS.Descendants("Stationary").First(xe => (String)xe.Attribute("ID") == kvp.Key) ?? throw new ArgumentException($"Instrument with ID '{kvp.Key}' not present in file '{ConfigurationTestExec}'.");
                 instruments.Add(kvp.Key, Activator.CreateInstance(Type.GetType(kvp.Value), new Object[] { XE.Attribute("Address").Value, XE.Attribute("Detail").Value }));
             }
             return instruments;
