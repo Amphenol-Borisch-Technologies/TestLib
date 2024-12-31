@@ -12,8 +12,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
             return b;
         }
 
-        public static Boolean TestOperation(String NamespaceLeaf, String Description, String TestGroups) {
-            Boolean b = String.Equals(TestIndex.TestOperation.NamespaceTrunk, NamespaceLeaf);
+        public static Boolean TestOperation(String NamespaceTrunk, String Description, String TestGroups) {
+            Boolean b = String.Equals(TestIndex.TestOperation.NamespaceTrunk, NamespaceTrunk);
             b &= String.Equals(TestIndex.TestOperation.Description, Description);
             b &= String.Equals(TestIndex.TestOperation.TGs().Replace("\"", ""), TestGroups);
             return b;

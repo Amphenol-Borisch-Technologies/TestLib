@@ -1,20 +1,26 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace ABT.Test.TestLib.TestConfiguration {
 
     public static class Serializing {
-        public static void Serialize(TestDefinition testDefinition, String TestDefinitionXML) {
-            if (!Directory.Exists(Path.GetDirectoryName(TestDefinitionXML))) throw new ArgumentException($"Folder '{Path.GetDirectoryName(TestDefinitionXML)}' does not exist.");
-            using (FileStream fileStream = new FileStream(TestDefinitionXML, FileMode.Create)) new XmlSerializer(typeof(TestDefinition)).Serialize(fileStream, testDefinition);
-        }
 
-        public static TestDefinition Deserialize(String TestDefinitionXML) {
-            if (!File.Exists(TestDefinitionXML)) throw new ArgumentException($"XML Test Specification File '{TestDefinitionXML}' does not exist.");
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(TestDefinition));
-            using (FileStream fileStream = new FileStream(TestDefinitionXML, FileMode.Open)) return (TestDefinition)xmlSerializer.Deserialize(fileStream);
+        public static T DeserializeFromXml<T>(String xmlFile) {
+            if (!File.Exists(xmlFile)) throw new ArgumentException($"XML File '{xmlFile}' does not exist.");
+            T t;
+            using (FileStream fileStream = new FileStream(xmlFile, FileMode.Open)) {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(fileStream);
+                XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlDoc.NameTable);
+                nsmgr.AddNamespace("default", xmlDoc.DocumentElement.NamespaceURI);
+                XmlNode xmlNode = xmlDoc.SelectSingleNode($"//default:{typeof(T).Name}", nsmgr) ?? throw new InvalidOperationException($"Element '{typeof(T).Name}' not found in XML file '{xmlFile}'.");
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                using (StringReader stringReader = new StringReader(xmlNode.OuterXml)) { t = (T)serializer.Deserialize(stringReader); }
+            }
+            return t;
         }
 
         public static String Format(TestSpace testSpace) {

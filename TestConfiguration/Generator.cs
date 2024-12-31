@@ -3,8 +3,6 @@ using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.IO;
 using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Serialization;
 using Microsoft.CSharp;
 
 namespace ABT.Test.TestLib.TestConfiguration {
@@ -12,7 +10,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     public static class Generator {
 
         public static void Generate(String TestDefinitionXML) {
-            TestSpace testSpace = DeserializeFromXml<TestSpace>(TestDefinitionXML);
+            TestSpace testSpace = Serializing.DeserializeFromXml<TestSpace>(TestDefinitionXML);
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
 
             for (Int32 testOperation = 0; testOperation < testSpace.TestOperations.Count; testOperation++) {
@@ -44,21 +42,6 @@ namespace ABT.Test.TestLib.TestConfiguration {
             if (saveFileDialog.ShowDialog() == DialogResult.OK) {
                 using (StreamWriter streamWriter = new StreamWriter(saveFileDialog.FileName)) { cSharpCodeProvider.GenerateCodeFromCompileUnit(codeCompileUnit, streamWriter, codeGeneratorOptions); }
             }
-        }
-
-        public static T DeserializeFromXml<T>(String xmlFile) {
-            if (!File.Exists(xmlFile)) throw new ArgumentException($"XML File '{xmlFile}' does not exist.");
-            T t;
-            using (FileStream fileStream = new FileStream(xmlFile, FileMode.Open)) {
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(fileStream);
-                XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlDoc.NameTable);
-                nsmgr.AddNamespace("default", xmlDoc.DocumentElement.NamespaceURI);
-                XmlNode xmlNode = xmlDoc.SelectSingleNode($"//default:{typeof(T).Name}", nsmgr) ?? throw new InvalidOperationException($"Element '{typeof(T).Name}' not found in XML file '{xmlFile}'.");
-                XmlSerializer serializer = new XmlSerializer(typeof(T));
-                using (StringReader stringReader = new StringReader(xmlNode.OuterXml)) { t = (T)serializer.Deserialize(stringReader); }
-            }
-            return t;
         }
 
         private static CodeNamespace GetNamespace(TestSpace testSpace, Int32 testOperation) {
@@ -109,7 +92,11 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{UUT.DEBUG_ASSERT}{nameof(Assertions.MethodNext)}{UUT.BEGIN}{nameof(Method.Name)}{UUT.CS}{UUT.NONE}{UUT.END}"));
             }
 
-            _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement("\t\t\treturn String.Empty;"));
+            Method m = testOperation.TestGroups[testGroup].Methods[method];
+            if (m is MethodCustom) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn \"{typeof(EVENTS).Name}.{EVENTS.UNSET}\";"));
+            else if (m is MethodInterval) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn \"{Double.NaN}\";"));
+            else if (m is MethodProcess) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn \"{-1}\";"));
+            else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn \"{String.Empty}\";"));
             _ = codeTypeDeclaration.Members.Add(codeMemberMethod);
         }
     }
