@@ -33,14 +33,14 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 Text = "Select Test Operation";
                 TestList.Columns.Add("Operation");
                 TestList.Columns.Add("Description");
-                foreach (TestOperation testOperation in TestSelection.TestSpace.TestOperations) TestList.Items.Add(new ListViewItem(new String[] { testOperation.NamespaceTrunk, testOperation.Description }));
+                foreach (TestOperation testOperation in TestLib.testDefinition.TestSpace.TestOperations) TestList.Items.Add(new ListViewItem(new String[] { testOperation.NamespaceTrunk, testOperation.Description }));
             } else {
                 TestOperations.Checked = false;
                 Text = "Select Test Group";
                 TestList.Columns.Add("Operation");
                 TestList.Columns.Add("Group");
                 TestList.Columns.Add("Description");
-                foreach (TestOperation testOperation in TestSelection.TestSpace.TestOperations) {
+                foreach (TestOperation testOperation in TestLib.testDefinition.TestSpace.TestOperations) {
                     foreach (TestGroup testGroup in testOperation.TestGroups)
                         if (testGroup.Independent) TestList.Items.Add(new ListViewItem(new String[] { testOperation.NamespaceTrunk, testGroup.Class, testGroup.Description }));
                 }
@@ -59,10 +59,10 @@ namespace ABT.Test.TestLib.TestConfiguration {
         private void OK_Click(Object sender, EventArgs e) {
             Debug.Assert(TestList.SelectedItems.Count == 1);
             if (TestOperations.Checked) {
-                TestOperation = TestSelection.TestSpace.TestOperations[TestList.SelectedItems[0].Index];
+                TestOperation = TestLib.testDefinition.TestSpace.TestOperations[TestList.SelectedItems[0].Index];
                 TestGroup = null;
             } else {
-                TestOperation = TestSelection.TestSpace.TestOperations.Find(to => to.NamespaceTrunk.Equals(TestList.SelectedItems[0].Text));
+                TestOperation = TestLib.testDefinition.TestSpace.TestOperations.Find(to => to.NamespaceTrunk.Equals(TestList.SelectedItems[0].Text));
                 TestGroup = TestOperation.TestGroups.Find(tg => tg.Class.Equals(TestList.SelectedItems[0].SubItems[1].Text));
             }
             DialogResult = DialogResult.OK;
