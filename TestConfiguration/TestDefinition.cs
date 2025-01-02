@@ -127,11 +127,16 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(Why))] public String Why { get; set; }
     }
 
-    public class TestData {
+    public class TestData : IAssertionCurrent {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlElement(nameof(SQLDB), typeof(SQLDB))]
         [XmlElement(nameof(TextFiles), typeof(TextFiles))]
         public Object Item { get; set; }
+
+        public String AssertionCurrent() {
+            if (Item == null) return String.Empty;
+            else return ((IAssertionCurrent)Item).AssertionCurrent();
+        }
 
         public Boolean IsEnabled() { return Item != null; }
     }
