@@ -492,4 +492,16 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public Double PercentPassed() { return Convert.ToDouble(Passed) / Convert.ToDouble(Tested()); }
         public UInt32 Tested() { return Cancelled + EmergencyStopped + Errored + Failed + Ignored + Passed; }
     }
+
+    public class TestOutput {
+        public UUT UUT { get; set; }
+        public TestSpace TestSpace { get; set; }
+
+        public TestOutput() { }
+
+        public TestOutput(UUT uut, TestSpace testSpace) {
+            UUT = uut;
+            TestSpace = testSpace;
+        }
+    }
 }
