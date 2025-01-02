@@ -397,17 +397,17 @@
     </xs:attribute>
   </xs:complexType>
 
-  <xs:complexType name="TextFiles">
+  <xs:complexType name="XML">
     <xs:attribute ref="Folder" use="required"/>
     <xs:attributeGroup ref="SerialNumberAttributes"/>
   </xs:complexType>
 
-  <xs:complexType name="SQLDB">
+  <xs:complexType name="SQL">
     <xs:annotation>
       <xs:documentation xml:lang="en">
         <![CDATA[
-          SQLDB complexType:
-          -Type: SQLDB.
+          SQL complexType:
+          -Type: SQL.
         ]]>
       </xs:documentation>
     </xs:annotation>
@@ -1187,24 +1187,24 @@
           </xs:annotation>
           <xs:complexType>
             <xs:choice>
-              <xs:element name="TextFiles" type="TextFiles" minOccurs="0" maxOccurs="1">
+              <xs:element name="XML" type="XML" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                   <xs:documentation xml:lang="en">
                     <![CDATA[
-                    TextFiles element.
+                    XML element.
                     - Choice, 1 occurence.
-                    - Type: TextFiles.
+                    - Type: XML.
                   ]]>
                   </xs:documentation>
                 </xs:annotation>
               </xs:element>
-              <xs:element name="SQLDB" type="SQLDB" minOccurs="0" maxOccurs="1">
+              <xs:element name="SQL" type="SQL" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                   <xs:documentation xml:lang="en">
                     <![CDATA[
-                    SQLDB element.
+                    SQL element.
                     - Choice, 1 occurence.
-                    - Type: SQLDB.
+                    - Type: SQL.
                   ]]>
                   </xs:documentation>
                 </xs:annotation>

@@ -129,8 +129,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
     public class TestData : IAssertionCurrent {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
-        [XmlElement(nameof(SQLDB), typeof(SQLDB))]
-        [XmlElement(nameof(TextFiles), typeof(TextFiles))]
+        [XmlElement(nameof(SQL), typeof(SQL))]
+        [XmlElement(nameof(XML), typeof(XML))]
         public Object Item { get; set; }
 
         public String AssertionCurrent() {
@@ -149,7 +149,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
     public enum SerialNumberEntry { Barcode, Keyboard }
 
-    public class SQLDB : SerialNumber, IAssertionCurrent {
+    public class SQL : SerialNumber, IAssertionCurrent {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(ConnectionString))] public String ConnectionString { get; set; }
 
@@ -164,7 +164,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         }
     }
 
-    public class TextFiles : SerialNumber, IAssertionCurrent {
+    public class XML : SerialNumber, IAssertionCurrent {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
 
