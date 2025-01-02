@@ -10,7 +10,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     public static class Generator {
 
         public static void Generate(String TestDefinitionXML) {
-            TestSpace testSpace = Serializing.DeserializeFromXml<TestSpace>(TestDefinitionXML);
+            TestSpace testSpace = Serializing.DeserializeFromFile<TestSpace>(TestDefinitionXML);
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
 
             for (Int32 testOperation = 0; testOperation < testSpace.TestOperations.Count; testOperation++) {
