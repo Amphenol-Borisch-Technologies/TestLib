@@ -404,8 +404,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
         }
     }
 
-    public enum MI_LowComparator { GE, GT }
-    public enum MI_HighComparator { LE, LT }
+    public enum MI_LowComparator { GToE, GT }
+    public enum MI_HighComparator { LToE, LT }
     public enum MI_UnitPrefix { NONE, peta, tera, giga, mega, kilo, hecto, deca, deci, centi, milli, micro, nano, pico, femto }
     public enum MI_Units { NONE, Amperes, Celcius, Farads, Henries, Hertz, Ohms, Seconds, Siemens, Volts, VoltAmperes, Watts }
     public enum MI_UnitSuffix { NONE, AC, DC, Peak, PP, RMS }

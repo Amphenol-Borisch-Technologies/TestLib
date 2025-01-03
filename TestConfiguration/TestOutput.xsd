@@ -299,9 +299,9 @@
       </xs:annotation>
       <xs:simpleType>
         <xs:restriction base="xs:string">
-          <xs:enumeration value="GE">
+          <xs:enumeration value="GToE">
             <xs:annotation>
-              <xs:documentation xml:lang="en">GE is ≥</xs:documentation>
+              <xs:documentation xml:lang="en">GToE is ≥</xs:documentation>
             </xs:annotation>
           </xs:enumeration>
           <xs:enumeration value="GT">
@@ -355,9 +355,9 @@
       </xs:annotation>
       <xs:simpleType>
         <xs:restriction base="xs:string">
-          <xs:enumeration value="LE">
+          <xs:enumeration value="LToE">
             <xs:annotation>
-              <xs:documentation xml:lang="en">LE is ≤</xs:documentation>
+              <xs:documentation xml:lang="en">LToE is ≤</xs:documentation>
             </xs:annotation>
           </xs:enumeration>
           <xs:enumeration value="LT">

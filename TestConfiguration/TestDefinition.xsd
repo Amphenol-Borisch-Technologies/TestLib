@@ -15,7 +15,7 @@
         <![CDATA[
           ValidCSharpNamespace simpleType:
           - RegEx to validate a C# namespace; for example, "ABT.Test.TestLib.TestConfiguration".
-          - Type: xs:string + xs:restriction + xs:pattern.
+          - Type: xs:string.
         ]]>
       </xs:documentation>
     </xs:annotation>
@@ -30,7 +30,7 @@
         <![CDATA[
           ValidWindowsPath simpleType:
           - RegEx to validate a Windows Path; for example, "C:\Program Files\ABT\Test\TestLib\TestDefinition\".
-          - Type: xs:string + xs:restriction + xs:pattern.
+          - Type: xs:string.
         ]]>
       </xs:documentation>
     </xs:annotation>
@@ -45,7 +45,7 @@
         <![CDATA[
           ValidSerialNumber_BRHYYWW-123 simpleType:
           - RegEx to validate Borisch's BRHYYWW-### SN format; for example, "BRH2432-123".
-          - Type: xs:string + xs:restriction + xs:pattern.
+          - Type: xs:string,
         ]]>
       </xs:documentation>
     </xs:annotation>
@@ -60,7 +60,7 @@
         <![CDATA[
           ValidSerialNumber_01BB2-12345 simpleType:
           - RegEx to validate ABT's cage-coded SN format; for example, "01BB2-12345"
-          - Type: xs:string + xs:restriction + xs:pattern.
+          - Type: xs:string.
         ]]>
       </xs:documentation>
     </xs:annotation>
@@ -75,7 +75,7 @@
         <![CDATA[
           ValidSerialNumber_1234 simpleType:
           - RegEx to validate a 4 digit SN format; for example, "1234".
-          - Type: xs:string + xs:restriction + xs:pattern.
+          - Type: xs:string.
         ]]>
       </xs:documentation>
     </xs:annotation>
@@ -90,7 +90,7 @@
         <![CDATA[
           ValidSerialNumber_12345 simpleType:
           - RegEx to validate a 5 digit SN format; for example, "12345".
-          - Type: xs:string + xs:restriction + xs:pattern.
+          - Type: xs:string.
         ]]>
       </xs:documentation>
     </xs:annotation>
@@ -117,7 +117,7 @@
         <![CDATA[
             Folder attribute:
             - Type: ValidWindowsPath.
-          ]]>
+        ]]>
       </xs:documentation>
     </xs:annotation>
   </xs:attribute>
@@ -127,7 +127,7 @@
       <xs:documentation xml:lang="en">
         <![CDATA[
           SerialNumberAttributes attributeGroup:
-          - Type: SerialNumberEntry + SerialNumberRegEx.
+          - Type: attributeGroup.
           ]]>
       </xs:documentation>
     </xs:annotation>
@@ -155,14 +155,22 @@
           SerialNumberRegEx attribute:
           - Optional.
           - RegEx to validate Serial Number entry.
-          - Type: xs:string + xs:restriction + xs:pattern.
+          - Type: xs:string.
           ]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
 
-  <xs:attributeGroup name="InstrumentAttributeGroup">
+  <xs:attributeGroup name="InstrumentAttributes">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        <![CDATA[
+          InstrumentAttributes attributeGroup:
+          - Type: attributeGroup.
+          ]]>
+      </xs:documentation>
+    </xs:annotation>
     <xs:attribute name="ID" type="xs:ID" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
@@ -275,14 +283,6 @@
   </xs:complexType>
 
   <xs:complexType name="Developer">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          Developer complexType:
-          -Type: Developer.
-        ]]>
-      </xs:documentation>
-    </xs:annotation>
     <xs:attribute name="Name" type="xs:string" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
@@ -426,11 +426,11 @@
   </xs:complexType>
 
   <xs:complexType name="Stationary">
-    <xs:attributeGroup ref="InstrumentAttributeGroup"/>
+    <xs:attributeGroup ref="InstrumentAttributes"/>
   </xs:complexType>
 
   <xs:complexType name="Mobile">
-    <xs:attributeGroup ref="InstrumentAttributeGroup"/>
+    <xs:attributeGroup ref="InstrumentAttributes"/>
     <xs:attribute name="Detail" type="xs:string" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
@@ -565,9 +565,9 @@
       </xs:annotation>
       <xs:simpleType>
         <xs:restriction base="xs:string">
-          <xs:enumeration value="GE">
+          <xs:enumeration value="GToE">
             <xs:annotation>
-              <xs:documentation xml:lang="en">GE is ≥</xs:documentation>
+              <xs:documentation xml:lang="en">GToE is ≥</xs:documentation>
             </xs:annotation>
           </xs:enumeration>
           <xs:enumeration value="GT">
@@ -621,9 +621,9 @@
       </xs:annotation>
       <xs:simpleType>
         <xs:restriction base="xs:string">
-          <xs:enumeration value="LE">
+          <xs:enumeration value="LToE">
             <xs:annotation>
-              <xs:documentation xml:lang="en">LE is ≤</xs:documentation>
+              <xs:documentation xml:lang="en">LToE is ≤</xs:documentation>
             </xs:annotation>
           </xs:enumeration>
           <xs:enumeration value="LT">
