@@ -830,8 +830,6 @@
           - Required, 1 or more occurrences.
           - Type: TestGroup.
           - Restriction: name must be unique within it's TestOperation.
-                      
-          Container for 1 or more MethodCustom, MethodProcess, MethodInterval and/or MethodText elements.
         ]]>
       </xs:documentation>
     </xs:annotation>
@@ -896,8 +894,6 @@
           TestOperation complexType:
           - Required, 1 or more occurrences.
           - Type: TestOperation.
-                      
-          Container for 1 or more TG elements.
         ]]>
       </xs:documentation>
     </xs:annotation>
@@ -938,7 +934,7 @@
           <xs:annotation>
             <xs:documentation xml:lang="en">
               <![CDATA[
-                UUT complexType.
+                UUT element.
                 - Required, 1 occurence.
                 - Type: xs:element.
               ]]>
@@ -1066,7 +1062,7 @@
                         <![CDATA[
                         <![CDATA[
                           Unit:
-                          - Multiple electro-mechanically Interconnected Components, Harnesses or Circuit Cards.
+                          - Multiple electro-mechanically interconnected Components, Harnesses or Circuit Cards.
                           - May have custom container box.
                           - Typically assembled, not purchased.
                         ]]>
@@ -1079,7 +1075,7 @@
                         <![CDATA[
                         <![CDATA[
                           System:
-                          - Multiple electro-mechanically Interconnected Interconnected Units.
+                          - Multiple electro-mechanically interconnected Units.
                           - Typically assembled, not purchased.
                         ]]>
                       </xs:documentation>
@@ -1094,7 +1090,7 @@
           <xs:annotation>
             <xs:documentation xml:lang="en">
               <![CDATA[
-                Development complexType.
+                Development element.
                 - Required, 1 occurence.
                 - Type: xs:element.
               ]]>
@@ -1153,7 +1149,7 @@
           <xs:annotation>
             <xs:documentation xml:lang="en">
               <![CDATA[
-                Modifications complexType.
+                Modifications element.
                 - Required, 1 occurence.
                 - Type: xs:element.
               ]]>
@@ -1179,7 +1175,7 @@
           <xs:annotation>
             <xs:documentation xml:lang="en">
               <![CDATA[
-                TestData complexType.
+                TestData element.
                 - Required, 1 occurence.
                 - Type: xs:element.
               ]]>
@@ -1216,7 +1212,7 @@
           <xs:annotation>
             <xs:documentation xml:lang="en">
               <![CDATA[
-                Instruments complexType.
+                Instruments element.
                 - Required, 1 occurence.
                 - Type: xs:element.
               ]]>
@@ -1256,8 +1252,6 @@
                 TestSpace element:
                 - Required, 1 occurrence.
                 - Type: xs:element.
-          
-                - TestSpace element, container for 1 or more TestOperation elements of type TestOperation.
               ]]>
             </xs:documentation>
           </xs:annotation>
