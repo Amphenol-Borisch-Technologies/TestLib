@@ -154,7 +154,7 @@
       <xs:documentation xml:lang="en">
         <![CDATA[
           SerialNumberAttributes attributeGroup:
-          - Type: SerialNumberEntry + SerialNumberRegEx.
+          - Type: xs:attributeGroup.
           ]]>
       </xs:documentation>
     </xs:annotation>
@@ -175,14 +175,14 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-    <xs:attribute name="SerialNumberRegEx" type="xs:string" use="optional">
+    <xs:attribute name="SerialNumberRegEx" type="xs:string" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
           SerialNumberRegEx attribute:
-          - Optional.
-          - RegEx to validate Serial Number entry.
-          - Type: xs:string + xs:restriction + xs:pattern.
+          - Required.
+          - RegEx to validate Serial Number entry.  Use [^\s] to match non-whitespace charactes.
+          - Type: xs:string.
           ]]>
         </xs:documentation>
       </xs:annotation>

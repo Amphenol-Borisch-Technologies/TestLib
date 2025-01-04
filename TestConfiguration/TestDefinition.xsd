@@ -39,66 +39,6 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="ValidSerialNumber_BRHYYWW-123">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          ValidSerialNumber_BRHYYWW-123 simpleType:
-          - RegEx to validate Borisch's BRHYYWW-### SN format; for example, "BRH2432-123".
-          - Type: xs:string,
-        ]]>
-      </xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:pattern value="BRH-[0-9]{2}((0[1-9])|([1-4][0-9])|(5[0-2]))-[0-9]{3}"/>
-    </xs:restriction>
-  </xs:simpleType>
-
-  <xs:simpleType name="ValidSerialNumber_01BB2-12345">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          ValidSerialNumber_01BB2-12345 simpleType:
-          - RegEx to validate ABT's cage-coded SN format; for example, "01BB2-12345"
-          - Type: xs:string.
-        ]]>
-      </xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:pattern value="01BB2-[0-9]{5}"/>
-    </xs:restriction>
-  </xs:simpleType>
-
-  <xs:simpleType name="ValidSerialNumber_1234">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          ValidSerialNumber_1234 simpleType:
-          - RegEx to validate a 4 digit SN format; for example, "1234".
-          - Type: xs:string.
-        ]]>
-      </xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:pattern value="[0-9]{4}"/>
-    </xs:restriction>
-  </xs:simpleType>
-
-  <xs:simpleType name="ValidSerialNumber_12345">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          ValidSerialNumber_12345 simpleType:
-          - RegEx to validate a 5 digit SN format; for example, "12345".
-          - Type: xs:string.
-        ]]>
-      </xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:pattern value="[0-9]{5}"/>
-    </xs:restriction>
-  </xs:simpleType>
-
   <xs:attribute name="Description" type="xs:string">
     <xs:annotation>
       <xs:documentation xml:lang="en">
@@ -148,12 +88,12 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-    <xs:attribute name="SerialNumberRegEx" type="xs:string" use="optional">
+    <xs:attribute name="SerialNumberRegEx" type="xs:string" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
           SerialNumberRegEx attribute:
-          - Optional.
+          - Required.
           - RegEx to validate Serial Number entry.
           - Type: xs:string.
           ]]>
