@@ -28,10 +28,12 @@ namespace ABT.Test.TestLib {
         public const String MutexTestName = nameof(MutexTest);
         public static Dictionary<String, Object> InstrumentDrivers = null;
 
+        public static TestDefinition testDefinition = null;                              // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static TestSpace testSpace = null;                                        // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static Dictionary<String, Object> testInstruments = null;                 // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static String BaseDirectory = String.Empty;                               // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static String TestDefinitionXML = BaseDirectory + @"\TestDefinition.xml"; // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static String TestDefinitionXSD = GetExecutingStatementDirectory() + @"\TestConfiguration\TestDefinition.xsd";
-        public static TestDefinition testDefinition = null;              // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
-        public static Dictionary<String, Object> testInstruments = null; // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
-        public static String BaseDirectory = null;                       // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static CancellationToken CT_Cancel;
         public static CancellationToken CT_EmergencyStop;
 
@@ -81,26 +83,14 @@ namespace ABT.Test.TestLib {
                 }
             }
 
-            IEnumerable<XElement> IS = XElement.Load(ConfigurationTestExec).Elements("Instruments");
+            IEnumerable<XElement> iexe = XElement.Load(ConfigurationTestExec).Elements("Instruments");
             Dictionary<String, Object> instruments = new Dictionary<String, Object>();
             foreach (KeyValuePair<String, String> kvp in dictionary) {
-                XElement XE = IS.Descendants("Stationary").First(xe => (String)xe.Attribute("ID") == kvp.Key) ?? throw new ArgumentException($"Instrument with ID '{kvp.Key}' not present in file '{ConfigurationTestExec}'.");
-                instruments.Add(kvp.Key, Activator.CreateInstance(Type.GetType(kvp.Value), new Object[] { XE.Attribute("Address").Value, XE.Attribute("Detail").Value }));
+                XElement xElement = iexe.Descendants("Stationary").First(xe => (String)xe.Attribute("ID") == kvp.Key) ?? throw new ArgumentException($"Instrument with ID '{kvp.Key}' not present in file '{ConfigurationTestExec}'.");
+                instruments.Add(kvp.Key, Activator.CreateInstance(Type.GetType(kvp.Value), new Object[] { xElement.Attribute("Address").Value, xElement.Attribute("Detail").Value }));
             }
             return instruments;
         }
-    }
-
-    public static class TestSelection {
-        public static TestOperation TestOperation { get; set; } = null;
-        public static TestGroup TestGroup { get; set; } = null;
-        public static void Nullify() {
-            TestOperation = null;
-            TestGroup = null;
-        }
-        public static Boolean IsNotNull() { return TestOperation != null; }
-        public static Boolean IsOperation() { return IsNotNull() && TestGroup == null; }
-        public static Boolean IsGroup() { return IsNotNull() && TestGroup != null; }
     }
 
     public static class TestIndex {

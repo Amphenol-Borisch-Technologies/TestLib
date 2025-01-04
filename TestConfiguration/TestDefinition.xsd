@@ -461,7 +461,7 @@
         <xs:documentation xml:lang="en">
           <![CDATA[
             Name attribute:
-            - Required.  A method is analogous to a leaf in a root/trunk/branch/leaf hierarchy.
+            - Required.  A Method is analogous to a leaf in a root/trunk/branch/leaf hierarchy.
             - Type: UniqueCSharpIdentifier.
           ]]>
         </xs:documentation>
@@ -476,7 +476,7 @@
             - Required.
             - Type: xs:boolean.
                   
-            Determines if subsequent testing is cancelled if method fails.
+            Determines if subsequent testing is cancelled if Method fails.
           ]]>
         </xs:documentation>
       </xs:annotation>
@@ -867,7 +867,7 @@
             - Required.
             - Type: xs:boolean.
 
-            Determines if subsequent testing is cancelled if any group method with CancelNotPassed=true doesn't pass. Ignores failing CancelNotPassed=false.
+            Determines if subsequent TestGroup execution is cancelled if any TestGroup Method with CancelNotPassed=true doesn't pass. Ignores failing Methods with CancelNotPassed=false.
           ]]>
         </xs:documentation>
       </xs:annotation>

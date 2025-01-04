@@ -232,8 +232,9 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(Simulate))] public Boolean Simulate { get; set; }
         [XmlElement(nameof(TestOperation))] public List<TestOperation> TestOperations { get; set; }
+        public Boolean IsOperation { get; set; }                 // Determined during test selection.
         public String SerialNumber { get; set; } = String.Empty; // Input during testing.
-        public EVENTS Event { get; set; } = EVENTS.UNSET; // Determined post-test.
+        public EVENTS Event { get; set; } = EVENTS.UNSET;        // Determined post-test.
 
         public Statistics Statistics { get; set; } = new Statistics();
 

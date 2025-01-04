@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Xml.Linq;
 
 namespace ABT.Test.TestLib.TestConfiguration {
     public static class Assertions {

@@ -4,8 +4,7 @@ using System.Windows.Forms;
 
 namespace ABT.Test.TestLib.TestConfiguration {
     public partial class TestSelect : Form {
-        internal static TestOperation TestOperation { get; private set; }
-        internal static TestGroup TestGroup { get; private set; }
+        private static TestSpace testSpace;
 
         public TestSelect() {
             InitializeComponent();
@@ -15,17 +14,15 @@ namespace ABT.Test.TestLib.TestConfiguration {
             ListLoad();
         }
 
-        public static (TestOperation, TestGroup) Get() {
+        public static TestSpace Get() {
             TestSelect testSelect = new TestSelect();
             testSelect.ShowDialog(); // Waits until user clicks OK button.
             testSelect.Dispose();
-            return (TestOperation, TestGroup);
+            return testSpace;
         }
 
         private void ListLoad() {
             TestList.Clear();
-            TestOperation = null;
-            TestGroup = null;
             TestList.View = View.Details;
             TestList.HeaderStyle = ColumnHeaderStyle.Nonclickable;
             if (TestOperations.Checked) {
@@ -58,12 +55,21 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
         private void OK_Click(Object sender, EventArgs e) {
             Debug.Assert(TestList.SelectedItems.Count == 1);
-            if (TestOperations.Checked) {
-                TestOperation = TestLib.testDefinition.TestSpace.TestOperations[TestList.SelectedItems[0].Index];
-                TestGroup = null;
+            testSpace = Serializing.DeserializeFromFile<TestSpace>(xmlFile: $"{TestLib.TestDefinitionXML}");
+            testSpace.IsOperation = TestOperations.Checked;
+            if (testSpace.IsOperation) {
+                // A TestOperation was selected, including all its TestGroups, and all their Methods.  This is a full test run, so test data will be saved.
+                TestOperation selectedOperation = testSpace.TestOperations[TestList.SelectedItems[0].Index];
+                foreach (TestOperation to in testSpace.TestOperations) if (to != selectedOperation) testSpace.TestOperations.Remove(to);
+                // Remove unselected TestOperations, retaining all TestGroups and all their Methods in selected TestOperation.
             } else {
-                TestOperation = TestLib.testDefinition.TestSpace.TestOperations.Find(to => to.NamespaceTrunk.Equals(TestList.SelectedItems[0].Text));
-                TestGroup = TestOperation.TestGroups.Find(tg => tg.Class.Equals(TestList.SelectedItems[0].SubItems[1].Text));
+                // Only a TestGroup was selected, including all its Methods.  This is a partial test run, so test data won't be saved.
+                TestOperation selectedOperation = testSpace.TestOperations.Find(to => to.NamespaceTrunk.Equals(TestList.SelectedItems[0].SubItems[0].Text));
+                foreach (TestOperation to in testSpace.TestOperations) if (to != selectedOperation) testSpace.TestOperations.Remove(to);
+                // Remove unselected TestOperations.
+                TestGroup selectedGroup = selectedOperation.TestGroups.Find(tg => tg.Class.Equals(TestList.SelectedItems[0].SubItems[1].Text));
+                foreach (TestGroup tg in testSpace.TestOperations[0].TestGroups) if (tg != selectedGroup) testSpace.TestOperations[0].TestGroups.Remove(tg);
+                // Remove unselected TestGroups in selected TestOperation, retaining all Methods in selected TestGroup.
             }
             DialogResult = DialogResult.OK;
         }
