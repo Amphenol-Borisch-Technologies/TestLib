@@ -193,9 +193,6 @@
     <None Include="TestConfiguration\TestDefinition.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="TestConfiguration\TestOutput.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
