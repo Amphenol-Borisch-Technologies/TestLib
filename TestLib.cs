@@ -13,6 +13,7 @@ namespace ABT.Test.TestLib {
     public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, IGNORE, PASS, UNSET }
 
     public static class TestLib {
+        // TODO:  Eventually; mitigate or eliminate writeable global objects; change their access to pass by reference.
         public static readonly Dictionary<EVENTS, Color> EventColors = new Dictionary<EVENTS, Color> {
                 { EVENTS.CANCEL, Color.Yellow },
                 { EVENTS.EMERGENCY_STOP, Color.Firebrick },
