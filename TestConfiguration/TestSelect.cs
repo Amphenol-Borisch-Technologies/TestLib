@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace ABT.Test.TestLib.TestConfiguration {
     public partial class TestSelect : Form {
-        private static TestSequence testSequence;
+        private static TestSequence testSequence = new TestSequence();
 
         public TestSelect() {
             InitializeComponent();
@@ -62,7 +62,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
             else selectedOperation = TestLib.testDefinition.TestSpace.TestOperations.Find(nt => nt.NamespaceTrunk.Equals(TestList.SelectedItems[0].SubItems[0].Text));
 
             testSequence.UUT = Serializing.DeserializeFromFile<UUT>(xmlFile: TestLib.TestDefinitionXML);
-            testSequence.TestOperation = Serializing.DeserializeFromFile<TestOperation>(xmlFile: TestLib.TestDefinitionXML, xPath: $"//TestOperation[@Class='{selectedOperation.NamespaceTrunk}']");
+            testSequence.TestOperation = Serializing.DeserializeFromFile<TestOperation>(xmlFile: TestLib.TestDefinitionXML, xPath: $"//TestOperation[@NamespaceTrunk='{selectedOperation.NamespaceTrunk}']");
             if (!testSequence.IsOperation) {
                 TestGroup selectedGroup = selectedOperation.TestGroups.Find(tg => tg.Class.Equals(TestList.SelectedItems[0].SubItems[1].Text));
                 testSequence.TestOperation.TestGroups.RemoveAll(tg => tg != selectedGroup);
