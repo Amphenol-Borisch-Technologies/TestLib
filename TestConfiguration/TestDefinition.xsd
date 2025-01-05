@@ -100,6 +100,23 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="SerialNumberFormat" use="required">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          <![CDATA[
+          SerialNumberFormat attribute:
+          - Required.
+          - Explanation of SerialNumberRegEx format.
+          - Type: xs:string.
+          ]]>
+        </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:whiteSpace value="preserve" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
   </xs:attributeGroup>
 
   <xs:attributeGroup name="InstrumentAttributes">

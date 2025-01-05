@@ -145,6 +145,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(SerialNumberEntry))] public SerialNumberEntry SerialNumberEntry { get; set; }
         [XmlAttribute(nameof(SerialNumberRegEx))] public String SerialNumberRegEx { get; set; }
+        [XmlAttribute(nameof(SerialNumberFormat))] public String SerialNumberFormat { get; set; }
     }
 
     public enum SerialNumberEntry { Barcode, Keyboard }
