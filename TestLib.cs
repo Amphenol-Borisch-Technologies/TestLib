@@ -28,8 +28,8 @@ namespace ABT.Test.TestLib {
         public const String MutexTestName = nameof(MutexTest);
         public static Dictionary<String, Object> InstrumentDrivers = null;
 
+        public static TestSequence testSequence = null;                  // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static TestDefinition testDefinition = null;              // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
-        public static TestSpace testSpace = null;                        // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static Dictionary<String, Object> testInstruments = null; // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static String BaseDirectory = null;                       // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
         public static String TestDefinitionXML = null;                   // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.

@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace ABT.Test.TestLib.TestConfiguration {
     public partial class TestSelect : Form {
-        private static TestSpace testSpace;
+        private static TestSequence testSequence;
 
         public TestSelect() {
             InitializeComponent();
@@ -14,11 +14,11 @@ namespace ABT.Test.TestLib.TestConfiguration {
             ListLoad();
         }
 
-        public static TestSpace Get() {
+        public static TestSequence Get() {
             TestSelect testSelect = new TestSelect();
             testSelect.ShowDialog(); // Waits until user clicks OK button.
             testSelect.Dispose();
-            return testSpace;
+            return testSequence;
         }
 
         private void ListLoad() {
@@ -56,16 +56,17 @@ namespace ABT.Test.TestLib.TestConfiguration {
         private void OK_Click(Object sender, EventArgs e) {
             Debug.Assert(TestList.SelectedItems.Count == 1);
 
-            testSpace = Serializing.DeserializeFromFile<TestSpace>(TestLib.TestDefinitionXML);
-            testSpace.IsOperation = TestOperations.Checked;
-            if (testSpace.IsOperation) { // A TestOperation was selected, including all its TestGroups, and all their Methods.  This is a full test run, so test data will be saved.
-                TestOperation selectedOperation = testSpace.TestOperations[TestList.SelectedItems[0].Index];
-                testSpace.TestOperations.RemoveAll(to => to != selectedOperation); // Retain only the selected TestOperation, all its TestGroups, and all their Methods.
-            } else { // Only a TestGroup was selected, including all its Methods.  This is a partial test run, so test data won't be saved.
-                TestOperation selectedOperation = testSpace.TestOperations.Find(nt => nt.NamespaceTrunk.Equals(TestList.SelectedItems[0].SubItems[0].Text));
-                testSpace.TestOperations.RemoveAll(to => to != selectedOperation); // Retain only the selected TestOperation, all it's TestGroups, and all their Methods.
-                TestGroup selectedGroup = testSpace.TestOperations[0].TestGroups.Find(tg => tg.Class.Equals(TestList.SelectedItems[0].SubItems[1].Text));
-                testSpace.TestOperations[0].TestGroups.RemoveAll(tg => tg != selectedGroup); // From the selected TestOperation, retain only the selected TestGroup and all its Methods.
+            testSequence.IsOperation = TestOperations.Checked;
+            TestOperation selectedOperation = null;
+            if (testSequence.IsOperation) selectedOperation = TestLib.testDefinition.TestSpace.TestOperations[TestList.SelectedItems[0].Index];
+            else selectedOperation = TestLib.testDefinition.TestSpace.TestOperations.Find(nt => nt.NamespaceTrunk.Equals(TestList.SelectedItems[0].SubItems[0].Text));
+
+            testSequence.UUT = Serializing.DeserializeFromFile<UUT>(xmlFile: TestLib.TestDefinitionXML);
+            testSequence.TestOperation = Serializing.DeserializeFromFile<TestOperation>(xmlFile: TestLib.TestDefinitionXML, xPath: $"//TestOperation[@Class='{selectedOperation.NamespaceTrunk}']");
+            if (!testSequence.IsOperation) {
+                TestGroup selectedGroup = selectedOperation.TestGroups.Find(tg => tg.Class.Equals(TestList.SelectedItems[0].SubItems[1].Text));
+                testSequence.TestOperation.TestGroups.RemoveAll(tg => tg != selectedGroup);
+                // From the selected TestOperation, retain only the selected TestGroup and all its Methods.
             }
             DialogResult = DialogResult.OK;
         }

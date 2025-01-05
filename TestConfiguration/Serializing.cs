@@ -13,10 +13,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
             using (FileStream fileStream = new FileStream(xmlFile, FileMode.Open)) {
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.Load(fileStream);
-                XmlNamespaceManager xmlNamespaceManager = new XmlNamespaceManager(xmlDoc.NameTable);
-                xmlNamespaceManager.AddNamespace("default", xmlDoc.DocumentElement.NamespaceURI);
-                if (xPath is null) xPath = $"//default:{typeof(T).Name}";
-                XmlNode xmlNode = xmlDoc.SelectSingleNode(xPath, xmlNamespaceManager) ?? throw new InvalidOperationException($"Element '{typeof(T).Name}' not found in XML file '{xmlFile}' using XPath Query'{xPath}'.");
+                if (xPath is null) xPath = $"//{typeof(T).Name}";
+                XmlNode xmlNode = xmlDoc.SelectSingleNode(xPath) ?? throw new InvalidOperationException($"Element '{typeof(T).Name}' not found in XML file '{xmlFile}' using XPath Query'{xPath}'.");
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
                 using (StringReader stringReader = new StringReader(xmlNode.OuterXml)) { t = (T)xmlSerializer.Deserialize(stringReader); }
             }

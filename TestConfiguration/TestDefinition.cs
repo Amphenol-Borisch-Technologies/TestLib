@@ -232,9 +232,6 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(Simulate))] public Boolean Simulate { get; set; }
         [XmlElement(nameof(TestOperation))] public List<TestOperation> TestOperations { get; set; }
-        public Boolean IsOperation { get; set; }                 // Determined during test selection.
-        public String SerialNumber { get; set; } = String.Empty; // Input during testing.
-        public EVENTS Event { get; set; } = EVENTS.UNSET;        // Determined post-test.
 
         public Statistics Statistics { get; set; } = new Statistics();
 
@@ -494,15 +491,18 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public UInt32 Tested() { return Cancelled + EmergencyStopped + Errored + Failed + Ignored + Passed; }
     }
 
-    public class TestOutput {
+    public class TestSequence {
         public UUT UUT { get; set; }
-        public TestSpace TestSpace { get; set; }
+        public TestOperation TestOperation { get; set; }
+        public Boolean IsOperation { get; set; } = false;
+        public String SerialNumber { get; set; } = String.Empty;
+        public EVENTS Event { get; set; } = EVENTS.UNSET;
 
-        public TestOutput() { }
+        public TestSequence() { }
 
-        public TestOutput(UUT uut, TestSpace testSpace) {
+        public TestSequence(UUT uut, TestOperation testOperation) {
             UUT = uut;
-            TestSpace = testSpace;
+            TestOperation = testOperation;
         }
     }
 }
