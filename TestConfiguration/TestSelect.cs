@@ -55,26 +55,22 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
         private void OK_Click(Object sender, EventArgs e) {
             Debug.Assert(TestList.SelectedItems.Count == 1);
-            testSpace = Serializing.DeserializeFromFile<TestSpace>(xmlFile: $"{TestLib.TestDefinitionXML}");
+
+            testSpace = Serializing.DeserializeFromFile<TestSpace>(TestLib.TestDefinitionXML);
             testSpace.IsOperation = TestOperations.Checked;
-            if (testSpace.IsOperation) {
-                // A TestOperation was selected, including all its TestGroups, and all their Methods.  This is a full test run, so test data will be saved.
+            if (testSpace.IsOperation) { // A TestOperation was selected, including all its TestGroups, and all their Methods.  This is a full test run, so test data will be saved.
                 TestOperation selectedOperation = testSpace.TestOperations[TestList.SelectedItems[0].Index];
-                foreach (TestOperation to in testSpace.TestOperations) if (to != selectedOperation) testSpace.TestOperations.Remove(to);
-                // Remove unselected TestOperations, retaining all TestGroups and all their Methods in selected TestOperation.
-            } else {
-                // Only a TestGroup was selected, including all its Methods.  This is a partial test run, so test data won't be saved.
-                TestOperation selectedOperation = testSpace.TestOperations.Find(to => to.NamespaceTrunk.Equals(TestList.SelectedItems[0].SubItems[0].Text));
-                foreach (TestOperation to in testSpace.TestOperations) if (to != selectedOperation) testSpace.TestOperations.Remove(to);
-                // Remove unselected TestOperations.
-                TestGroup selectedGroup = selectedOperation.TestGroups.Find(tg => tg.Class.Equals(TestList.SelectedItems[0].SubItems[1].Text));
-                foreach (TestGroup tg in testSpace.TestOperations[0].TestGroups) if (tg != selectedGroup) testSpace.TestOperations[0].TestGroups.Remove(tg);
-                // Remove unselected TestGroups in selected TestOperation, retaining all Methods in selected TestGroup.
+                testSpace.TestOperations.RemoveAll(to => to != selectedOperation); // Retain only the selected TestOperation, all its TestGroups, and all their Methods.
+            } else { // Only a TestGroup was selected, including all its Methods.  This is a partial test run, so test data won't be saved.
+                TestOperation selectedOperation = testSpace.TestOperations.Find(nt => nt.NamespaceTrunk.Equals(TestList.SelectedItems[0].SubItems[0].Text));
+                testSpace.TestOperations.RemoveAll(to => to != selectedOperation); // Retain only the selected TestOperation, all it's TestGroups, and all their Methods.
+                TestGroup selectedGroup = testSpace.TestOperations[0].TestGroups.Find(tg => tg.Class.Equals(TestList.SelectedItems[0].SubItems[1].Text));
+                testSpace.TestOperations[0].TestGroups.RemoveAll(tg => tg != selectedGroup); // From the selected TestOperation, retain only the selected TestGroup and all its Methods.
             }
             DialogResult = DialogResult.OK;
         }
 
-        private void TestOperations_Clicked(Object sender, EventArgs e)  { ListLoad(); }
+        private void TestOperations_Clicked(Object sender, EventArgs e) { ListLoad(); }
 
         private void TestGroups_Clicked(Object sender, EventArgs e) { ListLoad(); }
     }

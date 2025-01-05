@@ -7,15 +7,16 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
     public static class Serializing {
 
-        public static T DeserializeFromFile<T>(String xmlFile) {
+        public static T DeserializeFromFile<T>(String xmlFile, String xPath=null) {
             if (!File.Exists(xmlFile)) throw new ArgumentException($"XML File '{xmlFile}' does not exist.");
             T t;
             using (FileStream fileStream = new FileStream(xmlFile, FileMode.Open)) {
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.Load(fileStream);
-                XmlNamespaceManager XNM = new XmlNamespaceManager(xmlDoc.NameTable);
-                XNM.AddNamespace("default", xmlDoc.DocumentElement.NamespaceURI);
-                XmlNode xmlNode = xmlDoc.SelectSingleNode($"//default:{typeof(T).Name}", XNM) ?? throw new InvalidOperationException($"Element '{typeof(T).Name}' not found in XML file '{xmlFile}'.");
+                XmlNamespaceManager xmlNamespaceManager = new XmlNamespaceManager(xmlDoc.NameTable);
+                xmlNamespaceManager.AddNamespace("default", xmlDoc.DocumentElement.NamespaceURI);
+                String xPathQuery= xPath is null ? $"//default:{typeof(T).Name}" : xPath.ToString();
+                XmlNode xmlNode = xmlDoc.SelectSingleNode(xPathQuery, xmlNamespaceManager) ?? throw new InvalidOperationException($"Element '{typeof(T).Name}' not found in XML file '{xmlFile}' using XPath Query'{xPathQuery}'.");
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
                 using (StringReader stringReader = new StringReader(xmlNode.OuterXml)) { t = (T)xmlSerializer.Deserialize(stringReader); }
             }
