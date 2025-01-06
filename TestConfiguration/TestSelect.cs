@@ -72,6 +72,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
             }
 
             testSequence.Operator = UserPrincipal.Current.DisplayName;
+            // NOTE:  UserPrincipal.Current.DisplayName requires a connected/active Domain session for Active Directory PCs.
             testSequence.Computer = Environment.MachineName;
             testSequence.VersionTestExec = $"{Assembly.GetExecutingAssembly().GetName().Name}, {Assembly.GetExecutingAssembly().GetName().Version}, {TestLib.BuildDate(Assembly.GetExecutingAssembly().GetName().Version)}";
             testSequence.VersionTestPlan = $"{Assembly.GetEntryAssembly().GetName().Name}, {Assembly.GetEntryAssembly().GetName().Version} {TestLib.BuildDate(Assembly.GetEntryAssembly().GetName().Version)}";
