@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -337,7 +338,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(CancelNotPassed))] public Boolean CancelNotPassed { get; set; }
         public Object Value { get; set; }
         public EVENTS Event { get; set; }
-        public StringBuilder Log { get; set; } = new StringBuilder();
+        [XmlIgnore] public StringBuilder Log { get; set; } = new StringBuilder();
+        public String LogString { get; set; } = String.Empty;
         public String AssertionPrior() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.MethodPrior)}{UUT.BEGIN}{nameof(Name)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Name)).GetValue(this))}{UUT.END}"; }
 
         private protected String AssertionM() {
@@ -349,6 +351,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
         }
 
         public String AssertionNext() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.MethodNext)}{UUT.BEGIN}{nameof(Name)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Name)).GetValue(this))}{UUT.END}"; }
+
+        [OnDeserializing] void LogConvert() { LogString = Log.ToString(); }
     }
 
     public class MethodCustom : Method, IAssertionCurrent {
