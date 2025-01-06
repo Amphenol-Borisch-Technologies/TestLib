@@ -23,7 +23,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlElement(nameof(Customer))] public Customer Customer { get; set; }
         [XmlElement(nameof(TestSpecification))] public List<TestSpecification> TestSpecification { get; set; }
-        [XmlElement(nameof(Documentation))] public List<Documentation> Documentation { get; set; }
+        [XmlIgnore] [XmlElement(nameof(Documentation))] public List<Documentation> Documentation { get; set; }
         [XmlAttribute(nameof(Number))] public String Number { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
@@ -500,8 +500,10 @@ namespace ABT.Test.TestLib.TestConfiguration {
     public class TestSequence {
         public UUT UUT { get; set; }
         public TestOperation TestOperation { get; set; }
-        public Boolean IsOperation { get; set; } = false;
+        [XmlIgnore] public Boolean IsOperation { get; set; } = false;
         public String SerialNumber { get; set; } = String.Empty;
+        public DateTime TimeStart { get; set; }
+        public DateTime TimeEnd { get; set; }
         public EVENTS Event { get; set; } = EVENTS.UNSET;
 
         public TestSequence() { }
@@ -518,7 +520,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 }
         }
 
-        public void MethodsReset() {
+        public void PreRun() {
             foreach (TestGroup testGroup in TestOperation.TestGroups)
                 foreach (Method method in testGroup.Methods) {
                     method.Event = EVENTS.UNSET;
@@ -526,6 +528,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
                     method.LogString = String.Empty;
                     method.Value = null;
                 }
+            Event = EVENTS.UNSET;
+            TimeStart = DateTime.Now;
         }
     }
 
