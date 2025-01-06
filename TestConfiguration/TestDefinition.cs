@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -502,9 +501,13 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public TestOperation TestOperation { get; set; }
         [XmlIgnore] public Boolean IsOperation { get; set; } = false;
         public String SerialNumber { get; set; } = String.Empty;
+        public String Operator { get; set; } = String.Empty;
+        public String Computer { get; set; } = String.Empty;
+        public String VersionTestExec { get; set; } = String.Empty;
+        public String VersionTestPlan { get; set; } = String.Empty;
         public DateTime TimeStart { get; set; }
         public DateTime TimeEnd { get; set; }
-        public TimeSpan TimeTotal { get; set; }
+        public String TimeTotal { get; set; } // NOTE:  XmlSerializer doesn't natively support TimeSpan, so have to serialize TimeTotal as a string.
         public EVENTS Event { get; set; } = EVENTS.UNSET;
 
         public TestSequence() { }
@@ -533,7 +536,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
                     method.LogConvert();
                 }
             TimeEnd = DateTime.Now;
-            TimeTotal = TimeEnd - TimeStart;
+            TimeTotal = (TimeEnd - TimeStart).ToString(@"dd\.hh\:mm\:ss");
         }
     }
 

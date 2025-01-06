@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.DirectoryServices.AccountManagement;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace ABT.Test.TestLib.TestConfiguration {
@@ -68,6 +70,12 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 testSequence.TestOperation.TestGroups.RemoveAll(tg => tg != selectedGroup);
                 // From the selected TestOperation, retain only the selected TestGroup and all its Methods.
             }
+
+            testSequence.Operator = UserPrincipal.Current.DisplayName;
+            testSequence.Computer = Environment.MachineName;
+            testSequence.VersionTestExec = $"{Assembly.GetExecutingAssembly().GetName().Name}, {Assembly.GetExecutingAssembly().GetName().Version}, {TestLib.BuildDate(Assembly.GetExecutingAssembly().GetName().Version)}";
+            testSequence.VersionTestPlan = $"{Assembly.GetEntryAssembly().GetName().Name}, {Assembly.GetEntryAssembly().GetName().Version} {TestLib.BuildDate(Assembly.GetEntryAssembly().GetName().Version)}";
+
             DialogResult = DialogResult.OK;
         }
 

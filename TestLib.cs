@@ -49,6 +49,11 @@ namespace ABT.Test.TestLib {
             foreach (KeyValuePair<String, Object> kvp in GetStationary(ConfigurationTestExec)) Instruments.Add(kvp.Key, kvp.Value);
             return Instruments;
         }
+        
+        public static String BuildDate(Version version) {
+            DateTime Y2K = new DateTime(year: 2000, month: 1, day: 1, hour: 0, minute: 0, second: 0, kind: DateTimeKind.Local);
+            return $"{Y2K + new TimeSpan(days: version.Build, hours: 0, minutes: 0, seconds: 2 * version.Revision):g}";
+        }
 
         private static Dictionary<String, Object> GetMobile() {
             Dictionary<String, Object> instruments = new Dictionary<String, Object>();
