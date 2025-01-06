@@ -507,11 +507,6 @@ namespace ABT.Test.TestLib.TestConfiguration {
         }
     }
 
-    // TODO:  Soon; consider making TestDefinition a readonly singleton, and it's internal classes readonly.
-    // TODO:  Soon; re-read TestDefinition every time TestSelect is invoked, so changes to TestDefinition.xml become active at the next selection.
-    //        Currently would need to restart TestExec for TestDefiniton.xml changes to become active.
-    // TODO:  Soon; in TestExec, update TSMI_UUT_AppConfig to TSMI_UUT_TestDefinition.
-    //        Also, add a re-read option in TSMI_UUT_TestDefinition sub-menu.
     public static class TestIndices {
         public static TestOperation TestOperation { get; set; } = null;
         public static TestGroup TestGroup { get; set; } = null;
