@@ -544,7 +544,7 @@
             - Required.
             - Type: xs:double.
                       
-            Low measurement limit, must be ≤ High.
+            Low limit, must be ≤ High.
             - Scientific notation permitted; for example, Low="-1.5E-2" for -0.015.
             - Low="-INF" disables lower limit; "-INF" = -∞.
           ]]>
@@ -559,7 +559,7 @@
             - Required.
             - Type: xs:double.
                       
-            High measurement limit, must be ≥ Low.
+            High limit, must be ≥ Low.
             - Scientific notation permitted; for example, High="1.5E2" for 150.
             - High="INF" disables upper limit; "INF" = +∞.
           ]]>
@@ -599,7 +599,7 @@
             - Required.
             - Type: xs:nonNegativeInteger.
                       
-            Fractional Digits, measurement's rounding precision.
+            Fractional Digits, method's rounding precision.
             - FractionalDigits="2" rounds 1.555 to 1.56.
             - FractionalDigits="1" rounds 1.555 to 1.6.
             - FractionalDigits="0" rounds 1.555 to 2.

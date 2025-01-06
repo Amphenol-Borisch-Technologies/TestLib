@@ -29,11 +29,11 @@ namespace ABT.Test.TestLib {
         public const String MutexTestName = nameof(MutexTest);
         public static Dictionary<String, Object> InstrumentDrivers = null;
 
-        public static TestSequence testSequence = null;                  // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
-        public static TestDefinition testDefinition = null;              // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
-        public static Dictionary<String, Object> testInstruments = null; // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
-        public static String BaseDirectory = null;                       // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
-        public static String TestDefinitionXML = null;                   // Requires instantiated TestExec form; initialized by ButtonSelectTests_Click method.
+        public static TestSequence testSequence = null;
+        public static TestDefinition testDefinition = null;
+        public static Dictionary<String, Object> testInstruments = null;
+        public static String BaseDirectory = null;
+        public static String TestDefinitionXML = null;
         public static String TestDefinitionXSD = GetExecutingStatementDirectory() + @"\TestConfiguration\TestDefinition.xsd";
         public static CancellationToken CT_Cancel;
         public static CancellationToken CT_EmergencyStop;
@@ -91,17 +91,6 @@ namespace ABT.Test.TestLib {
                 instruments.Add(kvp.Key, Activator.CreateInstance(Type.GetType(kvp.Value), new Object[] { xElement.Attribute("Address").Value, xElement.Attribute("Detail").Value }));
             }
             return instruments;
-        }
-    }
-
-    public static class TestIndex {
-        public static TestOperation TestOperation { get; set; } = null;
-        public static TestGroup TestGroup { get; set; } = null;
-        public static Method Method { get; set; } = null;
-        public static void Nullify() {
-            TestOperation = null;
-            TestGroup = null;
-            Method = null;
         }
     }
 }

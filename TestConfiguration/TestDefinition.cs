@@ -306,7 +306,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlElement(nameof(MethodTextual), typeof(MethodTextual))]
         public List<Method> Methods { get; set; }
         public readonly Int32 FormattingLengthGroupID = 0;
-        public readonly Int32 FormattingLengthMeasurementID = 0;
+        public readonly Int32 FormattingLengthMethodID = 0;
 
         public String AssertionPrior() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.TestGroupPrior)}{UUT.BEGIN}{nameof(Class)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{UUT.END}"; }
 
@@ -504,6 +504,21 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public TestSequence(UUT uut, TestOperation testOperation) {
             UUT = uut;
             TestOperation = testOperation;
+        }
+    }
+
+    // TODO:  Soon; incorporate TestIndices into TestSequence, so TestSequence contains its indices internally and the complexity of 2 classes becomes the simplicity of 1.
+    //        Add [XmlIgnore] attribute to TestIndices's 3 properties so they're not deserialized with the TestSequence test data.
+    //        Note that we'll need an instance of TestSequence, as it's not a static class like TestIndices is.
+    // TODO:  Soon; consider making TestDefinition a readonly singleton, and it's internal classes readonly.
+    public static class TestIndices {
+        public static TestOperation TestOperation { get; set; } = null;
+        public static TestGroup TestGroup { get; set; } = null;
+        public static Method Method { get; set; } = null;
+        public static void Nullify() {
+            TestOperation = null;
+            TestGroup = null;
+            Method = null;
         }
     }
 }
