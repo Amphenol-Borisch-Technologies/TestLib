@@ -511,10 +511,20 @@ namespace ABT.Test.TestLib.TestConfiguration {
             TestOperation = testOperation;
         }
 
-        public void LogConvert() {
+        public void MethodLogsConvert() {
             foreach (TestGroup testGroup in TestOperation.TestGroups)
                 foreach (Method method in testGroup.Methods) {
                     method.LogConvert();
+                }
+        }
+
+        public void MethodsReset() {
+            foreach (TestGroup testGroup in TestOperation.TestGroups)
+                foreach (Method method in testGroup.Methods) {
+                    method.Event = EVENTS.UNSET;
+                    _ = method.Log.Clear();
+                    method.LogString = String.Empty;
+                    method.Value = null;
                 }
         }
     }
