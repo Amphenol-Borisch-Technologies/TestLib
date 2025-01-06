@@ -504,6 +504,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public String SerialNumber { get; set; } = String.Empty;
         public DateTime TimeStart { get; set; }
         public DateTime TimeEnd { get; set; }
+        public TimeSpan TimeTotal { get; set; }
         public EVENTS Event { get; set; } = EVENTS.UNSET;
 
         public TestSequence() { }
@@ -513,14 +514,9 @@ namespace ABT.Test.TestLib.TestConfiguration {
             TestOperation = testOperation;
         }
 
-        public void MethodLogsConvert() {
-            foreach (TestGroup testGroup in TestOperation.TestGroups)
-                foreach (Method method in testGroup.Methods) {
-                    method.LogConvert();
-                }
-        }
-
         public void PreRun() {
+            TimeStart = DateTime.Now;
+            Event = EVENTS.UNSET;
             foreach (TestGroup testGroup in TestOperation.TestGroups)
                 foreach (Method method in testGroup.Methods) {
                     method.Event = EVENTS.UNSET;
@@ -528,8 +524,16 @@ namespace ABT.Test.TestLib.TestConfiguration {
                     method.LogString = String.Empty;
                     method.Value = null;
                 }
-            Event = EVENTS.UNSET;
-            TimeStart = DateTime.Now;
+        }
+
+        public void PostRun(EVENTS OperationEvent) {
+            Event = OperationEvent;
+            foreach (TestGroup testGroup in TestOperation.TestGroups)
+                foreach (Method method in testGroup.Methods) {
+                    method.LogConvert();
+                }
+            TimeEnd = DateTime.Now;
+            TimeTotal = TimeEnd - TimeStart;
         }
     }
 
