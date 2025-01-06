@@ -67,7 +67,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
             testSequence.TestOperation = Serializing.DeserializeFromFile<TestOperation>(xmlFile: TestLib.TestDefinitionXML, xPath: $"//TestOperation[@NamespaceTrunk='{selectedOperation.NamespaceTrunk}']");
             if (!testSequence.IsOperation) {
                 TestGroup selectedGroup = selectedOperation.TestGroups.Find(tg => tg.Class.Equals(TestList.SelectedItems[0].SubItems[1].Text));
-                testSequence.TestOperation.TestGroups.RemoveAll(tg => tg != selectedGroup);
+                _ = testSequence.TestOperation.TestGroups.RemoveAll(tg => tg.Class != selectedGroup.Class);
                 // From the selected TestOperation, retain only the selected TestGroup and all its Methods.
             }
 

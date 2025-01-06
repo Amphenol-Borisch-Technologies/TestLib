@@ -27,6 +27,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
         [XmlAttribute(nameof(Category))] public Category Category { get; set; }
+        internal const String CHECK_OPERATION = "if (TestLib.testSequence.IsOperation) ";
         internal const String DEBUG_ASSERT = "Debug.Assert(";
         internal const String BEGIN = "(";
         internal const String CS = ": ";
@@ -308,7 +309,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public readonly Int32 FormattingLengthGroupID = 0;
         public readonly Int32 FormattingLengthMethodID = 0;
 
-        public String AssertionPrior() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.TestGroupPrior)}{UUT.BEGIN}{nameof(Class)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{UUT.END}"; }
+        public String AssertionPrior() { return $"{UUT.CHECK_OPERATION}{UUT.DEBUG_ASSERT}{nameof(Assertions.TestGroupPrior)}{UUT.BEGIN}{nameof(Class)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{UUT.END}"; }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
@@ -327,7 +328,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
             return UUT.EF(sb.Remove(sb.Length - UUT.DIVIDER.Length, UUT.DIVIDER.Length).ToString()); // Remove trailing UUT.DIVIDER.
         }
 
-        public String AssertionNext() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.TestGroupNext)}{UUT.BEGIN}{nameof(Class)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{UUT.END}"; }
+        public String AssertionNext() { return $"{UUT.CHECK_OPERATION}{UUT.DEBUG_ASSERT}{nameof(Assertions.TestGroupNext)}{UUT.BEGIN}{nameof(Class)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Class)).GetValue(this))}{UUT.END}"; }
     }
 
     public abstract class Method {
