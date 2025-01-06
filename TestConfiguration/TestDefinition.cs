@@ -352,7 +352,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
         public String AssertionNext() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.MethodNext)}{UUT.BEGIN}{nameof(Name)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Name)).GetValue(this))}{UUT.END}"; }
 
-        [OnDeserializing] void LogConvert() { LogString = Log.ToString(); }
+        public void LogConvert() { LogString = Log.ToString(); }
+        // NOTE:  XmlSerializer doesn't support [OnSerializing] attribute, so have to explicitly invoke LogConvert().
     }
 
     public class MethodCustom : Method, IAssertionCurrent {
@@ -508,6 +509,13 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public TestSequence(UUT uut, TestOperation testOperation) {
             UUT = uut;
             TestOperation = testOperation;
+        }
+
+        public void LogConvert() {
+            foreach (TestGroup testGroup in TestOperation.TestGroups)
+                foreach (Method method in testGroup.Methods) {
+                    method.LogConvert();
+                }
         }
     }
 
