@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using Microsoft.CSharp;
 
 namespace ABT.Test.TestLib.TestConfiguration {
+    // TODO:  Eventually; modify TestDefinition.xsd, TestDefinition.xml, Generator & Validator to accomodate ABT.Test.TestPlans.Diagnostics.InstrumentsDrivers.ID.
+    // - Enter Instrument aliases in TestDefinition.xml, Generator auto-generates ID alises in TestPlan folder.
 
     public static class Generator {
 

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Xml.Linq;
 using ABT.Test.TestLib.TestConfiguration;
+// TODO: Immediately; test TestDefinition.xml with MethodInterval, MethodProcess & MethodTextual.  Currently only MethodCustom tested.
 
 namespace ABT.Test.TestLib {
     public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, IGNORE, PASS, UNSET }
