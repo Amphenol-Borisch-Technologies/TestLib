@@ -51,6 +51,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
             codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("System.Diagnostics"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("ABT.Test.TestLib"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport("ABT.Test.TestLib.TestConfiguration"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestConfiguration.Assertions"));
             return codeNamespace;
         }

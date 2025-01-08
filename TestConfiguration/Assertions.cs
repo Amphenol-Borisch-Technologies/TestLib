@@ -67,12 +67,12 @@ namespace ABT.Test.TestLib.TestConfiguration {
             return b;
         }
 
-        public static Boolean MethodProcess(String Name, String Description, String CancelNotPassed, String Path, String Executable, String Parameters, String Expected) {
+        public static Boolean MethodProcess(String Name, String Description, String CancelNotPassed, String Folder, String File, String Parameters, String Expected) {
             Debug.Assert(TestIndices.Method is MethodProcess);
             Boolean b = Method(Name, Description, CancelNotPassed);
             MethodProcess methodProcess = (MethodProcess)TestIndices.Method;
-            b &= String.Equals(methodProcess.Path, Path);
-            b &= String.Equals(methodProcess.Executable, Executable);
+            b &= String.Equals(methodProcess.Folder, Folder);
+            b &= String.Equals(methodProcess.File, File);
             b &= String.Equals(methodProcess.Parameters, Parameters);
             b &= String.Equals(methodProcess.Expected, Expected);
             return b;

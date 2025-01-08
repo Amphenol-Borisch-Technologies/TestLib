@@ -416,8 +416,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
     public class MethodProcess : Method, IAssertionCurrent {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
-        [XmlAttribute(nameof(Path))] public String Path { get; set; }
-        [XmlAttribute(nameof(Executable))] public String Executable { get; set; }
+        [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
+        [XmlAttribute(nameof(File))] public String File { get; set; }
         [XmlAttribute(nameof(Parameters))] public String Parameters { get; set; }
         [XmlAttribute(nameof(Expected))] public String Expected { get; set; }
 
@@ -425,8 +425,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{AssertionM()}{UUT.CONTINUE}");
-            sb.Append($"{nameof(Path)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Path)).GetValue(this))}{UUT.CONTINUE}");
-            sb.Append($"{nameof(Executable)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Executable)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Folder)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Folder)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(File)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(File)).GetValue(this))}{UUT.CONTINUE}");
             sb.Append($"{nameof(Parameters)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Parameters)).GetValue(this))}{UUT.CONTINUE}");
             sb.Append($"{nameof(Expected)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Expected)).GetValue(this))}{UUT.END}");
             return sb.ToString();
