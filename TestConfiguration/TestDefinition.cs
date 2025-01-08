@@ -336,7 +336,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(Name))] public String Name { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(CancelNotPassed))] public Boolean CancelNotPassed { get; set; }
-        public Object Value { get; set; }
+        public String Value { get; set; }
         public EVENTS Event { get; set; }
         [XmlIgnore] public StringBuilder Log { get; set; } = new StringBuilder();
         public String LogString { get; set; } = String.Empty;

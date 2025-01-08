@@ -21,8 +21,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public static Boolean TestGroup(String Class, String Description, String CancelNotPassed, String Independent, String Methods) {
             Boolean b = String.Equals(TestIndices.TestGroup.Class, Class);
             b &= String.Equals(TestIndices.TestGroup.Description, Description);
-            b &= String.Equals(TestIndices.TestGroup.CancelNotPassed.ToString().ToLower(), CancelNotPassed);
-            b &= String.Equals(TestIndices.TestGroup.Independent.ToString().ToLower(), Independent);
+            b &= TestIndices.TestGroup.CancelNotPassed == Boolean.Parse(CancelNotPassed);
+            b &= TestIndices.TestGroup.Independent == Boolean.Parse(Independent);
             b &= String.Equals(TestIndices.TestGroup.Ms().Replace("\"", ""), Methods);
             return b;
         }
@@ -40,7 +40,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public static Boolean Method(String Name, String Description, String CancelNotPassed) {
             Boolean b = String.Equals(TestIndices.Method.Name, Name);
             b &= String.Equals(TestIndices.Method.Description, Description);
-            b &= String.Equals(TestIndices.Method.CancelNotPassed.ToString().ToLower(), CancelNotPassed);
+            b &= TestIndices.Method.CancelNotPassed == Boolean.Parse(CancelNotPassed);
             return b;
         }
 
@@ -56,14 +56,14 @@ namespace ABT.Test.TestLib.TestConfiguration {
             Debug.Assert(TestIndices.Method is MethodInterval);
             Boolean b = Method(Name, Description, CancelNotPassed);
             MethodInterval methodInterval = (MethodInterval)TestIndices.Method;
-            b &= String.Equals(methodInterval.LowComparator, LowComparator);
-            b &= String.Equals(methodInterval.Low, Low);
-            b &= String.Equals(methodInterval.High, High);
-            b &= String.Equals(methodInterval.HighComparator, HighComparator);
-            b &= String.Equals(methodInterval.FractionalDigits, FractionalDigits);
-            b &= String.Equals(methodInterval.UnitPrefix, UnitPrefix);
-            b &= String.Equals(methodInterval.Units, Units);
-            b &= String.Equals(methodInterval.UnitSuffix, UnitSuffix);
+            b &= methodInterval.LowComparator == (MI_LowComparator)Enum.Parse(typeof(MI_LowComparator), LowComparator);
+            b &= methodInterval.Low == Double.Parse(Low);
+            b &= methodInterval.High == Double.Parse(High);
+            b &= methodInterval.HighComparator == (MI_HighComparator)Enum.Parse(typeof(MI_HighComparator), HighComparator);
+            b &= methodInterval.FractionalDigits == UInt32.Parse(FractionalDigits);
+            b &= methodInterval.UnitPrefix == (MI_UnitPrefix)Enum.Parse(typeof(MI_UnitPrefix), UnitPrefix);
+            b &= methodInterval.Units == (MI_Units)Enum.Parse(typeof(MI_Units), Units);
+            b &= methodInterval.UnitSuffix == (MI_UnitSuffix)Enum.Parse(typeof(MI_UnitSuffix), UnitSuffix);
             return b;
         }
 
