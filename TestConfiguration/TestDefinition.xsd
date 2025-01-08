@@ -24,20 +24,35 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="ValidWindowsPath">
+  <xs:simpleType name="ValidWindowsFolder">
     <xs:annotation>
       <xs:documentation xml:lang="en">
         <![CDATA[
-          ValidWindowsPath simpleType:
-          - RegEx to validate a Windows Path; for example, "C:\Program Files\ABT\Test\TestLib\TestDefinition\".
+          ValidWindowsFolder simpleType:
+          - RegEx to validate a Windows Folder name; for example, "C:\Program Files\ABT\Test\TestLib\TestDefinition\".
           - Type: xs:string.
         ]]>
       </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
-      <xs:pattern value="[a-zA-Z]:(\\[^&lt;&gt;:&quot;/\\|?*]+)+"/>
+      <xs:pattern value="[^&lt;&gt;&quot;\/|?*]{1,255}" />
     </xs:restriction>
   </xs:simpleType>
+
+  <xs:simpleType name="ValidWindowsFile">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        <![CDATA[
+          ValidWindowsFile simpleType:
+          - RegEx to validate a Windows file name; for example, "Solitaire.exe".
+          - Type: xs:string.
+        ]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[^&lt;&gt;:&quot;\/\\|?*]{1,255}" />
+    </xs:restriction>
+  </xs:simpleType>  
 
   <xs:attribute name="Description" type="xs:string">
     <xs:annotation>
@@ -51,17 +66,10 @@
     </xs:annotation>
   </xs:attribute>
 
-  <xs:attribute name="Folder" type="ValidWindowsPath">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-            Folder attribute:
-            - Type: ValidWindowsPath.
-        ]]>
-      </xs:documentation>
-    </xs:annotation>
-  </xs:attribute>
+  <xs:attribute name="Folder" type="ValidWindowsFolder"/>
 
+  <xs:attribute name="File" type="ValidWindowsFile"/>
+  
   <xs:attributeGroup name="SerialNumberAttributes">
     <xs:annotation>
       <xs:documentation xml:lang="en">
@@ -708,28 +716,28 @@
       </xs:documentation>
     </xs:annotation>
     <xs:attributeGroup ref="MethodAttributes"/>
-    <xs:attribute name="Path" type="ValidWindowsPath" use="required">
+    <xs:attribute ref="Folder" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
-            Path attribute:
+            Folder attribute:
             - Required.
-            - Type: ValidWindowsPath.
+            - Type: ValidWindowsFolder.
                       
-            External Process' Windows path to executable file, less executable file name.
+            External Process' executable Windows Folder path, less file name.
           ]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="Executable" type="ValidWindowsPath" use="required">
+    <xs:attribute ref="File" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
-            Expected attribute:
+            File attribute:
             - Required.
-            - Type: ValidWindowsPath.
+            - Type: ValidWindowsFile.
                       
-            External Process' executable Windows file name, less file path.
+            External Process' executable Windows File name, less Folder path.
           ]]>
         </xs:documentation>
       </xs:annotation>
