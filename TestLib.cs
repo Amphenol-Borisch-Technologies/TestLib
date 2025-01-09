@@ -20,9 +20,9 @@ namespace ABT.Test.TestLib {
                 { EVENTS.EMERGENCY_STOP, Color.Firebrick },
                 { EVENTS.ERROR, Color.Aqua },
                 { EVENTS.FAIL, Color.Red },
-                { EVENTS.IGNORE, Color.Transparent },
+                { EVENTS.IGNORE, Color.LightGray },
                 { EVENTS.PASS, Color.Green },
-                { EVENTS.UNSET, Color.Gray }
+                { EVENTS.UNSET, Color.Yellow }
         };
 
         public const String NONE = "NONE";

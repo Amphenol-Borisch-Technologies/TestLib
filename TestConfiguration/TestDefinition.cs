@@ -199,12 +199,14 @@ namespace ABT.Test.TestLib.TestConfiguration {
     public class Stationary : IAssertionCurrent {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(ID))] public String ID { get; set; }
+        [XmlAttribute(nameof(Alias))] public String Alias { get; set; }
         [XmlAttribute(nameof(NameSpacedClassName))] public String NameSpacedClassName { get; set; }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{nameof(ID)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(ID)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(Alias)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Alias)).GetValue(this))}");
             sb.Append($"{nameof(NameSpacedClassName)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(NameSpacedClassName)).GetValue(this))}");
             sb.Append($"{UUT.END}");
             return sb.ToString();
