@@ -8,7 +8,7 @@
       <xs:pattern value="[a-zA-Z_][a-zA-Z0-9_]{1,1023}"/>
     </xs:restriction>
   </xs:simpleType>
-  
+
   <xs:simpleType name="ValidCSharpNamespace">
     <xs:annotation>
       <xs:documentation xml:lang="en">
@@ -52,7 +52,7 @@
     <xs:restriction base="xs:string">
       <xs:pattern value="[^&lt;&gt;:&quot;\/\\|?*]{1,255}" />
     </xs:restriction>
-  </xs:simpleType>  
+  </xs:simpleType>
 
   <xs:attribute name="Description" type="xs:string">
     <xs:annotation>
@@ -69,7 +69,7 @@
   <xs:attribute name="Folder" type="ValidWindowsFolder"/>
 
   <xs:attribute name="File" type="ValidWindowsFile"/>
-  
+
   <xs:attributeGroup name="SerialNumberAttributes">
     <xs:annotation>
       <xs:documentation xml:lang="en">
@@ -124,39 +124,6 @@
           <xs:whiteSpace value="preserve" />
         </xs:restriction>
       </xs:simpleType>
-    </xs:attribute>
-  </xs:attributeGroup>
-
-  <xs:attributeGroup name="InstrumentAttributes">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          InstrumentAttributes attributeGroup:
-          - Type: attributeGroup.
-          ]]>
-      </xs:documentation>
-    </xs:annotation>
-    <xs:attribute name="ID" type="xs:ID" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          ID attribute:
-          - Required.
-          - Type: xs:ID.
-          ]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="NameSpacedClassName" type="ValidCSharpNamespace" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          NameSpacedClassName attribute:
-          - Required.
-          - Type: ValidCSharpNamespace.
-          ]]>
-        </xs:documentation>
-      </xs:annotation>
     </xs:attribute>
   </xs:attributeGroup>
 
@@ -254,6 +221,7 @@
           <![CDATA[
           Name attribute:
           - Required.
+          - Must be unique.
           - Type: xs:string.
         ]]>
         </xs:documentation>
@@ -296,8 +264,9 @@
         <xs:documentation xml:lang="en">
           <![CDATA[
             URL attribute:
-            -Required.
-            -Type: xs:anyURI:
+            - Required.
+            - Must be unique.
+            - Type: xs:anyURI:
           ]]>
         </xs:documentation>
       </xs:annotation>
@@ -390,34 +359,77 @@
     <xs:attributeGroup ref="SerialNumberAttributes"/>
   </xs:complexType>
 
-  <xs:complexType name="Stationary">
-    <xs:attributeGroup ref="InstrumentAttributes"/>
+  <xs:complexType name="InstrumentStationary">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        <![CDATA[
+          InstrumentStationary:
+          - Optional, 0 or more occurences.
+          - Type: xs:complexType.
+        ]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="Name" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          <![CDATA[
+          Name attribute:
+          - Required.
+          - Must be unique.
+          - Type: xs:string.
+          ]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="NameSpacedClassName" type="ValidCSharpNamespace" use="required">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          <![CDATA[
+          NameSpacedClassName attribute:
+          - Required.
+          - Type: ValidCSharpNamespace.
+          ]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
-  <xs:complexType name="Mobile">
-    <xs:attributeGroup ref="InstrumentAttributes"/>
-    <xs:attribute name="Detail" type="xs:string" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          Detail attribute:
-          - Required.
-          - Type: xs:string.
+  <xs:complexType name="InstrumentMobile">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        <![CDATA[
+          InstrumentMobile:
+          - Optional, 0 or more occurences.
+          - Type: xs:complexType.
         ]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="Address" type="xs:string" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          Address attribute:
-          - Required.
-          - Type: xs:string.
-        ]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="InstrumentStationary">
+        <xs:attribute name="Detail" type="xs:string" use="required">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">
+              <![CDATA[
+                Detail attribute:
+                - Required.
+                - Type: xs:string.
+              ]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="Address" type="xs:string" use="required">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">
+              <![CDATA[
+                Address attribute:
+                - Required.
+                - Type: xs:string.
+              ]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 
   <xs:attributeGroup name="MethodAttributes">
@@ -1050,6 +1062,14 @@
               </xs:simpleType>
             </xs:attribute>
           </xs:complexType>
+          <xs:unique name="UniqueTestSpecification">
+            <xs:selector xpath="TestSpecification"/>
+            <xs:field xpath="@Document"/>
+          </xs:unique>
+          <xs:unique name="UniqueDocumentation">
+            <xs:selector xpath="Documentation"/>
+            <xs:field xpath="@Folder"/>
+          </xs:unique>
         </xs:element>
         <xs:element name="Development" minOccurs="1" maxOccurs="1">
           <xs:annotation>
@@ -1109,6 +1129,18 @@
               </xs:annotation>
             </xs:attribute>
           </xs:complexType>
+          <xs:unique name="UniqueDeveloper">
+            <xs:selector xpath="Developer"/>
+            <xs:field xpath="@Name"/>
+          </xs:unique>
+          <xs:unique name="UniqueDocumentationa">
+            <xs:selector xpath="Documentation"/>
+            <xs:field xpath="@Folder"/>
+          </xs:unique>
+          <xs:unique name="UniqueRepository">
+            <xs:selector xpath="Repository"/>
+            <xs:field xpath="@URL"/>
+          </xs:unique>
         </xs:element>
         <xs:element name="Modifications" minOccurs="1" maxOccurs="1">
           <xs:annotation>
@@ -1185,30 +1217,14 @@
           </xs:annotation>
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="Stationary" type="Stationary" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                  <xs:documentation xml:lang="en">
-                    <![CDATA[
-                      Stationary element.
-                      - Optional, 0 or more occurences.
-                      - Type: Stationary.
-                    ]]>
-                  </xs:documentation>
-                </xs:annotation>
-              </xs:element>
-              <xs:element name="Mobile" type="Mobile" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                  <xs:documentation xml:lang="en">
-                    <![CDATA[
-                      Mobile element.
-                      - Optional, 0 or more occurences.
-                      - Type: Mobile.
-                    ]]>
-                  </xs:documentation>
-                </xs:annotation>
-              </xs:element>
+              <xs:element name="Stationary" type="InstrumentStationary" minOccurs="0" maxOccurs="unbounded"/>
+              <xs:element name="Mobile" type="InstrumentMobile" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
           </xs:complexType>
+          <xs:unique name="UniqueInstruments">
+            <xs:selector xpath="Stationary | Mobile"/>
+            <xs:field xpath="@Name"/>
+          </xs:unique>
         </xs:element>
         <xs:element name="TestSpace" minOccurs="1" maxOccurs="1">
           <xs:annotation>
