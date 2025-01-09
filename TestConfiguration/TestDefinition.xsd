@@ -9,6 +9,12 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="ValidCSharpIdentifier">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-zA-Z_][a-zA-Z0-9_]{1,1023}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="ValidCSharpNamespace">
     <xs:annotation>
       <xs:documentation xml:lang="en">
@@ -439,6 +445,7 @@
           <![CDATA[
             Name attribute:
             - Required.  A Method is analogous to a leaf in a root/trunk/branch/leaf hierarchy.
+            - Method and TestGroup Class names must all be unique; none can be duplicates.
             - Type: UniqueCSharpIdentifier.
           ]]>
         </xs:documentation>
@@ -827,6 +834,7 @@
           <![CDATA[
             Class attribute:
           - Required, 1 or more occurrences.
+            - Class and Method names must all be unique; none can be duplicates.
             - Type: UniqueCSharpIdentifier.
             
             A class is analogous to a branch in a root/trunk/branch/leaf hierarchy.         
@@ -1270,12 +1278,8 @@
               </xs:annotation>
             </xs:attribute>
           </xs:complexType>
-          <xs:unique name="UniqueClass">
-            <xs:selector xpath="TestGroup"/>
-            <xs:field xpath="@Class"/>
-          </xs:unique>
           <xs:unique name="UniqueNamespaceTrunk">
-            <xs:selector xpath="TestOperation"/>
+            <xs:selector xpath=".//TestOperation"/>
             <xs:field xpath="@NamespaceTrunk"/>
           </xs:unique>
         </xs:element>
