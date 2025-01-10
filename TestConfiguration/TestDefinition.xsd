@@ -3,12 +3,6 @@
 <xs:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-  <xs:simpleType name="UniqueCSharpIdentifier">
-    <xs:restriction base="xs:ID">
-      <xs:pattern value="[a-zA-Z_][a-zA-Z0-9_]{1,1023}"/>
-    </xs:restriction>
-  </xs:simpleType>
-
   <xs:simpleType name="ValidCSharpIdentifier">
     <xs:restriction base="xs:string">
       <xs:pattern value="[a-zA-Z_][a-zA-Z0-9_]{1,1023}"/>

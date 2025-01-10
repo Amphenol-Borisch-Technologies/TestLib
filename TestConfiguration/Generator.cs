@@ -85,8 +85,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{UUT.DEBUG_ASSERT}{nameof(Assertions.TestGroupNext)}{UUT.BEGIN}{nameof(TestGroup.Classname)}{UUT.CS}{UUT.NONE}{UUT.END}"));
             }
 
-            // Methods
-            {
+            { // Methods
                 if (method == 0) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{UUT.DEBUG_ASSERT}{nameof(Assertions.MethodPrior)}{UUT.BEGIN}{nameof(Method.Name)}{UUT.CS}{UUT.NONE}{UUT.END}"));
                 else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{(testOperation.TestGroups[testGroup].Methods[method - 1]).AssertionPrior()}"));
 
