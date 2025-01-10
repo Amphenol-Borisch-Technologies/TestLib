@@ -458,7 +458,7 @@
           <![CDATA[
             Name attribute:
             - Required.
-            - Method Names must be unique within their TestGroup, including their parent TestGroup's Class.
+            - Method Names must be unique within their TestGroup, and must also differ from their parent Classnames.
             - Type: ValidCSharpIdentifier.
           ]]>
         </xs:documentation>
@@ -854,17 +854,17 @@
       <xs:element name="MethodProcess" type="MethodProcess"/>
       <xs:element name="MethodTextual" type="MethodTextual"/>
     </xs:choice>
-    <xs:attribute name="Class" type="ValidCSharpIdentifier" use="required">
+    <xs:attribute name="Classname" type="ValidCSharpIdentifier" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
-            Class attribute:
+            Classname attribute:
           - Required, 1 or more occurrences.
-            - Classes must be unique within their TestOperation, and must also differ from their child Method Names.
+            - Classnames must be unique within their TestOperation, and must also differ from their child Method Names.
             - Type: ValidCSharpIdentifier.
             
             A class is analogous to a branch in a root/trunk/branch/leaf hierarchy.         
-            - Note, Class names are not Windows File names, even if both can be identically named and are often conflated.
+            - Note, Classnames are not Windows File names, even if both can be identically named and are often conflated.
           ]]>
         </xs:documentation>
       </xs:annotation>
@@ -1285,7 +1285,7 @@
               <xs:element name="TestOperation" type="TestOperation" minOccurs="1" maxOccurs="unbounded">
                 <xs:unique name="UniqueClass">
                   <xs:selector xpath="TestGroup"/>
-                  <xs:field xpath="@Class"/>
+                  <xs:field xpath="@Classname"/>
                 </xs:unique>
               </xs:element>
             </xs:sequence>

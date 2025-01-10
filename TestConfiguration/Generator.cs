@@ -57,7 +57,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         }
 
         private static CodeTypeDeclaration AddClass(CodeNamespace codeNamespace, TestGroup testGroup) {
-            CodeTypeDeclaration codeTypeDeclaration = new CodeTypeDeclaration(testGroup.Class) {
+            CodeTypeDeclaration codeTypeDeclaration = new CodeTypeDeclaration(testGroup.Classname) {
                 IsClass = true,
                 TypeAttributes = System.Reflection.TypeAttributes.NotPublic | System.Reflection.TypeAttributes.Class,
             };
@@ -76,13 +76,13 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
             // Test Groups
             if (method == 0) {
-                if (testGroup == 0) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{UUT.DEBUG_ASSERT}{nameof(Assertions.TestGroupPrior)}{UUT.BEGIN}{nameof(TestGroup.Class)}{UUT.CS}{UUT.NONE}{UUT.END}"));
+                if (testGroup == 0) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{UUT.DEBUG_ASSERT}{nameof(Assertions.TestGroupPrior)}{UUT.BEGIN}{nameof(TestGroup.Classname)}{UUT.CS}{UUT.NONE}{UUT.END}"));
                 else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{(testOperation.TestGroups[testGroup - 1]).AssertionPrior()}"));
 
                 _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{((IAssertionCurrent)testOperation.TestGroups[testGroup]).AssertionCurrent()}"));
 
                 if (testGroup < testOperation.TestGroups.Count - 1) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{(testOperation.TestGroups[testGroup + 1]).AssertionNext()}"));
-                else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{UUT.DEBUG_ASSERT}{nameof(Assertions.TestGroupNext)}{UUT.BEGIN}{nameof(TestGroup.Class)}{UUT.CS}{UUT.NONE}{UUT.END}"));
+                else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{UUT.DEBUG_ASSERT}{nameof(Assertions.TestGroupNext)}{UUT.BEGIN}{nameof(TestGroup.Classname)}{UUT.CS}{UUT.NONE}{UUT.END}"));
             }
 
             // Methods

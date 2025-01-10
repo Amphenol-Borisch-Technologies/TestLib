@@ -66,7 +66,7 @@ namespace ABT.Test.TestLib {
                     sb.AppendLine($"   ID              : {mobile.ID}");
                     sb.AppendLine($"   Detail          : {mobile.Detail}");
                     sb.AppendLine($"   Address         : {mobile.Address}");
-                    sb.AppendLine($"   ClassName       : {mobile.NameSpacedClassName}{Environment.NewLine}");
+                    sb.AppendLine($"   Classname       : {mobile.NameSpacedClassName}{Environment.NewLine}");
                     sb.AppendLine($"Exception Message(s):");
                     sb.AppendLine($"{e}{Environment.NewLine}");
                     throw new ArgumentException(sb.ToString());
@@ -83,7 +83,7 @@ namespace ABT.Test.TestLib {
                     StringBuilder sb = new StringBuilder().AppendLine();
                     sb.AppendLine($"Issue with Stationary Instrument:");
                     sb.AppendLine($"   ID              : {stationary.ID}");
-                    sb.AppendLine($"   ClassName       : {stationary.NameSpacedClassName}{Environment.NewLine}");
+                    sb.AppendLine($"   Classname       : {stationary.NameSpacedClassName}{Environment.NewLine}");
                     sb.AppendLine($"Exception Message(s):");
                     sb.AppendLine($"{e}{Environment.NewLine}");
                     throw new ArgumentException(sb.ToString());

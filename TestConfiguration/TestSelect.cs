@@ -41,7 +41,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 TestList.Columns.Add("Description");
                 foreach (TestOperation testOperation in TestLib.testDefinition.TestSpace.TestOperations) {
                     foreach (TestGroup testGroup in testOperation.TestGroups)
-                        if (testGroup.Independent) TestList.Items.Add(new ListViewItem(new String[] { testOperation.NamespaceTrunk, testGroup.Class, testGroup.Description }));
+                        if (testGroup.Independent) TestList.Items.Add(new ListViewItem(new String[] { testOperation.NamespaceTrunk, testGroup.Classname, testGroup.Description }));
                 }
             }
             foreach (ColumnHeader ch in TestList.Columns) ch.Width = -2;
@@ -66,8 +66,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
             testSequence.UUT = Serializing.DeserializeFromFile<UUT>(xmlFile: TestLib.TestDefinitionXML);
             testSequence.TestOperation = Serializing.DeserializeFromFile<TestOperation>(xmlFile: TestLib.TestDefinitionXML, xPath: $"//TestOperation[@NamespaceTrunk='{selectedOperation.NamespaceTrunk}']");
             if (!testSequence.IsOperation) {
-                TestGroup selectedGroup = selectedOperation.TestGroups.Find(tg => tg.Class.Equals(TestList.SelectedItems[0].SubItems[1].Text));
-                _ = testSequence.TestOperation.TestGroups.RemoveAll(tg => tg.Class != selectedGroup.Class);
+                TestGroup selectedGroup = selectedOperation.TestGroups.Find(tg => tg.Classname.Equals(TestList.SelectedItems[0].SubItems[1].Text));
+                _ = testSequence.TestOperation.TestGroups.RemoveAll(tg => tg.Classname != selectedGroup.Classname);
                 // From the selected TestOperation, retain only the selected TestGroup and all its Methods.
             }
 

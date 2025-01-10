@@ -18,8 +18,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
             return b;
         }
 
-        public static Boolean TestGroup(String Class, String Description, String CancelNotPassed, String Independent, String Methods) {
-            Boolean b = String.Equals(TestIndices.TestGroup.Class, Class);
+        public static Boolean TestGroup(String Classname, String Description, String CancelNotPassed, String Independent, String Methods) {
+            Boolean b = String.Equals(TestIndices.TestGroup.Classname, Classname);
             b &= String.Equals(TestIndices.TestGroup.Description, Description);
             b &= TestIndices.TestGroup.CancelNotPassed == Boolean.Parse(CancelNotPassed);
             b &= TestIndices.TestGroup.Independent == Boolean.Parse(Independent);
@@ -27,14 +27,14 @@ namespace ABT.Test.TestLib.TestConfiguration {
             return b;
         }
 
-        public static Boolean TestGroupPrior(String Class) {
-            if (TestIndices.TestOperation.TestGroups.First() == TestIndices.TestGroup) return String.Equals(Class, UUT.NONE.Replace("\"", ""));
-            return (1 + TestIndices.TestOperation.TestGroups.FindIndex(c => c.Class == Class) == TestIndices.TestOperation.TestGroups.IndexOf(TestIndices.TestGroup));
+        public static Boolean TestGroupPrior(String Classname) {
+            if (TestIndices.TestOperation.TestGroups.First() == TestIndices.TestGroup) return String.Equals(Classname, UUT.NONE.Replace("\"", ""));
+            return (1 + TestIndices.TestOperation.TestGroups.FindIndex(cn => cn.Classname == Classname) == TestIndices.TestOperation.TestGroups.IndexOf(TestIndices.TestGroup));
         }
 
-        public static Boolean TestGroupNext(String Class) {
-            if (TestIndices.TestOperation.TestGroups.Last() == TestIndices.TestGroup) return String.Equals(Class, UUT.NONE.Replace("\"", ""));
-            return (TestIndices.TestOperation.TestGroups.FindIndex(c => c.Class == Class) == TestIndices.TestOperation.TestGroups.IndexOf(TestIndices.TestGroup) + 1);
+        public static Boolean TestGroupNext(String Classname) {
+            if (TestIndices.TestOperation.TestGroups.Last() == TestIndices.TestGroup) return String.Equals(Classname, UUT.NONE.Replace("\"", ""));
+            return (TestIndices.TestOperation.TestGroups.FindIndex(cn => cn.Classname == Classname) == TestIndices.TestOperation.TestGroups.IndexOf(TestIndices.TestGroup) + 1);
         }
 
         public static Boolean Method(String Name, String Description, String CancelNotPassed) {
