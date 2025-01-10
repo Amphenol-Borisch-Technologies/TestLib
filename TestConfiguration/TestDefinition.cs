@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -195,6 +196,27 @@ namespace ABT.Test.TestLib.TestConfiguration {
             sb.Append($"{nameof(Mobile)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Mobile)).GetValue(this))}");
             sb.Append($"{UUT.END}");
             return sb.ToString();
+        }
+
+        public List<InstrumentInfo> GetInfo() {
+            List<InstrumentInfo> instruments = new List<InstrumentInfo>();
+            foreach(Stationary stationary in Stationary) instruments.Add(new InstrumentInfo(stationary.ID, stationary.Alias, stationary.NameSpacedClassName));
+            foreach(Mobile mobile in Mobile) instruments.Add(new InstrumentInfo(mobile.ID, mobile.Alias, mobile.NameSpacedClassName));
+            return instruments;
+        }
+    }
+
+    public class InstrumentInfo {
+        public String ID;
+        public String Alias;
+        public String NameSpacedClassName;
+
+        public InstrumentInfo() { }
+
+        public InstrumentInfo(String id, String alias, String nameSpaceClassName) {
+            ID = id;
+            Alias = alias;
+            NameSpacedClassName = nameSpaceClassName;
         }
     }
 

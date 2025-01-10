@@ -106,7 +106,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestConfiguration\Generator Instrument ID.cs" />
     <Compile Include="TestConfiguration\TestSelect.cs">
       <SubType>Form</SubType>
     </Compile>

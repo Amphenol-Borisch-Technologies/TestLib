@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Xml.Linq;
@@ -59,7 +60,8 @@ namespace ABT.Test.TestLib {
         private static Dictionary<String, Object> GetMobile() {
             Dictionary<String, Object> instruments = new Dictionary<String, Object>();
             foreach (Mobile mobile in testDefinition.Instruments.Mobile) try {
-                    instruments.Add(mobile.ID, Activator.CreateInstance(Type.GetType(mobile.NameSpacedClassName), new Object[] { mobile.Address, mobile.Detail }));
+                    if (testDefinition.TestSpace.Simulate) instruments.Add(mobile.ID, null);
+                    else instruments.Add(mobile.ID, Activator.CreateInstance(Type.GetType(mobile.NameSpacedClassName), new Object[] { mobile.Address, mobile.Detail }));
                 } catch (Exception e) {
                     StringBuilder sb = new StringBuilder().AppendLine();
                     sb.AppendLine($"Issue with Mobile Instrument:");
@@ -94,7 +96,8 @@ namespace ABT.Test.TestLib {
             Dictionary<String, Object> instruments = new Dictionary<String, Object>();
             foreach (KeyValuePair<String, String> kvp in dictionary) {
                 XElement xElement = iexe.Descendants("Stationary").First(xe => (String)xe.Attribute("ID") == kvp.Key) ?? throw new ArgumentException($"Instrument with ID '{kvp.Key}' not present in file '{ConfigurationTestExec}'.");
-                instruments.Add(kvp.Key, Activator.CreateInstance(Type.GetType(kvp.Value), new Object[] { xElement.Attribute("Address").Value, xElement.Attribute("Detail").Value }));
+                if (testDefinition.TestSpace.Simulate) instruments.Add(kvp.Key, null);
+                else instruments.Add(kvp.Key, Activator.CreateInstance(Type.GetType(kvp.Value), new Object[] { xElement.Attribute("Address").Value, xElement.Attribute("Detail").Value }));
             }
             return instruments;
         }

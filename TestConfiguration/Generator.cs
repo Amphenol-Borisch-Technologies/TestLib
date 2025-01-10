@@ -4,6 +4,7 @@ using System.CodeDom.Compiler;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.CSharp;
+using static ABT.Test.TestLib.TestLib;
 
 namespace ABT.Test.TestLib.TestConfiguration {
     // TODO:  Eventually; modify TestDefinition.xsd, TestDefinition.xml, Generator & Validator to accomodate ABT.Test.TestPlans.Diagnostics.InstrumentsDrivers.ID.
@@ -12,6 +13,11 @@ namespace ABT.Test.TestLib.TestConfiguration {
     public static class Generator {
 
         public static void Generate(String TestDefinitionXML) {
+            GenerateImplementation(TestDefinitionXML);
+            GenerateIDs(TestDefinitionXML);
+        }
+
+        public static void GenerateImplementation(String TestDefinitionXML) {
             TestSpace testSpace = Serializing.DeserializeFromFile<TestSpace>(TestDefinitionXML);
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
 
@@ -101,6 +107,60 @@ namespace ABT.Test.TestLib.TestConfiguration {
             else if (m is MethodProcess) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn \"{-1}\";"));
             else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn \"{String.Empty}\";"));
             _ = codeTypeDeclaration.Members.Add(codeMemberMethod);
+        }
+
+        public static void GenerateIDs(String TestDefinitionXML) {
+            Instruments instruments = Serializing.DeserializeFromFile<Instruments>(TestDefinitionXML);
+            CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
+            CodeNamespace codeNamespace = new CodeNamespace("ABT.Test.TestPlans.Diagnostics.InstrumentsDrivers");
+            codeNamespace.Imports.Add(new CodeNamespaceImport("ABT.Test.TestLib.InstrumentDrivers.Multifunction"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport("ABT.Test.TestLib.InstrumentDrivers.PowerSupplies"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestLib"));
+            _ = codeCompileUnit.Namespaces.Add(codeNamespace);
+
+            CodeTypeDeclaration codeTypeDeclaration = new CodeTypeDeclaration("ID") {
+                IsClass = true,
+                TypeAttributes = System.Reflection.TypeAttributes.NotPublic,
+                Attributes = MemberAttributes.Static
+            };
+
+            codeNamespace.Types.Add(codeTypeDeclaration);
+
+            foreach(InstrumentInfo instrumentInfo in instruments.GetInfo()) codeTypeDeclaration.Members.Add(CreateField(instrumentInfo));
+
+            CSharpCodeProvider cSharpCodeProvider = new CSharpCodeProvider();
+            CodeGeneratorOptions codeGeneratorOptions = new CodeGeneratorOptions {
+                BlankLinesBetweenMembers = true,
+                BracingStyle = "Block",
+                IndentString = "    "
+            };
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog {
+                Filter = "C# files (*.cs)|*.cs",
+                Title = "Save the generated Instrument IDs C# file",
+                DefaultExt = "cs",
+                FileName = "ID.cs",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\"
+            };
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK) {
+                using (StreamWriter streamWriter = new StreamWriter(saveFileDialog.FileName)) { cSharpCodeProvider.GenerateCodeFromCompileUnit(codeCompileUnit, streamWriter, codeGeneratorOptions); }
+            }
+        }
+
+        private static CodeMemberField CreateField(InstrumentInfo instrumentInfo) {
+            CodeMemberField field = new CodeMemberField {
+                Attributes = MemberAttributes.Static | MemberAttributes.Assembly,
+                Type = new CodeTypeReference(instrumentInfo.ID),
+                Name = instrumentInfo.Alias,
+                InitExpression = new CodeCastExpression(instrumentInfo.NameSpacedClassName,
+                    new CodeIndexerExpression(
+                        new CodePropertyReferenceExpression(
+                            new CodeTypeReferenceExpression("TestLib.TestLib"), "InstrumentDrivers"),
+                        new CodePrimitiveExpression(instrumentInfo.NameSpacedClassName)))
+            };
+
+            return field;
         }
     }
 }
