@@ -458,7 +458,7 @@
           <![CDATA[
             Name attribute:
             - Required.  A Method is analogous to a leaf in a root/trunk/branch/leaf hierarchy.
-            - Method and TestGroup Class names must all be unique; none can be duplicates.
+            - Method Names must be unique within their TestGroup, including their parent TestGroup's Class.
             - Type: ValidCSharpIdentifier.
           ]]>
         </xs:documentation>
@@ -859,7 +859,7 @@
           <![CDATA[
             Class attribute:
           - Required, 1 or more occurrences.
-            - Class and Method names must all be unique; none can be duplicates.
+            - Classes must be unique within their TestOperation, and must also differ from their child Method Names.
             - Type: ValidCSharpIdentifier.
             
             A class is analogous to a branch in a root/trunk/branch/leaf hierarchy.         
@@ -921,6 +921,7 @@
           <![CDATA[
             NamespaceTrunk attribute:
             - Required.
+            - NamespaceTrunks must be unique within their TestSpace.  They can be identical to their child TestGroup Classes, but it's not recommended.
             - Type: ValidCSharpNamespace.
           
             NamespaceTrunk is analogous to a trunk in a root/trunk/branch/leaf hierarchy.
