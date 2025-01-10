@@ -78,7 +78,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
                                 className = xmlReader.GetAttribute(nameof(TestGroup.Classname));
                             }
 
-                            if (methodTypes.Contains(xmlReader.GetAttribute(nameof(Method.Name)))) {
+                            if (methodTypes.Contains(xmlReader.Name)) {
                                // NOTE: This if block required because Microsoft's Visual Studio only supports XML Schema 1.0.
                                 // - If Visual Studio supported XSD 1.1, then below xs:assert would obviate this block:
                                 // <xs:assert test="not(Classname = MethodInterval/@Name or Classname = MethodProcess/@Name or Classname = MethodTextual/@Name or Classname = MethodCustom/@Name)"/>.
