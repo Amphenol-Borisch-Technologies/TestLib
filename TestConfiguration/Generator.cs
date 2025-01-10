@@ -126,11 +126,11 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
             codeNamespace.Types.Add(codeTypeDeclaration);
 
-            foreach(InstrumentInfo instrumentInfo in instruments.GetInfo()) codeTypeDeclaration.Members.Add(CreateField(instrumentInfo));
+            foreach (InstrumentInfo instrumentInfo in instruments.GetInfo()) codeTypeDeclaration.Members.Add(CreateField(instrumentInfo));
 
             CSharpCodeProvider cSharpCodeProvider = new CSharpCodeProvider();
             CodeGeneratorOptions codeGeneratorOptions = new CodeGeneratorOptions {
-                BlankLinesBetweenMembers = true,
+                BlankLinesBetweenMembers = false,
                 BracingStyle = "Block",
                 IndentString = "    "
             };
@@ -149,15 +149,17 @@ namespace ABT.Test.TestLib.TestConfiguration {
         }
 
         private static CodeMemberField CreateField(InstrumentInfo instrumentInfo) {
+            Int32 i = instrumentInfo.NameSpacedClassName.LastIndexOf(".");
+            String Classname = instrumentInfo.NameSpacedClassName.Substring(i + 1);
+
             CodeMemberField field = new CodeMemberField {
                 Attributes = MemberAttributes.Static | MemberAttributes.Assembly,
-                Type = new CodeTypeReference(instrumentInfo.ID),
+                Type = new CodeTypeReference(Classname),
                 Name = instrumentInfo.Alias,
-                InitExpression = new CodeCastExpression(instrumentInfo.NameSpacedClassName,
+                InitExpression = new CodeCastExpression(Classname,
                     new CodeIndexerExpression(
-                        new CodePropertyReferenceExpression(
-                            new CodeTypeReferenceExpression("TestLib.TestLib"), "InstrumentDrivers"),
-                        new CodePrimitiveExpression(instrumentInfo.NameSpacedClassName)))
+                        new CodePropertyReferenceExpression(new CodeTypeReferenceExpression(nameof(InstrumentDrivers)), String.Empty),
+                        new CodePrimitiveExpression($"nameof({instrumentInfo.ID})")))
             };
 
             return field;
