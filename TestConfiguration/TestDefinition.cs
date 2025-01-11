@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.Policy;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -200,8 +201,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
         public List<InstrumentInfo> GetInfo() {
             List<InstrumentInfo> instruments = new List<InstrumentInfo>();
-            foreach(Stationary stationary in Stationary) instruments.Add(new InstrumentInfo(stationary.ID, stationary.Alias, stationary.NameSpacedClassName));
-            foreach(Mobile mobile in Mobile) instruments.Add(new InstrumentInfo(mobile.ID, mobile.Alias, mobile.NameSpacedClassName));
+            foreach (Stationary stationary in Stationary) instruments.Add(new InstrumentInfo(stationary.ID, stationary.Alias, stationary.NameSpacedClassName));
+            foreach (Mobile mobile in Mobile) instruments.Add(new InstrumentInfo(mobile.ID, mobile.Alias, mobile.NameSpacedClassName));
             return instruments;
         }
     }
@@ -382,7 +383,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         // NOTE:  XmlSerializer doesn't support [OnSerializing] attribute, so have to explicitly invoke LogConvert().
         public static HashSet<String> GetMethodDerivedClassnames() {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            Type baseType=typeof(Method);
+            Type baseType = typeof(Method);
             List<Type> derivedTypes = assembly.GetTypes().Where(t => t.IsClass && t.IsSubclassOf(baseType)).ToList();
             return new HashSet<String>(derivedTypes.Select(t => t.Name));
         }
@@ -423,7 +424,24 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(UnitPrefix))] public MI_UnitPrefix UnitPrefix { get; set; }
         [XmlAttribute(nameof(Units))] public MI_Units Units { get; set; }
         [XmlAttribute(nameof(UnitSuffix))] public MI_UnitSuffix UnitSuffix { get; set; }
-
+        [XmlIgnore] public static Dictionary<MI_UnitPrefix, Double> UnitPrefixes = new Dictionary<MI_UnitPrefix, Double>() {
+            { MI_UnitPrefix.peta, 1E15 } ,
+            { MI_UnitPrefix.tera, 1E12 },
+            { MI_UnitPrefix.giga, 1E9 },
+            { MI_UnitPrefix.mega, 1E6 },
+            { MI_UnitPrefix.kilo, 1E3 },
+            { MI_UnitPrefix.hecto, 1E2 },
+            { MI_UnitPrefix.deca, 1E1 },
+            { MI_UnitPrefix.NONE, 1E0 },
+            { MI_UnitPrefix.deci, 1E-1 },
+            { MI_UnitPrefix.centi, 1E-2 },
+            { MI_UnitPrefix.milli, 1E-3 },
+            { MI_UnitPrefix.micro, 1E-6 },
+            { MI_UnitPrefix.nano, 1E-9 },
+            { MI_UnitPrefix.pico, 1E-12 },
+            { MI_UnitPrefix.femto, 1E-15}
+        };
+        
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
@@ -445,6 +463,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     public enum MI_UnitPrefix { NONE, peta, tera, giga, mega, kilo, hecto, deca, deci, centi, milli, micro, nano, pico, femto }
     public enum MI_Units { NONE, Amperes, Celcius, Farads, Henries, Hertz, Ohms, Seconds, Siemens, Volts, VoltAmperes, Watts }
     public enum MI_UnitSuffix { NONE, AC, DC, Peak, PP, RMS }
+
 
     public class MethodProcess : Method, IAssertionCurrent {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.

@@ -115,7 +115,6 @@ namespace ABT.Test.TestLib.TestConfiguration {
             CodeNamespace codeNamespace = new CodeNamespace("ABT.Test.TestPlans.Diagnostics.InstrumentsDrivers");
             codeNamespace.Imports.Add(new CodeNamespaceImport("ABT.Test.TestLib.InstrumentDrivers.Multifunction"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("ABT.Test.TestLib.InstrumentDrivers.PowerSupplies"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestLib"));
             _ = codeCompileUnit.Namespaces.Add(codeNamespace);
 
             CodeTypeDeclaration codeTypeDeclaration = new CodeTypeDeclaration("ID") {
@@ -158,8 +157,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 Name = instrumentInfo.Alias,
                 InitExpression = new CodeCastExpression(Classname,
                     new CodeIndexerExpression(
-                        new CodePropertyReferenceExpression(new CodeTypeReferenceExpression(nameof(InstrumentDrivers)), String.Empty),
-                        new CodePrimitiveExpression($"nameof({instrumentInfo.ID})")))
+                        new CodePropertyReferenceExpression(new CodeTypeReferenceExpression("TestLib.TestLib"), nameof(InstrumentDrivers)),
+                        new CodePrimitiveExpression(instrumentInfo.ID)))
             };
 
             return field;
