@@ -430,11 +430,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
             { MI_UnitPrefix.giga, 1E9 },
             { MI_UnitPrefix.mega, 1E6 },
             { MI_UnitPrefix.kilo, 1E3 },
-            { MI_UnitPrefix.hecto, 1E2 },
-            { MI_UnitPrefix.deca, 1E1 },
             { MI_UnitPrefix.NONE, 1E0 },
-            { MI_UnitPrefix.deci, 1E-1 },
-            { MI_UnitPrefix.centi, 1E-2 },
             { MI_UnitPrefix.milli, 1E-3 },
             { MI_UnitPrefix.micro, 1E-6 },
             { MI_UnitPrefix.nano, 1E-9 },
@@ -460,7 +456,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
     public enum MI_LowComparator { GToE, GT }
     public enum MI_HighComparator { LToE, LT }
-    public enum MI_UnitPrefix { NONE, peta, tera, giga, mega, kilo, hecto, deca, deci, centi, milli, micro, nano, pico, femto }
+    public enum MI_UnitPrefix { peta, tera, giga, mega, kilo, NONE, milli, micro, nano, pico, femto }
     public enum MI_Units { NONE, Amperes, Celcius, Farads, Henries, Hertz, Ohms, Seconds, Siemens, Volts, VoltAmperes, Watts }
     public enum MI_UnitSuffix { NONE, AC, DC, Peak, PP, RMS }
 
