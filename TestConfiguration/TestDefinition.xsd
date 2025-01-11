@@ -359,23 +359,16 @@
     <xs:attributeGroup ref="SerialNumberAttributes"/>
   </xs:complexType>
 
-  <xs:complexType name="InstrumentStationary">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          InstrumentStationary:
-          - Optional, 0 or more occurences.
-          - Type: xs:complexType.
-        ]]>
-      </xs:documentation>
-    </xs:annotation>
+  <xs:complexType name="InstrumentAbstract">
     <xs:attribute name="ID" type="xs:string" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
           ID attribute:
           - Required.
-          - Must correspond to a SystemDefinition.xml instrument's ID.
+          - Must be unique.
+          - For Stationary Instruments, must correspond to a SystemDefinition.xml instrument's ID.
+          - For Mobile Instruments, developer's preference.
           - Type: xs:string.
           ]]>
         </xs:documentation>
@@ -387,7 +380,6 @@
           <![CDATA[
           Alias attribute:
           - Required.
-          - Must be unique.
           - Developer preferred instrument name; "P5V" instead of "PS3_E3634A".  TestPlan can reference instrument Alias instead of ID.
           - Type: ValidCSharpIdentifier.
           ]]>
@@ -406,6 +398,22 @@
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
+  
+  <xs:complexType name="InstrumentStationary">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        <![CDATA[
+          InstrumentStationary:
+          - Optional, 0 or more occurences.
+          - Type: xs:complexType.
+        ]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="InstrumentAbstract">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
   <xs:complexType name="InstrumentMobile">
     <xs:annotation>
@@ -418,7 +426,7 @@
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
-      <xs:extension base="InstrumentStationary">
+      <xs:extension base="InstrumentAbstract">
         <xs:attribute name="Detail" type="xs:string" use="required">
           <xs:annotation>
             <xs:documentation xml:lang="en">
