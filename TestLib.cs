@@ -81,7 +81,7 @@ namespace ABT.Test.TestLib {
             IEnumerable<XElement> iexe = XElement.Load(systemDefinitionXML).Elements("Instruments");
             Dictionary<String, Object> instruments = new Dictionary<String, Object>();
             foreach (Stationary stationary in testDefinition.Instruments.Stationary) {
-                XElement xElement = iexe.Descendants("Stationary").First(xe => (String)xe.Attribute("ID") == stationary.ID) ?? throw new ArgumentException($"Instrument with ID '{stationary.ID}' not present in file '{systemDefinitionXML}'.");
+                XElement xElement = iexe.Descendants("Instrument").First(xe => (String)xe.Attribute("ID") == stationary.ID) ?? throw new ArgumentException($"Instrument with ID '{stationary.ID}' not present in file '{systemDefinitionXML}'.");
                 if (testDefinition.TestSpace.Simulate) instruments.Add(stationary.ID, null);
                 else instruments.Add(stationary.ID, Activator.CreateInstance(Type.GetType(xElement.Attribute("NameSpacedClassName").Value), new Object[] { xElement.Attribute("Address").Value, xElement.Attribute("Detail").Value }));
             }

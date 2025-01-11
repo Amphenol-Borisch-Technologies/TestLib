@@ -204,7 +204,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
             IEnumerable<XElement> iexe = XElement.Load(TestLib.SystemDefinitionXML).Elements("Instruments");
             foreach (Stationary stationary in TestLib.testDefinition.Instruments.Stationary) {
-                XElement xElement = iexe.Descendants("Stationary").First(xe => (String)xe.Attribute("ID") == stationary.ID) ?? throw new ArgumentException($"Instrument with ID '{stationary.ID}' not present in file '{TestLib.SystemDefinitionXML}'.");
+                XElement xElement = iexe.Descendants("Instrument").First(xe => (String)xe.Attribute("ID") == stationary.ID) ?? throw new ArgumentException($"Instrument with ID '{stationary.ID}' not present in file '{TestLib.SystemDefinitionXML}'.");
                 instruments.Add(new InstrumentInfo(stationary.ID, stationary.Alias, xElement.Attribute("NameSpacedClassName").Value));
             }
             foreach (Mobile mobile in Mobile) instruments.Add(new InstrumentInfo(mobile.ID, mobile.Alias, mobile.NameSpacedClassName));
