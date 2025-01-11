@@ -12,7 +12,7 @@ using ABT.Test.TestLib.TestConfiguration;
 // TODO: Immediately; test TestDefinition.xml with MethodInterval, MethodProcess & MethodTextual.  Currently only MethodCustom tested.
 
 namespace ABT.Test.TestLib {
-    public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, IGNORE, PASS, UNSET }
+    public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, INFORMATION, PASS, UNSET }
 
     public static class TestLib {
         // TODO:  Eventually; mitigate or eliminate writeable global objects; change their access to pass by reference.
@@ -21,7 +21,7 @@ namespace ABT.Test.TestLib {
                 { EVENTS.EMERGENCY_STOP, Color.Firebrick },
                 { EVENTS.ERROR, Color.Aqua },
                 { EVENTS.FAIL, Color.Red },
-                { EVENTS.IGNORE, Color.LightGray },
+                { EVENTS.INFORMATION, Color.Transparent },
                 { EVENTS.PASS, Color.Green },
                 { EVENTS.UNSET, Color.Yellow }
         };
