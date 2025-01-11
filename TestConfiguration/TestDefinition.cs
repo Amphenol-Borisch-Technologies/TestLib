@@ -1,11 +1,11 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Policy;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace ABT.Test.TestLib.TestConfiguration {
@@ -201,7 +201,12 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
         public List<InstrumentInfo> GetInfo() {
             List<InstrumentInfo> instruments = new List<InstrumentInfo>();
-            foreach (Stationary stationary in Stationary) instruments.Add(new InstrumentInfo(stationary.ID, stationary.Alias, stationary.NameSpacedClassName));
+
+            IEnumerable<XElement> iexe = XElement.Load(TestLib.SystemDefinitionXML).Elements("Instruments");
+            foreach (Stationary stationary in TestLib.testDefinition.Instruments.Stationary) {
+                XElement xElement = iexe.Descendants("Stationary").First(xe => (String)xe.Attribute("ID") == stationary.ID) ?? throw new ArgumentException($"Instrument with ID '{stationary.ID}' not present in file '{TestLib.SystemDefinitionXML}'.");
+                instruments.Add(new InstrumentInfo(stationary.ID, stationary.Alias, xElement.Attribute("NameSpacedClassName").Value));
+            }
             foreach (Mobile mobile in Mobile) instruments.Add(new InstrumentInfo(mobile.ID, mobile.Alias, mobile.NameSpacedClassName));
             return instruments;
         }
@@ -225,14 +230,12 @@ namespace ABT.Test.TestLib.TestConfiguration {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(ID))] public String ID { get; set; }
         [XmlAttribute(nameof(Alias))] public String Alias { get; set; }
-        [XmlAttribute(nameof(NameSpacedClassName))] public String NameSpacedClassName { get; set; }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{nameof(ID)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(ID)).GetValue(this))}{UUT.CONTINUE}");
             sb.Append($"{nameof(Alias)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Alias)).GetValue(this))}");
-            sb.Append($"{nameof(NameSpacedClassName)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(NameSpacedClassName)).GetValue(this))}");
             sb.Append($"{UUT.END}");
             return sb.ToString();
         }
@@ -242,6 +245,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Detail))] public String Detail { get; set; }
         [XmlAttribute(nameof(Address))] public String Address { get; set; }
+        [XmlAttribute(nameof(NameSpacedClassName))] public String NameSpacedClassName { get; set; }
 
         public new String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
@@ -424,7 +428,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(UnitPrefix))] public MI_UnitPrefix UnitPrefix { get; set; }
         [XmlAttribute(nameof(Units))] public MI_Units Units { get; set; }
         [XmlAttribute(nameof(UnitSuffix))] public MI_UnitSuffix UnitSuffix { get; set; }
-        [XmlIgnore] public static Dictionary<MI_UnitPrefix, Double> UnitPrefixes = new Dictionary<MI_UnitPrefix, Double>() {
+        [XmlIgnore]
+        public static Dictionary<MI_UnitPrefix, Double> UnitPrefixes = new Dictionary<MI_UnitPrefix, Double>() {
             { MI_UnitPrefix.peta, 1E15 } ,
             { MI_UnitPrefix.tera, 1E12 },
             { MI_UnitPrefix.giga, 1E9 },
@@ -437,7 +442,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
             { MI_UnitPrefix.pico, 1E-12 },
             { MI_UnitPrefix.femto, 1E-15}
         };
-        
+
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");

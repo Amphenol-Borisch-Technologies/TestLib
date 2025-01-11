@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Xml.Linq;
@@ -37,6 +36,8 @@ namespace ABT.Test.TestLib {
         public static String BaseDirectory = null;
         public static String TestDefinitionXML = null;
         public static String TestDefinitionXSD = GetExecutingStatementDirectory() + @"\TestConfiguration\TestDefinition.xsd";
+        public static String SystemDefinitionXML = null;
+        public static String SystemDefinitionXSD = null;
         public static CancellationToken CT_Cancel;
         public static CancellationToken CT_EmergencyStop;
 
@@ -45,16 +46,16 @@ namespace ABT.Test.TestLib {
             String fileName = stackFrame.GetFileName();
             return fileName != null ? Path.GetDirectoryName(fileName) : null;
         }
-
-        public static Dictionary<String, Object> GetInstruments(String ConfigurationTestExec) {
-            Dictionary<String, Object> Instruments = GetMobile();
-            foreach (KeyValuePair<String, Object> kvp in GetStationary(ConfigurationTestExec)) Instruments.Add(kvp.Key, kvp.Value);
-            return Instruments;
-        }
         
         public static String BuildDate(Version version) {
             DateTime Y2K = new DateTime(year: 2000, month: 1, day: 1, hour: 0, minute: 0, second: 0, kind: DateTimeKind.Local);
             return $"{Y2K + new TimeSpan(days: version.Build, hours: 0, minutes: 0, seconds: 2 * version.Revision):g}";
+        }
+
+        public static Dictionary<String, Object> GetInstruments(String systemDefinitionXML) {
+            Dictionary<String, Object> Instruments = GetMobile();
+            foreach (KeyValuePair<String, Object> kvp in GetStationary(systemDefinitionXML)) Instruments.Add(kvp.Key, kvp.Value);
+            return Instruments;
         }
 
         private static Dictionary<String, Object> GetMobile() {
@@ -76,28 +77,13 @@ namespace ABT.Test.TestLib {
             return instruments;
         }
 
-        private static Dictionary<String, Object> GetStationary(String ConfigurationTestExec) {
-            Dictionary<String, String> dictionary = new Dictionary<String, String>();
-            foreach (Stationary stationary in testDefinition.Instruments.Stationary) {
-                try {
-                    dictionary.Add(stationary.ID, stationary.NameSpacedClassName);
-                } catch (Exception e) {
-                    StringBuilder sb = new StringBuilder().AppendLine();
-                    sb.AppendLine($"Issue with Stationary Instrument:");
-                    sb.AppendLine($"   ID              : {stationary.ID}");
-                    sb.AppendLine($"   Classname       : {stationary.NameSpacedClassName}{Environment.NewLine}");
-                    sb.AppendLine($"Exception Message(s):");
-                    sb.AppendLine($"{e}{Environment.NewLine}");
-                    throw new ArgumentException(sb.ToString());
-                }
-            }
-
-            IEnumerable<XElement> iexe = XElement.Load(ConfigurationTestExec).Elements("Instruments");
+        private static Dictionary<String, Object> GetStationary(String systemDefinitionXML) {
+            IEnumerable<XElement> iexe = XElement.Load(systemDefinitionXML).Elements("Instruments");
             Dictionary<String, Object> instruments = new Dictionary<String, Object>();
-            foreach (KeyValuePair<String, String> kvp in dictionary) {
-                XElement xElement = iexe.Descendants("Stationary").First(xe => (String)xe.Attribute("ID") == kvp.Key) ?? throw new ArgumentException($"Instrument with ID '{kvp.Key}' not present in file '{ConfigurationTestExec}'.");
-                if (testDefinition.TestSpace.Simulate) instruments.Add(kvp.Key, null);
-                else instruments.Add(kvp.Key, Activator.CreateInstance(Type.GetType(kvp.Value), new Object[] { xElement.Attribute("Address").Value, xElement.Attribute("Detail").Value }));
+            foreach (Stationary stationary in testDefinition.Instruments.Stationary) {
+                XElement xElement = iexe.Descendants("Stationary").First(xe => (String)xe.Attribute("ID") == stationary.ID) ?? throw new ArgumentException($"Instrument with ID '{stationary.ID}' not present in file '{systemDefinitionXML}'.");
+                if (testDefinition.TestSpace.Simulate) instruments.Add(stationary.ID, null);
+                else instruments.Add(stationary.ID, Activator.CreateInstance(Type.GetType(xElement.Attribute("NameSpacedClassName").Value), new Object[] { xElement.Attribute("Address").Value, xElement.Attribute("Detail").Value }));
             }
             return instruments;
         }

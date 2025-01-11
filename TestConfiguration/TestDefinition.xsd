@@ -386,17 +386,6 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="NameSpacedClassName" type="ValidCSharpNamespace" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          NameSpacedClassName attribute:
-          - Required.
-          - Type: ValidCSharpNamespace.
-          ]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
   </xs:complexType>
   
   <xs:complexType name="InstrumentStationary">
@@ -445,6 +434,17 @@
                 Address attribute:
                 - Required.
                 - Type: xs:string.
+              ]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="NameSpacedClassName" type="ValidCSharpNamespace" use="required">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">
+              <![CDATA[
+              NameSpacedClassName attribute:
+              - Required.
+              - Type: ValidCSharpNamespace.
               ]]>
             </xs:documentation>
           </xs:annotation>
