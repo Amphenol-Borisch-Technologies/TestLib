@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.DirectoryServices.AccountManagement;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 using System.Xml.Linq;
+using Microsoft.VisualBasic;
 using ABT.Test.TestLib.TestConfiguration;
+using System.Globalization;
 // TODO: Immediately; test TestDefinition.xml with MethodInterval, MethodProcess & MethodTextual.  Currently only MethodCustom tested.
 
 namespace ABT.Test.TestLib {
@@ -38,6 +42,7 @@ namespace ABT.Test.TestLib {
         public static String TestDefinitionXSD = GetExecutingStatementDirectory() + @"\TestConfiguration\TestDefinition.xsd";
         public static String SystemDefinitionXML = null;
         public static String SystemDefinitionXSD = null;
+        public static String UserName = null;
         public static CancellationToken CT_Cancel;
         public static CancellationToken CT_EmergencyStop;
 

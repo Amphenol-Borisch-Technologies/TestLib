@@ -71,8 +71,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 // From the selected TestOperation, retain only the selected TestGroup and all its Methods.
             }
 
-            testSequence.Operator = UserPrincipal.Current.DisplayName;
-            // NOTE:  UserPrincipal.Current.DisplayName requires a connected/active Domain session for Active Directory PCs.
+            testSequence.Operator = TestLib.UserName;
             testSequence.Computer = Environment.MachineName;
             testSequence.VersionTestExec = $"{Assembly.GetExecutingAssembly().GetName().Name}, {Assembly.GetExecutingAssembly().GetName().Version}, {TestLib.BuildDate(Assembly.GetExecutingAssembly().GetName().Version)}";
             testSequence.VersionTestPlan = $"{Assembly.GetEntryAssembly().GetName().Name}, {Assembly.GetEntryAssembly().GetName().Version} {TestLib.BuildDate(Assembly.GetEntryAssembly().GetName().Version)}";
