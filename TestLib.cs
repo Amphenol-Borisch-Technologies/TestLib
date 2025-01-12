@@ -1,39 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.DirectoryServices.AccountManagement;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Windows.Forms;
 using System.Xml.Linq;
-using Microsoft.VisualBasic;
 using ABT.Test.TestLib.TestConfiguration;
-using System.Globalization;
-// TODO: Immediately; test TestDefinition.xml with MethodInterval, MethodProcess & MethodTextual.  Currently only MethodCustom tested.
+// TODO:  Eventually; mitigate or eliminate writeable global objects; change their access to pass by reference.
 
 namespace ABT.Test.TestLib {
     public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, INFORMATION, PASS, UNSET }
+    // NOTE:  If modifying EVENTS, update EventColors correspondingly.  Every EVENT requires an associated Color.
 
     public static class TestLib {
-        // TODO:  Eventually; mitigate or eliminate writeable global objects; change their access to pass by reference.
         public static readonly Dictionary<EVENTS, Color> EventColors = new Dictionary<EVENTS, Color> {
-                { EVENTS.CANCEL, Color.Yellow },
-                { EVENTS.EMERGENCY_STOP, Color.Firebrick },
-                { EVENTS.ERROR, Color.Aqua },
-                { EVENTS.FAIL, Color.Red },
-                { EVENTS.INFORMATION, Color.Transparent },
-                { EVENTS.PASS, Color.Green },
-                { EVENTS.UNSET, Color.Yellow }
+            { EVENTS.CANCEL, Color.Yellow },
+            { EVENTS.EMERGENCY_STOP, Color.Firebrick },
+            { EVENTS.ERROR, Color.Aqua },
+            { EVENTS.FAIL, Color.Red },
+            { EVENTS.INFORMATION, Color.Transparent },
+            { EVENTS.PASS, Color.Green },
+            { EVENTS.UNSET, Color.Yellow }
         };
 
         public const String NONE = "NONE";
         public static Mutex MutexTest = null;
         public const String MutexTestName = nameof(MutexTest);
         public static Dictionary<String, Object> InstrumentDrivers = null;
-
         public static TestSequence testSequence = null;
         public static TestDefinition testDefinition = null;
         public static Dictionary<String, Object> testInstruments = null;
@@ -51,7 +46,7 @@ namespace ABT.Test.TestLib {
             String fileName = stackFrame.GetFileName();
             return fileName != null ? Path.GetDirectoryName(fileName) : null;
         }
-        
+
         public static String BuildDate(Version version) {
             DateTime Y2K = new DateTime(year: 2000, month: 1, day: 1, hour: 0, minute: 0, second: 0, kind: DateTimeKind.Local);
             return $"{Y2K + new TimeSpan(days: version.Build, hours: 0, minutes: 0, seconds: 2 * version.Revision):g}";
