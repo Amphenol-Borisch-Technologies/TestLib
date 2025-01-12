@@ -13,7 +13,6 @@ namespace ABT.Test.TestLib.Miscellaneous {
             CustomMessageBox cms = new CustomMessageBox {
                 Text = Title,
                 Icon = (OptionalIcon is null ? SystemIcons.Information : OptionalIcon),
-
             };
             cms.richTextBox.Text = Message;
             cms.ShowDialog();
