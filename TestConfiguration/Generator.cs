@@ -4,7 +4,6 @@ using System.CodeDom.Compiler;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.CSharp;
-using static ABT.Test.TestLib.TestLib;
 
 namespace ABT.Test.TestLib.TestConfiguration {
     // TODO:  Eventually; modify TestDefinition.xsd, TestDefinition.xml, Generator & Validator to accomodate ABT.Test.TestPlans.Diagnostics.InstrumentsDrivers.ID.

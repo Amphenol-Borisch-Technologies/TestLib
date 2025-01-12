@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.DirectoryServices.AccountManagement;
 using System.Reflection;
 using System.Windows.Forms;
 
