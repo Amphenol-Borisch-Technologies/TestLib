@@ -107,6 +107,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Miscellaneous\InputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Miscellaneous\InputForm.Designer.cs">
+      <DependentUpon>InputForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TestConfiguration\TestSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +188,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Miscellaneous\InputForm.resx">
+      <DependentUpon>InputForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TestConfiguration\TestSelect.resx">
       <DependentUpon>TestSelect.cs</DependentUpon>
       <SubType>Designer</SubType>
