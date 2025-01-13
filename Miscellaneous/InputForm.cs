@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace ABT.Test.TestLib.Miscellaneous {
@@ -14,7 +13,8 @@ namespace ABT.Test.TestLib.Miscellaneous {
                 Text = Title,
                 Icon = (OptionalIcon is null ? SystemIcons.Information : OptionalIcon),
             };
-            if (inputForm.ShowDialog() == DialogResult.OK) return inputForm.textInput.Text;
+            inputForm.ShowDialog();
+            if (inputForm.DialogResult == DialogResult.OK) return inputForm.textInput.Text;
             else return null;
         }
 
@@ -23,7 +23,7 @@ namespace ABT.Test.TestLib.Miscellaneous {
         }
 
         private void ButtonOK_Clicked(Object sender, EventArgs e) {
-            
+            DialogResult = DialogResult.OK;
         }
     }
 }

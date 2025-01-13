@@ -25,7 +25,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlElement(nameof(Customer))] public Customer Customer { get; set; }
         [XmlElement(nameof(TestSpecification))] public List<TestSpecification> TestSpecification { get; set; }
-        [XmlIgnore][XmlElement(nameof(Documentation))] public List<Documentation> Documentation { get; set; }
+        [XmlElement(nameof(Documentation))] public List<Documentation> Documentation { get; set; }
         [XmlAttribute(nameof(Number))] public String Number { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
