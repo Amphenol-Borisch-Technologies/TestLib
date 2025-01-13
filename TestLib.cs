@@ -87,5 +87,11 @@ namespace ABT.Test.TestLib {
             }
             return instruments;
         }
+
+        public static String ConvertWindowsPathToUrl(String path) {
+            String url = path.Replace(@"\", "//");
+            if (!url.StartsWith("file://")) url = "file:///" + url;
+            return url;
+        }
     }
 }
