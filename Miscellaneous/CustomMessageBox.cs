@@ -21,7 +21,19 @@ namespace ABT.Test.TestLib.Miscellaneous {
         private void ButtonClipboard_Click(Object sender, EventArgs e) { Clipboard.SetText(richTextBox.Text); }
 
         private void RichTextBox_LinkClicked(Object sender, LinkClickedEventArgs e) {
-            Process.Start(new ProcessStartInfo(e.LinkText) { UseShellExecute = true });
+            try {
+                Uri uri = new Uri(e.LinkText);
+                if (uri.Scheme == Uri.UriSchemeFile) {
+                    String filePath = uri.LocalPath;
+                    Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
+                } else if (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps) {
+                    Process.Start(new ProcessStartInfo(uri.AbsoluteUri) { UseShellExecute = true });
+                } else {
+                    MessageBox.Show("Unsupported link type: " + e.LinkText);
+                }
+            } catch (Exception ex) {
+                MessageBox.Show("Error opening link: " + ex.Message);
+            }
         }
     }
 }
