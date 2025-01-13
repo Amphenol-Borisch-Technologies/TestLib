@@ -274,7 +274,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
             sb.AppendLine($"E-Stopped : {Statistics.EmergencyStopped,L}, {Statistics.PercentEmergencyStopped(),L:P1}");
             sb.AppendLine($"Errored   : {Statistics.Errored,L}, {Statistics.PercentErrored(),L:P1}");
             sb.AppendLine($"Failed    : {Statistics.Failed,L}, {Statistics.PercentFailed(),L:P1}");
-            sb.AppendLine($"Informed   : {Statistics.Informed,L}, {Statistics.PercentInformed(),L:P1}");
+            sb.AppendLine($"Informed  : {Statistics.Informed,L}, {Statistics.PercentInformed(),L:P1}");
             sb.AppendLine($"Passed    : {Statistics.Passed,L}, {Statistics.PercentPassed(),L:P1}");
             sb.AppendLine($"------");
             sb.AppendLine($"Total     : {Statistics.Tested(),L}");
