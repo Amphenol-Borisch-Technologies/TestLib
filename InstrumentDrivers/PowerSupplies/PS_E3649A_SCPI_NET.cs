@@ -2,9 +2,10 @@
 using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.AgE364xD_1_7;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
+using System.Collections.Generic;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
-    public class PS_E3649A_SCPI_NET : AgE364xD, IInstruments, IPowerSupplyE3649A {
+    public class PS_E3649A_SCPI_NET : AgE364xD, IInstruments, IPowerSupplyE3649A, IDiagnostics {
         public String Address { get; }
         public String Detail { get; }
         public INSTRUMENT_TYPES InstrumentType { get; }
@@ -80,6 +81,12 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
             // NOTE: Most multi-output supplies like the E3649A permit individual control of outputs,
             // but the E3649A does not; all supplies are set to the same STATE, off or ON.
             SCPI.OUTPut.STATe.Command(State == STATES.ON);
+        }
+
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
+            ResetClear();
+            if (SelfTests() is SELF_TEST_RESULTS.FAIL) return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "E3649A Diagnostics():", Message: "SelfTests() failed, aborted.", Event: EVENTS.FAIL) });
+            else return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "E3649A Diagnostics():", Message: "SelfTests() passed.", Event: EVENTS.PASS) });
         }
     }
 }
