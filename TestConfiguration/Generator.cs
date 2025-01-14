@@ -37,9 +37,9 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
             SaveFileDialog saveFileDialog = new SaveFileDialog {
                 Filter = "C# files (*.cs)|*.cs",
-                Title = "Save the generated Test Program C# file",
+                Title = "Save the generated C# TestPlan file",
                 DefaultExt = "cs",
-                FileName = "TestImplementation.cs",
+                FileName = "TestPlan.cs",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\"
             };
 
