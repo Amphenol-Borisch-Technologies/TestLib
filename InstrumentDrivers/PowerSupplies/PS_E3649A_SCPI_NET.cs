@@ -34,12 +34,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
             return (SELF_TEST_RESULTS)result; // AgE363x returns 0 for passed, 1 for fail.
         }
 
-        public PS_E3649A_SCPI_NET(String Address, String Detail) : base(Address) {
-            this.Address = Address;
-            this.Detail = Detail;
-            InstrumentType = INSTRUMENT_TYPES.POWER_SUPPLY;
-        }
-
         public void OutputsOff() {
             // NOTE: Most multi-output supplies like the E3649A permit individual control of outputs,
             // but the E3649A does not; all supplies are set to the same STATE, off or ON.
@@ -84,9 +78,16 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
         }
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
+            // TODO: Eventually; add voltage & current measurements of the E3649A power supplies' outputs using external instrumentation.
             ResetClear();
             if (SelfTests() is SELF_TEST_RESULTS.PASS) return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "E3649A Diagnostics():", Message: "SelfTests() passed.", Event: EVENTS.PASS) });
             else return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "E3649A Diagnostics():", Message: "SelfTests() failed, aborted.", Event: EVENTS.FAIL) });
+        }
+
+        public PS_E3649A_SCPI_NET(String Address, String Detail) : base(Address) {
+            this.Address = Address;
+            this.Detail = Detail;
+            InstrumentType = INSTRUMENT_TYPES.POWER_SUPPLY;
         }
     }
 }

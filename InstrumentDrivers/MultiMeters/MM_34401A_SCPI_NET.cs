@@ -2,9 +2,10 @@
 using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34401_11;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
+using System.Collections.Generic;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.MultiMeters {
-    public class MM_34401A_SCPI_NET : Ag34401, IInstruments {
+    public class MM_34401A_SCPI_NET : Ag34401, IInstruments, IDiagnostics {
         public enum MMD { MIN, MAX, DEF }
         public enum TERMINALS { Front, Rear };
         public enum PROPERTY { AmperageAC, AmperageDC, Continuity, Frequency, Fresistance, Period, Resistance, VoltageAC, VoltageDC, VoltageDiodic }
@@ -36,6 +37,13 @@ namespace ABT.Test.TestLib.InstrumentDrivers.MultiMeters {
                 return SELF_TEST_RESULTS.FAIL;
             }
             return result ? SELF_TEST_RESULTS.FAIL : SELF_TEST_RESULTS.PASS; // Ag34401 returns 0 for passed, 1 for fail, opposite of C#'s Convert.ToBoolean(Int32).
+        }
+
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
+            // TODO: Eventually; add verification measurements of the 34401A multi-meter using external instrumentation.
+            ResetClear();
+            if (SelfTests() is SELF_TEST_RESULTS.PASS) return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "34401A Diagnostics():", Message: "SelfTests() passed.", Event: EVENTS.PASS) });
+            else return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "34401A Diagnostics():", Message: "SelfTests() failed, aborted.", Event: EVENTS.FAIL) });
         }
 
         public MM_34401A_SCPI_NET(String Address, String Detail) : base(Address) {

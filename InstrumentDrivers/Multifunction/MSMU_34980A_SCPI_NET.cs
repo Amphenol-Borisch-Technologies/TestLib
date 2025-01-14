@@ -46,16 +46,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public void OpenAll() { SCPI.ROUTe.OPEN.ALL.Command(null); }
 
-        public MSMU_34980A_SCPI_NET(String Address, String Detail) : base(Address) {
-            this.Address = Address;
-            this.Detail = Detail;
-            InstrumentType = INSTRUMENT_TYPES.MULTI_FUNCTION;
-            DateTime now = DateTime.Now;
-            SCPI.SYSTem.DATE.Command(now.Year, now.Month, now.Day);
-            SCPI.SYSTem.TIME.Command(now.Hour, now.Minute, Convert.ToDouble(now.Second));
-            SCPI.UNIT.TEMPerature.Command($"{TEMPERATURE_UNITS.F}");
-        }
-
         #region Diagnostics // NOTE: Update MODULES & Modules as necessary, along with Diagnostics region.
         // TODO: Complete Diagnostics for M34932A, M34938A, M34939A & M34952A modules.
 
@@ -215,6 +205,16 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "Diagnostic_34952A", Message: "Not Implemented yet.", Event: EVENTS.INFORMATION) });
         }
         #endregion Diagnostics
+
+        public MSMU_34980A_SCPI_NET(String Address, String Detail) : base(Address) {
+            this.Address = Address;
+            this.Detail = Detail;
+            InstrumentType = INSTRUMENT_TYPES.MULTI_FUNCTION;
+            DateTime now = DateTime.Now;
+            SCPI.SYSTem.DATE.Command(now.Year, now.Month, now.Day);
+            SCPI.SYSTem.TIME.Command(now.Hour, now.Minute, Convert.ToDouble(now.Second));
+            SCPI.UNIT.TEMPerature.Command($"{TEMPERATURE_UNITS.F}");
+        }
 
         public Boolean InstrumentDMM_Installed() {
             SCPI.INSTrument.DMM.INSTalled.Query(out Boolean installed);
