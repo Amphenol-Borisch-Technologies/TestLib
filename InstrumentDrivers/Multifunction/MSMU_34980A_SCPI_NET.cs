@@ -47,7 +47,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         public void OpenAll() { SCPI.ROUTe.OPEN.ALL.Command(null); }
 
         #region Diagnostics // NOTE: Update MODULES & Modules as necessary, along with Diagnostics region.
-        // TODO: Complete Diagnostics for M34932A, M34938A, M34939A & M34952A modules.
+        // TODO: Eventually; complete Diagnostics for M34932A, M34938A, M34939A & M34952A modules.
 
         public class DiagnosticParameter_34980A {
             public Double Ω_34921A { get; set; } = 3;
