@@ -79,8 +79,8 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies  {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
             ResetClear();
-            if (SelfTests() is SELF_TEST_RESULTS.FAIL) return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "E3634A Diagnostics():", Message: "SelfTests() failed, aborted.", Event: EVENTS.FAIL) });
-            else return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "E3634A Diagnostics():", Message: "SelfTests() passed.", Event: EVENTS.PASS) });
+            if (SelfTests() is SELF_TEST_RESULTS.PASS)  return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "E3634A Diagnostics():", Message: "SelfTests() passed.", Event: EVENTS.PASS) });
+            else return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "E3634A Diagnostics():", Message: "SelfTests() failed, aborted.", Event: EVENTS.FAIL) });
         }
     }
 }
