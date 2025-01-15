@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Xml.Linq;
@@ -51,17 +52,29 @@ namespace ABT.Test.TestLib {
             return $"{Y2K + new TimeSpan(days: version.Build, hours: 0, minutes: 0, seconds: 2 * version.Revision):g}";
         }
 
-        public static Dictionary<String, Object> GetInstruments() {
-            Dictionary<String, Object> Instruments = GetMobile();
-            foreach (KeyValuePair<String, Object> kvp in GetStationary()) Instruments.Add(kvp.Key, kvp.Value);
-            return Instruments;
+        public static Dictionary<String, Object> GetInstrumentDriversSystemDefinition() {
+            Dictionary<String, Object> instrumentDrivers = new Dictionary<String, Object>();
+            IEnumerable<XElement> iEnumerableXElement = XElement.Load(SystemDefinitionXML).Elements("Instruments").Descendants("Instrument");
+            Object instrumentDriver = null;
+            foreach (XElement xElement in iEnumerableXElement) {
+                if (!testDefinition.TestSpace.Simulate) instrumentDriver = Activator.CreateInstance(Type.GetType(xElement.Attribute("NameSpacedClassName").Value), new Object[] { xElement.Attribute("Address").Value, xElement.Attribute("Detail").Value });
+                instrumentDrivers.Add(xElement.Attribute("ID").Value, instrumentDriver); // instrumentDriver is null if testDefinition.TestSpace.Simulate.
+            }
+            return instrumentDrivers;
         }
 
-        private static Dictionary<String, Object> GetMobile() {
-            Dictionary<String, Object> instruments = new Dictionary<String, Object>();
+        public static Dictionary<String, Object> GetInstrumentDriversTestDefinition() {
+            Dictionary<String, Object> instrumentDrivers = GetMobileTestDefinition();
+            foreach (KeyValuePair<String, Object> kvp in GetStationaryTestDefinition()) instrumentDrivers.Add(kvp.Key, kvp.Value);
+            return instrumentDrivers;
+        }
+
+        private static Dictionary<String, Object> GetMobileTestDefinition() {
+            Dictionary<String, Object> instrumentDrivers = new Dictionary<String, Object>();
+            Object instrumentDriver = null;
             foreach (Mobile mobile in testDefinition.Instruments.Mobile) try {
-                    if (testDefinition.TestSpace.Simulate) instruments.Add(mobile.ID, null);
-                    else instruments.Add(mobile.ID, Activator.CreateInstance(Type.GetType(mobile.NameSpacedClassName), new Object[] { mobile.Address, mobile.Detail }));
+                    if (!testDefinition.TestSpace.Simulate) instrumentDriver = Activator.CreateInstance(Type.GetType(mobile.NameSpacedClassName), new Object[] { mobile.Address, mobile.Detail });
+                    instrumentDrivers.Add(mobile.ID, instrumentDriver); // instrumentDriver is null if testDefinition.TestSpace.Simulate.
                 } catch (Exception e) {
                     StringBuilder sb = new StringBuilder().AppendLine();
                     sb.AppendLine($"Issue with Mobile Instrument:");
@@ -73,18 +86,13 @@ namespace ABT.Test.TestLib {
                     sb.AppendLine($"{e}{Environment.NewLine}");
                     throw new ArgumentException(sb.ToString());
                 }
-            return instruments;
+            return instrumentDrivers;
         }
 
-        private static Dictionary<String, Object> GetStationary() {
-            IEnumerable<XElement> iexe = XElement.Load(SystemDefinitionXML).Elements("Instruments");
-            Dictionary<String, Object> instruments = new Dictionary<String, Object>();
-            foreach (Stationary stationary in testDefinition.Instruments.Stationary) {
-                XElement xElement = iexe.Descendants("Instrument").First(xe => (String)xe.Attribute("ID") == stationary.ID) ?? throw new ArgumentException($"Instrument with ID '{stationary.ID}' not present in file '{SystemDefinitionXML}'.");
-                if (testDefinition.TestSpace.Simulate) instruments.Add(stationary.ID, null);
-                else instruments.Add(stationary.ID, Activator.CreateInstance(Type.GetType(xElement.Attribute("NameSpacedClassName").Value), new Object[] { xElement.Attribute("Address").Value, xElement.Attribute("Detail").Value }));
-            }
-            return instruments;
+        private static Dictionary<String, Object> GetStationaryTestDefinition() {
+            Dictionary<String, Object> instrumentDrivers = GetInstrumentDriversSystemDefinition();
+            foreach (Stationary stationary in testDefinition.Instruments.Stationary) if (!instrumentDrivers.ContainsKey(stationary.ID)) instrumentDrivers.Remove(stationary.ID);
+            return instrumentDrivers;
         }
 
         public static String ConvertWindowsPathToUrl(String path) {
