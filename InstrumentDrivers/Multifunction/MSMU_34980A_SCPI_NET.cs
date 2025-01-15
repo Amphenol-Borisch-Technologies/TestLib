@@ -183,7 +183,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.ROUTe.OPEN.Command(channels);
             Boolean passed_Ω = (0 <= resistance[0] && resistance[0] <= Ω);
             passed_34921A &= passed_Ω;
-            results.Add(new DiagnosticsResult(Label: $"{Modules.M34921A} channel(s) {channels}: ", Message: $"{Math.Round(resistance[0], 3, MidpointRounding.ToEven)}Ω", Event: (passed_Ω ? EVENTS.PASS : EVENTS.FAIL)));
+            results.Add(new DiagnosticsResult(Label: $"{nameof(Diagnostic_34921A)} channel(s) {channels}: ", Message: $"{Math.Round(resistance[0], 3, MidpointRounding.ToEven)}Ω", Event: (passed_Ω ? EVENTS.PASS : EVENTS.FAIL)));
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34932As(Double Ω) {
