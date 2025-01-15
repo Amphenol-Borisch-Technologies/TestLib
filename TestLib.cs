@@ -51,7 +51,7 @@ namespace ABT.Test.TestLib {
             return $"{Y2K + new TimeSpan(days: version.Build, hours: 0, minutes: 0, seconds: 2 * version.Revision):g}";
         }
 
-        public static Dictionary<String, Object> GetInstrumentDriversTestPlan() {
+        public static Dictionary<String, Object> GetInstrumentDriversTestPlanOnly() {
             Dictionary<String, Object> instrumentDriversTestPlan = GetMobileTestPlan();
             foreach (KeyValuePair<String, Object> kvp in GetStationaryTestPlan()) instrumentDriversTestPlan.Add(kvp.Key, kvp.Value);
             return instrumentDriversTestPlan;

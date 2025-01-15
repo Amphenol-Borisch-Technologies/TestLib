@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Deployment.Internal;
 using System.Linq;
 using System.Reflection;
 using System.Text;

@@ -39,7 +39,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 Filter = "C# files (*.cs)|*.cs",
                 Title = "Save the generated C# TestPlan file",
                 DefaultExt = "cs",
-                FileName = "TestPlan.cs",
+                FileName = "TestSpace.cs",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\"
             };
 
