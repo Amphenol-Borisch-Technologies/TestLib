@@ -51,17 +51,17 @@ namespace ABT.Test.TestLib {
             return $"{Y2K + new TimeSpan(days: version.Build, hours: 0, minutes: 0, seconds: 2 * version.Revision):g}";
         }
 
-        public static Dictionary<String, Object> GetInstruments() {
-            Dictionary<String, Object> Instruments = GetMobile();
-            foreach (KeyValuePair<String, Object> kvp in GetStationary()) Instruments.Add(kvp.Key, kvp.Value);
-            return Instruments;
+        public static Dictionary<String, Object> GetInstrumentDriversTestPlan() {
+            Dictionary<String, Object> instrumentDriversTestPlan = GetMobileTestPlan();
+            foreach (KeyValuePair<String, Object> kvp in GetStationaryTestPlan()) instrumentDriversTestPlan.Add(kvp.Key, kvp.Value);
+            return instrumentDriversTestPlan;
         }
 
-        private static Dictionary<String, Object> GetMobile() {
-            Dictionary<String, Object> instruments = new Dictionary<String, Object>();
+        private static Dictionary<String, Object> GetMobileTestPlan() {
+            Dictionary<String, Object> instrumentDrivers = new Dictionary<String, Object>();
             foreach (Mobile mobile in testDefinition.Instruments.Mobile) try {
-                    if (testDefinition.TestSpace.Simulate) instruments.Add(mobile.ID, null);
-                    else instruments.Add(mobile.ID, Activator.CreateInstance(Type.GetType(mobile.NameSpacedClassName), new Object[] { mobile.Address, mobile.Detail }));
+                    if (testDefinition.TestSpace.Simulate) instrumentDrivers.Add(mobile.ID, null);
+                    else instrumentDrivers.Add(mobile.ID, Activator.CreateInstance(Type.GetType(mobile.NameSpacedClassName), new Object[] { mobile.Address, mobile.Detail }));
                 } catch (Exception e) {
                     StringBuilder sb = new StringBuilder().AppendLine();
                     sb.AppendLine($"Issue with Mobile Instrument:");
@@ -73,18 +73,18 @@ namespace ABT.Test.TestLib {
                     sb.AppendLine($"{e}{Environment.NewLine}");
                     throw new ArgumentException(sb.ToString());
                 }
-            return instruments;
+            return instrumentDrivers;
         }
 
-        private static Dictionary<String, Object> GetStationary() {
+        private static Dictionary<String, Object> GetStationaryTestPlan() {
             IEnumerable<XElement> iexe = XElement.Load(SystemDefinitionXML).Elements("Instruments");
-            Dictionary<String, Object> instruments = new Dictionary<String, Object>();
+            Dictionary<String, Object> instrumentDrivers = new Dictionary<String, Object>();
             foreach (Stationary stationary in testDefinition.Instruments.Stationary) {
                 XElement xElement = iexe.Descendants("Instrument").First(xe => (String)xe.Attribute("ID") == stationary.ID) ?? throw new ArgumentException($"Instrument with ID '{stationary.ID}' not present in file '{SystemDefinitionXML}'.");
-                if (testDefinition.TestSpace.Simulate) instruments.Add(stationary.ID, null);
-                else instruments.Add(stationary.ID, Activator.CreateInstance(Type.GetType(xElement.Attribute("NameSpacedClassName").Value), new Object[] { xElement.Attribute("Address").Value, xElement.Attribute("Detail").Value }));
+                if (testDefinition.TestSpace.Simulate) instrumentDrivers.Add(stationary.ID, null);
+                else instrumentDrivers.Add(stationary.ID, Activator.CreateInstance(Type.GetType(xElement.Attribute("NameSpacedClassName").Value), new Object[] { xElement.Attribute("Address").Value, xElement.Attribute("Detail").Value }));
             }
-            return instruments;
+            return instrumentDrivers;
         }
 
         public static String ConvertWindowsPathToUrl(String path) {

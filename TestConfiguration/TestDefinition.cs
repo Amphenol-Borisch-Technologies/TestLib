@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Deployment.Internal;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -30,6 +31,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
         [XmlAttribute(nameof(Category))] public Category Category { get; set; }
+        public static readonly String NONE = $"{nameof(TestLib.NONE)}";
         internal const String CHECK_OPERATION = "if (TestLib.testSequence.IsOperation) ";
         internal const String DEBUG_ASSERT = "Debug.Assert(";
         internal const String BEGIN = "(";
@@ -37,7 +39,6 @@ namespace ABT.Test.TestLib.TestConfiguration {
         internal const String CONTINUE = ", ";
         internal const String END = "));";
         internal const String DIVIDER = "|";
-        internal const String NONE = "\"NONE\"";
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
