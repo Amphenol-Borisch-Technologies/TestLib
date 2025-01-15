@@ -36,6 +36,8 @@ namespace ABT.Test.TestLib {
         public static String SystemDefinitionXML = null;
         public static String SystemDefinitionXSD = null;
         public static String UserName = null;
+        public static CancellationTokenSource CTS_Cancel;
+        public static CancellationTokenSource CTS_EmergencyStop;
         public static CancellationToken CT_Cancel;
         public static CancellationToken CT_EmergencyStop;
 

@@ -24,7 +24,10 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         }
 
         public SELF_TEST_RESULTS SelfTests() {
-            _ = MessageBox.Show($"Please disconnect _all_ connectors from 34980A Slots.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect _all_ connectors from 34980A Slots.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification)) {
+                TestLib.CTS_Cancel.Cancel();
+                TestLib.CT_Cancel.ThrowIfCancellationRequested();
+            };
 
             Int32 result;
             try {
@@ -35,7 +38,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
                     $"Detail:    {Detail}{Environment.NewLine}" +
                     $"Address:   {Address}{Environment.NewLine}" +
                     $"Exception: {e}{Environment.NewLine}"
-                    , "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    , "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 // If unpowered or not communicating (comms cable possibly disconnected) SelfTest throws a
                 // Keysight.CommandExpert.InstrumentAbstraction.CommunicationException exception,
                 // which requires an apparently unavailable Keysight library to explicitly catch.
@@ -126,9 +129,12 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Boolean passed_34921A = true;
             String s = ((Int32)Slot).ToString("D1");
 
-            _ = MessageBox.Show($"Please connect 34921A diagnostic connectors to 34980A SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (DialogResult.Cancel == MessageBox.Show($"Please connect 34921A diagnostic connectors to 34980A SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+                TestLib.CTS_Cancel.Cancel();
+                TestLib.CT_Cancel.ThrowIfCancellationRequested();
+            };
             TestLib.CT_EmergencyStop.ThrowIfCancellationRequested();
-            TestLib.CT_Cancel.ThrowIfCancellationRequested();
+
 
             SCPI.ROUTe.CLOSe.Command($"@{s}001:{s}020");                                          // Bank 1 all relays connected to Bank 1 diagnostic shorting connector.
             MeasureAndRecord_34921A($"@{s}911", Ω, ref passed_34921A, ref results);               // ABus1 COM1 directly connected to all Bank 1 relays and thus diagnostic shorting connector.
@@ -155,7 +161,12 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
             TestLib.CT_EmergencyStop.ThrowIfCancellationRequested();
             TestLib.CT_Cancel.ThrowIfCancellationRequested();
-            _ = MessageBox.Show($"Please disconnect 34921A diagnostic connectors from 34980A SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            TestLib.CT_EmergencyStop.ThrowIfCancellationRequested();
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect 34921A diagnostic connectors from 34980A SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+                TestLib.CTS_Cancel.Cancel();
+                TestLib.CT_Cancel.ThrowIfCancellationRequested();
+            };
             return (Summary: passed_34921A, Details: results);
         }
 
@@ -176,7 +187,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34932A(SLOTS Slot, Double Ω) {
             SCPI.ROUTe.OPEN.ALL.Command(null);
-            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "Diagnostic_34932A", Message: "Not Implemented yet.", Event: EVENTS.INFORMATION) });
+            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34932A), Message: " not Implemented yet", Event: EVENTS.INFORMATION) });
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34938As(Double Ω) {
@@ -187,7 +198,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34938A(SLOTS Slot, Double Ω) {
             SCPI.ROUTe.OPEN.ALL.Command(null);
-            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "Diagnostic_34938A", Message: "Not Implemented yet.", Event: EVENTS.INFORMATION) });
+            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34938A), Message: " not Implemented yet", Event: EVENTS.INFORMATION) });
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34939As(Double Ω) {
@@ -198,7 +209,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34939A(SLOTS Slot, Double Ω) {
             SCPI.ROUTe.OPEN.ALL.Command(null);
-            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "Diagnostic_34939A", Message: "Not Implemented yet.", Event: EVENTS.INFORMATION) });
+            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34939A), Message: " not Implemented yet", Event: EVENTS.INFORMATION) });
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34952As(Double Ω) {
