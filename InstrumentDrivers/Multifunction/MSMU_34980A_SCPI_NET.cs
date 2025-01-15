@@ -220,7 +220,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34952A(SLOTS Slot) {
             SCPI.ROUTe.OPEN.ALL.Command(null);
-            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "Diagnostic_34952A", Message: "Not Implemented yet.", Event: EVENTS.INFORMATION) });
+            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34952A), Message: " not Implemented yet", Event: EVENTS.INFORMATION) });
         }
         #endregion Diagnostics
 
