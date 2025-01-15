@@ -11,6 +11,7 @@ using ABT.Test.TestLib.TestConfiguration;
 
 namespace ABT.Test.TestLib {
     public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, INFORMATION, PASS, UNSET }
+    // NOTE:  Cannot embed underscore '_' into EVENTS as they're used when saving the file to 
     // NOTE:  If modifying EVENTS, update EventColors correspondingly.  Every EVENT requires an associated Color.
 
     public static class TestLib {
