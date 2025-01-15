@@ -11,6 +11,13 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
     public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IRelays, IDiagnostics {
         public enum SLOTS { S1 = 1, S2 = 2, S3 = 3, S4 = 4, S5 = 5, S6 = 6, S7 = 7, S8 = 8 }
+        public struct Modules {
+            public const String M34921A = "34921A";
+            public const String M34932A = "34932A";
+            public const String M34938A = "34938A";
+            public const String M34939A = "34939A";
+            public const String M34952A = "34952A";
+        }
         public enum TEMPERATURE_UNITS { C, F, K }
         public enum RELAY_STATES { opened, CLOSED }
 
@@ -80,19 +87,19 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
                     TestLib.CT_EmergencyStop.ThrowIfCancellationRequested();
                     TestLib.CT_Cancel.ThrowIfCancellationRequested();
                     switch (SystemType(slot)) {
-                        case "34921A":
+                        case Modules.M34921A:
                             result_Slot = Diagnostic_34921A(slot, Ω: DP.Ω_34921A);
                             break;
-                        case "34932A":
+                        case Modules.M34932A:
                             result_Slot = Diagnostic_34932A(slot, Ω: DP.Ω_34932A);
                             break;
-                        case "34938A":
+                        case Modules.M34938A:
                             result_Slot = Diagnostic_34938A(slot, Ω: DP.Ω_34938A);
                             break;
-                        case "34939A":
+                        case Modules.M34939A:
                             result_Slot = Diagnostic_34939A(slot, Ω: DP.Ω_34939A);
                             break;
-                        case "34952A":
+                        case Modules.M34952A:
                             result_Slot = Diagnostic_34952A(slot);
                             break;
                         case "0":
@@ -114,7 +121,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34921As(Double Ω) {
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == "34921A") Results.Add(slot, Diagnostic_34921A(slot, Ω));
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34921A) Results.Add(slot, Diagnostic_34921A(slot, Ω));
             return Results;
         }
 
@@ -176,12 +183,12 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.ROUTe.OPEN.Command(channels);
             Boolean passed_Ω = (0 <= resistance[0] && resistance[0] <= Ω);
             passed_34921A &= passed_Ω;
-            results.Add(new DiagnosticsResult(Label: $"Channel(s) {channels}: ", Message: $"{Math.Round(resistance[0], 3, MidpointRounding.ToEven)}Ω", Event: (passed_Ω ? EVENTS.PASS : EVENTS.FAIL)));
+            results.Add(new DiagnosticsResult(Label: $"{Modules.M34921A} channel(s) {channels}: ", Message: $"{Math.Round(resistance[0], 3, MidpointRounding.ToEven)}Ω", Event: (passed_Ω ? EVENTS.PASS : EVENTS.FAIL)));
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34932As(Double Ω) {
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == "34932A") Results.Add(slot, Diagnostic_34932A(slot, Ω));
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34932A) Results.Add(slot, Diagnostic_34932A(slot, Ω));
             return Results;
         }
 
@@ -192,7 +199,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34938As(Double Ω) {
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == "34938A") Results.Add(slot, Diagnostic_34938A(slot, Ω));
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34938A) Results.Add(slot, Diagnostic_34938A(slot, Ω));
             return Results;
         }
 
@@ -203,7 +210,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34939As(Double Ω) {
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == "34932A") Results.Add(slot, Diagnostic_34939A(slot, Ω));
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34939A) Results.Add(slot, Diagnostic_34939A(slot, Ω));
             return Results;
         }
 
@@ -214,7 +221,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34952As(Double Ω) {
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == "34932A") Results.Add(slot, Diagnostic_34952A(slot));
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34952A) Results.Add(slot, Diagnostic_34952A(slot));
             return Results;
         }
 
@@ -245,9 +252,9 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         public void InstrumentDMM_Set(STATES State) { SCPI.INSTrument.DMM.STATe.Command(State == STATES.ON); }
         public (Int32 Min, Int32 Max) ModuleChannels(SLOTS Slot) {
             switch (SystemType(Slot)) {
-                case "34921A": return (Min: 1, Max: 44);
-                case "34939A": return (Min: 1, Max: 68);
-                case "34952A": return (Min: 1, Max: 7);
+                case Modules.M34921A: return (Min: 1, Max: 44);
+                case Modules.M34939A: return (Min: 1, Max: 68);
+                case Modules.M34952A: return (Min: 1, Max: 7);
                 default: throw new NotImplementedException($"Module Type '{SystemType(Slot)}' unimplemented.");
             }
         }
