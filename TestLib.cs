@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Xml.Linq;
 using ABT.Test.TestLib.TestConfiguration;
-// TODO:  Eventually; mitigate or eliminate writeable global objects; change their access to pass by reference.
+// TODO:  Eventually; mitigate or eliminate writeable global objects; change their access to pass by value or reference.
 
 namespace ABT.Test.TestLib {
     public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, INFORMATION, PASS, UNSET }
