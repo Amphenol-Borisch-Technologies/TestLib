@@ -37,9 +37,8 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Oscilloscopes {
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
             // TODO: Eventually; add verification measurements of the MSO-3014 mixed signal oscilloscope using external instrumentation.
             ResetClear();
-            if (SelfTests() is SELF_TEST_RESULTS.PASS) return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "34401A Diagnostics():", Message: "SelfTests() passed.", Event: EVENTS.PASS) });
-            else return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "34401A Diagnostics():", Message: "SelfTests() failed, aborted.", Event: EVENTS.FAIL) });
-        }
+            Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
+            return (passed, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });        }
 
         public MSO_3014_IVI_COM(String Address, String Detail) {
             this.Address = Address;

@@ -381,9 +381,6 @@ namespace ABT.Test.TestLib.TestConfiguration {
         }
 
         public String AssertionNext() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.MethodNext)}{UUT.BEGIN}{nameof(Name)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Name)).GetValue(this))}{UUT.END}"; }
-
-        public void LogConvert() { LogString = Log.ToString(); }
-        // NOTE:  XmlSerializer doesn't support [OnSerializing] attribute, so have to explicitly invoke LogConvert().
         public static HashSet<String> GetMethodDerivedClassnames() {
             Assembly assembly = Assembly.GetExecutingAssembly();
             Type baseType = typeof(Method);
@@ -585,7 +582,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
             Event = OperationEvent;
             foreach (TestGroup testGroup in TestOperation.TestGroups)
                 foreach (Method method in testGroup.Methods) {
-                    method.LogConvert();
+                    method.LogString = method.Log.ToString(); // NOTE:  XmlSerializer doesn't support [OnSerializing] attribute, so have to explicitly invoke LogConvert().
                 }
             TimeEnd = DateTime.Now;
             TimeTotal = (TimeEnd - TimeStart).ToString(@"dd\.hh\:mm\:ss");

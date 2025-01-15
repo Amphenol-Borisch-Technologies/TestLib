@@ -80,8 +80,9 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
             // TODO: Eventually; add voltage & current measurements of the E3649A power supplies' outputs using external instrumentation.
             ResetClear();
-            if (SelfTests() is SELF_TEST_RESULTS.PASS) return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "E3649A Diagnostics():", Message: "SelfTests() passed.", Event: EVENTS.PASS) });
-            else return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "E3649A Diagnostics():", Message: "SelfTests() failed, aborted.", Event: EVENTS.FAIL) });
+            ResetClear();
+            Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
+            return (passed, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
         }
 
         public PS_E3649A_SCPI_NET(String Address, String Detail) : base(Address) {

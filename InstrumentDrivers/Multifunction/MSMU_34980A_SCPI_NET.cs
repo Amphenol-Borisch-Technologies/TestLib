@@ -67,43 +67,44 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
             ResetClear();
-            if (SelfTests() is SELF_TEST_RESULTS.FAIL) return (false, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "34980A Diagnostics():", Message: "SelfTests() failed, aborted.", Event: EVENTS.FAIL) });
+            Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
+            (Boolean Summary, List<DiagnosticsResult> Details) result_34980A = (passed, new List<DiagnosticsResult>()  { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
+            if (passed) {
+                (Boolean summary, List<DiagnosticsResult> details) result_Slot;
+                DiagnosticParameter_34980A DP = (o is DiagnosticParameter_34980A dp) ? dp : new DiagnosticParameter_34980A(Ω: 3);
 
-            (Boolean summary, List<DiagnosticsResult> details) result_Slot;
-            (Boolean Summary, List<DiagnosticsResult> Details) result_34980A = (true, new List<DiagnosticsResult>());
-            DiagnosticParameter_34980A DP = (o is DiagnosticParameter_34980A dp) ? dp : new DiagnosticParameter_34980A(Ω: 3);
-
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) {
-                TestLib.CT_EmergencyStop.ThrowIfCancellationRequested();
-                TestLib.CT_Cancel.ThrowIfCancellationRequested();
-                switch (SystemType(slot)) {
-                    case "34921A":
-                        result_Slot = Diagnostic_34921A(slot, Ω: DP.Ω_34921A);
-                        break;
-                    case "34932A":
-                        result_Slot = Diagnostic_34932A(slot, Ω: DP.Ω_34932A);
-                        break;
-                    case "34938A":
-                        result_Slot = Diagnostic_34938A(slot, Ω: DP.Ω_34938A);
-                        break;
-                    case "34939A":
-                        result_Slot = Diagnostic_34939A(slot, Ω: DP.Ω_34939A);
-                        break;
-                    case "34952A":
-                        result_Slot = Diagnostic_34952A(slot);
-                        break;
-                    case "0":
-                        result_Slot = (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: $"Slot '{slot}':", Message: "Empty.", Event: EVENTS.INFORMATION) });
-                        break;
-                    default:
-                        throw new NotImplementedException(
-                            $"Diagnostic test for module '{SystemType(slot)}' unimplemented!{Environment.NewLine}{Environment.NewLine}" +
-                            $"Description     : '{SystemDescriptionLong(slot)}'.{Environment.NewLine}" +
-                            $"Address         : '{Address}'.{Environment.NewLine}" +
-                            $"Detail          : '{Detail}'.{Environment.NewLine}");
+                foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) {
+                    TestLib.CT_EmergencyStop.ThrowIfCancellationRequested();
+                    TestLib.CT_Cancel.ThrowIfCancellationRequested();
+                    switch (SystemType(slot)) {
+                        case "34921A":
+                            result_Slot = Diagnostic_34921A(slot, Ω: DP.Ω_34921A);
+                            break;
+                        case "34932A":
+                            result_Slot = Diagnostic_34932A(slot, Ω: DP.Ω_34932A);
+                            break;
+                        case "34938A":
+                            result_Slot = Diagnostic_34938A(slot, Ω: DP.Ω_34938A);
+                            break;
+                        case "34939A":
+                            result_Slot = Diagnostic_34939A(slot, Ω: DP.Ω_34939A);
+                            break;
+                        case "34952A":
+                            result_Slot = Diagnostic_34952A(slot);
+                            break;
+                        case "0":
+                            result_Slot = (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: $"Slot '{slot}':", Message: "Empty.", Event: EVENTS.INFORMATION) });
+                            break;
+                        default:
+                            throw new NotImplementedException(
+                                $"Diagnostic test for module '{SystemType(slot)}' unimplemented!{Environment.NewLine}{Environment.NewLine}" +
+                                $"Description     : '{SystemDescriptionLong(slot)}'.{Environment.NewLine}" +
+                                $"Address         : '{Address}'.{Environment.NewLine}" +
+                                $"Detail          : '{Detail}'.{Environment.NewLine}");
+                    }
+                    result_34980A.Summary &= result_Slot.summary;
+                    result_34980A.Details.AddRange(result_Slot.details);
                 }
-                result_34980A.Summary &= result_Slot.summary;
-                result_34980A.Details.AddRange(result_Slot.details);
             }
             return result_34980A;
         }
