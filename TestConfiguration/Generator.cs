@@ -39,7 +39,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 Filter = "C# files (*.cs)|*.cs",
                 Title = "Save the generated C# TestPlan file",
                 DefaultExt = "cs",
-                FileName = "TestPlan.cs",
+                FileName = "TestSpace.cs",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\"
             };
 
@@ -54,6 +54,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
             codeNamespace.Imports.Add(new CodeNamespaceImport("System.Diagnostics"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("ABT.Test.TestLib"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("ABT.Test.TestLib.TestConfiguration"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestLib"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestConfiguration.Assertions"));
             return codeNamespace;
         }

@@ -82,6 +82,11 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <HintPath>C:\Program Files\IVI Foundation\IVI\Bin\Primary Interop Assemblies\Ivi.Driver.Interop.dll</HintPath>
     </Reference>
+    <Reference Include="Ivi.Scope.Interop, Version=3.0.0.0, Culture=neutral, PublicKeyToken=a128c98f1d7717c1, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\..\..\..\..\Program Files\IVI Foundation\IVI\Bin\Primary Interop Assemblies\Ivi.Scope.Interop.dll</HintPath>
+    </Reference>
     <Reference Include="Ivi.Visa, Version=7.2.0.0, Culture=neutral, PublicKeyToken=a128c98f1d7717c1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\IVI Foundation\VISA\Microsoft.NET\Framework64\v2.0.50727\VISA.NET Shared Components 7.2.0\Ivi.Visa.dll</HintPath>
