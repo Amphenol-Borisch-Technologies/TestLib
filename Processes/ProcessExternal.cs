@@ -21,8 +21,8 @@ namespace ABT.Test.TestLib.Processes {
             String message = $"UUT unpowered.{Environment.NewLine}{Environment.NewLine}" +
                              $"Connect '{Description}' to UUT '{Connector}'.{Environment.NewLine}{Environment.NewLine}" +
                              $"AFTER connecting, click OK to continue.";
-            if (AutoContinue) _ = MessageBox.Show(FormInterconnectGet(), message, $"Connect '{Connector}'", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else _ = MessageBox.Show(message, $"Connect '{Connector}'", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (AutoContinue) _ = MessageBox.Show(FormInterconnectGet(), message, $"Connect '{Connector}'", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            else _ = MessageBox.Show(message, $"Connect '{Connector}'", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             PostConnect?.Invoke();
         }
 
@@ -31,9 +31,9 @@ namespace ABT.Test.TestLib.Processes {
             String message = $"UUT unpowered.{Environment.NewLine}{Environment.NewLine}" +
                              $"Disconnect '{Description}' from UUT '{Connector}'.{Environment.NewLine}{Environment.NewLine}" +
                              $"AFTER disconnecting, click OK to continue.";
-            if (AutoContinue) _ = MessageBox.Show(FormInterconnectGet(), message, $"Disconnect '{Connector}'", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else _ = MessageBox.Show(message, $"Disconnect '{Connector}'", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            if (!AutoContinue) _ = MessageBox.Show(message, $"Disconnect '{Connector}'", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (AutoContinue) _ = MessageBox.Show(FormInterconnectGet(), message, $"Disconnect '{Connector}'", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            else _ = MessageBox.Show(message, $"Disconnect '{Connector}'", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+            if (!AutoContinue) _ = MessageBox.Show(message, $"Disconnect '{Connector}'", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             PostDisconnect?.Invoke();
         }
 

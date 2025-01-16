@@ -31,9 +31,9 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         }
 
         public SELF_TEST_RESULTS SelfTests() {
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect _all_ connectors from 34980A Slots.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification)) {
-                TestLib.CTS_Cancel.Cancel();
-                TestLib.CT_Cancel.ThrowIfCancellationRequested();
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect _all_ connectors from 34980A Slots.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+                Data.CTS_Cancel.Cancel();
+                Data.CT_Cancel.ThrowIfCancellationRequested();
             };
 
             Int32 result;
@@ -84,8 +84,8 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
                 DiagnosticParameter_34980A DP = (o is DiagnosticParameter_34980A dp) ? dp : new DiagnosticParameter_34980A(Ω: 3);
 
                 foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) {
-                    TestLib.CT_EmergencyStop.ThrowIfCancellationRequested();
-                    TestLib.CT_Cancel.ThrowIfCancellationRequested();
+                    Data.CT_EmergencyStop.ThrowIfCancellationRequested();
+                    Data.CT_Cancel.ThrowIfCancellationRequested();
                     switch (SystemType(slot)) {
                         case Modules.M34921A:
                             result_Slot = Diagnostic_34921A(slot, Ω: DP.Ω_34921A);
@@ -137,10 +137,10 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             String s = ((Int32)Slot).ToString("D1");
 
             if (DialogResult.Cancel == MessageBox.Show($"Please connect 34921A diagnostic connectors to 34980A SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
-                TestLib.CTS_Cancel.Cancel();
-                TestLib.CT_Cancel.ThrowIfCancellationRequested();
+                Data.CTS_Cancel.Cancel();
+                Data.CT_Cancel.ThrowIfCancellationRequested();
             };
-            TestLib.CT_EmergencyStop.ThrowIfCancellationRequested();
+            Data.CT_EmergencyStop.ThrowIfCancellationRequested();
 
 
             SCPI.ROUTe.CLOSe.Command($"@{s}001:{s}020");                                          // Bank 1 all relays connected to Bank 1 diagnostic shorting connector.
@@ -166,13 +166,13 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.ROUTe.OPEN.Command($"@{s}921");
             SCPI.INSTrument.DMM.DISConnect.Command();
 
-            TestLib.CT_EmergencyStop.ThrowIfCancellationRequested();
-            TestLib.CT_Cancel.ThrowIfCancellationRequested();
+            Data.CT_EmergencyStop.ThrowIfCancellationRequested();
+            Data.CT_Cancel.ThrowIfCancellationRequested();
 
-            TestLib.CT_EmergencyStop.ThrowIfCancellationRequested();
+            Data.CT_EmergencyStop.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please disconnect 34921A diagnostic connectors from 34980A SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
-                TestLib.CTS_Cancel.Cancel();
-                TestLib.CT_Cancel.ThrowIfCancellationRequested();
+                Data.CTS_Cancel.Cancel();
+                Data.CT_Cancel.ThrowIfCancellationRequested();
             };
             return (Summary: passed_34921A, Details: results);
         }

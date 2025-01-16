@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Ivi.Scope.Interop;
-using Ivi.Driver.Interop;
 using Tektronix.Tkdpo2k3k4k.Interop;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 
@@ -27,7 +25,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Oscilloscopes {
                     $"Detail:    {Detail}{Environment.NewLine}" +
                     $"Address:   {Address}{Environment.NewLine}" +
                     $"Exception: {e}{Environment.NewLine}"
-                    , "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    , "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 // If unpowered or not communicating (comms cable possibly disconnected) SelfTest throws a
                 // Keysight.CommandExpert.InstrumentAbstraction.CommunicationException exception,
                 // which requires an apparently unavailable Keysight library to explicitly catch.

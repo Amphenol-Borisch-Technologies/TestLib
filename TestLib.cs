@@ -11,18 +11,17 @@ using ABT.Test.TestLib.TestConfiguration;
 
 namespace ABT.Test.TestLib {
     public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, INFORMATION, PASS, UNSET }
-    // NOTE:  Cannot embed underscore '_' into EVENTS as they're used when saving the file to 
     // NOTE:  If modifying EVENTS, update EventColors correspondingly.  Every EVENT requires an associated Color.
 
-    public static class TestLib {
+    public static class Data {
         public static readonly Dictionary<EVENTS, Color> EventColors = new Dictionary<EVENTS, Color> {
             { EVENTS.CANCEL, Color.Yellow },
-            { EVENTS.EMERGENCY_STOP, Color.Firebrick },
+            { EVENTS.EMERGENCY_STOP, Color.Fuchsia },
             { EVENTS.ERROR, Color.Aqua },
             { EVENTS.FAIL, Color.Red },
-            { EVENTS.INFORMATION, Color.Transparent },
+            { EVENTS.INFORMATION, Color.White },
             { EVENTS.PASS, Color.Green },
-            { EVENTS.UNSET, Color.Yellow }
+            { EVENTS.UNSET, Color.Gray }
         };
 
         public const String NONE = "NONE";

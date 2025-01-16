@@ -54,7 +54,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
             codeNamespace.Imports.Add(new CodeNamespaceImport("System.Diagnostics"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("ABT.Test.TestLib"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("ABT.Test.TestLib.TestConfiguration"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestLib"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.Data"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestConfiguration.Assertions"));
             return codeNamespace;
         }
@@ -154,7 +154,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 Name = instrumentInfo.Alias,
                 InitExpression = new CodeCastExpression(Classname,
                     new CodeIndexerExpression(
-                        new CodePropertyReferenceExpression(new CodeTypeReferenceExpression("TestLib.TestLib"), nameof(InstrumentDrivers)),
+                        new CodePropertyReferenceExpression(new CodeTypeReferenceExpression("TestLib.Data"), nameof(InstrumentDrivers)),
                         new CodePrimitiveExpression(instrumentInfo.ID)))
             };
 

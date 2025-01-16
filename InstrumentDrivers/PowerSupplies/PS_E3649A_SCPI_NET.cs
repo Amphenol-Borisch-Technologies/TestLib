@@ -25,7 +25,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
                     $"Detail:    {Detail}{Environment.NewLine}" +
                     $"Address:   {Address}{Environment.NewLine}" +
                     $"Exception: {e}{Environment.NewLine}"
-                    , "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    , "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 // If unpowered or not communicating (comms cable possibly disconnected) SelfTest throws a
                 // Keysight.CommandExpert.InstrumentAbstraction.CommunicationException exception,
                 // which requires an apparently unavailable Keysight library to explicitly catch.

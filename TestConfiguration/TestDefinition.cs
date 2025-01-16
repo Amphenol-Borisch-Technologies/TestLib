@@ -30,7 +30,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
         [XmlAttribute(nameof(Category))] public Category Category { get; set; }
-        public static readonly String NONE = $"{nameof(TestLib.NONE)}";
+        public static readonly String NONE = $"{nameof(Data.NONE)}";
         internal const String CHECK_OPERATION = "if (TestLib.testSequence.IsOperation) ";
         internal const String DEBUG_ASSERT = "Debug.Assert(";
         internal const String BEGIN = "(";
@@ -201,9 +201,9 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public List<InstrumentInfo> GetInfo() {
             List<InstrumentInfo> instruments = new List<InstrumentInfo>();
 
-            IEnumerable<XElement> iexe = XElement.Load(TestLib.SystemDefinitionXML).Elements("Instruments");
-            foreach (Stationary stationary in TestLib.testDefinition.Instruments.Stationary) {
-                XElement xElement = iexe.Descendants("Instrument").First(xe => (String)xe.Attribute("ID") == stationary.ID) ?? throw new ArgumentException($"Instrument with ID '{stationary.ID}' not present in file '{TestLib.SystemDefinitionXML}'.");
+            IEnumerable<XElement> iexe = XElement.Load(Data.SystemDefinitionXML).Elements("Instruments");
+            foreach (Stationary stationary in Data.testDefinition.Instruments.Stationary) {
+                XElement xElement = iexe.Descendants("Instrument").First(xe => (String)xe.Attribute("ID") == stationary.ID) ?? throw new ArgumentException($"Instrument with ID '{stationary.ID}' not present in file '{Data.SystemDefinitionXML}'.");
                 instruments.Add(new InstrumentInfo(stationary.ID, stationary.Alias, xElement.Attribute("NameSpacedClassName").Value));
             }
             foreach (Mobile mobile in Mobile) instruments.Add(new InstrumentInfo(mobile.ID, mobile.Alias, mobile.NameSpacedClassName));

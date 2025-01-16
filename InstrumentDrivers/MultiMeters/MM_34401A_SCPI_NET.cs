@@ -30,7 +30,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.MultiMeters {
                     $"Detail:    {Detail}{Environment.NewLine}" +
                     $"Address:   {Address}{Environment.NewLine}" +
                     $"Exception: {e}{Environment.NewLine}"
-                    , "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    , "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 // If unpowered or not communicating (comms cable possibly disconnected) SelfTest throws a
                 // Keysight.CommandExpert.InstrumentAbstraction.CommunicationException exception,
                 // which requires an apparently unavailable Keysight library to explicitly catch.
@@ -96,7 +96,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.MultiMeters {
         }
 
         public void TerminalsSetRear() {
-            if (TerminalsGet() == TERMINALS.Front) _ = MessageBox.Show("Please depress Keysight 34401A Front/Rear button.", "Paused, click OK to continue.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (TerminalsGet() == TERMINALS.Front) _ = MessageBox.Show("Please depress Keysight 34401A Front/Rear button.", "Paused, click OK to continue.", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             SCPI.TRIGger.DELay.AUTO.Command(true);
         }
 
