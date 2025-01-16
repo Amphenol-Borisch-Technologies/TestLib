@@ -194,7 +194,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34932A(SLOTS Slot, Double Ω) {
             SCPI.ROUTe.OPEN.ALL.Command(null);
-            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34932A), Message: " not Implemented yet", Event: EVENTS.INFORMATION) });
+            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34932A), Message: " not implemented yet", Event: EVENTS.INFORMATION) });
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34938As(Double Ω) {
@@ -205,7 +205,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34938A(SLOTS Slot, Double Ω) {
             SCPI.ROUTe.OPEN.ALL.Command(null);
-            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34938A), Message: " not Implemented yet", Event: EVENTS.INFORMATION) });
+            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34938A), Message: " not implemented yet", Event: EVENTS.INFORMATION) });
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34939As(Double Ω) {
@@ -216,7 +216,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34939A(SLOTS Slot, Double Ω) {
             SCPI.ROUTe.OPEN.ALL.Command(null);
-            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34939A), Message: " not Implemented yet", Event: EVENTS.INFORMATION) });
+            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34939A), Message: " not implemented yet", Event: EVENTS.INFORMATION) });
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34952As(Double Ω) {
@@ -227,7 +227,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34952A(SLOTS Slot) {
             SCPI.ROUTe.OPEN.ALL.Command(null);
-            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34952A), Message: " not Implemented yet", Event: EVENTS.INFORMATION) });
+            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34952A), Message: " not implemented yet", Event: EVENTS.INFORMATION) });
         }
         #endregion Diagnostics
 
@@ -255,7 +255,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
                 case Modules.M34921A: return (Min: 1, Max: 44);
                 case Modules.M34939A: return (Min: 1, Max: 68);
                 case Modules.M34952A: return (Min: 1, Max: 7);
-                default: throw new NotImplementedException($"Module Type '{SystemType(Slot)}' unimplemented.");
+                default: throw new NotImplementedException($"Module Type '{SystemType(Slot)}' not implemented.");
             }
         }
         public void RouteCloseExclusive(String Channels) {
