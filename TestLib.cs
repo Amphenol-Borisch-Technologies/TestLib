@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading;
 using System.Xml.Linq;
 using ABT.Test.TestLib.TestConfiguration;
-// TODO:  Eventually; mitigate or eliminate writeable global objects; change their access to pass by value or reference.
 
 namespace ABT.Test.TestLib {
     public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, INFORMATION, PASS, UNSET }
@@ -24,6 +23,7 @@ namespace ABT.Test.TestLib {
             { EVENTS.UNSET, Color.Gray }
         };
 
+        // TODO:  Eventually; mitigate or eliminate writeable global objects; change their access to pass by value or reference.  Dovetail with loading TestPlans as AppDomains.
         public const String NONE = "NONE";
         public static Mutex MutexTest = null;
         public const String MutexTestName = nameof(MutexTest);
