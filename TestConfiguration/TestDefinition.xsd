@@ -127,6 +127,37 @@
     </xs:attribute>
   </xs:attributeGroup>
 
+  <xs:complexType name="Revision">
+    <xs:attribute name="Number" use="required" type="xs:string">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          <![CDATA[
+          Number attribute:
+          - Required.
+          - Type: xs:string.
+          
+          Increment when modified, format #.#, major.minor.
+          Document concisely in Modifications.
+          ]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="Date" use="required" type="xs:date">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          <![CDATA[
+          Date attribute:
+          - Required.
+          - Type: xs:date.
+
+          Update when modified.
+          Document concisely in Modifications.
+          ]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
   <xs:complexType name="Customer">
     <xs:attribute name="Name" type="xs:string" use="required">
       <xs:annotation>
@@ -945,47 +976,25 @@
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="Versions" minOccurs="1" maxOccurs="1">
+        <xs:element name="Revisions" minOccurs="1" maxOccurs="1">
           <xs:annotation>
             <xs:documentation xml:lang="en">
               <![CDATA[
-                Versions element.
+                Revisions element.
                 - Required, 1 occurence.
                 - Type: xs:element.
                 
-                Concisely document TestDefinition & TestPlan changes in Modifications element.
-                GitHub's repository will precisely document all TestDefinition & TestPlan changes.
-                This Versions element supercedes the TestPlan's C# Project Version, which can be safely ignored.
+                Concisely document TestDefinition & TestProgram revisions in Modifications element.
+                GitHub's repository will precisely document their revisions.
+                This Revisions element supercedes the TestPlan's C# Project Version, which can be ignored.
               ]]>
             </xs:documentation>
           </xs:annotation>
           <xs:complexType>
-            <xs:attribute name="TestDefinition" type="xs:string" use="required">
-              <xs:annotation>
-                <xs:documentation xml:lang="en">
-                  <![CDATA[
-                    TestDefinition Version attribute:
-                    - Required.
-                    - Type: xs:string.
-                    
-                    Increment when this TestDefinition file changes.
-                  ]]>
-                </xs:documentation>
-              </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="TestPlan" type="xs:string" use="required">
-              <xs:annotation>
-                <xs:documentation xml:lang="en">
-                  <![CDATA[
-                    TestPlan Version attribute:
-                    - Required.
-                    - Type: xs:string.
-                    
-                    Increment when TestPlan C# file(s) change.
-                  ]]>
-                </xs:documentation>
-              </xs:annotation>
-            </xs:attribute>
+            <xs:sequence>
+              <xs:element name="Definition" type="Revision" minOccurs="1" maxOccurs="1" />
+              <xs:element name="Program" type="Revision" minOccurs="1" maxOccurs="1" />
+            </xs:sequence>
           </xs:complexType>
         </xs:element>
         <xs:element name="UUT" minOccurs="1" maxOccurs="1">

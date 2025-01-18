@@ -61,20 +61,12 @@ namespace ABT.Test.TestLib.TestConfiguration {
             TestOperation selectedOperation = null;
             if (testSequence.IsOperation) selectedOperation = Data.testDefinition.TestSpace.TestOperations[TestList.SelectedItems[0].Index];
             else selectedOperation = Data.testDefinition.TestSpace.TestOperations.Find(nt => nt.NamespaceTrunk.Equals(TestList.SelectedItems[0].SubItems[0].Text));
-
-            testSequence.Versions = Serializing.DeserializeFromFile<Versions>(xmlFile: Data.TestDefinitionXML);
-            testSequence.UUT = Serializing.DeserializeFromFile<UUT>(xmlFile: Data.TestDefinitionXML);
             testSequence.TestOperation = Serializing.DeserializeFromFile<TestOperation>(xmlFile: Data.TestDefinitionXML, xPath: $"//TestOperation[@NamespaceTrunk='{selectedOperation.NamespaceTrunk}']");
             if (!testSequence.IsOperation) {
                 TestGroup selectedGroup = selectedOperation.TestGroups.Find(tg => tg.Classname.Equals(TestList.SelectedItems[0].SubItems[1].Text));
                 _ = testSequence.TestOperation.TestGroups.RemoveAll(tg => tg.Classname != selectedGroup.Classname);
                 // From the selected TestOperation, retain only the selected TestGroup and all its Methods.
             }
-
-            testSequence.Operator = Data.UserName;
-            testSequence.Computer = Environment.MachineName;
-            testSequence.VersionTestExec = $"{Assembly.GetExecutingAssembly().GetName().Name}, {Assembly.GetExecutingAssembly().GetName().Version}, {Data.BuildDate(Assembly.GetExecutingAssembly().GetName().Version)}";
-            testSequence.VersionTestPlan = $"{Assembly.GetEntryAssembly().GetName().Name}, {Assembly.GetEntryAssembly().GetName().Version} {Data.BuildDate(Assembly.GetEntryAssembly().GetName().Version)}";
 
             DialogResult = DialogResult.OK;
         }

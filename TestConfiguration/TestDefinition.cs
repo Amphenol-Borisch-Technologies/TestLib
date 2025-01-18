@@ -13,7 +13,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     [XmlRoot(nameof(TestDefinition))]
     public class TestDefinition {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
-        [XmlElement(nameof(Versions))] public Versions Versions { get; set; }
+        [XmlElement(nameof(Revisions))] public Revisions Revisions { get; set; }
         [XmlElement(nameof(UUT))] public UUT UUT { get; set; }
         [XmlElement(nameof(Development))] public Development Development { get; set; }
         [XmlArray(nameof(Modifications))] public List<Modification> Modifications { get; set; }
@@ -22,9 +22,16 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlElement(nameof(TestSpace))] public TestSpace TestSpace { get; set; }
     }
 
-    public class Versions {
-        [XmlAttribute(nameof(TestDefinition))] public String TestDefinition { get; set; }
-        [XmlAttribute(nameof(TestPlan))] public String TestPlan { get; set; }
+    public class Revisions {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
+        [XmlElement(nameof(Definition))] public Revision Definition { get; set; }
+        [XmlElement(nameof(Program))] public Revision Program { get; set; }
+    }
+
+    public class Revision {
+        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
+        [XmlAttribute(nameof(Number))] public String Number { get; set; }
+        [XmlAttribute(nameof(Date))] public System.DateTime Date { get; set; }
     }
 
     public class UUT : IAssertionCurrent {
@@ -552,27 +559,21 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class TestSequence {
-        public Versions Versions { get; set; }
-        public UUT UUT { get; set; }
+        public UUT UUT { get; set; } = Serializing.DeserializeFromFile<UUT>(xmlFile: Data.TestDefinitionXML);
         public TestOperation TestOperation { get; set; }
         [XmlIgnore] public Boolean IsOperation { get; set; } = false;
+        public Revisions Revisions { get; set; } = Serializing.DeserializeFromFile<Revisions>(xmlFile: Data.TestDefinitionXML);
+        public String BuiltTestExec { get; set; } = $"{Assembly.GetExecutingAssembly().GetName().Name}, {Data.BuildDate(Assembly.GetExecutingAssembly().GetName().Version)}";
+        public String BuiltTestPlan { get; set; } = $"{Assembly.GetEntryAssembly().GetName().Name}, {Data.BuildDate(Assembly.GetEntryAssembly().GetName().Version)}";
+        public String Computer { get; set; } = Environment.MachineName;
         public String SerialNumber { get; set; } = String.Empty;
-        public String Operator { get; set; } = String.Empty;
-        public String Computer { get; set; } = String.Empty;
-        public String VersionTestExec { get; set; } = String.Empty;
-        public String VersionTestPlan { get; set; } = String.Empty;
+        public String Operator { get; set; } = Data.UserName;
         public DateTime TimeStart { get; set; }
         public DateTime TimeEnd { get; set; }
         public String TimeTotal { get; set; } // NOTE:  XmlSerializer doesn't natively support TimeSpan, so have to serialize TimeTotal as a string.
         public EVENTS Event { get; set; } = EVENTS.UNSET;
 
         public TestSequence() { }
-
-        public TestSequence(Versions versions, UUT uut, TestOperation testOperation) {
-            Versions = versions;
-            UUT = uut;
-            TestOperation = testOperation;
-        }
 
         public void PreRun() {
             TimeStart = DateTime.Now;
