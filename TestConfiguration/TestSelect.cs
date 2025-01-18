@@ -62,6 +62,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
             if (testSequence.IsOperation) selectedOperation = Data.testDefinition.TestSpace.TestOperations[TestList.SelectedItems[0].Index];
             else selectedOperation = Data.testDefinition.TestSpace.TestOperations.Find(nt => nt.NamespaceTrunk.Equals(TestList.SelectedItems[0].SubItems[0].Text));
 
+            testSequence.Versions = Serializing.DeserializeFromFile<Versions>(xmlFile: Data.TestDefinitionXML);
             testSequence.UUT = Serializing.DeserializeFromFile<UUT>(xmlFile: Data.TestDefinitionXML);
             testSequence.TestOperation = Serializing.DeserializeFromFile<TestOperation>(xmlFile: Data.TestDefinitionXML, xPath: $"//TestOperation[@NamespaceTrunk='{selectedOperation.NamespaceTrunk}']");
             if (!testSequence.IsOperation) {

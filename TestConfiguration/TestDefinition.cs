@@ -13,12 +13,18 @@ namespace ABT.Test.TestLib.TestConfiguration {
     [XmlRoot(nameof(TestDefinition))]
     public class TestDefinition {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
+        [XmlElement(nameof(Versions))] public Versions Versions { get; set; }
         [XmlElement(nameof(UUT))] public UUT UUT { get; set; }
         [XmlElement(nameof(Development))] public Development Development { get; set; }
         [XmlArray(nameof(Modifications))] public List<Modification> Modifications { get; set; }
         [XmlElement(nameof(TestData))] public TestData TestData { get; set; }
         [XmlElement(nameof(Instruments))] public Instruments Instruments { get; set; }
         [XmlElement(nameof(TestSpace))] public TestSpace TestSpace { get; set; }
+    }
+
+    public class Versions {
+        [XmlAttribute(nameof(TestDefinition))] public String TestDefinition { get; set; }
+        [XmlAttribute(nameof(TestPlan))] public String TestPlan { get; set; }
     }
 
     public class UUT : IAssertionCurrent {
@@ -546,6 +552,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class TestSequence {
+        public Versions Versions { get; set; }
         public UUT UUT { get; set; }
         public TestOperation TestOperation { get; set; }
         [XmlIgnore] public Boolean IsOperation { get; set; } = false;
@@ -561,7 +568,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
         public TestSequence() { }
 
-        public TestSequence(UUT uut, TestOperation testOperation) {
+        public TestSequence(Versions versions, UUT uut, TestOperation testOperation) {
+            Versions = versions;
             UUT = uut;
             TestOperation = testOperation;
         }

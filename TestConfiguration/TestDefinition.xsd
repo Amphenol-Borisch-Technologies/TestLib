@@ -387,7 +387,7 @@
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
-  
+
   <xs:complexType name="InstrumentStationary">
     <xs:annotation>
       <xs:documentation xml:lang="en">
@@ -945,6 +945,49 @@
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
+        <xs:element name="Versions" minOccurs="1" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">
+              <![CDATA[
+                Versions element.
+                - Required, 1 occurence.
+                - Type: xs:element.
+                
+                Concisely document TestDefinition & TestPlan changes in Modifications element.
+                GitHub's repository will precisely document all TestDefinition & TestPlan changes.
+                This Versions element supercedes the TestPlan's C# Project Version, which can be safely ignored.
+              ]]>
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="TestDefinition" type="xs:string" use="required">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">
+                  <![CDATA[
+                    TestDefinition Version attribute:
+                    - Required.
+                    - Type: xs:string.
+                    
+                    Increment when this TestDefinition file changes.
+                  ]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="TestPlan" type="xs:string" use="required">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">
+                  <![CDATA[
+                    TestPlan Version attribute:
+                    - Required.
+                    - Type: xs:string.
+                    
+                    Increment when TestPlan C# file(s) change.
+                  ]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
         <xs:element name="UUT" minOccurs="1" maxOccurs="1">
           <xs:annotation>
             <xs:documentation xml:lang="en">
