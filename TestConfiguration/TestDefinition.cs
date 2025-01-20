@@ -342,8 +342,6 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlElement(nameof(MethodProcess), typeof(MethodProcess))]
         [XmlElement(nameof(MethodTextual), typeof(MethodTextual))]
         public List<Method> Methods { get; set; }
-        public readonly Int32 FormattingLengthGroupID = 0;
-        public readonly Int32 FormattingLengthMethodID = 0;
 
         public String AssertionPrior() { return $"{UUT.CHECK_OPERATION}{UUT.DEBUG_ASSERT}{nameof(Assertions.TestGroupPrior)}{UUT.BEGIN}{nameof(Classname)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Classname)).GetValue(this))}{UUT.END}"; }
 
