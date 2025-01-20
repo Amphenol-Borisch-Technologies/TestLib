@@ -18,7 +18,7 @@ namespace ABT.Test.TestLib {
         CANCEL          = 0b0001_0000, // Third most critical event.
         UNSET           = 0b0000_1000, // .
         FAIL            = 0b0000_0100, // .
-        PASS            = 0b0010_0010, // .
+        PASS            = 0b0000_0010, // .
         INFORMATION     = 0b0000_0001  // Least critical event.
     }
     // NOTE:  If modifying EVENTS, update EventColors correspondingly.
