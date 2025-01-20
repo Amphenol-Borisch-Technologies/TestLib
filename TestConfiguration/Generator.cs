@@ -3,6 +3,8 @@ using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.IO;
 using System.Windows.Forms;
+using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
+using ABT.Test.TestLib.InstrumentDrivers.Oscilloscopes;
 using Microsoft.CSharp;
 
 namespace ABT.Test.TestLib.TestConfiguration {
@@ -50,12 +52,13 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
         private static CodeNamespace GetNamespace(TestSpace testSpace, Int32 testOperation) {
             CodeNamespace codeNamespace = new CodeNamespace(testSpace.NamespaceRoot + "." + testSpace.TestOperations[testOperation].NamespaceTrunk);
-            codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport("System.Diagnostics"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport("ABT.Test.TestLib"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport("ABT.Test.TestLib.TestConfiguration"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.Data"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport("static ABT.Test.TestLib.TestConfiguration.Assertions"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(System)}"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(System)}.{nameof(System.Diagnostics)}"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(TestConfiguration)}"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(Data)}"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport($"static {nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(Data)}"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport($"static {nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(TestConfiguration)}.{nameof(Assertions)}"));
             return codeNamespace;
         }
 
@@ -99,8 +102,11 @@ namespace ABT.Test.TestLib.TestConfiguration {
             }
 
             Method m = testOperation.TestGroups[testGroup].Methods[method];
-            if (m is MethodCustom) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn nameof({typeof(EVENTS).Name}.{EVENTS.UNSET});"));
-            else if (m is MethodInterval) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn \"{Double.NaN}\";"));
+            _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\n"));
+            if (m is MethodCustom) {
+                _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{nameof(TestIndices)}.{nameof(TestIndices.Method)}.{nameof(TestIndices.Method.Event)}) = {typeof(EVENTS).Name}.{EVENTS.UNSET};"));
+                _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn \"{String.Empty}\";"));
+            } else if (m is MethodInterval) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn \"{Double.NaN}\";"));
             else if (m is MethodProcess) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn \"{-1}\";"));
             else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn \"{String.Empty}\";"));
             _ = codeTypeDeclaration.Members.Add(codeMemberMethod);
@@ -109,9 +115,9 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public static void GenerateIDs(String TestDefinitionXML) {
             Instruments instruments = Serializing.DeserializeFromFile<Instruments>(TestDefinitionXML);
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
-            CodeNamespace codeNamespace = new CodeNamespace("ABT.Test.TestPlans.Diagnostics.InstrumentsDrivers");
-            codeNamespace.Imports.Add(new CodeNamespaceImport("ABT.Test.TestLib.InstrumentDrivers.Multifunction"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport("ABT.Test.TestLib.InstrumentDrivers.PowerSupplies"));
+            CodeNamespace codeNamespace = new CodeNamespace($"{nameof(ABT)}.{nameof(Test)}.TestPlans.Diagnostics.{nameof(InstrumentDrivers)}");
+            codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(InstrumentDrivers)}.{nameof(InstrumentDrivers.Multifunction)}"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(InstrumentDrivers)}.{nameof(InstrumentDrivers.PowerSupplies)}"));
             _ = codeCompileUnit.Namespaces.Add(codeNamespace);
 
             CodeTypeDeclaration codeTypeDeclaration = new CodeTypeDeclaration("ID") {
@@ -154,7 +160,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 Name = instrumentInfo.Alias,
                 InitExpression = new CodeCastExpression(Classname,
                     new CodeIndexerExpression(
-                        new CodePropertyReferenceExpression(new CodeTypeReferenceExpression("TestLib.Data"), nameof(InstrumentDrivers)),
+                        new CodePropertyReferenceExpression(new CodeTypeReferenceExpression($"{nameof(TestLib)}.{nameof(Data)}"), nameof(InstrumentDrivers)),
                         new CodePrimitiveExpression(instrumentInfo.ID)))
             };
 

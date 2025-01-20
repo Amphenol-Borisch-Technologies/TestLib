@@ -13,25 +13,14 @@ namespace ABT.Test.TestLib.TestConfiguration {
     [XmlRoot(nameof(TestDefinition))]
     public class TestDefinition {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
-        [XmlElement(nameof(Revisions))] public Revisions Revisions { get; set; }
+        [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
+        [XmlAttribute(nameof(Date))] public System.DateTime Date { get; set; }
         [XmlElement(nameof(UUT))] public UUT UUT { get; set; }
         [XmlElement(nameof(Development))] public Development Development { get; set; }
         [XmlArray(nameof(Modifications))] public List<Modification> Modifications { get; set; }
         [XmlElement(nameof(TestData))] public TestData TestData { get; set; }
         [XmlElement(nameof(Instruments))] public Instruments Instruments { get; set; }
         [XmlElement(nameof(TestSpace))] public TestSpace TestSpace { get; set; }
-    }
-
-    public class Revisions {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
-        [XmlElement(nameof(Definition))] public Revision Definition { get; set; }
-        [XmlElement(nameof(Program))] public Revision Program { get; set; }
-    }
-
-    public class Revision {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
-        [XmlAttribute(nameof(Number))] public String Number { get; set; }
-        [XmlAttribute(nameof(Date))] public System.DateTime Date { get; set; }
     }
 
     public class UUT : IAssertionCurrent {
@@ -559,12 +548,11 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class TestSequence {
+        public String Revision { get; set; }
+        public System.DateTime Date { get; set; }
         public UUT UUT { get; set; } = Serializing.DeserializeFromFile<UUT>(xmlFile: Data.TestDefinitionXML);
         public TestOperation TestOperation { get; set; }
         [XmlIgnore] public Boolean IsOperation { get; set; } = false;
-        public Revisions Revisions { get; set; } = Serializing.DeserializeFromFile<Revisions>(xmlFile: Data.TestDefinitionXML);
-        public String BuiltTestExec { get; set; } = $"{Assembly.GetExecutingAssembly().GetName().Name}, {Data.BuildDate(Assembly.GetExecutingAssembly().GetName().Version)}";
-        public String BuiltTestPlan { get; set; } = $"{Assembly.GetEntryAssembly().GetName().Name}, {Data.BuildDate(Assembly.GetEntryAssembly().GetName().Version)}";
         public String Computer { get; set; } = Environment.MachineName;
         public String SerialNumber { get; set; } = String.Empty;
         public String Operator { get; set; } = Data.UserName;

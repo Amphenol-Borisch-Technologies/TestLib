@@ -67,6 +67,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 _ = testSequence.TestOperation.TestGroups.RemoveAll(tg => tg.Classname != selectedGroup.Classname);
                 // From the selected TestOperation, retain only the selected TestGroup and all its Methods.
             }
+            testSequence.Revision = Data.testDefinition.Revision;
+            testSequence.Date = Data.testDefinition.Date;
 
             DialogResult = DialogResult.OK;
         }

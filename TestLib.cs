@@ -9,18 +9,30 @@ using System.Xml.Linq;
 using ABT.Test.TestLib.TestConfiguration;
 
 namespace ABT.Test.TestLib {
-    public enum EVENTS { CANCEL, EMERGENCY_STOP, ERROR, FAIL, INFORMATION, PASS, UNSET }
-    // NOTE:  If modifying EVENTS, update EventColors correspondingly.  Every EVENT requires an associated Color.
+    [Flags] public enum EVENTS {
+        // NOTE:  EVENTS are defined in order of criticality.
+        // - EVENTS' ordering is crucial to correctly evaluating TestExec results.
+        // - Reordering without consideration will break TestGroup & TestOperation evaluation logic.
+        EMERGENCY_STOP  = 0b0100_0000, // Most critical event.
+        ERROR           = 0b0010_0000, // Second most critical event.
+        CANCEL          = 0b0001_0000, // Third most critical event.
+        UNSET           = 0b0000_1000, // .
+        FAIL            = 0b0000_0100, // .
+        PASS            = 0b0010_0010, // .
+        INFORMATION     = 0b0000_0001  // Least critical event.
+    }
+    // NOTE:  If modifying EVENTS, update EventColors correspondingly.
+    // - Every EVENT requires an associated Color.
 
     public static class Data {
         public static readonly Dictionary<EVENTS, Color> EventColors = new Dictionary<EVENTS, Color> {
-            { EVENTS.CANCEL, Color.Yellow },
             { EVENTS.EMERGENCY_STOP, Color.Fuchsia },
             { EVENTS.ERROR, Color.Aqua },
+            { EVENTS.CANCEL, Color.Yellow },
+            { EVENTS.UNSET, Color.Gray },
             { EVENTS.FAIL, Color.Red },
-            { EVENTS.INFORMATION, Color.White },
             { EVENTS.PASS, Color.Green },
-            { EVENTS.UNSET, Color.Gray }
+            { EVENTS.INFORMATION, Color.White }
         };
 
         // TODO:  Eventually; mitigate or eliminate writeable global objects; change their access to pass by value or reference.  Dovetail with loading TestPlans as AppDomains.

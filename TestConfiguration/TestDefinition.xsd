@@ -127,37 +127,6 @@
     </xs:attribute>
   </xs:attributeGroup>
 
-  <xs:complexType name="Revision">
-    <xs:attribute name="Number" use="required" type="xs:string">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          Number attribute:
-          - Required.
-          - Type: xs:string.
-          
-          Increment when modified, format #.#, major.minor.
-          Document concisely in Modifications.
-          ]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="Date" use="required" type="xs:date">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          Date attribute:
-          - Required.
-          - Type: xs:date.
-
-          Update when modified.
-          Document concisely in Modifications.
-          ]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-  </xs:complexType>
-
   <xs:complexType name="Customer">
     <xs:attribute name="Name" type="xs:string" use="required">
       <xs:annotation>
@@ -976,27 +945,6 @@
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="Revisions" minOccurs="1" maxOccurs="1">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">
-              <![CDATA[
-                Revisions element.
-                - Required, 1 occurence.
-                - Type: xs:element.
-                
-                Concisely document TestDefinition & TestProgram revisions in Modifications element.
-                GitHub's repository will precisely document their revisions.
-                This Revisions element supercedes the TestPlan's C# Project Version, which can be ignored.
-              ]]>
-            </xs:documentation>
-          </xs:annotation>
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="Definition" type="Revision" minOccurs="1" maxOccurs="1" />
-              <xs:element name="Program" type="Revision" minOccurs="1" maxOccurs="1" />
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
         <xs:element name="UUT" minOccurs="1" maxOccurs="1">
           <xs:annotation>
             <xs:documentation xml:lang="en">
@@ -1375,6 +1323,34 @@
           </xs:unique>
         </xs:element>
       </xs:sequence>
+      <xs:attribute name="Revision" use="required" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            <![CDATA[
+          Revision attribute:
+          - Required.
+          - Type: xs:string.
+          
+          Increment when modified, format #.#, major.minor.
+          Document concisely in Modifications.
+          ]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Date" use="required" type="xs:date">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            <![CDATA[
+          Date attribute:
+          - Required.
+          - Type: xs:date.
+
+          Update when modified.
+          Document concisely in Modifications.
+          ]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
     </xs:complexType>
   </xs:element>
 </xs:schema>
