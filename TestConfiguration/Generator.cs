@@ -3,8 +3,6 @@ using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.IO;
 using System.Windows.Forms;
-using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
-using ABT.Test.TestLib.InstrumentDrivers.Oscilloscopes;
 using Microsoft.CSharp;
 
 namespace ABT.Test.TestLib.TestConfiguration {

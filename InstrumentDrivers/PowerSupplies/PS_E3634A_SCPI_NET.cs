@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.AgE363x_1_7;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 using System.Collections.Generic;

@@ -1,8 +1,6 @@
-﻿﻿using System;
-using System.Windows.Forms;
+﻿using System;
 using Agilent.CommandExpert.ScpiNet.AgSCPI99_1_0;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
-using System.Diagnostics.Metrics;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.Generic {
     public class SCPI_NET : AgSCPI99, IInstruments {

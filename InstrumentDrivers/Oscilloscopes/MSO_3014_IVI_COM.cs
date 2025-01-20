@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using Tektronix.Tkdpo2k3k4k.Interop;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 
