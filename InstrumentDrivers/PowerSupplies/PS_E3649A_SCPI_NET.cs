@@ -20,15 +20,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
             try {
                 SCPI.TST.Query(out result);
             } catch (Exception e) {
-                _ = MessageBox.Show($"Instrument with driver {GetType().Name} failed its Self-Test:{Environment.NewLine}" + 
-                    $"Type:      {InstrumentType}{Environment.NewLine}" +
-                    $"Detail:    {Detail}{Environment.NewLine}" +
-                    $"Address:   {Address}{Environment.NewLine}" +
-                    $"Exception: {e}{Environment.NewLine}"
-                    , "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                // If unpowered or not communicating (comms cable possibly disconnected) SelfTest throws a
-                // Keysight.CommandExpert.InstrumentAbstraction.CommunicationException exception,
-                // which requires an apparently unavailable Keysight library to explicitly catch.
+                Instruments.SelfTestFailure(this, e);
                 return SELF_TEST_RESULTS.FAIL;
             }
             return (SELF_TEST_RESULTS)result; // AgE363x returns 0 for passed, 1 for fail.

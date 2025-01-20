@@ -28,16 +28,16 @@ namespace ABT.Test.TestLib.TestConfiguration {
             TestList.HeaderStyle = ColumnHeaderStyle.Nonclickable;
             if (TestOperations.Checked) {
                 TestGroups.Checked = false;
-                Text = "Select Test Operation";
-                TestList.Columns.Add("Operation");
-                TestList.Columns.Add("Description");
+                Text = $"Select {nameof(TestOperation)}";
+                TestList.Columns.Add(nameof(TestOperation.NamespaceTrunk));
+                TestList.Columns.Add(nameof(TestOperation.Description));
                 foreach (TestOperation testOperation in Data.testDefinition.TestSpace.TestOperations) TestList.Items.Add(new ListViewItem(new String[] { testOperation.NamespaceTrunk, testOperation.Description }));
             } else {
                 TestOperations.Checked = false;
-                Text = "Select Test Group";
-                TestList.Columns.Add("Operation");
-                TestList.Columns.Add("Group");
-                TestList.Columns.Add("Description");
+                Text = $"Select {nameof(TestGroup)}";
+                TestList.Columns.Add(nameof(TestOperation.NamespaceTrunk));
+                TestList.Columns.Add(nameof(TestGroup.Classname));
+                TestList.Columns.Add(nameof(TestGroup.Description));
                 foreach (TestOperation testOperation in Data.testDefinition.TestSpace.TestOperations) {
                     foreach (TestGroup testGroup in testOperation.TestGroups)
                         if (testGroup.Independent) TestList.Items.Add(new ListViewItem(new String[] { testOperation.NamespaceTrunk, testGroup.Classname, testGroup.Description }));

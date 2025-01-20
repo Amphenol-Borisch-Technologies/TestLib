@@ -10,6 +10,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         private static Boolean validSpecification = true;
         private static readonly StringBuilder stringBuilder = new StringBuilder();
         private static XmlReader xmlReader;
+        private const Int32 PR = 14;
 
         public static Boolean ValidSpecification(String TestDefinitionXSD, String TestDefinitionXML) {
             if (!File.Exists(TestDefinitionXSD)) throw new ArgumentException($"XSD Test Specification File '{TestDefinitionXSD}' does not exist.");
@@ -60,13 +61,13 @@ namespace ABT.Test.TestLib.TestConfiguration {
                                 if (low > high) {
                                     validSpecification = false;
                                     stringBuilder.AppendLine($"{nameof(MethodInterval)}'s {nameof(MethodInterval.Low)} > {nameof(MethodInterval.High)}:");
-                                    stringBuilder.AppendLine($"\tLine Number   : {(xmlReader as IXmlLineInfo).LineNumber}");
-                                    stringBuilder.AppendLine($"\tLine Position : {(xmlReader as IXmlLineInfo).LinePosition}");
-                                    stringBuilder.AppendLine($"\tNode Type     : {xmlReader.NodeType}");
-                                    stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.Description)}   : {xmlReader.GetAttribute(nameof(MethodInterval.Description))}");
-                                    stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.Name)}          : {xmlReader.GetAttribute(nameof(MethodInterval.Name))}");
-                                    stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.Low)}           : {xmlReader.GetAttribute(nameof(MethodInterval.Low))}");
-                                    stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.High)}          : {xmlReader.GetAttribute(nameof(MethodInterval.High))}{Environment.NewLine}{Environment.NewLine}");
+                                    stringBuilder.AppendLine($"\t{nameof(IXmlLineInfo.LineNumber)}".PadRight(PR) + $": {(xmlReader as IXmlLineInfo).LineNumber}");
+                                    stringBuilder.AppendLine($"\t{nameof(IXmlLineInfo.LinePosition)}".PadRight(PR) + $": {(xmlReader as IXmlLineInfo).LinePosition}");
+                                    stringBuilder.AppendLine($"\t{nameof(xmlReader.NodeType)}".PadRight(PR) + $": {xmlReader.NodeType}");
+                                    stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.Description)}".PadRight(PR) + $": {xmlReader.GetAttribute(nameof(MethodInterval.Description))}");
+                                    stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.Name)}".PadRight(PR) + $": {xmlReader.GetAttribute(nameof(MethodInterval.Name))}");
+                                    stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.Low)}".PadRight(PR) + $":{xmlReader.GetAttribute(nameof(MethodInterval.Low))}");
+                                    stringBuilder.AppendLine($"\t\t{nameof(MethodInterval.High)}".PadRight(PR) + $":{xmlReader.GetAttribute(nameof(MethodInterval.High))}{Environment.NewLine}{Environment.NewLine}");
                                 }
                             }
 
@@ -85,11 +86,11 @@ namespace ABT.Test.TestLib.TestConfiguration {
                                 if (className == methodName) {
                                     validSpecification = false;
                                     stringBuilder.AppendLine($"{nameof(Method)}'s {nameof(Method.Name)} '{methodName}' identical to {nameof(TestGroup)}'s {nameof(TestGroup.Classname)} '{className}':");
-                                    stringBuilder.AppendLine($"\tLine Number   : {(xmlReader as IXmlLineInfo).LineNumber}");
-                                    stringBuilder.AppendLine($"\tLine Position : {(xmlReader as IXmlLineInfo).LinePosition}");
-                                    stringBuilder.AppendLine($"\tNode Type     : {xmlReader.NodeType}");
-                                    stringBuilder.AppendLine($"\t\t{nameof(Method.Description)}   : {xmlReader.GetAttribute(nameof(Method.Description))}");
-                                    stringBuilder.AppendLine($"\t\t{nameof(Method.Name)}          : {xmlReader.GetAttribute(nameof(Method.Name))}");
+                                    stringBuilder.AppendLine($"\t{nameof(IXmlLineInfo.LineNumber)}".PadRight(PR) + $": {(xmlReader as IXmlLineInfo).LineNumber}");
+                                    stringBuilder.AppendLine($"\t{nameof(IXmlLineInfo.LinePosition)}".PadRight(PR) + $": {(xmlReader as IXmlLineInfo).LinePosition}");
+                                    stringBuilder.AppendLine($"\t{nameof(xmlReader.NodeType)}".PadRight(PR) + $": {xmlReader.NodeType}");
+                                    stringBuilder.AppendLine($"\t\t{nameof(Method.Description)}".PadRight(PR) + $": {xmlReader.GetAttribute(nameof(Method.Description))}");
+                                    stringBuilder.AppendLine($"\t\t{nameof(Method.Name)}".PadRight(PR) + $": {xmlReader.GetAttribute(nameof(Method.Name))}");
                                 }
                             }
                         }
@@ -97,8 +98,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 }
             } catch (Exception e) {
                 validSpecification = false;
-                stringBuilder.AppendLine($"Exception:");
-                stringBuilder.AppendLine($"\tException     : {e.Message}{Environment.NewLine}");
+                stringBuilder.AppendLine($"{nameof(System.Exception)}:");
+                stringBuilder.AppendLine($"\t{nameof(System.Exception)}".PadRight(PR) + $": {e.Message}{Environment.NewLine}");
             }
 
             if (!validSpecification) {
@@ -111,13 +112,13 @@ namespace ABT.Test.TestLib.TestConfiguration {
         private static void ValidationCallback(Object sender, ValidationEventArgs vea) {
             validSpecification = false;
             stringBuilder.AppendLine($"Validation Event:");
-            stringBuilder.AppendLine($"\tLine Number   : {vea.Exception.LineNumber}");
-            stringBuilder.AppendLine($"\tLine Position : {vea.Exception.LinePosition}");
-            stringBuilder.AppendLine($"\tNode Type     : {xmlReader.NodeType}");
-            stringBuilder.AppendLine($"\tDescription   : {xmlReader.GetAttribute("Description")}");
-            stringBuilder.AppendLine($"\tSeverity      : {vea.Severity}");
-            stringBuilder.AppendLine($"\tAttribute     : {xmlReader.Name} = {xmlReader.Value}");
-            stringBuilder.AppendLine($"\tMessage       : {vea.Message}{Environment.NewLine}{Environment.NewLine}");
+            stringBuilder.AppendLine($"\t{nameof(vea.Exception.LineNumber)}".PadRight(PR) + $": {vea.Exception.LineNumber}");
+            stringBuilder.AppendLine($"\t{nameof(vea.Exception.LinePosition)}".PadRight(PR) + $": {vea.Exception.LinePosition}");
+            stringBuilder.AppendLine($"\t{nameof(xmlReader.NodeType)}".PadRight(PR) + $": {xmlReader.NodeType}");
+            stringBuilder.AppendLine($"\t{nameof(Method.Description)}".PadRight(PR) + $": {xmlReader.GetAttribute(nameof(Method.Description))}");
+            stringBuilder.AppendLine($"\t{nameof(vea.Severity)}".PadRight(PR) + $": {vea.Severity}");
+            stringBuilder.AppendLine($"\tAttribute".PadRight(PR) + $": {xmlReader.Name} = {xmlReader.Value}");
+            stringBuilder.AppendLine($"\t{nameof(vea.Message)}".PadRight(PR) + $": {vea.Message}{Environment.NewLine}{Environment.NewLine}");
         }
     }
 }

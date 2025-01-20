@@ -270,14 +270,18 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public Statistics Statistics { get; set; } = new Statistics();
 
         public String StatisticsDisplay() {
-            const Int32 L = 6;
+            const Int32 L = 6; Int32 PR = 17;
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"Cancelled : {Statistics.Cancelled,L}, {Statistics.PercentCancelled(),L:P1}");
-            sb.AppendLine($"E-Stopped : {Statistics.EmergencyStopped,L}, {Statistics.PercentEmergencyStopped(),L:P1}");
-            sb.AppendLine($"Errored   : {Statistics.Errored,L}, {Statistics.PercentErrored(),L:P1}");
-            sb.AppendLine($"Failed    : {Statistics.Failed,L}, {Statistics.PercentFailed(),L:P1}");
-            sb.AppendLine($"Informed   : {Statistics.Informed,L}, {Statistics.PercentInformed(),L:P1}");
-            sb.AppendLine($"Passed    : {Statistics.Passed,L}, {Statistics.PercentPassed(),L:P1}");
+         
+
+            sb.AppendLine($"{nameof(Statistics.EmergencyStopped)}".PadRight(PR) + $": {Statistics.EmergencyStopped,L}, {Statistics.FractionEmergencyStopped(),L:P1}");
+            sb.AppendLine($"{nameof(Statistics.Errored)}".PadRight(PR) + $": {Statistics.Errored,L}, {Statistics.FractionErrored(),L:P1}");
+            sb.AppendLine($"{nameof(Statistics.Cancelled)}".PadRight(PR) + $": {Statistics.Cancelled,L}, {Statistics.FractionCancelled(),L:P1}");
+            sb.AppendLine($"{nameof(Statistics.Unset)}".PadRight(PR) + $": {Statistics.Unset,L}, {Statistics.FractionUnset(),L:P1}");
+            sb.AppendLine($"{nameof(Statistics.Failed)}".PadRight(PR) + $": {Statistics.Failed,L}, {Statistics.FractionFailed(),L:P1}");
+            sb.AppendLine($"{nameof(Statistics.Passed)}".PadRight(PR) + $": {Statistics.Passed,L}, {Statistics.FractionPassed(),L:P1}");
+            sb.AppendLine($"{nameof(Statistics.Informed)}".PadRight(PR) + $": {Statistics.Informed,L}, {Statistics.FractionInformed(),L:P1}");
+
             sb.AppendLine($"------");
             sb.AppendLine($"Total     : {Statistics.Tested(),L}");
             return sb.ToString();
@@ -503,40 +507,28 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class Statistics {
-        public UInt32 Cancelled = 0;
         public UInt32 EmergencyStopped = 0;
         public UInt32 Errored = 0;
+        public UInt32 Cancelled = 0;
+        public UInt32 Unset = 0;
         public UInt32 Failed = 0;
-        public UInt32 Informed = 0;
         public UInt32 Passed = 0;
+        public UInt32 Informed = 0;
+
         private readonly DateTime TestSelected = DateTime.Now;
 
         public Statistics() { }
 
         public void Update(EVENTS Event) {
             switch (Event) {
-                case EVENTS.CANCEL:
-                    Cancelled++;
-                    break;
-                case EVENTS.EMERGENCY_STOP:
-                    EmergencyStopped++;
-                    break;
-                case EVENTS.ERROR:
-                    Errored++;
-                    break;
-                case EVENTS.FAIL:
-                    Failed++;
-                    break;
-                case EVENTS.INFORMATION:
-                    Informed++;
-                    break;
-                case EVENTS.PASS:
-                    Passed++;
-                    break;
-                case EVENTS.UNSET:
-                    throw new ArgumentException($"Event '{Event}' illegal argument for {System.Reflection.MethodBase.GetCurrentMethod().Name}.");
-                default:
-                    throw new NotImplementedException($"Event '{Event}' not implemented.");
+                case EVENTS.EMERGENCY_STOP: EmergencyStopped++; break;
+                case EVENTS.ERROR:          Errored++; break;
+                case EVENTS.CANCEL:         Cancelled++; break;
+                case EVENTS.UNSET:          Unset++; break;
+                case EVENTS.FAIL:           Failed++; break;
+                case EVENTS.PASS:           Passed++; break;
+                case EVENTS.INFORMATION:    Informed++; break;
+                default:                    throw new NotImplementedException($"Event '{Event}' not implemented.");
             }
         }
 
@@ -544,13 +536,14 @@ namespace ABT.Test.TestLib.TestConfiguration {
             TimeSpan elapsedTime = DateTime.Now - TestSelected;
             return $"{(elapsedTime.Days != 0 ? elapsedTime.Days.ToString() + ":" : String.Empty)}{elapsedTime.Hours}:{elapsedTime.Minutes:00}";
         }
-        public Double PercentCancelled() { return Convert.ToDouble(Cancelled) / Convert.ToDouble(Tested()); }
-        public Double PercentEmergencyStopped() { return Convert.ToDouble(EmergencyStopped) / Convert.ToDouble(Tested()); }
-        public Double PercentErrored() { return Convert.ToDouble(Errored) / Convert.ToDouble(Tested()); }
-        public Double PercentFailed() { return Convert.ToDouble(Failed) / Convert.ToDouble(Tested()); }
-        public Double PercentInformed() { return Convert.ToDouble(Informed) / Convert.ToDouble(Tested()); }
-        public Double PercentPassed() { return Convert.ToDouble(Passed) / Convert.ToDouble(Tested()); }
-        public UInt32 Tested() { return Cancelled + EmergencyStopped + Errored + Failed + Informed + Passed; }
+        public Double FractionEmergencyStopped() { return Convert.ToDouble(EmergencyStopped) / Convert.ToDouble(Tested()); }
+        public Double FractionErrored() { return Convert.ToDouble(Errored) / Convert.ToDouble(Tested()); }
+        public Double FractionCancelled() { return Convert.ToDouble(Cancelled) / Convert.ToDouble(Tested()); }
+        public Double FractionUnset() { return Convert.ToDouble(Unset) / Convert.ToDouble(Tested()); }
+        public Double FractionFailed() { return Convert.ToDouble(Failed) / Convert.ToDouble(Tested()); }
+        public Double FractionPassed() { return Convert.ToDouble(Passed) / Convert.ToDouble(Tested()); }
+        public Double FractionInformed() { return Convert.ToDouble(Informed) / Convert.ToDouble(Tested()); }
+        public UInt32 Tested() { return  EmergencyStopped + Errored + Cancelled + Unset + Failed + Passed + Informed ; }
     }
 
     public class TestSequence {

@@ -89,12 +89,13 @@ namespace ABT.Test.TestLib {
                     instrumentDrivers.Add(mobile.ID, instrumentDriver); // instrumentDriver is null if testDefinition.TestSpace.Simulate.
                 } catch (Exception e) {
                     StringBuilder sb = new StringBuilder().AppendLine();
-                    sb.AppendLine($"Issue with Mobile Instrument:");
-                    sb.AppendLine($"   ID              : {mobile.ID}");
-                    sb.AppendLine($"   Detail          : {mobile.Detail}");
-                    sb.AppendLine($"   Address         : {mobile.Address}");
-                    sb.AppendLine($"   Classname       : {mobile.NameSpacedClassName}{Environment.NewLine}");
-                    sb.AppendLine($"Exception Message(s):");
+                    const Int32 PR = 23;
+                    sb.AppendLine($"Issue with {nameof(Mobile)}:");
+                    sb.AppendLine($"   {nameof(mobile.ID)}".PadRight(PR) + $": {mobile.ID}");
+                    sb.AppendLine($"   {nameof(mobile.Detail)}".PadRight(PR) + $": {mobile.Detail}");
+                    sb.AppendLine($"   {nameof(mobile.Address)}".PadRight(PR) + $": {mobile.Address}");
+                    sb.AppendLine($"   {nameof(mobile.NameSpacedClassName)}".PadRight(PR) + $": {mobile.NameSpacedClassName}{Environment.NewLine}");
+                    sb.AppendLine($"{nameof(System.Exception)} {nameof(System.Exception.Message)}(s):");
                     sb.AppendLine($"{e}{Environment.NewLine}");
                     throw new ArgumentException(sb.ToString());
                 }

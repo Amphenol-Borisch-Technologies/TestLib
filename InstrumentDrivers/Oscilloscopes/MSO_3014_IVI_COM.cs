@@ -20,15 +20,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Oscilloscopes {
             try {
                 UtilityEx.SelfTest(ref TestResult, ref TestMessage);
             } catch (Exception e) {
-                _ = MessageBox.Show($"Instrument with driver {GetType().Name} failed its Self-Test:{Environment.NewLine}" + 
-                    $"Type:      {InstrumentType}{Environment.NewLine}" +
-                    $"Detail:    {Detail}{Environment.NewLine}" +
-                    $"Address:   {Address}{Environment.NewLine}" +
-                    $"Exception: {e}{Environment.NewLine}"
-                    , "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                // If unpowered or not communicating (comms cable possibly disconnected) SelfTest throws a
-                // Keysight.CommandExpert.InstrumentAbstraction.CommunicationException exception,
-                // which requires an apparently unavailable Keysight library to explicitly catch.
+                Instruments.SelfTestFailure(this, e);
                 return SELF_TEST_RESULTS.FAIL;
             }
             return (SELF_TEST_RESULTS)TestResult; // Tkdpo2k3k4kClass returns 0 for passed, 1 for fail.

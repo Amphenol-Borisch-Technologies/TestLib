@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
+using System.Diagnostics.Metrics;
+using System.Threading.Channels;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
@@ -40,15 +42,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             try {
                 SCPI.TST.Query(out result);
             } catch (Exception e) {
-                _ = MessageBox.Show($"Instrument with driver {GetType().Name} failed its Self-Test:{Environment.NewLine}" +
-                    $"Type:      {InstrumentType}{Environment.NewLine}" +
-                    $"Detail:    {Detail}{Environment.NewLine}" +
-                    $"Address:   {Address}{Environment.NewLine}" +
-                    $"Exception: {e}{Environment.NewLine}"
-                    , "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                // If unpowered or not communicating (comms cable possibly disconnected) SelfTest throws a
-                // Keysight.CommandExpert.InstrumentAbstraction.CommunicationException exception,
-                // which requires an apparently unavailable Keysight library to explicitly catch.
+                Instruments.SelfTestFailure(this, e);
                 return SELF_TEST_RESULTS.FAIL;
             }
             return (SELF_TEST_RESULTS)result; // Ag34980 returns 0 for passed, 1 for fail.
@@ -106,11 +100,12 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
                             result_Slot = (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: $"Slot '{slot}':", Message: "Empty.", Event: EVENTS.INFORMATION) });
                             break;
                         default:
+                            const Int32 PR = 12;
                             throw new NotImplementedException(
                                 $"Diagnostic test for module '{SystemType(slot)}' unimplemented!{Environment.NewLine}{Environment.NewLine}" +
-                                $"Description     : '{SystemDescriptionLong(slot)}'.{Environment.NewLine}" +
-                                $"Address         : '{Address}'.{Environment.NewLine}" +
-                                $"Detail          : '{Detail}'.{Environment.NewLine}");
+                                $"{nameof(Instrument.Description)}".PadRight(PR) + $": '{SystemDescriptionLong(slot)}'.{Environment.NewLine}" +
+                                $"{nameof(Address)}".PadRight(PR) + $": '{Address}'.{Environment.NewLine}" +
+                                $"{nameof(Detail)}".PadRight(PR) + $": '{Detail}'.{Environment.NewLine}");
                     }
                     result_34980A.Summary &= result_Slot.summary;
                     result_34980A.Details.AddRange(result_Slot.details);
@@ -136,7 +131,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Boolean passed_34921A = true;
             String s = ((Int32)Slot).ToString("D1");
 
-            if (DialogResult.Cancel == MessageBox.Show($"Please connect 34921A diagnostic connectors to 34980A SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please connect {Modules.M34921A} diagnostic connectors to 34980A SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
@@ -170,7 +165,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Data.CT_Cancel.ThrowIfCancellationRequested();
 
             Data.CT_EmergencyStop.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect 34921A diagnostic connectors from 34980A SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect {Modules.M34921A} diagnostic connectors from 34980A SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
@@ -294,7 +289,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         public void ValidateChannelS(String Channels) {
             if (!Regex.IsMatch(Channels, @"^@\d{4}((,|:)\d{4})*$")) { // https://regex101.com/.
                 StringBuilder sb = new StringBuilder();
-                sb.AppendLine($"Invalid syntax for Channels '{Channels}'.");
+                sb.AppendLine($"Invalid syntax for {nameof(Channels)} '{Channels}'.");
                 sb.AppendLine(" - Must be in form of 1 or more discrete channels and/or ranges preceded by '@'.");
                 sb.AppendLine(" - Channel:  '@####':       Discrete channels must be separated by commas; '@1001,1002'.");
                 sb.AppendLine(" - Range:    '@####:####':  Channel ranges must be separated by colons; '@1001:1002'.");
@@ -322,17 +317,17 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         }
         public void ValidateChannel(String Channel) {
             Int32 slotNumber = Int32.Parse(Channel.Substring(0, 2));
-            if (!Enum.IsDefined(typeof(SLOTS), (SLOTS)slotNumber)) throw new ArgumentException($"Channel '{Channel}' must have valid integer Slot in interval [{(Int32)SLOTS.S1}..{(Int32)SLOTS.S8}].");
+            if (!Enum.IsDefined(typeof(SLOTS), (SLOTS)slotNumber)) throw new ArgumentException($"{nameof(Channel)} '{Channel}' must have valid integer Slot in interval [{(Int32)SLOTS.S1}..{(Int32)SLOTS.S8}].");
             Int32 channel = Int32.Parse(Channel.Substring(2));
             (Int32 min, Int32 max) = ModuleChannels((SLOTS)slotNumber);
-            if (channel < min || max < channel) throw new ArgumentException($"Channel '{Channel}' must have valid integer Channel in interval [{min:D3}..{max:D3}].");
+            if (channel < min || max < channel) throw new ArgumentException($"{nameof(Channel)} '{Channel}' must have valid integer {nameof(Channel)} in interval [{min:D3}..{max:D3}].");
         }
         public void ValidateRange(String Range) {
             String[] channels = Range.Split(new Char[] { ':' }, StringSplitOptions.None);
-            if (channels[0][1].Equals('9') || channels[1][1].Equals('9')) throw new ArgumentException($"Channel Range '{Range}' cannot include ABus Channel #9##.");
+            if (channels[0][1].Equals('9') || channels[1][1].Equals('9')) throw new ArgumentException($"{nameof(Channel)} {nameof(Range)} '{Range}' cannot include ABus {nameof(Channel)} #9##.");
             ValidateChannel(channels[0]);
             ValidateChannel(channels[1]);
-            if (Convert.ToInt32(channels[0]) >= Convert.ToInt32(channels[1])) throw new ArgumentException($"Channel Range '{Range}' start Channel '{channels[0]}' must be < end Channel '{channels[1]}'.");
+            if (Convert.ToInt32(channels[0]) >= Convert.ToInt32(channels[1])) throw new ArgumentException($"{nameof(Channel)} {nameof(Range)} '{Range}' start {nameof(Channel)} '{channels[0]}' must be < end {nameof(Channel)} '{channels[1]}'.");
         }
     }
 }
