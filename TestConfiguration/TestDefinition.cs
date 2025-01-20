@@ -389,6 +389,12 @@ namespace ABT.Test.TestLib.TestConfiguration {
             List<Type> derivedTypes = assembly.GetTypes().Where(t => t.IsClass && t.IsSubclassOf(baseType)).ToList();
             return new HashSet<String>(derivedTypes.Select(t => t.Name));
         }
+
+        public String LogFetchAndClear() {
+            String s = Log.ToString();
+            Log.Clear();
+            return s;
+        }
     }
 
     public class MethodCustom : Method, IAssertionCurrent {
