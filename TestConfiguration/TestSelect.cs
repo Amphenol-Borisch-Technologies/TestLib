@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace ABT.Test.TestLib.TestConfiguration {
@@ -45,7 +44,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
             }
             foreach (ColumnHeader ch in TestList.Columns) ch.Width = -2;
             TestList.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.ColumnContent);
-            // https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.columnheader.width?redirectedfrom=MSDN&view=windowsdesktop-7.0#System_Windows_Forms_ColumnHeader_Width
+            if (TestList.Columns[0].Width < 115) TestList.Columns[0].Width = 115;
             TestList.ResetText();
             OK.Enabled = false;
         }
