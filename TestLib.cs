@@ -13,13 +13,18 @@ namespace ABT.Test.TestLib {
         // NOTE:  EVENTS are defined in order of criticality.
         // - EVENTS' ordering is crucial to correctly evaluating TestExec results.
         // - Reordering without consideration will break TestGroup & TestOperation evaluation logic.
-        EMERGENCY_STOP  = 0b0100_0000, // Most critical event.
-        ERROR           = 0b0010_0000, // Second most critical event.
-        CANCEL          = 0b0001_0000, // Third most critical event.
+        // NOTE: Per Microsoft's CoPilot, 'foreach (EVENTS events in Enum.GetValues(typeof(EVENTS)))' will iterate over EVENTS in their defined order.
+        // - This is true with the below order and flag values, with most critical having lowest flag value; EMERGENCY_STOP = 0b0000_0001...INFORMATION = 0b0100_0000.
+        // - However, initially I set their flags from most critical having highest flag value; EMERGENCY_STOP = 0b0100_0000...INFORMATION = 0b0000_0001.
+        //   This caused the above foreach to iterate in flag value sequence, not definition order.
+        // - When I confronted CoPilot with this info, it agreed that flag value overrides definition order.
+        EMERGENCY_STOP  = 0b0000_0001, // Most critical event.
+        ERROR           = 0b0000_0010, // Second most critical event.
+        CANCEL          = 0b0000_0100, // Third most critical event.
         UNSET           = 0b0000_1000, // .
-        FAIL            = 0b0000_0100, // .
-        PASS            = 0b0000_0010, // .
-        INFORMATION     = 0b0000_0001  // Least critical event.
+        FAIL            = 0b0001_0000, // .
+        PASS            = 0b0010_0000, // .
+        INFORMATION     = 0b0100_0000  // Least critical event.
     }
     // NOTE:  If modifying EVENTS, update EventColors correspondingly.
     // - Every EVENT requires an associated Color.

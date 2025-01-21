@@ -29,12 +29,13 @@
             // 
             // buttonClipboard
             // 
-            this.buttonClipboard.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonClipboard.AutoSize = true;
+            this.buttonClipboard.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.buttonClipboard.Font = new System.Drawing.Font("Lucida Console", 12F);
-            this.buttonClipboard.Location = new System.Drawing.Point(-3, 565);
+            this.buttonClipboard.Location = new System.Drawing.Point(0, 426);
             this.buttonClipboard.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.buttonClipboard.Name = "buttonClipboard";
-            this.buttonClipboard.Size = new System.Drawing.Size(1343, 54);
+            this.buttonClipboard.Size = new System.Drawing.Size(861, 30);
             this.buttonClipboard.TabIndex = 1;
             this.buttonClipboard.Text = "Copy to Clipboard";
             this.buttonClipboard.UseVisualStyleBackColor = true;
@@ -42,24 +43,27 @@
             // 
             // richTextBox
             // 
-            this.richTextBox.Location = new System.Drawing.Point(-3, -2);
+            this.richTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox.Location = new System.Drawing.Point(0, 0);
             this.richTextBox.Name = "richTextBox";
-            this.richTextBox.Size = new System.Drawing.Size(1343, 571);
+            this.richTextBox.Size = new System.Drawing.Size(861, 426);
             this.richTextBox.TabIndex = 2;
             this.richTextBox.Text = "";
             this.richTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.RichTextBox_LinkClicked);
             // 
             // CustomMessageBox
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1333, 614);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(861, 456);
             this.Controls.Add(this.richTextBox);
             this.Controls.Add(this.buttonClipboard);
             this.Font = new System.Drawing.Font("Lucida Console", 12F);
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "CustomMessageBox";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
