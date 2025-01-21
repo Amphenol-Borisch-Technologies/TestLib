@@ -121,7 +121,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         }
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34921A(SLOTS Slot, Double Ω) {
-            // TODO: Add current measurement tests for 34921A relays 931, 041, 042, 043 & 044.  Will require an external current source.
+            // TODO: Eventually; add current measurement tests for 34921A relays 931, 041, 042, 043 & 044.  Will require an external current source.
             SCPI.ROUTe.OPEN.ALL.Command(null);
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
