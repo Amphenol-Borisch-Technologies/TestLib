@@ -8,6 +8,7 @@ using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 using System.Diagnostics.Metrics;
 using System.Threading.Channels;
+using ABT.Test.TestLib.InstrumentDrivers.Generic;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
@@ -26,6 +27,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         public String Address { get; }
         public String Detail { get; }
         public INSTRUMENT_TYPES InstrumentType { get; }
+        private readonly String _34980A;
 
         public void ResetClear() {
             SCPI.RST.Command();
@@ -33,7 +35,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         }
 
         public SELF_TEST_RESULTS SelfTests() {
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect _all_ connectors from 34980A Slots.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect _all_ connectors from {_34980A} Slots.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
@@ -131,7 +133,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Boolean passed_34921A = true;
             String s = ((Int32)Slot).ToString("D1");
 
-            if (DialogResult.Cancel == MessageBox.Show($"Please connect {Modules.M34921A} diagnostic connectors to 34980A SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please connect {Modules.M34921A} diagnostic connectors to {_34980A} SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
@@ -165,7 +167,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Data.CT_Cancel.ThrowIfCancellationRequested();
 
             Data.CT_EmergencyStop.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect {Modules.M34921A} diagnostic connectors from 34980A SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect {Modules.M34921A} diagnostic connectors from {_34980A} SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
@@ -234,6 +236,9 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.SYSTem.DATE.Command(now.Year, now.Month, now.Day);
             SCPI.SYSTem.TIME.Command(now.Hour, now.Minute, Convert.ToDouble(now.Second));
             SCPI.UNIT.TEMPerature.Command($"{TEMPERATURE_UNITS.F}");
+            SCPI.IDN.Query(out String idn);
+            _34980A = idn.Split(',')[(Int32)SCPI_NET.IDN_FIELDS.Model];
+
         }
 
         public Boolean InstrumentDMM_Installed() {
