@@ -33,7 +33,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
         [XmlAttribute(nameof(Category))] public Category Category { get; set; }
         public static readonly String NONE = $"{nameof(Data.NONE)}";
-        internal const String CHECK_OPERATION = "if (TestLib.testSequence.IsOperation) ";
+        internal static readonly String CHECK_OPERATION = $"if ({nameof(Data)}.{nameof(Data.testSequence)}.{nameof(Data.testSequence.IsOperation)}) ";
         internal const String DEBUG_ASSERT = "Debug.Assert(";
         internal const String BEGIN = "(";
         internal const String CS = ": ";

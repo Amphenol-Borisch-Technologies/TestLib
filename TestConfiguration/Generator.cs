@@ -54,7 +54,6 @@ namespace ABT.Test.TestLib.TestConfiguration {
             codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(System)}.{nameof(System.Diagnostics)}"));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}"));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(TestConfiguration)}"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(Data)}"));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"static {nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(Data)}"));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"static {nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(TestConfiguration)}.{nameof(Assertions)}"));
             return codeNamespace;
@@ -100,13 +99,12 @@ namespace ABT.Test.TestLib.TestConfiguration {
             }
 
             Method m = testOperation.TestGroups[testGroup].Methods[method];
-            _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\n"));
             if (m is MethodCustom) {
-                _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{nameof(TestIndices)}.{nameof(TestIndices.Method)}.{nameof(TestIndices.Method.Event)}) = {typeof(EVENTS).Name}.{EVENTS.UNSET};"));
-                _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn \"{String.Empty}\";"));
-            } else if (m is MethodInterval) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn \"{Double.NaN}\";"));
+                _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{nameof(TestIndices)}.{nameof(TestIndices.Method)}.{nameof(TestIndices.Method.Event)} = {typeof(EVENTS).Name}.{EVENTS.UNSET};"));
+                _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn String.Empty;"));
+            } else if (m is MethodInterval) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn Double.NaN.ToString();"));
             else if (m is MethodProcess) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn \"{-1}\";"));
-            else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn \"{String.Empty}\";"));
+            else _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\treturn String.Empty;"));
             _ = codeTypeDeclaration.Members.Add(codeMemberMethod);
         }
 
