@@ -4,14 +4,13 @@ using Tektronix.Tkdpo2k3k4k.Interop;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.Oscilloscopes {
-    public class MSO_3014_IVI_COM : Tkdpo2k3k4kClass, IInstruments, IDiagnostics {
+    public class MSO_3014_IVI_COM : Tkdpo2k3k4kClass, IInstruments, IDiagnostics, IDisposable {
         public String Address { get; }
         public String Detail { get; }
         public INSTRUMENT_TYPES InstrumentType { get; }
+        private Boolean disposed = false;
 
-        public void ResetClear() {
-            Utility.Reset();
-        }
+        public void ResetClear() { Utility.Reset(); }
 
         public SELF_TEST_RESULTS SelfTests() {
             Int32 TestResult = 0;
@@ -29,13 +28,34 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Oscilloscopes {
             // TODO: Eventually; add verification measurements of the MSO-3014 mixed signal oscilloscope using external instrumentation.
             ResetClear();
             Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
-            return (passed, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });        }
+            return (passed, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
+        }
 
         public MSO_3014_IVI_COM(String Address, String Detail) {
             this.Address = Address;
             this.Detail = Detail;
             InstrumentType = INSTRUMENT_TYPES.OSCILLOSCOPE_MIXED_SIGNAL;
             Initialize(ResourceName: Address, IdQuery: false, Reset: false, OptionString: String.Empty);
+        }
+
+        ~MSO_3014_IVI_COM() { Dispose(false); }
+
+        public override void Close() { Dispose(true); }
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(Boolean disposing) {
+            if (!disposed) {
+                if (disposing) {
+                    // Free managed resources specific to SubClass
+                }
+                base.Close();
+                // Free unmanaged resources specific to SubClass
+                disposed = true;
+            }
         }
     }
 }
