@@ -40,7 +40,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Oscilloscopes {
 
         ~MSO_3014_IVI_COM() { Dispose(false); }
 
-        public override void Close() { Dispose(true); }
+        public override void Close() { Dispose(); }
 
         public void Dispose() {
             Dispose(true);
@@ -49,12 +49,9 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Oscilloscopes {
 
         protected virtual void Dispose(Boolean disposing) {
             if (!disposed) {
-                if (disposing) {
-                    // Free managed resources specific to SubClass
-                }
-                base.Close();
-                // Free unmanaged resources specific to SubClass
-                disposed = true;
+                if (disposing) { } // Free managed resources specific to MSO_3014_IVI_COM; none as yet.
+                base.Close();      // Free unmanaged resources specific to MSO_3014_IVI_COM; invoke Tkdpo2k3k4kClass.Close().
+                disposed = true;   // Can only invoke Dispose(Boolean disposing) once and thus only base.Close() once, as is required. 
             }
         }
     }
