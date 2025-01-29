@@ -131,12 +131,11 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Boolean passed_34921A = true;
             String s = ((Int32)Slot).ToString("D1");
 
-            if (DialogResult.Cancel == MessageBox.Show($"Please connect {Modules.M34921A} diagnostic connectors to {_34980A} SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please connect {Modules.M34921A} diagnostic connector to {_34980A} SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
             Data.CT_EmergencyStop.ThrowIfCancellationRequested();
-
 
             SCPI.ROUTe.CLOSe.Command($"@{s}001:{s}020");                                                // Bank 1 all relays connected to Bank 1 diagnostic shorting connector.
             CloseMeasureOpenRecord_34921A($"@{s}911", Ω, ref passed_34921A, ref results);               // ABus1 COM1 directly connected to all Bank 1 relays and thus diagnostic shorting connector.
@@ -165,7 +164,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Data.CT_Cancel.ThrowIfCancellationRequested();
 
             Data.CT_EmergencyStop.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect {Modules.M34921A} diagnostic connectors from {_34980A} SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect {Modules.M34921A} diagnostic connector from {_34980A} SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
@@ -188,8 +187,55 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         }
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34932A(SLOTS Slot, Double Ω) {
+            // TODO: Soon; return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34932A), Message: " not implemented yet", Event: EVENTS.INFORMATION) });
+
             SCPI.ROUTe.OPEN.ALL.Command(null);
-            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34932A), Message: " not implemented yet", Event: EVENTS.INFORMATION) });
+            SCPI.INSTrument.DMM.STATe.Command(true);
+            SCPI.INSTrument.DMM.CONNect.Command();
+            SCPI.SENSe.RESistance.RESolution.Command("MAXimum");
+
+            List<DiagnosticsResult> results = new List<DiagnosticsResult>();
+            Boolean passed_34932A = true;
+            String s = ((Int32)Slot).ToString("D1");
+
+            if (DialogResult.Cancel == MessageBox.Show($"Please connect {Modules.M34932A} diagnostic connector to {_34980A} SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+                Data.CTS_Cancel.Cancel();
+                Data.CT_Cancel.ThrowIfCancellationRequested();
+            };
+            Data.CT_EmergencyStop.ThrowIfCancellationRequested();
+
+            SCPI.ROUTe.CLOSe.Command($"@{s}001:{s}020");                                                // Bank 1 all relays connected to Bank 1 diagnostic shorting connector.
+            CloseMeasureOpenRecord_34921A($"@{s}911", Ω, ref passed_34932A, ref results);               // ABus1 COM1 directly connected to all Bank 1 relays and thus diagnostic shorting connector.
+            CloseMeasureOpenRecord_34921A($"@{s}921,{s}912,{s}922", Ω, ref passed_34932A, ref results); // ABus1 COM2 indirectly connected through ABus2, to test ABus2.
+            CloseMeasureOpenRecord_34921A($"@{s}921,{s}913,{s}923", Ω, ref passed_34932A, ref results); // ABus1 COM2 indirectly connected through ABus3, to test ABus3.
+            CloseMeasureOpenRecord_34921A($"@{s}921,{s}914,{s}924", Ω, ref passed_34932A, ref results); // ABus1 COM2 indirectly connected through ABus4, to test ABus4.
+            SCPI.ROUTe.OPEN.Command($"@{s}001:{s}020");                                                 // Reference 'Keysight 34921A-34925A Low Frequency Multiplexer Modules', '34921A Simplified Schematic'.
+
+            SCPI.ROUTe.CLOSe.Command($"@{s}911"); // DMM Measure.
+            for (Int32 i = 1; i < 21; i++) CloseMeasureOpenRecord_34921A(channels: $"@{s}{i:D3}", Ω, ref passed_34932A, ref results); // Bank 1 individual relays.
+            SCPI.ROUTe.OPEN.Command($"@{s}911");
+
+            SCPI.ROUTe.CLOSe.Command($"@{s}021:{s}040");                                                // Bank 2 all relays connected to Bank 2 diagnostic shorting connector.
+            CloseMeasureOpenRecord_34921A($"@{s}921", Ω, ref passed_34932A, ref results);               // ABus1 COM2 directly connected to all Bank 2 relays and thus diagnostic shorting connector.
+            CloseMeasureOpenRecord_34921A($"@{s}911,{s}912,{s}922", Ω, ref passed_34932A, ref results); // ABus1 COM1 indirectly connected through ABus2, to test ABus2.
+            CloseMeasureOpenRecord_34921A($"@{s}911,{s}913,{s}923", Ω, ref passed_34932A, ref results); // ABus1 COM1 indirectly connected through ABus3, to test ABus3.
+            CloseMeasureOpenRecord_34921A($"@{s}911,{s}914,{s}924", Ω, ref passed_34932A, ref results); // ABus1 COM1 indirectly connected through ABus4, to test ABus4.
+            SCPI.ROUTe.OPEN.Command($"@{s}021:{s}040");                                                 // Reference 'Keysight 34921A-34925A Low Frequency Multiplexer Modules', '34921A Simplified Schematic'.
+
+            SCPI.ROUTe.CLOSe.Command($"@{s}921"); // DMM Measure.
+            for (Int32 i = 21; i < 41; i++) CloseMeasureOpenRecord_34921A(channels: $"@{s}{i:D3}", Ω, ref passed_34932A, ref results); // Bank 2 individual relays.
+            SCPI.ROUTe.OPEN.Command($"@{s}921");
+            SCPI.INSTrument.DMM.DISConnect.Command();
+
+            Data.CT_EmergencyStop.ThrowIfCancellationRequested();
+            Data.CT_Cancel.ThrowIfCancellationRequested();
+
+            Data.CT_EmergencyStop.ThrowIfCancellationRequested();
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect {Modules.M34932A} diagnostic connector from {_34980A} SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+                Data.CTS_Cancel.Cancel();
+                Data.CT_Cancel.ThrowIfCancellationRequested();
+            };
+            return (Summary: passed_34932A, Details: results);
         }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34938As(Double Ω) {
