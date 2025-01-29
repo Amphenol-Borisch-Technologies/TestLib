@@ -6,8 +6,6 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
-using System.Diagnostics.Metrics;
-using System.Threading.Channels;
 using ABT.Test.TestLib.InstrumentDrivers.Generic;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
@@ -105,7 +103,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
                             const Int32 PR = 12;
                             throw new NotImplementedException(
                                 $"Diagnostic test for module '{SystemType(slot)}' unimplemented!{Environment.NewLine}{Environment.NewLine}" +
-                                $"{nameof(Instrument.Description)}".PadRight(PR) + $": '{SystemDescriptionLong(slot)}'.{Environment.NewLine}" +
+                                $"{nameof(SystemDescriptionLong)}".PadRight(PR) + $": '{SystemDescriptionLong(slot)}'.{Environment.NewLine}" +
                                 $"{nameof(Address)}".PadRight(PR) + $": '{Address}'.{Environment.NewLine}" +
                                 $"{nameof(Detail)}".PadRight(PR) + $": '{Detail}'.{Environment.NewLine}");
                     }
@@ -329,10 +327,10 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         }
         public void ValidateRange(String Range) {
             String[] channels = Range.Split(new Char[] { ':' }, StringSplitOptions.None);
-            if (channels[0][1].Equals('9') || channels[1][1].Equals('9')) throw new ArgumentException($"{nameof(Channel)} {nameof(Range)} '{Range}' cannot include ABus {nameof(Channel)} #9##.");
+            if (channels[0][1].Equals('9') || channels[1][1].Equals('9')) throw new ArgumentException($"{nameof(Range)} '{Range}' cannot include ABus #9##.");
             ValidateChannel(channels[0]);
             ValidateChannel(channels[1]);
-            if (Convert.ToInt32(channels[0]) >= Convert.ToInt32(channels[1])) throw new ArgumentException($"{nameof(Channel)} {nameof(Range)} '{Range}' start {nameof(Channel)} '{channels[0]}' must be < end {nameof(Channel)} '{channels[1]}'.");
+            if (Convert.ToInt32(channels[0]) >= Convert.ToInt32(channels[1])) throw new ArgumentException($"{nameof(Range)} '{Range}' start {nameof(channels)} '{channels[0]}' must be < end {nameof(Range)} '{channels[1]}'.");
         }
     }
 }
