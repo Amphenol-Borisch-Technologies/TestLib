@@ -272,7 +272,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public String StatisticsDisplay() {
             const Int32 L = 6; Int32 PR = 17;
             StringBuilder sb = new StringBuilder();
-         
+
 
             sb.AppendLine($"{nameof(Statistics.EmergencyStopped)}".PadRight(PR) + $": {Statistics.EmergencyStopped,L}, {Statistics.FractionEmergencyStopped(),L:P1}");
             sb.AppendLine($"{nameof(Statistics.Errored)}".PadRight(PR) + $": {Statistics.Errored,L}, {Statistics.FractionErrored(),L:P1}");
@@ -384,6 +384,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
             return sb.ToString();
         }
 
+        public abstract String AssertionCurrent();
+
         public String AssertionNext() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.MethodNext)}{UUT.BEGIN}{nameof(Name)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Name)).GetValue(this))}{UUT.END}"; }
         public static HashSet<String> GetMethodDerivedClassnames() {
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -399,11 +401,11 @@ namespace ABT.Test.TestLib.TestConfiguration {
         }
     }
 
-    public class MethodCustom : Method, IAssertionCurrent {
+    public class MethodCustom : Method {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlElement(nameof(Parameter))] public List<Parameter> Parameters { get; set; }
 
-        public String AssertionCurrent() {
+        public override String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{AssertionM()}");
@@ -424,7 +426,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(Value))] public String Value { get; set; }
     }
 
-    public class MethodInterval : Method, IAssertionCurrent {
+    public class MethodInterval : Method {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(LowComparator))] public MI_LowComparator LowComparator { get; set; }
         [XmlAttribute(nameof(Low))] public Double Low { get; set; }
@@ -449,7 +451,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
             { MI_UnitPrefix.femto, 1E-15}
         };
 
-        public String AssertionCurrent() {
+        public override String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{AssertionM()}{UUT.CONTINUE}");
@@ -472,14 +474,14 @@ namespace ABT.Test.TestLib.TestConfiguration {
     public enum MI_UnitSuffix { NONE, AC, DC, Peak, PP, RMS }
 
 
-    public class MethodProcess : Method, IAssertionCurrent {
+    public class MethodProcess : Method {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
         [XmlAttribute(nameof(File))] public String File { get; set; }
         [XmlAttribute(nameof(Parameters))] public String Parameters { get; set; }
         [XmlAttribute(nameof(Expected))] public String Expected { get; set; }
 
-        public String AssertionCurrent() {
+        public override String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{AssertionM()}{UUT.CONTINUE}");
@@ -491,11 +493,11 @@ namespace ABT.Test.TestLib.TestConfiguration {
         }
     }
 
-    public class MethodTextual : Method, IAssertionCurrent {
+    public class MethodTextual : Method {
         // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Text))] public String Text { get; set; }
 
-        public String AssertionCurrent() {
+        public override String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{AssertionM()}{UUT.CONTINUE}");
@@ -520,13 +522,13 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public void Update(EVENTS Event) {
             switch (Event) {
                 case EVENTS.EMERGENCY_STOP: EmergencyStopped++; break;
-                case EVENTS.ERROR:          Errored++; break;
-                case EVENTS.CANCEL:         Cancelled++; break;
-                case EVENTS.UNSET:          Unset++; break;
-                case EVENTS.FAIL:           Failed++; break;
-                case EVENTS.PASS:           Passed++; break;
-                case EVENTS.INFORMATION:    Informed++; break;
-                default:                    throw new NotImplementedException($"Event '{Event}' not implemented.");
+                case EVENTS.ERROR: Errored++; break;
+                case EVENTS.CANCEL: Cancelled++; break;
+                case EVENTS.UNSET: Unset++; break;
+                case EVENTS.FAIL: Failed++; break;
+                case EVENTS.PASS: Passed++; break;
+                case EVENTS.INFORMATION: Informed++; break;
+                default: throw new NotImplementedException($"Event '{Event}' not implemented.");
             }
         }
 
@@ -541,7 +543,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public Double FractionFailed() { return Convert.ToDouble(Failed) / Convert.ToDouble(Tested()); }
         public Double FractionPassed() { return Convert.ToDouble(Passed) / Convert.ToDouble(Tested()); }
         public Double FractionInformed() { return Convert.ToDouble(Informed) / Convert.ToDouble(Tested()); }
-        public UInt32 Tested() { return  EmergencyStopped + Errored + Cancelled + Unset + Failed + Passed + Informed ; }
+        public UInt32 Tested() { return EmergencyStopped + Errored + Cancelled + Unset + Failed + Passed + Informed; }
     }
 
     public class TestSequence {
