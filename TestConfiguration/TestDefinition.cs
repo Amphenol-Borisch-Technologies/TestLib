@@ -385,6 +385,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         }
 
         public abstract String AssertionCurrent();
+        // NOTE: Previously implmented AssertionCurrent() via interface IAssertionCurrent.  However, this caused a problem with the XmlSerializer because it couldn't handle the interface.  So, I moved the implementation to this abstract class Method.
 
         public String AssertionNext() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.MethodNext)}{UUT.BEGIN}{nameof(Name)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Name)).GetValue(this))}{UUT.END}"; }
         public static HashSet<String> GetMethodDerivedClassnames() {

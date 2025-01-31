@@ -74,6 +74,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
                 foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) {
                     Data.CT_EmergencyStop.ThrowIfCancellationRequested();
                     Data.CT_Cancel.ThrowIfCancellationRequested();
+
                     switch (SystemType(slot)) {
                         case Modules.M34921A:
                             result_Slot = Diagnostic_34921A(slot, DP.M34921A);
