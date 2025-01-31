@@ -3,6 +3,9 @@
 ################################################################################
 
 /.vs/Lib/FileContentIndex
+/.vs/Diagnostics/FileContentIndex
+/.vs/TestExec/FileContentIndex
+*.vsidx
 
 # Ignore compiled files
 *.dll
@@ -14,6 +17,8 @@
 # Ignore build directories
 /bin
 /obj
+/bin/x64/Debug
+/obj/x64/Debug
 
 # Ignore user-specific files
 *.user
@@ -40,8 +45,3 @@
 *.tmp
 *.temp
 
-/bin/x64/Debug/TestLib.dll
-/bin/x64/Debug/TestLib.pdb
-/obj/x64/Debug/TestLib.csproj.AssemblyReference.cache
-/obj/x64/Debug/TestLib.dll
-/obj/x64/Debug/TestLib.pdb
