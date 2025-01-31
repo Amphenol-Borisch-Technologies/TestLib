@@ -3,3 +3,40 @@
 ################################################################################
 
 /.vs/Lib/FileContentIndex
+
+# Ignore compiled files
+*.dll
+*.exe
+*.so
+*.dylib
+*.dll
+
+# Ignore build directories
+/bin
+/obj
+
+# Ignore user-specific files
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+
+# Ignore Visual Studio Code files
+.vscode/
+.vscode/*
+
+# Ignore Rider files
+.idea/
+*.sln.iml
+
+# Ignore packaging
+*.jar
+*.war
+
+# Ignore logs
+*.log
+
+# Ignore temporary files
+*.tmp
+*.temp
+
