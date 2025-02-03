@@ -418,6 +418,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
     public class MethodCustom : Method, IAssertionCurrent {
         [XmlElement(nameof(Parameter))] public List<Parameter> Parameters { get; set; }
+
         public MethodCustom() { }
 
         public String AssertionCurrent() {
@@ -451,8 +452,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(UnitPrefix))] public MI_UnitPrefix UnitPrefix { get; set; }
         [XmlAttribute(nameof(Units))] public MI_Units Units { get; set; }
         [XmlAttribute(nameof(UnitSuffix))] public MI_UnitSuffix UnitSuffix { get; set; }
-        [XmlIgnore]
-        public static Dictionary<MI_UnitPrefix, Double> UnitPrefixes = new Dictionary<MI_UnitPrefix, Double>() {
+        [XmlIgnore] public static Dictionary<MI_UnitPrefix, Double> UnitPrefixes = new Dictionary<MI_UnitPrefix, Double>() {
             { MI_UnitPrefix.peta, 1E15 } ,
             { MI_UnitPrefix.tera, 1E12 },
             { MI_UnitPrefix.giga, 1E9 },

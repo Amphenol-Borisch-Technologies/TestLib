@@ -98,8 +98,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 }
             } catch (Exception e) {
                 validSpecification = false;
-                stringBuilder.AppendLine($"{nameof(System.Exception)}:");
-                stringBuilder.AppendLine($"\t{nameof(System.Exception)}".PadRight(PR) + $": {e.Message}{Environment.NewLine}");
+                stringBuilder.AppendLine($"{nameof(Exception)}:");
+                stringBuilder.AppendLine($"\t{e.Message}".PadRight(PR) + Environment.NewLine);
             }
 
             if (!validSpecification) {

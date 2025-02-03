@@ -86,11 +86,16 @@ namespace ABT.Test.TestLib {
             try {
                 Assembly assembly = Assembly.GetAssembly(typeof(T));
                 Type baseType = typeof(T);
-                List<Type> derivedTypes = assembly.GetTypes().Where(t => t.IsClass && t.IsSubclassOf(baseType)).ToList();
+                List<Type> derivedTypes = assembly.GetTypes().Where(t => !t.IsCOMObject && t.IsAssignableFrom(baseType)).ToList();
                 return new HashSet<String>(derivedTypes.Select(t => t.Name));
-            } catch (ReflectionTypeLoadException rtle) {
-                foreach(Exception e in rtle.LoaderExceptions) Debug.Print(e.Message);
-                throw new Exception(rtle.ToString());
+            } catch (ReflectionTypeLoadException reflectionTypeLoadException) {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.AppendLine($"{nameof(ReflectionTypeLoadException)}: '{reflectionTypeLoadException.Message}'.");
+                foreach (Exception exception in reflectionTypeLoadException.LoaderExceptions) {
+                    stringBuilder.AppendLine($"\tMessage: '{exception.Message}'.");
+                    if (exception is TypeLoadException typeLoadException) stringBuilder.AppendLine($"\tTypeName: '{typeLoadException.TypeName}'.");
+                }
+                throw new Exception(stringBuilder.ToString());
             }
         }
 

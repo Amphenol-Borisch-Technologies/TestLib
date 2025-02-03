@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Tektronix.Tkdpo2k3k4k.Interop;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
+using System.Runtime.InteropServices;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.Oscilloscopes {
     public class MSO_3014_IVI_COM : Tkdpo2k3k4kClass, IInstruments, IDiagnostics, IDisposable {
@@ -40,7 +41,9 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Oscilloscopes {
 
         ~MSO_3014_IVI_COM() { Dispose(false); }
 
-        public override void Close() { Dispose(); }
+        // public override void Close() { Dispose(); } NOTE: Overriding Close() causes Data.GetDerivedClassnames<> to throw
+        // 'System.Reflection.ReflectionTypeLoadException' in mscorlib.dll.
+        // Types extending from COM objects should override all methods of an interface implemented by the base COM class.
 
         public void Dispose() {
             Dispose(true);
