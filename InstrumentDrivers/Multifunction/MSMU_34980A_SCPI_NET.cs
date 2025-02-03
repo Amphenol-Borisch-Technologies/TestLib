@@ -116,32 +116,24 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34921A(SLOTS Slot, (Double Ω_closed, Double Ω_open) M34921A) {
             // TODO: Eventually; add current measurement tests for 34921A relays 931, 041, 042, 043 & 044.  Will require an external current source.
-            SCPI.ROUTe.OPEN.ALL.Command(null);
-            SCPI.INSTrument.DMM.STATe.Command(true);
-            SCPI.INSTrument.DMM.CONNect.Command();
-            SCPI.SENSe.RESistance.RESolution.Command("MAXimum");
-
-            List<DiagnosticsResult> results = new List<DiagnosticsResult>();
-            Boolean passed_34921A = true;
             String s = ((Int32)Slot).ToString("D1");
-
-            if (DialogResult.Cancel == MessageBox.Show($"Please connect {Modules.M34921A} diagnostic connector to {_34980A} SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            Data.CT_Cancel.ThrowIfCancellationRequested();
+            if (DialogResult.Cancel == MessageBox.Show($"Please connect {Modules.M34921A} diagnostic connector to {_34980A} SLOT {s}.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
 
+            SCPI.ROUTe.OPEN.ALL.Command(null);
+            SCPI.INSTrument.DMM.STATe.Command(true);
+            SCPI.INSTrument.DMM.CONNect.Command();
+            SCPI.SENSe.RESistance.RESolution.Command("MAXimum");
+            List<DiagnosticsResult> results = new List<DiagnosticsResult>();
+            Boolean passed_34921A = true;
+
             String D = nameof(Diagnostic_34921A);
             CloseMeasureOpenRecord(D, kelvin: false, closed: false, String.Empty, M34921A, ref passed_34921A, ref results);
-
             CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{s}911", M34921A, ref passed_34921A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{s}911,{s}912,{s}922", M34921A, ref passed_34921A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{s}911,{s}913,{s}923", M34921A, ref passed_34921A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{s}911,{s}914,{s}924", M34921A, ref passed_34921A, ref results);
-
             CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{s}921", M34921A, ref passed_34921A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{s}921,{s}912,{s}922", M34921A, ref passed_34921A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{s}921,{s}913,{s}923", M34921A, ref passed_34921A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{s}921,{s}914,{s}924", M34921A, ref passed_34921A, ref results);
 
             SCPI.ROUTe.CLOSe.Command($"@{s}001:{s}020"); // Bank 1 all relays connected to Bank 1 diagnostic shorting connector.
             CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}911", M34921A, ref passed_34921A, ref results);               // ABus1 COM1 directly connected to all Bank 1 relays and thus diagnostic shorting connector.
@@ -151,7 +143,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.ROUTe.OPEN.Command($"@{s}001:{s}020"); // Reference 'Keysight 34921A-34925A Low Frequency Multiplexer Modules', '34921A Simplified Schematic'.
 
             SCPI.ROUTe.CLOSe.Command($"@{s}911"); // DMM Measure.
-            for (Int32 i = 1; i < 21; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{i:D3}", M34921A, ref passed_34921A, ref results); // Bank 1 individual relays.
+            for (Int32 i = 1; i <= 20; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{i:D3}", M34921A, ref passed_34921A, ref results); // Bank 1 individual relays.
             SCPI.ROUTe.OPEN.Command($"@{s}911");
 
             SCPI.ROUTe.CLOSe.Command($"@{s}021:{s}040"); // Bank 2 all relays connected to Bank 2 diagnostic shorting connector.
@@ -162,13 +154,12 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.ROUTe.OPEN.Command($"@{s}021:{s}040"); // Reference 'Keysight 34921A-34925A Low Frequency Multiplexer Modules', '34921A Simplified Schematic'.
 
             SCPI.ROUTe.CLOSe.Command($"@{s}921"); // DMM Measure.
-            for (Int32 i = 21; i < 41; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{i:D3}", M34921A, ref passed_34921A, ref results); // Bank 2 individual relays.
+            for (Int32 i = 21; i <= 40; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{i:D3}", M34921A, ref passed_34921A, ref results); // Bank 2 individual relays.
             SCPI.ROUTe.OPEN.Command($"@{s}921");
             SCPI.INSTrument.DMM.DISConnect.Command();
 
             Data.CT_Cancel.ThrowIfCancellationRequested();
-
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect {Modules.M34921A} diagnostic connector from {_34980A} SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect {Modules.M34921A} diagnostic connector from {_34980A} SLOT {s}.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
@@ -195,33 +186,65 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         }
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34932A(SLOTS Slot, (Double Ω_closed, Double Ω_open) M34932A) {
+            String s = ((Int32)Slot).ToString("D1");
+            Data.CT_Cancel.ThrowIfCancellationRequested();
+            if (DialogResult.Cancel == MessageBox.Show($"Please connect {Modules.M34932A} diagnostic connector to {_34980A} SLOT {s} and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+                Data.CTS_Cancel.Cancel();
+                Data.CT_Cancel.ThrowIfCancellationRequested();
+            };
+
             SCPI.ROUTe.OPEN.ALL.Command(null);
-            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34932A), Message: " not implemented yet", Event: EVENTS.INFORMATION) });
-            // TODO: Soon:
-            // NOTE all measure Ω steps are 2-wire.
-            // Place 34932T Loopback module into slot Slot, connect ABus DSub-9.
-            // Open all, close s921, measure Ω; should equal ∞.
-            // Close s101...s116 & s501...s516, measure Ω; should be ≤ DiagnosticParameter_34980A.Ω_34932A.
-            // Open all, close s922, measure Ω; should equal ∞.
-            // Close s201...s216 & s601...s616, measure Ω; should be ≤ DiagnosticParameter_34980A.Ω_34932A.
-            // Open all, close s923, measure Ω; should equal ∞.
-            // Close s301...s316 & s701...s716, measure Ω; should be ≤ DiagnosticParameter_34980A.Ω_34932A.
-            // Open all, close s924, measure Ω; should equal ∞.
-            // Close s401...s416 & s801...s816, measure Ω; should be ≤ DiagnosticParameter_34980A.Ω_34932A.
-            //
-            // Open all.
-            // for ABus = s921 to s924:
-            //     Close ABus, measure Ω; should equal ∞.
-            //       for matrix = s101 to s116:
-            //           close matrix, measure Ω; should be ≤ DiagnosticParameter_34980A.Ω_34932A.
-            //           open matrix.
-            //       next matrix.
-            //       for matrix = s501 to s516:
-            //           close matrix, measure Ω; should be ≤ DiagnosticParameter_34980A.Ω_34932A.
-            //           open matrix.
-            //       next matrix.
-            //     Open ABus.
-            // next ABus.
+            SCPI.INSTrument.DMM.STATe.Command(true);
+            SCPI.INSTrument.DMM.CONNect.Command();
+            SCPI.SENSe.RESistance.RESolution.Command("MAXimum");
+            List<DiagnosticsResult> results = new List<DiagnosticsResult>();
+            Boolean passed_34932A = true;
+
+            String D = nameof(Diagnostic_34932A);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false, String.Empty, M34932A, ref passed_34932A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{s}921", M34932A, ref passed_34932A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}921,{s}101:{s}116,{s}501:{s}516", M34932A, ref passed_34932A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{s}922", M34932A, ref passed_34932A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}922,{s}201:{s}216,{s}601:{s}616", M34932A, ref passed_34932A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{s}923", M34932A, ref passed_34932A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}923,{s}301:{s}316,{s}701:{s}716", M34932A, ref passed_34932A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{s}924", M34932A, ref passed_34932A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}924,{s}401:{s}416,{s}801:{s}816", M34932A, ref passed_34932A, ref results);
+
+            SCPI.ROUTe.CLOSe.Command($"@{s}{921}"); // DMM Measure.
+            for (Int32 matrix = 101; matrix < 117; matrix++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{matrix}", M34932A, ref passed_34932A, ref results);
+            for (Int32 matrix = 501; matrix < 517; matrix++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{matrix}", M34932A, ref passed_34932A, ref results);
+            SCPI.ROUTe.OPEN.Command($"@{s}{921}");
+            SCPI.ROUTe.CLOSe.Command($"@{s}{922}"); // DMM Measure.
+            for (Int32 matrix = 201; matrix < 217; matrix++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{matrix}", M34932A, ref passed_34932A, ref results);
+            for (Int32 matrix = 601; matrix < 617; matrix++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{matrix}", M34932A, ref passed_34932A, ref results);
+            SCPI.ROUTe.OPEN.Command($"@{s}{922}");
+            SCPI.ROUTe.CLOSe.Command($"@{s}{923}"); // DMM Measure.
+            for (Int32 matrix = 301; matrix < 317; matrix++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{matrix}", M34932A, ref passed_34932A, ref results);
+            for (Int32 matrix = 701; matrix < 717; matrix++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{matrix}", M34932A, ref passed_34932A, ref results);
+            SCPI.ROUTe.OPEN.Command($"@{s}{923}");
+            SCPI.ROUTe.CLOSe.Command($"@{s}{924}"); // DMM Measure.
+            for (Int32 matrix = 401; matrix < 417; matrix++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{matrix}", M34932A, ref passed_34932A, ref results);
+            for (Int32 matrix = 801; matrix < 817; matrix++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{matrix}", M34932A, ref passed_34932A, ref results);
+
+            Int32 matrix1 = 100, matrix2 = 500;
+            for (Int32 relayAbus = 921; relayAbus <= 924; relayAbus++) {
+                SCPI.ROUTe.CLOSe.Command($"@{s}{relayAbus}");
+                for (Int32 relayMatrix1 = matrix1 + 1; relayMatrix1 <= matrix1 + 16; relayMatrix1++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{relayMatrix1}", M34932A, ref passed_34932A, ref results);
+                for (Int32 relayMatrix2 = matrix2 + 1; relayMatrix2 <= matrix2 + 16; relayMatrix2++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{relayMatrix2}", M34932A, ref passed_34932A, ref results);
+                matrix1 += 100; matrix2 += 100;
+                SCPI.ROUTe.OPEN.Command($"@{s}{relayAbus}");
+            }
+
+            SCPI.INSTrument.DMM.DISConnect.Command();
+
+            Data.CT_Cancel.ThrowIfCancellationRequested();
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect {Modules.M34932A} diagnostic connector from {_34980A} SLOT {s} and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+                Data.CTS_Cancel.Cancel();
+                Data.CT_Cancel.ThrowIfCancellationRequested();
+            };
+
+            return (Summary: passed_34932A, Details: results);
          }
 
         public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34938As((Double Ω_closed, Double Ω_open) M34938A) {
@@ -231,30 +254,29 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         }
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34938A(SLOTS Slot, (Double Ω_closed, Double Ω_open) M34938A) {
+            String s = ((Int32)Slot).ToString("D1");
+            Data.CT_Cancel.ThrowIfCancellationRequested();
+            if (DialogResult.Cancel == MessageBox.Show($"Please connect {Modules.M34938A} diagnostic connector to {_34980A} SLOT {s} and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+                Data.CTS_Cancel.Cancel();
+                Data.CT_Cancel.ThrowIfCancellationRequested();
+            };
+            
             SCPI.ROUTe.OPEN.ALL.Command(null);
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
             SCPI.SENSe.RESistance.RESolution.Command("MAXimum");
-
             List<DiagnosticsResult> results = new List<DiagnosticsResult>();
             Boolean passed_34938A = true;
-            String s = ((Int32)Slot).ToString("D1");
-
-            if (DialogResult.Cancel == MessageBox.Show($"Please connect {Modules.M34938A} diagnostic connector to {_34980A} SLOT {s} Banks 1 & 2 and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
-                Data.CTS_Cancel.Cancel();
-                Data.CT_Cancel.ThrowIfCancellationRequested();
-            };
 
             String D = nameof(Diagnostic_34938A);
             CloseMeasureOpenRecord(D, kelvin: true, closed: false, String.Empty, M34938A, ref passed_34938A, ref results);
             CloseMeasureOpenRecord(D, kelvin: true, closed: true, $"@{s}001:{s}020", M34938A, ref passed_34938A, ref results);
-            for (Int32 i = 1; i < 21; i++) CloseMeasureOpenRecord(D, kelvin: true, closed: true, $"@{s}{i:D3}", M34938A, ref passed_34938A, ref results);
+            for (Int32 i = 1; i <= 20; i++) CloseMeasureOpenRecord(D, kelvin: true, closed: true, $"@{s}{i:D3}", M34938A, ref passed_34938A, ref results);
 
             SCPI.INSTrument.DMM.DISConnect.Command();
 
             Data.CT_Cancel.ThrowIfCancellationRequested();
-
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect {Modules.M34938A} diagnostic connector from {_34980A} SLOT {s} Banks 1 & 2 and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect {Modules.M34938A} diagnostic connector from {_34980A} SLOT {s} and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
