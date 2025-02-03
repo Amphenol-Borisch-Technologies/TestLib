@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -12,7 +14,6 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
     [XmlRoot(nameof(TestDefinition))]
     public class TestDefinition {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
         [XmlAttribute(nameof(Date))] public System.DateTime Date { get; set; }
         [XmlElement(nameof(UUT))] public UUT UUT { get; set; }
@@ -21,10 +22,11 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlElement(nameof(TestData))] public TestData TestData { get; set; }
         [XmlElement(nameof(Instruments))] public Instruments Instruments { get; set; }
         [XmlElement(nameof(TestSpace))] public TestSpace TestSpace { get; set; }
+
+        public TestDefinition() { }
     }
 
     public class UUT : IAssertionCurrent {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlElement(nameof(Customer))] public Customer Customer { get; set; }
         [XmlElement(nameof(TestSpecification))] public List<TestSpecification> TestSpecification { get; set; }
         [XmlIgnore][XmlElement(nameof(Documentation))] public List<Documentation> Documentation { get; set; }
@@ -40,6 +42,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
         internal const String CONTINUE = ", ";
         internal const String END = "));";
         internal const String DIVIDER = "|";
+
+        public UUT() { }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
@@ -59,10 +63,11 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class Customer : IAssertionCurrent {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Name))] public String Name { get; set; }
         [XmlAttribute(nameof(Division))] public String Division { get; set; }
         [XmlAttribute(nameof(Location))] public String Location { get; set; }
+
+        public Customer() { }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
@@ -76,11 +81,12 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class TestSpecification : IAssertionCurrent {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Document))] public String Document { get; set; }
         [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
         [XmlAttribute(nameof(Title))] public String Title { get; set; }
         [XmlAttribute(nameof(Date))] public System.DateTime Date { get; set; }
+
+        public TestSpecification() { }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
@@ -95,49 +101,55 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class Documentation {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
+
+        public Documentation() { }
     }
 
     public enum Category { Component, CircuitCard, Harness, Unit, System }
 
     public class Development {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlElement(nameof(Developer))] public List<Developer> Developer { get; set; }
         [XmlElement(nameof(Documentation))] public List<Documentation> Documentation { get; set; }
         [XmlElement(nameof(Repository))] public List<Repository> Repository { get; set; }
         [XmlAttribute(nameof(Released))] public System.DateTime Released { get; set; }
+
+        public Development() { }
     }
 
     public class Developer {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Name))] public String Name { get; set; }
         [XmlAttribute(nameof(Language))] public Language Language { get; set; }
         [XmlAttribute(nameof(Comment))] public String Comment { get; set; }
         public String EMailAddress { get; set; } = String.Empty;
+
+        public Developer() { }
     }
 
     public enum Language { CSharp, Python, VEE }
 
     public class Repository {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(URL))] public String URL { get; set; }
+
+        public Repository() { }
     }
 
     public class Modification {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Who))] public String Who { get; set; }
         [XmlAttribute(nameof(What))] public String What { get; set; }
         [XmlAttribute(nameof(When))] public System.DateTime When { get; set; }
         [XmlAttribute(nameof(Where))] public String Where { get; set; }
         [XmlAttribute(nameof(Why))] public String Why { get; set; }
+
+        public Modification() { }
     }
 
     public class TestData : IAssertionCurrent {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlElement(nameof(SQL), typeof(SQL))]
         [XmlElement(nameof(XML), typeof(XML))]
         public Object Item { get; set; }
+
+        public TestData() { }
 
         public String AssertionCurrent() {
             if (Item == null) return String.Empty;
@@ -148,17 +160,19 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public abstract class SerialNumber {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(SerialNumberEntry))] public SerialNumberEntry SerialNumberEntry { get; set; }
         [XmlAttribute(nameof(SerialNumberRegEx))] public String SerialNumberRegEx { get; set; }
         [XmlAttribute(nameof(SerialNumberFormat))] public String SerialNumberFormat { get; set; }
+
+        public SerialNumber() { }
     }
 
     public enum SerialNumberEntry { Barcode, Keyboard }
 
     public class SQL : SerialNumber, IAssertionCurrent {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(ConnectionString))] public String ConnectionString { get; set; }
+
+        public SQL() { }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
@@ -172,8 +186,9 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class XML : SerialNumber, IAssertionCurrent {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
+
+        public XML() { }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
@@ -187,9 +202,10 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class Instruments : IAssertionCurrent {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlElement(nameof(Stationary))] public List<Stationary> Stationary { get; set; }
         [XmlElement(nameof(Mobile))] public List<Mobile> Mobile { get; set; }
+
+        public Instruments() { }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
@@ -228,9 +244,10 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class Stationary : IAssertionCurrent {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(ID))] public String ID { get; set; }
         [XmlAttribute(nameof(Alias))] public String Alias { get; set; }
+
+        public Stationary() { }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
@@ -243,10 +260,11 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class Mobile : Stationary {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Detail))] public String Detail { get; set; }
         [XmlAttribute(nameof(Address))] public String Address { get; set; }
         [XmlAttribute(nameof(NameSpacedClassName))] public String NameSpacedClassName { get; set; }
+
+        public Mobile() { }
 
         public new String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
@@ -261,11 +279,12 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class TestSpace : IAssertionCurrent {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(NamespaceRoot))] public String NamespaceRoot { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(Simulate))] public Boolean Simulate { get; set; }
         [XmlElement(nameof(TestOperation))] public List<TestOperation> TestOperations { get; set; }
+
+        public TestSpace () { }
 
         public Statistics Statistics { get; set; } = new Statistics();
 
@@ -309,10 +328,11 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class TestOperation : IAssertionCurrent {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(NamespaceTrunk))] public String NamespaceTrunk { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlElement(nameof(TestGroup))] public List<TestGroup> TestGroups { get; set; }
+
+        public TestOperation() { }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
@@ -332,7 +352,6 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class TestGroup : IAssertionCurrent {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Classname))] public String Classname { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(CancelNotPassed))] public Boolean CancelNotPassed { get; set; }
@@ -342,6 +361,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlElement(nameof(MethodProcess), typeof(MethodProcess))]
         [XmlElement(nameof(MethodTextual), typeof(MethodTextual))]
         public List<Method> Methods { get; set; }
+
+        public TestGroup() { }
 
         public String AssertionPrior() { return $"{UUT.CHECK_OPERATION}{UUT.DEBUG_ASSERT}{nameof(Assertions.TestGroupPrior)}{UUT.BEGIN}{nameof(Classname)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Classname)).GetValue(this))}{UUT.END}"; }
 
@@ -366,7 +387,6 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public abstract class Method {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Name))] public String Name { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(CancelNotPassed))] public Boolean CancelNotPassed { get; set; }
@@ -374,9 +394,12 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public EVENTS Event { get; set; }
         [XmlIgnore] public StringBuilder Log { get; set; } = new StringBuilder();
         public String LogString { get; set; } = String.Empty;
+
+        public Method() { }
+
         public String AssertionPrior() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.MethodPrior)}{UUT.BEGIN}{nameof(Name)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Name)).GetValue(this))}{UUT.END}"; }
 
-        private protected String AssertionM() {
+        public String AssertionBase() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{nameof(Name)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Name)).GetValue(this))}{UUT.CONTINUE}");
             sb.Append($"{nameof(Description)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}{UUT.CONTINUE}");
@@ -384,16 +407,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
             return sb.ToString();
         }
 
-        public abstract String AssertionCurrent();
-        // NOTE: Previously implmented AssertionCurrent() via interface IAssertionCurrent.  However, this caused a problem with the XmlSerializer because it couldn't handle the interface.  So, I moved the implementation to this abstract class Method.
-
         public String AssertionNext() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.MethodNext)}{UUT.BEGIN}{nameof(Name)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Name)).GetValue(this))}{UUT.END}"; }
-        public static HashSet<String> GetMethodDerivedClassnames() {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Type baseType = typeof(Method);
-            List<Type> derivedTypes = assembly.GetTypes().Where(t => t.IsClass && t.IsSubclassOf(baseType)).ToList();
-            return new HashSet<String>(derivedTypes.Select(t => t.Name));
-        }
 
         public String LogFetchAndClear() {
             String s = Log.ToString();
@@ -402,14 +416,14 @@ namespace ABT.Test.TestLib.TestConfiguration {
         }
     }
 
-    public class MethodCustom : Method {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
+    public class MethodCustom : Method, IAssertionCurrent {
         [XmlElement(nameof(Parameter))] public List<Parameter> Parameters { get; set; }
+        public MethodCustom() { }
 
-        public override String AssertionCurrent() {
+        public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
-            sb.Append($"{AssertionM()}");
+            sb.Append($"{AssertionBase()}");
             if (Parameters.Count > 0) sb.Append($"{UUT.CONTINUE}{nameof(Parameters)}{UUT.CS}{Ps()}");
             sb.Append($"{UUT.END}");
             return sb.ToString();
@@ -422,13 +436,13 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class Parameter {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
         [XmlAttribute(nameof(Key))] public String Key { get; set; }
         [XmlAttribute(nameof(Value))] public String Value { get; set; }
+
+        public Parameter() { }
     }
 
-    public class MethodInterval : Method {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
+    public class MethodInterval : Method, IAssertionCurrent {
         [XmlAttribute(nameof(LowComparator))] public MI_LowComparator LowComparator { get; set; }
         [XmlAttribute(nameof(Low))] public Double Low { get; set; }
         [XmlAttribute(nameof(High))] public Double High { get; set; }
@@ -452,10 +466,12 @@ namespace ABT.Test.TestLib.TestConfiguration {
             { MI_UnitPrefix.femto, 1E-15}
         };
 
-        public override String AssertionCurrent() {
+        public MethodInterval() { }
+
+        public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
-            sb.Append($"{AssertionM()}{UUT.CONTINUE}");
+            sb.Append($"{AssertionBase()}{UUT.CONTINUE}");
             sb.Append($"{nameof(LowComparator)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(LowComparator)).GetValue(this))}{UUT.CONTINUE}");
             sb.Append($"{nameof(Low)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Low)).GetValue(this))}{UUT.CONTINUE}");
             sb.Append($"{nameof(High)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(High)).GetValue(this))}{UUT.CONTINUE}");
@@ -474,18 +490,18 @@ namespace ABT.Test.TestLib.TestConfiguration {
     public enum MI_Units { NONE, Amperes, Celcius, Farads, Henries, Hertz, Ohms, Seconds, Siemens, Volts, VoltAmperes, Watts }
     public enum MI_UnitSuffix { NONE, AC, DC, Peak, PP, RMS }
 
-
-    public class MethodProcess : Method {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
+    public class MethodProcess : Method, IAssertionCurrent {
         [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
         [XmlAttribute(nameof(File))] public String File { get; set; }
         [XmlAttribute(nameof(Parameters))] public String Parameters { get; set; }
         [XmlAttribute(nameof(Expected))] public String Expected { get; set; }
 
-        public override String AssertionCurrent() {
+        public MethodProcess() { }
+
+        public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
-            sb.Append($"{AssertionM()}{UUT.CONTINUE}");
+            sb.Append($"{AssertionBase()}{UUT.CONTINUE}");
             sb.Append($"{nameof(Folder)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Folder)).GetValue(this))}{UUT.CONTINUE}");
             sb.Append($"{nameof(File)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(File)).GetValue(this))}{UUT.CONTINUE}");
             sb.Append($"{nameof(Parameters)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Parameters)).GetValue(this))}{UUT.CONTINUE}");
@@ -494,14 +510,15 @@ namespace ABT.Test.TestLib.TestConfiguration {
         }
     }
 
-    public class MethodTextual : Method {
-        // NOTE: Constructor-less because only instantiated via System.Xml.Serialization.XmlSerializer, thus constructor unnecessary.
+    public class MethodTextual : Method, IAssertionCurrent {
         [XmlAttribute(nameof(Text))] public String Text { get; set; }
 
-        public override String AssertionCurrent() {
+        public MethodTextual() { }
+
+        public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
-            sb.Append($"{AssertionM()}{UUT.CONTINUE}");
+            sb.Append($"{AssertionBase()}{UUT.CONTINUE}");
             sb.Append($"{nameof(Text)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Text)).GetValue(this))}{UUT.END}");
             return sb.ToString();
         }

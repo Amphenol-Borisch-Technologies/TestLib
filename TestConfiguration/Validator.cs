@@ -24,7 +24,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 using (xmlReader = XmlReader.Create(TestDefinitionXML, xmlReaderSettings)) {
                     Double low, high;
                     String className = String.Empty;
-                    HashSet<String> methodTypes = Method.GetMethodDerivedClassnames();
+                    HashSet<String> methodTypes = Data.GetDerivedClassnames<Method>();
                     while (xmlReader.Read()) {
                         if (xmlReader.NodeType == XmlNodeType.Element) {
                             if (String.Equals(xmlReader.Name, nameof(MethodInterval))) {

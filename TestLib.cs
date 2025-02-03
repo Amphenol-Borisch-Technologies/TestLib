@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Xml.Linq;
@@ -78,6 +80,18 @@ namespace ABT.Test.TestLib {
                 instrumentDrivers.Add(xElement.Attribute("ID").Value, instrumentDriver); // instrumentDriver is null if testDefinition.TestSpace.Simulate.
             }
             return instrumentDrivers;
+        }
+
+        public static HashSet<String> GetDerivedClassnames<T>() where T : class {
+            try {
+                Assembly assembly = Assembly.GetAssembly(typeof(T));
+                Type baseType = typeof(T);
+                List<Type> derivedTypes = assembly.GetTypes().Where(t => t.IsClass && t.IsSubclassOf(baseType)).ToList();
+                return new HashSet<String>(derivedTypes.Select(t => t.Name));
+            } catch (ReflectionTypeLoadException rtle) {
+                foreach(Exception e in rtle.LoaderExceptions) Debug.Print(e.Message);
+                throw new Exception(rtle.ToString());
+            }
         }
 
         public static Dictionary<String, Object> GetInstrumentDriversTestDefinition() {
