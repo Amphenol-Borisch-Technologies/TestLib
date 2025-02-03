@@ -211,22 +211,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{s}924", M34932A, ref passed_34932A, ref results); // DMM Measure.
             CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}924,{s}401:{s}416,{s}801:{s}816", M34932A, ref passed_34932A, ref results);
 
-            SCPI.ROUTe.CLOSe.Command($"@{s}{921}"); // DMM Measure.
-            for (Int32 matrix = 101; matrix < 117; matrix++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{matrix}", M34932A, ref passed_34932A, ref results);
-            for (Int32 matrix = 501; matrix < 517; matrix++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{matrix}", M34932A, ref passed_34932A, ref results);
-            SCPI.ROUTe.OPEN.Command($"@{s}{921}");
-            SCPI.ROUTe.CLOSe.Command($"@{s}{922}"); // DMM Measure.
-            for (Int32 matrix = 201; matrix < 217; matrix++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{matrix}", M34932A, ref passed_34932A, ref results);
-            for (Int32 matrix = 601; matrix < 617; matrix++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{matrix}", M34932A, ref passed_34932A, ref results);
-            SCPI.ROUTe.OPEN.Command($"@{s}{922}");
-            SCPI.ROUTe.CLOSe.Command($"@{s}{923}"); // DMM Measure.
-            for (Int32 matrix = 301; matrix < 317; matrix++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{matrix}", M34932A, ref passed_34932A, ref results);
-            for (Int32 matrix = 701; matrix < 717; matrix++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{matrix}", M34932A, ref passed_34932A, ref results);
-            SCPI.ROUTe.OPEN.Command($"@{s}{923}");
-            SCPI.ROUTe.CLOSe.Command($"@{s}{924}"); // DMM Measure.
-            for (Int32 matrix = 401; matrix < 417; matrix++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{matrix}", M34932A, ref passed_34932A, ref results);
-            for (Int32 matrix = 801; matrix < 817; matrix++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{matrix}", M34932A, ref passed_34932A, ref results);
-
             Int32 matrix1 = 100, matrix2 = 500;
             for (Int32 relayAbus = 921; relayAbus <= 924; relayAbus++) {
                 SCPI.ROUTe.CLOSe.Command($"@{s}{relayAbus}"); // DMM Measure.
