@@ -1,5 +1,0 @@
-C:\Users\phils\source\repos\ABT\Test\TestLib\obj\x64\Release\TestLib.csproj.AssemblyReference.cache
-C:\Users\phils\source\repos\ABT\Test\TestLib\obj\x64\Release\ABT.Test.TestLib.TestConfiguration.TestSelect.resources
-C:\Users\phils\source\repos\ABT\Test\TestLib\obj\x64\Release\ABT.Test.TestLib.Miscellaneous.CustomMessageBox.resources
-C:\Users\phils\source\repos\ABT\Test\TestLib\obj\x64\Release\TestLib.csproj.GenerateResource.cache
-C:\Users\phils\source\repos\ABT\Test\TestLib\obj\x64\Release\TestLib.csproj.CoreCompileInputs.cache

@@ -72,7 +72,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
                 DiagnosticParameter_34980A DP = (o is DiagnosticParameter_34980A dp) ? dp : new DiagnosticParameter_34980A();
 
                 foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) {
-                    Data.CT_EmergencyStop.ThrowIfCancellationRequested();
                     Data.CT_Cancel.ThrowIfCancellationRequested();
 
                     switch (SystemType(slot)) {
@@ -130,7 +129,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
-            Data.CT_EmergencyStop.ThrowIfCancellationRequested();
 
             String D = nameof(Diagnostic_34921A);
             CloseMeasureOpenRecord(D, kelvin: false, closed: false, String.Empty, M34921A, ref passed_34921A, ref results);
@@ -168,7 +166,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.ROUTe.OPEN.Command($"@{s}921");
             SCPI.INSTrument.DMM.DISConnect.Command();
 
-            Data.CT_EmergencyStop.ThrowIfCancellationRequested();
             Data.CT_Cancel.ThrowIfCancellationRequested();
 
             if (DialogResult.Cancel == MessageBox.Show($"Please disconnect {Modules.M34921A} diagnostic connector from {_34980A} SLOT {s} Banks 1 & 2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
@@ -255,7 +252,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
             SCPI.INSTrument.DMM.DISConnect.Command();
 
-            Data.CT_EmergencyStop.ThrowIfCancellationRequested();
             Data.CT_Cancel.ThrowIfCancellationRequested();
 
             if (DialogResult.Cancel == MessageBox.Show($"Please disconnect {Modules.M34938A} diagnostic connector from {_34980A} SLOT {s} Banks 1 & 2 and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
