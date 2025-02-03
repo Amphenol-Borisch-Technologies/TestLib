@@ -132,8 +132,8 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
             String D = nameof(Diagnostic_34921A);
             CloseMeasureOpenRecord(D, kelvin: false, closed: false, String.Empty, M34921A, ref passed_34921A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{s}911", M34921A, ref passed_34921A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{s}921", M34921A, ref passed_34921A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{s}911", M34921A, ref passed_34921A, ref results); // DMM Measure.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{s}921", M34921A, ref passed_34921A, ref results); // DMM Measure.
 
             SCPI.ROUTe.CLOSe.Command($"@{s}001:{s}020"); // Bank 1 all relays connected to Bank 1 diagnostic shorting connector.
             CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}911", M34921A, ref passed_34921A, ref results);               // ABus1 COM1 directly connected to all Bank 1 relays and thus diagnostic shorting connector.
@@ -202,13 +202,13 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
             String D = nameof(Diagnostic_34932A);
             CloseMeasureOpenRecord(D, kelvin: false, closed: false, String.Empty, M34932A, ref passed_34932A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{s}921", M34932A, ref passed_34932A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{s}921", M34932A, ref passed_34932A, ref results); // DMM Measure.
             CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}921,{s}101:{s}116,{s}501:{s}516", M34932A, ref passed_34932A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{s}922", M34932A, ref passed_34932A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{s}922", M34932A, ref passed_34932A, ref results); // DMM Measure.
             CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}922,{s}201:{s}216,{s}601:{s}616", M34932A, ref passed_34932A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{s}923", M34932A, ref passed_34932A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{s}923", M34932A, ref passed_34932A, ref results); // DMM Measure.
             CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}923,{s}301:{s}316,{s}701:{s}716", M34932A, ref passed_34932A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{s}924", M34932A, ref passed_34932A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{s}924", M34932A, ref passed_34932A, ref results); // DMM Measure.
             CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}924,{s}401:{s}416,{s}801:{s}816", M34932A, ref passed_34932A, ref results);
 
             SCPI.ROUTe.CLOSe.Command($"@{s}{921}"); // DMM Measure.
@@ -229,7 +229,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
             Int32 matrix1 = 100, matrix2 = 500;
             for (Int32 relayAbus = 921; relayAbus <= 924; relayAbus++) {
-                SCPI.ROUTe.CLOSe.Command($"@{s}{relayAbus}");
+                SCPI.ROUTe.CLOSe.Command($"@{s}{relayAbus}"); // DMM Measure.
                 for (Int32 relayMatrix1 = matrix1 + 1; relayMatrix1 <= matrix1 + 16; relayMatrix1++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{relayMatrix1}", M34932A, ref passed_34932A, ref results);
                 for (Int32 relayMatrix2 = matrix2 + 1; relayMatrix2 <= matrix2 + 16; relayMatrix2++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{s}{relayMatrix2}", M34932A, ref passed_34932A, ref results);
                 matrix1 += 100; matrix2 += 100;
