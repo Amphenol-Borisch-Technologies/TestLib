@@ -329,6 +329,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
     public class TestOperation : IAssertionCurrent {
         [XmlAttribute(nameof(NamespaceTrunk))] public String NamespaceTrunk { get; set; }
+        [XmlAttribute(nameof(DebugOnly))] public Boolean DebugOnly { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlElement(nameof(TestGroup))] public List<TestGroup> TestGroups { get; set; }
 
@@ -338,6 +339,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.CHECK_OPERATION}{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{nameof(NamespaceTrunk)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(NamespaceTrunk)).GetValue(this))}{UUT.CONTINUE}");
+            sb.Append($"{nameof(DebugOnly)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(DebugOnly)).GetValue(this))}{UUT.CONTINUE}");
             sb.Append($"{nameof(Description)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}");
             sb.Append($"{UUT.CONTINUE}{nameof(TestGroups)}{UUT.CS}{TGs()}");
             sb.Append($"{UUT.END}");

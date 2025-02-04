@@ -462,6 +462,8 @@
             - Required.
             - Method Names must be unique within their TestGroup, and must also differ from their parent Classnames.
             - Type: ValidCSharpIdentifier.
+
+            Method Names are analogous to a leaf in a root/trunk/branch/leaf hierarchy.
           ]]>
         </xs:documentation>
       </xs:annotation>
@@ -476,7 +478,6 @@
             - Type: xs:boolean.
                   
             Determines if subsequent testing is cancelled if Method fails.
-            A Method is analogous to a leaf in a root/trunk/branch/leaf hierarchy.
          ]]>
         </xs:documentation>
       </xs:annotation>
@@ -930,6 +931,18 @@
       </xs:annotation>
     </xs:attribute>
     <xs:attribute ref="Description" use="required"/>
+    <xs:attribute name="DebugOnly" type="xs:boolean" use="required">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          <![CDATA[
+            DebugOnly attribute:
+            - Required.
+            - DebugOnly TestOperations are exclusively for trouble-shooting.
+            - Type: xs:boolean.
+          ]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
 
