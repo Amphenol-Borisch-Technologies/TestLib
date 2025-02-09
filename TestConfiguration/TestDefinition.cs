@@ -112,7 +112,8 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlElement(nameof(Developer))] public List<Developer> Developer { get; set; }
         [XmlElement(nameof(Documentation))] public List<Documentation> Documentation { get; set; }
         [XmlElement(nameof(Repository))] public List<Repository> Repository { get; set; }
-        [XmlAttribute(nameof(Released))] public System.DateTime Released { get; set; }
+        [XmlAttribute(nameof(Released))] public DateTime Released { get; set; }
+        [XmlIgnore] public String EMailAddresses { get; set; } = String.Empty;
 
         public Development() { }
     }
@@ -121,7 +122,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(Name))] public String Name { get; set; }
         [XmlAttribute(nameof(Language))] public Language Language { get; set; }
         [XmlAttribute(nameof(Comment))] public String Comment { get; set; }
-        public String EMailAddress { get; set; } = String.Empty;
+        [XmlIgnore] public String EMailAddress { get; set; } = String.Empty;
 
         public Developer() { }
     }
@@ -137,7 +138,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     public class Modification {
         [XmlAttribute(nameof(Who))] public String Who { get; set; }
         [XmlAttribute(nameof(What))] public String What { get; set; }
-        [XmlAttribute(nameof(When))] public System.DateTime When { get; set; }
+        [XmlAttribute(nameof(When))] public DateTime When { get; set; }
         [XmlAttribute(nameof(Where))] public String Where { get; set; }
         [XmlAttribute(nameof(Why))] public String Why { get; set; }
 
