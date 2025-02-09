@@ -890,7 +890,7 @@
             - Required.
             - Type: xs:boolean.
 
-            Determines if Test Group is independently executable outside of this Test Operation, for trouble-shooting.
+            Independent=true perrmits TestGroup to be independently executed for trouble-shooting.
           ]]>
         </xs:documentation>
       </xs:annotation>
@@ -931,13 +931,13 @@
       </xs:annotation>
     </xs:attribute>
     <xs:attribute ref="Description" use="required"/>
-    <xs:attribute name="DebugOnly" type="xs:boolean" use="required">
+    <xs:attribute name="ProductionTest" type="xs:boolean" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
           <![CDATA[
-            DebugOnly attribute:
+            ProductionTest attribute:
             - Required.
-            - DebugOnly TestOperations are exclusively for trouble-shooting.
+            - ProductionTest=true permits TestOperations to be used for production UUT testing.
             - Type: xs:boolean.
           ]]>
         </xs:documentation>

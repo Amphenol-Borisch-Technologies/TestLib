@@ -31,7 +31,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
                 TestList.Columns.Add(nameof(TestOperation.NamespaceTrunk));
                 TestList.Columns.Add(nameof(TestOperation.Description));
                 foreach (TestOperation testOperation in Data.testDefinition.TestSpace.TestOperations) 
-                    if (!testOperation.DebugOnly) TestList.Items.Add(new ListViewItem(new String[] { testOperation.NamespaceTrunk, testOperation.Description }));
+                    if (testOperation.ProductionTest) TestList.Items.Add(new ListViewItem(new String[] { testOperation.NamespaceTrunk, testOperation.Description }));
             } else {
                 TestOperations.Checked = false;
                 Text = $"Select {nameof(TestGroup)}";
