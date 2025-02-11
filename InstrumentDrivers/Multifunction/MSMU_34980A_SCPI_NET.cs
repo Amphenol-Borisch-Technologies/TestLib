@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 using ABT.Test.TestLib.InstrumentDrivers.Generic;
+using System.Threading.Channels;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
@@ -33,7 +34,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         }
 
         public SELF_TEST_RESULTS SelfTests() {
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect _all_ connectors from {_34980A} Slots.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect _all_ connectors & terminal blocks from {_34980A} Slots.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
@@ -118,7 +119,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             // TODO: Eventually; add current measurement tests for 34921A relays 931, 041, 042, 043 & 044.  Will require an external current source.
             String S = ((Int32)Slot).ToString("D1");
             Data.CT_Cancel.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please connect {Modules.M34921A} diagnostic connector to {_34980A} SLOT {S}.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-1 diagnostic terminal block to {_34980A} SLOT {S}.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
@@ -159,7 +160,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.INSTrument.DMM.DISConnect.Command();
 
             Data.CT_Cancel.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect {Modules.M34921A} diagnostic connector from {_34980A} SLOT {S}.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-1 diagnostic terminal block from {_34980A} SLOT {S}.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
@@ -188,7 +189,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34932A(SLOTS Slot, (Double Ω_closed, Double Ω_open) M34932A) {
             String S = ((Int32)Slot).ToString("D1");
             Data.CT_Cancel.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please connect {Modules.M34932A} diagnostic connector to {_34980A} SLOT {S} and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-2 diagnostic terminal block to {_34980A} SLOT {S} and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
@@ -223,7 +224,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.INSTrument.DMM.DISConnect.Command();
 
             Data.CT_Cancel.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect {Modules.M34932A} diagnostic connector from {_34980A} SLOT {S} and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-2 diagnostic terminal block from {_34980A} SLOT {S} and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
@@ -240,7 +241,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34938A(SLOTS Slot, (Double Ω_closed, Double Ω_open) M34938A) {
             String S = ((Int32)Slot).ToString("D1");
             Data.CT_Cancel.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please connect {Modules.M34938A} diagnostic connector to {_34980A} SLOT {S} and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-3 diagnostic terminal block to {_34980A} SLOT {S} and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
@@ -260,7 +261,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.INSTrument.DMM.DISConnect.Command();
 
             Data.CT_Cancel.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect {Modules.M34938A} diagnostic connector from {_34980A} SLOT {S} and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-2 diagnostic terminal block from {_34980A} SLOT {S} and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
@@ -286,8 +287,84 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         }
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34952A(SLOTS Slot) {
+            String S = ((Int32)Slot).ToString("D1");
+            Data.CT_Cancel.ThrowIfCancellationRequested();
+            if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-4 diagnostic terminal block to {_34980A} SLOT {S} and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+                Data.CTS_Cancel.Cancel();
+                Data.CT_Cancel.ThrowIfCancellationRequested();
+            };
+            
             SCPI.ROUTe.OPEN.ALL.Command(null);
-            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34952A), Message: " not implemented yet", Event: EVENTS.INFORMATION) });
+            SCPI.INSTrument.DMM.STATe.Command(true);
+            SCPI.INSTrument.DMM.CONNect.Command();
+            SCPI.SENSe.RESistance.RESolution.Command("MAXimum");
+            List<DiagnosticsResult> results = new List<DiagnosticsResult>();
+            Boolean passed_34952A = true;
+
+            String D = nameof(Diagnostic_34952A);
+
+            Diagnostic_34952A_DIO(D, $"@{S}001", $"@{S}002", 0b0000_0000, ref passed_34952A, ref results); // Write bits 0-7, Read 8-15.
+            Diagnostic_34952A_DIO(D, $"@{S}001", $"@{S}002", 0b1111_1111, ref passed_34952A, ref results);
+            Diagnostic_34952A_DIO(D, $"@{S}001", $"@{S}002", 0b0101_0101, ref passed_34952A, ref results);
+            Diagnostic_34952A_DIO(D, $"@{S}001", $"@{S}002", 0b1010_1010, ref passed_34952A, ref results);
+            Diagnostic_34952A_DIO(D, $"@{S}002", $"@{S}001", 0b0000_0000, ref passed_34952A, ref results); // Write bits 8-15, Read 0-7.
+            Diagnostic_34952A_DIO(D, $"@{S}002", $"@{S}001", 0b1111_1111, ref passed_34952A, ref results);
+            Diagnostic_34952A_DIO(D, $"@{S}002", $"@{S}001", 0b0101_0101, ref passed_34952A, ref results);
+            Diagnostic_34952A_DIO(D, $"@{S}002", $"@{S}001", 0b1010_1010, ref passed_34952A, ref results);
+
+            Diagnostic_34952A_DIO(D, $"@{S}003", $"@{S}004", 0b0000_0000, ref passed_34952A, ref results); // Write bits 16-23, Read 24-31.
+            Diagnostic_34952A_DIO(D, $"@{S}003", $"@{S}004", 0b1111_1111, ref passed_34952A, ref results);
+            Diagnostic_34952A_DIO(D, $"@{S}003", $"@{S}004", 0b0101_0101, ref passed_34952A, ref results);
+            Diagnostic_34952A_DIO(D, $"@{S}003", $"@{S}004", 0b1010_1010, ref passed_34952A, ref results);
+            Diagnostic_34952A_DIO(D, $"@{S}004", $"@{S}003", 0b0000_0000, ref passed_34952A, ref results); // Write bits 24-31, Read 16-23.
+            Diagnostic_34952A_DIO(D, $"@{S}004", $"@{S}003", 0b1111_1111, ref passed_34952A, ref results);
+            Diagnostic_34952A_DIO(D, $"@{S}004", $"@{S}003", 0b0101_0101, ref passed_34952A, ref results);
+            Diagnostic_34952A_DIO(D, $"@{S}004", $"@{S}003", 0b1010_1010, ref passed_34952A, ref results);
+
+            Diagnostic_34952A_Totalizer(D, $"@{S}005",  "POSitive", 512, ref passed_34952A, ref results);
+            Diagnostic_34952A_Totalizer(D, $"@{S}005",  "NEGative", 512, ref passed_34952A, ref results);
+
+            // TODO: Write DAC1 & DAC2 diagnostics.
+
+            Data.CT_Cancel.ThrowIfCancellationRequested();
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-4 diagnostic terminal block from {_34980A} SLOT {S} and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+                Data.CTS_Cancel.Cancel();
+                Data.CT_Cancel.ThrowIfCancellationRequested();
+            };
+
+            return (Summary: passed_34952A, Details: results);
+        }
+
+        private void Diagnostic_34952A_DIO(String diagnostic, String channelWrite, String channelRead, Byte byteWrite, ref Boolean passed, ref List<DiagnosticsResult> results) {
+            Int32 int32Write = Convert.ToInt32(byteWrite);
+            SCPI.CONFigure.DIGital.DIRection.Command("OUTPut", channelWrite);
+            SCPI.CONFigure.DIGital.DIRection.Command("INPut", channelRead);
+            SCPI.SOURce.DIGital.DATA.BYTE.Command(int32Write, channelWrite);
+            SCPI.SENSe.DIGital.DATA.BYTE.Query(null, channelRead, out Int32 int32Read);
+            Byte byteRead = Convert.ToByte(int32Read);
+            Boolean passed_DIO = (byteRead == byteWrite);
+            passed &= passed_DIO;
+            results.Add(new DiagnosticsResult(Label: $"{diagnostic} Write {channelWrite}, Read {channelRead}: ", Message: $"Wrote: 0b{Convert.ToString(byteWrite,2).PadLeft(8,'0')}, Read: 0b{Convert.ToString(byteRead,2).PadLeft(8,'0')}", Event: passed_DIO ? EVENTS.PASS : EVENTS.FAIL));
+        }
+
+        private void Diagnostic_34952A_Totalizer(String diagnostic, String channel, String Slope, Int32 countsWrite, ref Boolean passed, ref List<DiagnosticsResult> results) {
+            SCPI.SENSe.TOTalize.SLOPe.Command(Slope, channel);
+            SCPI.SENSe.TOTalize.THReshold.MODE.Command("TTL", channel);
+            SCPI.SENSe.TOTalize.TYPE.Command("RRESet", channel);
+            SCPI.SENSe.TOTalize.CLEar.IMMediate.Command(channel);
+            String Slot = channel.Substring(1, 1);
+            SCPI.CONFigure.DIGital.DIRection.Command("OUTPut", $"@{Slot}001");
+            for (Int32 i = 0; i < countsWrite; i++) {
+                SCPI.SOURce.DIGital.DATA.BYTE.Command(0b0000_0000, $"@{Slot}001");
+                System.Threading.Thread.Sleep(1);
+                SCPI.SOURce.DIGital.DATA.BYTE.Command(0b0000_0001, $"@{Slot}001");
+                System.Threading.Thread.Sleep(1);
+            }
+            SCPI.SENSe.TOTalize.DATA.Query(channel, out Double[] counts);
+            Int32 countsRead = Convert.ToInt32(counts[0]);
+            Boolean passed_Totalizer = (countsRead == countsWrite);
+            passed &= passed_Totalizer;
+            results.Add(new DiagnosticsResult(Label: $"{diagnostic} channel {channel} Slope {Slope}: ", Message: $"Wrote: {countsWrite}, Read: {countsRead}", Event: passed_Totalizer ? EVENTS.PASS : EVENTS.FAIL));
         }
         #endregion Diagnostics
 
