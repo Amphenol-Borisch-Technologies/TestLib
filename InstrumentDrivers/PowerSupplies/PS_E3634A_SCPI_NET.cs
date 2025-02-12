@@ -61,7 +61,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
         public void StateSet(STATES State) { SCPI.OUTPut.STATe.Command(State == STATES.ON); }
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
-            // TODO: Eventually; add voltage & current measurements of the E3634A power supplie's outputs using external instrumentation.
+            // TODO: Eventually; add voltage & current measurements of the E3634A's outputs using external instrumentation.
             ResetClear();
             Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
             return (passed, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
