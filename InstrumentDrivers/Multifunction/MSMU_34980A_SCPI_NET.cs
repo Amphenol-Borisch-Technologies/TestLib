@@ -51,7 +51,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         public void OpenAll() { SCPI.ROUTe.OPEN.ALL.Command(null); }
 
         #region Diagnostics // NOTE: Update MODULES & Modules as necessary, along with Diagnostics region.
-        // TODO: Eventually; complete Diagnostics for M34932A, M34938A, M34939A & M34952A modules.
 
         public class DiagnosticParameter_34980A {
             public (Double Ω_closed, Double Ω_open) M34921A { get; set; } = (3, 1E9);
@@ -327,7 +326,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
             SCPI.SENSe.VOLTage.DC.RESolution.Command("MAXimum");
-            for (Double d = -12; d <= 12; d+=0.1) Diagnostic_34952A_DAC(D, $"@{S}006", d, M34952_DAC, ref passed_34952A, ref results);
+            for (Double d = -12; d <= 12; d+=0.5) Diagnostic_34952A_DAC(D, $"@{S}006", d, M34952_DAC, ref passed_34952A, ref results);
             Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please disconnect ABus-DAC1 & connect ABus-DAC2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
