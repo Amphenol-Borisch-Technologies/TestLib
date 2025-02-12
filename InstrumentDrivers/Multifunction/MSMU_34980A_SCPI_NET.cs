@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 using ABT.Test.TestLib.InstrumentDrivers.Generic;
-using System.Threading.Channels;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
@@ -59,9 +58,13 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             public (Double Ω_closed, Double Ω_open) M34932A { get; set; } = (3, 1E9);
             public (Double Ω_closed, Double Ω_open) M34938A { get; set; } = (3, 1E9);
             public (Double Ω_closed, Double Ω_open) M34939A { get; set; } = (3, 1E9);
+            public Double M34952A_DAC { get; set; } = 24 / 65536 * 4; // 24 VDC , 16-bit DAC, 400% tolerance.
             // NOTE: 349321A, 34932A & 34938A relays consistently measure 9.9E+37Ω when open.  Set high limit to 1E+9Ω for tolerance margin.
             public DiagnosticParameter_34980A() { }
-            public DiagnosticParameter_34980A(Double Ω_closed, Double Ω_open) { M34921A = M34932A = M34938A = M34939A = (Ω_closed, Ω_open); }
+            public DiagnosticParameter_34980A(Double Ω_closed, Double Ω_open, Double DAC) {
+                M34921A = M34932A = M34938A = M34939A = (Ω_closed, Ω_open);
+                M34952A_DAC = DAC;
+            }
         }
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
@@ -89,7 +92,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
                             result_Slot = Diagnostic_34939A(slot, DP.M34939A);
                             break;
                         case Modules.M34952A:
-                            result_Slot = Diagnostic_34952A(slot);
+                            result_Slot = Diagnostic_34952A(slot, DP.M34952A_DAC);
                             break;
                         case "0":
                             result_Slot = (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: $"Slot '{slot}':", Message: "Empty.", Event: EVENTS.INFORMATION) });
@@ -280,24 +283,21 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34939A), Message: " not implemented yet", Event: EVENTS.INFORMATION) });
         }
 
-        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34952As(Double Ω) {
+        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34952As(Double M34952_DAC) {
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34952A) Results.Add(slot, Diagnostic_34952A(slot));
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34952A) Results.Add(slot, Diagnostic_34952A(slot, M34952_DAC));
             return Results;
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34952A(SLOTS Slot) {
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34952A(SLOTS Slot, Double M34952_DAC) {
             String S = ((Int32)Slot).ToString("D1");
             Data.CT_Cancel.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-4 diagnostic terminal block to {_34980A} SLOT {S} and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-4 diagnostic terminal block to {_34980A} SLOT {S} and ABus-DAC1.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
             
             SCPI.ROUTe.OPEN.ALL.Command(null);
-            SCPI.INSTrument.DMM.STATe.Command(true);
-            SCPI.INSTrument.DMM.CONNect.Command();
-            SCPI.SENSe.RESistance.RESolution.Command("MAXimum");
             List<DiagnosticsResult> results = new List<DiagnosticsResult>();
             Boolean passed_34952A = true;
 
@@ -324,10 +324,19 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Diagnostic_34952A_Totalizer(D, $"@{S}005",  "POSitive", 512, ref passed_34952A, ref results);
             Diagnostic_34952A_Totalizer(D, $"@{S}005",  "NEGative", 512, ref passed_34952A, ref results);
 
-            // TODO: Write DAC1 & DAC2 diagnostics.
+            SCPI.INSTrument.DMM.STATe.Command(true);
+            SCPI.INSTrument.DMM.CONNect.Command();
+            SCPI.SENSe.VOLTage.DC.RESolution.Command("MAXimum");
+            for (Double d = -12; d <= 12; d+=0.1) Diagnostic_34952A_DAC(D, $"@{S}006", d, M34952_DAC, ref passed_34952A, ref results);
+            Data.CT_Cancel.ThrowIfCancellationRequested();
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect ABus-DAC1 & connect ABus-DAC2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+                Data.CTS_Cancel.Cancel();
+                Data.CT_Cancel.ThrowIfCancellationRequested();
+            };
+            for (Double d = -12; d <= 12; d+=0.1) Diagnostic_34952A_DAC(D, $"@{S}007", d, M34952_DAC, ref passed_34952A, ref results);
 
             Data.CT_Cancel.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-4 diagnostic terminal block from {_34980A} SLOT {S} and ABus DSub-9.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-4 diagnostic terminal block from {_34980A} SLOT {S} and ABus-DAC2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };
@@ -356,7 +365,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.CONFigure.DIGital.DIRection.Command("OUTPut", $"@{Slot}001");
             for (Int32 i = 0; i < countsWrite; i++) {
                 SCPI.SOURce.DIGital.DATA.BYTE.Command(0b0000_0000, $"@{Slot}001");
-                System.Threading.Thread.Sleep(1);
                 SCPI.SOURce.DIGital.DATA.BYTE.Command(0b0000_0001, $"@{Slot}001");
                 System.Threading.Thread.Sleep(1);
             }
@@ -365,6 +373,14 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Boolean passed_Totalizer = (countsRead == countsWrite);
             passed &= passed_Totalizer;
             results.Add(new DiagnosticsResult(Label: $"{diagnostic} channel {channel} Slope {Slope}: ", Message: $"Wrote: {countsWrite}, Read: {countsRead}", Event: passed_Totalizer ? EVENTS.PASS : EVENTS.FAIL));
+        }
+
+        private void Diagnostic_34952A_DAC(String diagnostic, String channel, Double voltsSourced, Double M34952A_DAC, ref Boolean passed, ref List<DiagnosticsResult> results) {
+            SCPI.SOURce.VOLTage.LEVel.Command(voltsSourced, channel);
+            SCPI.MEASure.SCALar.VOLTage.DC.Query(voltsSourced, "MAXimum", out Double[] voltsMeasured);
+            Boolean passed_DAC = (Math.Abs(voltsSourced - voltsMeasured[0]) <= M34952A_DAC);
+            passed &= passed_DAC;
+            results.Add(new DiagnosticsResult(Label: $"{diagnostic} channel {channel}: ", Message: $"Volts Sourced: {Math.Round(voltsSourced, 3, MidpointRounding.ToEven)}, Volts Measured: {Math.Round(voltsMeasured[0], 3, MidpointRounding.ToEven)}", Event: passed_DAC ? EVENTS.PASS : EVENTS.FAIL));
         }
         #endregion Diagnostics
 
