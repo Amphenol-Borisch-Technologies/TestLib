@@ -129,7 +129,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.ROUTe.OPEN.ALL.Command(null);
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
-            SCPI.SENSe.RESistance.RESolution.Command("MAXimum");
+            SCPI.SENSe.RESistance.RESolution.Command($"{MMD.MAXimum}");
             List<DiagnosticsResult> results = new List<DiagnosticsResult>();
             Boolean passed_34921A = true;
 
@@ -172,8 +172,8 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         private void CloseMeasureOpenRecord(String diagnostic, Boolean kelvin, Boolean closed, String channels, (Double Ω_closed, Double Ω_open) Limits, ref Boolean passed, ref List<DiagnosticsResult> results) {
             if (!String.Equals(channels, String.Empty)) SCPI.ROUTe.CLOSe.Command(channels);
             Double[] resistance;
-            if (kelvin) SCPI.MEASure.SCALar.FRESistance.Query(25D, "MAXimum", out resistance);
-            else SCPI.MEASure.SCALar.RESistance.Query(25D, "MAXimum", out resistance);
+            if (kelvin) SCPI.MEASure.SCALar.FRESistance.Query(25D, $"{MMD.MAXimum}", out resistance);
+            else SCPI.MEASure.SCALar.RESistance.Query(25D, $"{MMD.MAXimum}", out resistance);
             if (!String.Equals(channels, String.Empty)) SCPI.ROUTe.OPEN.Command(channels);
             Boolean passed_Ω;
             if (closed) passed_Ω = (0 <= resistance[0] && resistance[0] <= Limits.Ω_closed);
@@ -199,7 +199,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.ROUTe.OPEN.ALL.Command(null);
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
-            SCPI.SENSe.RESistance.RESolution.Command("MAXimum");
+            SCPI.SENSe.RESistance.RESolution.Command($"{MMD.MAXimum}");
             List<DiagnosticsResult> results = new List<DiagnosticsResult>();
             Boolean passed_34932A = true;
 
@@ -251,7 +251,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.ROUTe.OPEN.ALL.Command(null);
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
-            SCPI.SENSe.RESistance.RESolution.Command("MAXimum");
+            SCPI.SENSe.RESistance.RESolution.Command($"{MMD.MAXimum}");
             List<DiagnosticsResult> results = new List<DiagnosticsResult>();
             Boolean passed_34938A = true;
 
@@ -325,7 +325,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
-            SCPI.SENSe.VOLTage.DC.RESolution.Command("MAXimum");
+            SCPI.SENSe.VOLTage.DC.RESolution.Command($"{MMD.MAXimum}");
             for (Double d = -12; d <= 12; d+=0.5) Diagnostic_34952A_DAC(D, $"@{S}006", d, M34952_DAC, ref passed_34952A, ref results);
             Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please disconnect ABus-DAC1 & connect ABus-DAC2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
@@ -376,7 +376,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         private void Diagnostic_34952A_DAC(String diagnostic, String channel, Double voltsSourced, Double M34952A_DAC, ref Boolean passed, ref List<DiagnosticsResult> results) {
             SCPI.SOURce.VOLTage.LEVel.Command(voltsSourced, channel);
-            SCPI.MEASure.SCALar.VOLTage.DC.Query(voltsSourced, "MAXimum", out Double[] voltsMeasured);
+            SCPI.MEASure.SCALar.VOLTage.DC.Query(voltsSourced, $"{MMD.MAXimum}", out Double[] voltsMeasured);
             Boolean passed_DAC = (Math.Abs(voltsSourced - voltsMeasured[0]) <= M34952A_DAC);
             passed &= passed_DAC;
             results.Add(new DiagnosticsResult(Label: $"{diagnostic} channel {channel}: ", Message: $"Volts Sourced: {Math.Round(voltsSourced, 3, MidpointRounding.ToEven)}, Volts Measured: {Math.Round(voltsMeasured[0], 3, MidpointRounding.ToEven)}", Event: passed_DAC ? EVENTS.PASS : EVENTS.FAIL));
