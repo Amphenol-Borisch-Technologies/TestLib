@@ -54,6 +54,21 @@
     </xs:restriction>
   </xs:simpleType>
 
+    <xs:simpleType name="GUID">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          <![CDATA[
+          GUID simpleType:
+          - RegEx to validate a Globally Unique Identifier.
+          - Type: xs:string.
+          ]]>
+        </xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+        <xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"/>
+      </xs:restriction>
+    </xs:simpleType>
+
   <xs:attribute name="Description" type="xs:string">
     <xs:annotation>
       <xs:documentation xml:lang="en">
@@ -1336,17 +1351,17 @@
           </xs:unique>
         </xs:element>
       </xs:sequence>
-      <xs:attribute name="Revision" use="required" type="xs:string">
+      <xs:attribute name="GUID" use="required" type="GUID">
         <xs:annotation>
           <xs:documentation xml:lang="en">
             <![CDATA[
-          Revision attribute:
+          GUID attribute:
           - Required.
-          - Type: xs:string.
-          
-          Increment when modified, format #.#, major.minor.
-          Document concisely in Modifications.
-          ]]>
+          - Type: GUID.
+
+          Replace when TestDefinition is modified.
+          Generate with Windows PowerShell: In PowerShell enter command "[guid]::NewGuid()".
+            ]]>
           </xs:documentation>
         </xs:annotation>
       </xs:attribute>
@@ -1358,9 +1373,9 @@
           - Required.
           - Type: xs:date.
 
-          Update when modified.
-          Document concisely in Modifications.
-          ]]>
+          Update when TestDefinition is modified.
+          Document TestDefinition changes concisely in Modifications.
+            ]]>
           </xs:documentation>
         </xs:annotation>
       </xs:attribute>

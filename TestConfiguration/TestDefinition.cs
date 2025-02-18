@@ -11,7 +11,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
     [XmlRoot(nameof(TestDefinition))]
     public class TestDefinition {
-        [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
+        [XmlAttribute(nameof(GUID))] public String GUID { get; set; }
         [XmlAttribute(nameof(Date))] public System.DateTime Date { get; set; }
         [XmlElement(nameof(UUT))] public UUT UUT { get; set; }
         [XmlElement(nameof(Development))] public Development Development { get; set; }
@@ -565,7 +565,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     }
 
     public class TestSequence {
-        public String Revision { get; set; }
+        public String GUID { get; set; }
         public System.DateTime Date { get; set; }
         public UUT UUT { get; set; } = Serializing.DeserializeFromFile<UUT>(xmlFile: Data.TestDefinitionXML);
         public TestOperation TestOperation { get; set; }
