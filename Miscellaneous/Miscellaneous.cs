@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace ABT.Test.TestLib {
+namespace ABT.Test.TestLib.Miscellaneous {
     public class TimerMilliSeconds {
         private readonly Int32 _milliSeconds;
         private readonly DateTime _start;
@@ -26,6 +26,24 @@ namespace ABT.Test.TestLib {
         public Double GetSecondsRemaining() { return Expired() ? 0 : _seconds - GetSecondsElapsed(); }
         public Boolean Expired() { return GetSecondsElapsed() > _seconds; }
         public Boolean NotExpired() { return !Expired(); }
+    }
+
+    public static class GUIDs {
+        public static String GetUrlSafeBase64GUID() {
+            Byte[] guidBytes = Guid.Parse(Guid.NewGuid().ToString("N")).ToByteArray(); // "N" format specifier removes dashes
+            return Convert.ToBase64String(guidBytes).Replace("+", "-").Replace("/", "_").TrimEnd('=');
+        }
+
+        public static Guid GetGUIDFromUrlSafeBase64(String urlSafeBase64String) {
+            String base64String = urlSafeBase64String.Replace("-", "+").Replace("_", "/");
+            switch (base64String.Length % 4) {
+                case 2: base64String += "=="; break;
+                case 3: base64String += "="; break;
+            }
+            return new Guid(Convert.FromBase64String(base64String));
+        }
+
+        public static String GuidToString(Guid guid) { return guid.ToString("D"); }
     }
 
     public static class Ext { public static Boolean In<T>(this T value, params T[] values) where T : struct { return values.Contains(value); } }
