@@ -1351,20 +1351,6 @@
           </xs:unique>
         </xs:element>
       </xs:sequence>
-      <xs:attribute name="GUID" use="required" type="GUID">
-        <xs:annotation>
-          <xs:documentation xml:lang="en">
-            <![CDATA[
-          GUID attribute:
-          - Required.
-          - Type: GUID.
-
-          Replace when TestDefinition is modified.
-          Generate with Windows PowerShell: In PowerShell enter command "[guid]::NewGuid()".
-            ]]>
-          </xs:documentation>
-        </xs:annotation>
-      </xs:attribute>
       <xs:attribute name="Date" use="required" type="xs:date">
         <xs:annotation>
           <xs:documentation xml:lang="en">

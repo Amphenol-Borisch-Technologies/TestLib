@@ -11,7 +11,6 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
     [XmlRoot(nameof(TestDefinition))]
     public class TestDefinition {
-        [XmlAttribute(nameof(GUID))] public String GUID { get; set; }
         [XmlAttribute(nameof(Date))] public DateTime Date { get; set; }
         [XmlElement(nameof(UUT))] public UUT UUT { get; set; }
         [XmlElement(nameof(Development))] public Development Development { get; set; }
