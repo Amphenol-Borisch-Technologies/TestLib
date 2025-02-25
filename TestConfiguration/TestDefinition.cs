@@ -12,7 +12,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     [XmlRoot(nameof(TestDefinition))]
     public class TestDefinition {
         [XmlAttribute(nameof(GUID))] public String GUID { get; set; }
-        [XmlAttribute(nameof(Date))] public System.DateTime Date { get; set; }
+        [XmlAttribute(nameof(Date))] public DateTime Date { get; set; }
         [XmlElement(nameof(UUT))] public UUT UUT { get; set; }
         [XmlElement(nameof(Development))] public Development Development { get; set; }
         [XmlArray(nameof(Modifications))] public List<Modification> Modifications { get; set; }
@@ -81,7 +81,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(Document))] public String Document { get; set; }
         [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
         [XmlAttribute(nameof(Title))] public String Title { get; set; }
-        [XmlAttribute(nameof(Date))] public System.DateTime Date { get; set; }
+        [XmlAttribute(nameof(Date))] public DateTime Date { get; set; }
 
         public TestSpecification() { }
 
@@ -566,7 +566,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
     public class TestSequence {
         public String GUID { get; set; }
-        public System.DateTime Date { get; set; }
+        public DateTime Date { get; set; }
         public UUT UUT { get; set; } = Serializing.DeserializeFromFile<UUT>(xmlFile: Data.TestDefinitionXML);
         public TestOperation TestOperation { get; set; }
         [XmlIgnore] public Boolean IsOperation { get; set; } = false;
@@ -594,10 +594,6 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
         public void PostRun(EVENTS OperationEvent) {
             Event = OperationEvent;
-            foreach (TestGroup testGroup in TestOperation.TestGroups)
-                foreach (Method method in testGroup.Methods) {
-                    method.LogString = method.Log.ToString(); // NOTE:  XmlSerializer doesn't support [OnSerializing] attribute, so have to explicitly invoke LogConvert().
-                }
             TimeEnd = DateTime.Now;
             TimeTotal = (TimeEnd - TimeStart).ToString(@"dd\.hh\:mm\:ss");
         }
