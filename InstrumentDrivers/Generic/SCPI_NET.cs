@@ -1,9 +1,10 @@
 ﻿using System;
 using Agilent.CommandExpert.ScpiNet.AgSCPI99_1_0;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
+using System.Collections.Generic;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.Generic {
-    public class SCPI_NET : AgSCPI99, IInstruments {
+    public class SCPI_NET : AgSCPI99, IInstruments, IDiagnostics {
         public enum IDN_FIELDS { Manufacturer, Model, SerialNumber, FirmwareRevision } // Example: "Keysight Technologies,E36103B,MY61001983,1.0.2-1.02".  
 
         public String Address { get; }
@@ -45,6 +46,12 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Generic {
         public static String Identity(Object Instrument, IDN_FIELDS Property) {
             String Address = ((IInstruments)Instrument).Address;
             return Identity(Address, Property);
+        }
+
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
+            ResetClear();
+            Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
+            return (passed, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
         }
     }
 }
