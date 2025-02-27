@@ -1336,20 +1336,6 @@
           </xs:unique>
         </xs:element>
       </xs:sequence>
-      <xs:attribute name="Date" use="required" type="xs:date">
-        <xs:annotation>
-          <xs:documentation xml:lang="en">
-            <![CDATA[
-          Date attribute:
-          - Required.
-          - Type: xs:date.
-
-          Update when TestDefinition is modified.
-          Document TestDefinition changes concisely in Modifications.
-            ]]>
-          </xs:documentation>
-        </xs:annotation>
-      </xs:attribute>
     </xs:complexType>
   </xs:element>
 </xs:schema>
