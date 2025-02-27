@@ -1267,10 +1267,10 @@
             </xs:documentation>
           </xs:annotation>
           <xs:complexType>
-            <xs:sequence>
-              <xs:element name="Stationary" type="InstrumentStationary" minOccurs="0" maxOccurs="unbounded"/>
-              <xs:element name="Mobile" type="InstrumentMobile" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="Mobile" type="InstrumentMobile"/>
+              <xs:element name="Stationary" type="InstrumentStationary"/>
+            </xs:choice>
           </xs:complexType>
           <xs:unique name="UniqueInstrumentIDs">
             <xs:selector xpath="Stationary | Mobile"/>
