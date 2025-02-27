@@ -9,9 +9,21 @@ using System.Xml.Serialization;
 namespace ABT.Test.TestLib.TestConfiguration {
     public interface IAssertionCurrent { String AssertionCurrent(); }
 
+    public struct DateOnly {
+        private readonly DateTime _dateTime;
+
+        public DateOnly(Int32 year, Int32 month, Int32 day) { _dateTime = new DateTime(year, month, day); }
+
+        public Int32 Year => _dateTime.Year;
+        public Int32 Month => _dateTime.Month;
+        public Int32 Day => _dateTime.Day;
+
+        public override String ToString() { return _dateTime.ToString("yyyy-MM-dd"); }
+    }
+
     [XmlRoot(nameof(TestDefinition))]
     public class TestDefinition {
-        [XmlAttribute(nameof(Date))] public DateTime Date { get; set; }
+        [XmlAttribute(nameof(Date))] public DateOnly Date { get; set; }
         [XmlElement(nameof(UUT))] public UUT UUT { get; set; }
         [XmlElement(nameof(Development))] public Development Development { get; set; }
         [XmlArray(nameof(Modifications))] public List<Modification> Modifications { get; set; }
@@ -80,7 +92,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(Document))] public String Document { get; set; }
         [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
         [XmlAttribute(nameof(Title))] public String Title { get; set; }
-        [XmlAttribute(nameof(Date))] public DateTime Date { get; set; }
+        [XmlAttribute(nameof(Date))] public DateOnly Date { get; set; }
 
         public TestSpecification() { }
 
@@ -108,7 +120,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlElement(nameof(Developer))] public List<Developer> Developer { get; set; }
         [XmlElement(nameof(Documentation))] public List<Documentation> Documentation { get; set; }
         [XmlElement(nameof(Repository))] public List<Repository> Repository { get; set; }
-        [XmlAttribute(nameof(Released))] public DateTime Released { get; set; }
+        [XmlAttribute(nameof(Released))] public DateOnly Released { get; set; }
         [XmlIgnore] public String EMailAddresses { get; set; } = String.Empty;
 
         public Development() { }
@@ -134,7 +146,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
     public class Modification {
         [XmlAttribute(nameof(Who))] public String Who { get; set; }
         [XmlAttribute(nameof(What))] public String What { get; set; }
-        [XmlAttribute(nameof(When))] public DateTime When { get; set; }
+        [XmlAttribute(nameof(When))] public DateOnly When { get; set; }
         [XmlAttribute(nameof(Where))] public String Where { get; set; }
         [XmlAttribute(nameof(Why))] public String Why { get; set; }
 
@@ -561,41 +573,6 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public Double FractionPassed() { return Convert.ToDouble(Passed) / Convert.ToDouble(Tested()); }
         public Double FractionInformed() { return Convert.ToDouble(Informed) / Convert.ToDouble(Tested()); }
         public UInt32 Tested() { return EmergencyStopped + Errored + Cancelled + Unset + Failed + Passed + Informed; }
-    }
-
-    public class TestSequence {
-        public String GUID { get; set; }
-        public DateTime Date { get; set; }
-        public UUT UUT { get; set; } = Serializing.DeserializeFromFile<UUT>(xmlFile: Data.TestDefinitionXML);
-        public TestOperation TestOperation { get; set; }
-        [XmlIgnore] public Boolean IsOperation { get; set; } = false;
-        public String Computer { get; set; } = Environment.MachineName;
-        public String SerialNumber { get; set; } = String.Empty;
-        public String Operator { get; set; } = Data.UserName;
-        public DateTime TimeStart { get; set; }
-        public DateTime TimeEnd { get; set; }
-        public String TimeTotal { get; set; } // NOTE:  XmlSerializer doesn't natively support TimeSpan, so have to serialize TimeTotal as a string.
-        public EVENTS Event { get; set; } = EVENTS.UNSET;
-
-        public TestSequence() { }
-
-        public void PreRun() {
-            TimeStart = DateTime.Now;
-            Event = EVENTS.UNSET;
-            foreach (TestGroup testGroup in TestOperation.TestGroups)
-                foreach (Method method in testGroup.Methods) {
-                    method.Event = EVENTS.UNSET;
-                    _ = method.Log.Clear();
-                    method.LogString = String.Empty;
-                    method.Value = null;
-                }
-        }
-
-        public void PostRun(EVENTS OperationEvent) {
-            Event = OperationEvent;
-            TimeEnd = DateTime.Now;
-            TimeTotal = (TimeEnd - TimeStart).ToString(@"dd\.hh\:mm\:ss");
-        }
     }
 
     public static class TestIndices {

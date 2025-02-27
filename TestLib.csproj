@@ -118,6 +118,9 @@
     <Compile Include="Miscellaneous\InputForm.Designer.cs">
       <DependentUpon>InputForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TestConfiguration\TestSequence.cs">
+      <DependentUpon>TestSequence.xsd</DependentUpon>
+    </Compile>
     <Compile Include="TestConfiguration\TestSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,10 +208,15 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="TestConfiguration\TestSequence.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="TestConfiguration\TestDefinition.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="TestConfiguration\TestSequence.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
