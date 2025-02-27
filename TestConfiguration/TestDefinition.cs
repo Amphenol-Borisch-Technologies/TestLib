@@ -14,7 +14,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlElement(nameof(UUT))] public UUT UUT { get; set; }
         [XmlElement(nameof(Development))] public Development Development { get; set; }
         [XmlArray(nameof(Modifications))] public List<Modification> Modifications { get; set; }
-        [XmlElement(nameof(TestData))] public TestData TestData { get; set; }
+        [XmlElement(nameof(SerialNumber))] public SerialNumber SerialNumber { get; set; }
         [XmlElement(nameof(Instruments))] public Instruments Instruments { get; set; }
         [XmlElement(nameof(TestSpace))] public TestSpace TestSpace { get; set; }
 
@@ -79,7 +79,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlAttribute(nameof(Document))] public String Document { get; set; }
         [XmlAttribute(nameof(Revision))] public String Revision { get; set; }
         [XmlAttribute(nameof(Title))] public String Title { get; set; }
-        [XmlAttribute(nameof(Date))] public DateTime Date { get; set; }
+        [XmlAttribute(nameof(Date))] public String Date { get; set; }
 
         public TestSpecification() { }
 
@@ -107,7 +107,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlElement(nameof(Developer))] public List<Developer> Developer { get; set; }
         [XmlElement(nameof(Documentation))] public List<Documentation> Documentation { get; set; }
         [XmlElement(nameof(Repository))] public List<Repository> Repository { get; set; }
-        [XmlAttribute(nameof(Released))] public DateTime Released { get; set; }
+        [XmlAttribute(nameof(Released))] public String Released { get; set; }
         [XmlIgnore] public String EMailAddresses { get; set; } = String.Empty;
 
         public Development() { }
@@ -133,69 +133,22 @@ namespace ABT.Test.TestLib.TestConfiguration {
     public class Modification {
         [XmlAttribute(nameof(Who))] public String Who { get; set; }
         [XmlAttribute(nameof(What))] public String What { get; set; }
-        [XmlAttribute(nameof(When))] public DateTime When { get; set; }
+        [XmlAttribute(nameof(When))] public String When { get; set; }
         [XmlAttribute(nameof(Where))] public String Where { get; set; }
         [XmlAttribute(nameof(Why))] public String Why { get; set; }
 
         public Modification() { }
     }
 
-    public class TestData : IAssertionCurrent {
-        [XmlElement(nameof(SQL), typeof(SQL))]
-        [XmlElement(nameof(XML), typeof(XML))]
-        public Object Item { get; set; }
-
-        public TestData() { }
-
-        public String AssertionCurrent() {
-            if (Item == null) return String.Empty;
-            else return ((IAssertionCurrent)Item).AssertionCurrent();
-        }
-
-        public Boolean IsEnabled() { return Item != null; }
-    }
-
     public abstract class SerialNumber {
-        [XmlAttribute(nameof(SerialNumberEntry))] public SerialNumberEntry SerialNumberEntry { get; set; }
-        [XmlAttribute(nameof(SerialNumberRegEx))] public String SerialNumberRegEx { get; set; }
-        [XmlAttribute(nameof(SerialNumberFormat))] public String SerialNumberFormat { get; set; }
+        [XmlAttribute(nameof(Entry))] public SerialNumberEntry Entry { get; set; }
+        [XmlAttribute(nameof(RegularEx))] public String RegularEx { get; set; }
+        [XmlAttribute(nameof(Format))] public String Format { get; set; }
 
         public SerialNumber() { }
     }
 
     public enum SerialNumberEntry { Barcode, Keyboard }
-
-    public class SQL : SerialNumber, IAssertionCurrent {
-        [XmlAttribute(nameof(ConnectionString))] public String ConnectionString { get; set; }
-
-        public SQL() { }
-
-        public String AssertionCurrent() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
-            sb.Append($"{nameof(ConnectionString)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(ConnectionString)).GetValue(this))}{UUT.CONTINUE}");
-            sb.Append($"{nameof(SerialNumberEntry)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(SerialNumberEntry)).GetValue(this))}{UUT.CONTINUE}");
-            sb.Append($"{nameof(SerialNumberRegEx)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(SerialNumberRegEx)).GetValue(this))}");
-            sb.Append($"{UUT.END}");
-            return sb.ToString();
-        }
-    }
-
-    public class XML : SerialNumber, IAssertionCurrent {
-        [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
-
-        public XML() { }
-
-        public String AssertionCurrent() {
-            StringBuilder sb = new StringBuilder();
-            sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
-            sb.Append($"{nameof(Folder)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Folder)).GetValue(this))}{UUT.CONTINUE}");
-            sb.Append($"{nameof(SerialNumberEntry)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(SerialNumberEntry)).GetValue(this))}{UUT.CONTINUE}");
-            sb.Append($"{nameof(SerialNumberRegEx)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(SerialNumberRegEx)).GetValue(this))}");
-            sb.Append($"{UUT.END}");
-            return sb.ToString();
-        }
-    }
 
     public class Instruments : IAssertionCurrent {
         [XmlElement(nameof(Stationary))] public List<Stationary> Stationary { get; set; }

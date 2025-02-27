@@ -70,63 +70,6 @@
 
   <xs:attribute name="File" type="ValidWindowsFile"/>
 
-  <xs:attributeGroup name="SerialNumberAttributes">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          SerialNumberAttributes attributeGroup:
-          - Type: attributeGroup.
-          ]]>
-      </xs:documentation>
-    </xs:annotation>
-    <xs:attribute name="SerialNumberEntry" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          SerialNumberEntry attribute:
-          - Required.
-          - Type: xs:enumeration.
-          ]]>
-        </xs:documentation>
-      </xs:annotation>
-      <xs:simpleType>
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Barcode"/>
-          <xs:enumeration value="Keyboard"/>
-        </xs:restriction>
-      </xs:simpleType>
-    </xs:attribute>
-    <xs:attribute name="SerialNumberRegEx" type="xs:string" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          SerialNumberRegEx attribute:
-          - Required.
-          - RegEx to validate Serial Number entry.
-          - Type: xs:string.
-          ]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="SerialNumberFormat" use="required">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          SerialNumberFormat attribute:
-          - Required.
-          - Explanation of SerialNumberRegEx format.
-          - Type: xs:string.
-          ]]>
-        </xs:documentation>
-      </xs:annotation>
-      <xs:simpleType>
-        <xs:restriction base="xs:string">
-          <xs:whiteSpace value="preserve" />
-        </xs:restriction>
-      </xs:simpleType>
-    </xs:attribute>
-  </xs:attributeGroup>
-
   <xs:complexType name="Customer">
     <xs:attribute name="Name" type="xs:string" use="required">
       <xs:annotation>
@@ -331,33 +274,11 @@
     </xs:attribute>
   </xs:complexType>
 
-  <xs:complexType name="XML">
-    <xs:attribute ref="Folder" use="required"/>
-    <xs:attributeGroup ref="SerialNumberAttributes"/>
-  </xs:complexType>
-
-  <xs:complexType name="SQL">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">
-        <![CDATA[
-          SQL complexType:
-          -Type: SQL.
-        ]]>
-      </xs:documentation>
-    </xs:annotation>
-    <xs:attribute name="ConnectionString" use="required" type="xs:string">
-      <xs:annotation>
-        <xs:documentation xml:lang="en">
-          <![CDATA[
-          ConnectionString attribute:
-          - Required.
-          - Type: xs:string.
-          ]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attributeGroup ref="SerialNumberAttributes"/>
-  </xs:complexType>
+  <xs:simpleType name="StringWithWhitespace">
+    <xs:restriction base="xs:string">
+      <xs:whiteSpace value="preserve"/>
+    </xs:restriction>
+  </xs:simpleType>
 
   <xs:complexType name="InstrumentAbstract">
     <xs:attribute name="ID" type="xs:string" use="required">
@@ -1219,41 +1140,58 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="TestData" minOccurs="1" maxOccurs="1">
+        <xs:element name="SerialNumber" minOccurs="1" maxOccurs="1">
           <xs:annotation>
             <xs:documentation xml:lang="en">
               <![CDATA[
-                TestData element.
+                SerialNumber element.
                 - Required, 1 occurence.
                 - Type: xs:element.
               ]]>
             </xs:documentation>
           </xs:annotation>
           <xs:complexType>
-            <xs:choice>
-              <xs:element name="XML" type="XML" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                  <xs:documentation xml:lang="en">
-                    <![CDATA[
-                    XML element.
-                    - Choice, 1 occurence.
-                    - Type: XML.
+            <xs:attribute name="Entry" use="required">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">
+                  <![CDATA[
+                  Entry attribute:
+                  - Required.
+                  - Type: xs:enumeration.
                   ]]>
-                  </xs:documentation>
-                </xs:annotation>
-              </xs:element>
-              <xs:element name="SQL" type="SQL" minOccurs="0" maxOccurs="1">
-                <xs:annotation>
-                  <xs:documentation xml:lang="en">
-                    <![CDATA[
-                    SQL element.
-                    - Choice, 1 occurence.
-                    - Type: SQL.
-                  ]]>
-                  </xs:documentation>
-                </xs:annotation>
-              </xs:element>
-            </xs:choice>
+                </xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="Barcode"/>
+                  <xs:enumeration value="Keyboard"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="RegularEx" type="xs:string" use="required">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">
+                  <![CDATA[
+                    RegularEx attribute:
+                    - Required.
+                    - Regular Expression to validate Serial Number entry.
+                    - Type: xs:string.
+                    ]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Format" type="StringWithWhitespace" use="required">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">
+                  <![CDATA[
+                    Format attribute:
+                    - Required.
+                    - Explanation of SerialNumberRegEx format.
+                    - Type: xs:string.
+                    ]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
           </xs:complexType>
         </xs:element>
         <xs:element name="Instruments" minOccurs="1" maxOccurs="1">
