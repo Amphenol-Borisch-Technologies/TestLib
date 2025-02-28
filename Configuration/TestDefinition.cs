@@ -101,7 +101,7 @@ namespace ABT.Test.TestLib.Configuration {
 
     public enum Category { Component, CircuitCard, Harness, Unit, System }
 
-    public abstract class SerialNumberEntry {
+    public class SerialNumberEntry {
         [XmlAttribute(nameof(EntryType))] public SerialNumberEntryType EntryType { get; set; }
         [XmlAttribute(nameof(RegularEx))] public String RegularEx { get; set; }
         [XmlAttribute(nameof(Format))] public String Format { get; set; }
