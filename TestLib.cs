@@ -52,7 +52,6 @@ namespace ABT.Test.TestLib {
         public static TestDefinition testDefinition = null;
         public static TestSequence testSequence = null;
         public static String SystemDefinitionXML = GetExecutingStatementDirectory() + @"\Configuration\SystemDefinition.xml";
-        public static String SystemDefinitionXSD = GetExecutingStatementDirectory() + @"\Configuration\SystemDefinition.xsd";
         public static SystemDefinition systemDefinition = Serializing.DeserializeFromFile<SystemDefinition>(xmlFile: $"{SystemDefinitionXML}");
         public static String UserName = null;
         public static CancellationTokenSource CTS_Cancel;
