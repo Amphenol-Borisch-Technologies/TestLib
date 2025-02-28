@@ -11,7 +11,7 @@
   </Development>
 
   <TestData>
-    <XML Folder="P:\Test\TDR\" />
+    <XML Folder="P:\Test\TDR" />
     <!--
     <SQL ConnectionString="Server=ABT002780\SQLEXPRESS;Database=TestData;Integrated Security=true;" />
     -->
@@ -39,7 +39,7 @@
 
   <Apps>
     <Keysight>
-      <CommandExpert>C:\Program Files (x86)\Keysight\Command Expert\CommandExpert.exe</CommandExpert>
+      <CommandExpert>C:\Program Files\Keysight\Command Expert\CommandExpert.exe</CommandExpert>
       <ConnectionExpert>C:\Program Files\Keysight\IO Libraries Suite\ConnectionExpert.exe</ConnectionExpert>
     </Keysight>
     <Microsoft>
