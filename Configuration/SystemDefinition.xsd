@@ -159,7 +159,7 @@
     </xs:attribute>
   </xs:complexType>  
   
-  <xs:complexType name="Instrument">
+  <xs:complexType name="InstrumentSystem">
     <xs:attribute name="ID" type="xs:string" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
@@ -180,7 +180,7 @@
                 - Required.
                 - Type: xs:string.
                 
-                Concise description of Instrument.
+                Concise description of InstrumentSystem.
               ]]>
         </xs:documentation>
       </xs:annotation>
@@ -357,11 +357,11 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Instruments" minOccurs="1" maxOccurs="1">
+        <xs:element name="InstrumentsSystem" minOccurs="1" maxOccurs="1">
           <xs:annotation>
             <xs:documentation xml:lang="en">
               <![CDATA[
-                Instruments element.
+                InstrumentsSystem element.
                 - Required, 1 occurence.
                 - Type: xs:element.
                 
@@ -371,13 +371,13 @@
           </xs:annotation>
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="Instrument" type="Instrument" minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="InstrumentSystem" type="InstrumentSystem" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                   <xs:documentation xml:lang="en">
                     <![CDATA[
-                      Instrument element.
+                      InstrumentSystem element.
                       - Optional, 0 or more occurences.
-                      - Type: Instrument.
+                      - Type: InstrumentSystem.
                    ]]>
                   </xs:documentation>
                 </xs:annotation>
@@ -385,12 +385,12 @@
             </xs:sequence>
             <xs:attribute ref="Folder" use="required"/>
           </xs:complexType>
-          <xs:unique name="UniqueInstrumentID">
-            <xs:selector xpath="Instrument"/>
+          <xs:unique name="UniqueID">
+            <xs:selector xpath="InstrumentSystem"/>
             <xs:field xpath="@ID"/>
           </xs:unique>
-          <xs:unique name="UniqueAddresses">
-            <xs:selector xpath="Instrument"/>
+          <xs:unique name="UniqueAddress">
+            <xs:selector xpath="InstrumentSystem"/>
             <xs:field xpath="@Address"/>
           </xs:unique>
         </xs:element>

@@ -50,14 +50,14 @@
     </Microsoft>
   </Apps>
 
-  <Instruments Folder="P:\Test\Engineers\Equipment_Manuals" >
+  <InstrumentsSystem Folder="P:\Test\Engineers\Equipment_Manuals" >
     <!--
-	Instruments:
+	InstrumentsSystem:
   - List all stationary/permanently installed instruments for this test system.
 	- For instrument calibration or replacement, swap identical instrument with others, then update Address.
-  - For additions, add Instrument element.
+  - For additions, add InstrumentSystem element.
     - Add a new driver to ABT.Test.TestLib.InstrumentDrivers.* if needed.
-  - For deletions, remove or comment Instrument element.
+  - For deletions, remove or comment InstrumentSystem element.
 
 	ID:			- Required attribute.
 					- Unique Identifier; no 2 can be identical, as ID is unique key in a Dictionary object.
@@ -78,10 +78,10 @@
 	- https://www.ivifoundation.org/downloads/Architecture%20Specifications/vpp43_2022-05-19.pdf.
   -->
     <!-- 
-    <Instrument ID="WG1_33120A"   Detail="Keysight 33120A 15MHz Function/Arbitray Waveform Generator" Address="GPIB0::10::INSTR" NameSpacedClassName="ABT.Test.TestLib.InstrumentDrivers.Generic.SCPI_NET" />
+    <InstrumentSystem ID="WG1_33120A"   Detail="Keysight 33120A 15MHz Function/Arbitray Waveform Generator" Address="GPIB0::10::INSTR" NameSpacedClassName="ABT.Test.TestLib.InstrumentDrivers.Generic.SCPI_NET" />
 -->
-    <Instrument ID="MSMU1_34980A" Detail="Agilent 34980A Multifunction Switch/Measure Unit"        Address="GPIB0::2::INSTR" NameSpacedClassName="ABT.Test.TestLib.InstrumentDrivers.Multifunction.MSMU_34980A_SCPI_NET" />
-    <Instrument ID="PS1ε2_E3649A" Detail="Agilent E3649A Dual Output DC Power Supply"              Address="GPIB0::1::INSTR" NameSpacedClassName="ABT.Test.TestLib.InstrumentDrivers.PowerSupplies.PS_E3649A_SCPI_NET" />
-    <Instrument ID="PS3_E3634A"   Detail="Keysight E3634A Single Ouput Dual Range DC Power Supply" Address="GPIB0::3::INSTR" NameSpacedClassName="ABT.Test.TestLib.InstrumentDrivers.PowerSupplies.PS_E3634A_SCPI_NET" />
-  </Instruments>
+    <InstrumentSystem ID="MSMU1_34980A" Detail="Agilent 34980A Multifunction Switch/Measure Unit"        Address="GPIB0::2::INSTR" NameSpacedClassName="ABT.Test.TestLib.InstrumentDrivers.Multifunction.MSMU_34980A_SCPI_NET" />
+    <InstrumentSystem ID="PS1ε2_E3649A" Detail="Agilent E3649A Dual Output DC Power Supply"              Address="GPIB0::1::INSTR" NameSpacedClassName="ABT.Test.TestLib.InstrumentDrivers.PowerSupplies.PS_E3649A_SCPI_NET" />
+    <InstrumentSystem ID="PS3_E3634A"   Detail="Keysight E3634A Single Ouput Dual Range DC Power Supply" Address="GPIB0::3::INSTR" NameSpacedClassName="ABT.Test.TestLib.InstrumentDrivers.PowerSupplies.PS_E3634A_SCPI_NET" />
+  </InstrumentsSystem>
 </SystemDefinition>
