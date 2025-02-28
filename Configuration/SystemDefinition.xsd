@@ -24,6 +24,7 @@
         <![CDATA[
           ValidWindowsPath simpleType:
           - RegEx to validate a Windows Path name; for example, "C:\Windows" or "C:\Windows\notepad.exe".
+          - Don't add a trailing '\' to the path; for example, "C:\Windows" instead of "C:\Windows\".
           - Type: xs:string.
         ]]>
       </xs:documentation>
