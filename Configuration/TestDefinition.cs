@@ -6,7 +6,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace ABT.Test.TestLib.TestConfiguration {
+namespace ABT.Test.TestLib.Configuration {
     public interface IAssertionCurrent { String AssertionCurrent(); }
 
     [XmlRoot(nameof(TestDefinition))]
@@ -14,7 +14,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         [XmlElement(nameof(UUT))] public UUT UUT { get; set; }
         [XmlElement(nameof(Development))] public Development Development { get; set; }
         [XmlArray(nameof(Modifications))] public List<Modification> Modifications { get; set; }
-        [XmlElement(nameof(SerialNumber))] public SerialNumber SerialNumber { get; set; }
+        [XmlElement(nameof(SerialNumberEntry))] public SerialNumberEntry SerialNumberEntry { get; set; }
         [XmlElement(nameof(Instruments))] public Instruments Instruments { get; set; }
         [XmlElement(nameof(TestSpace))] public TestSpace TestSpace { get; set; }
 
@@ -103,6 +103,16 @@ namespace ABT.Test.TestLib.TestConfiguration {
 
     public enum Category { Component, CircuitCard, Harness, Unit, System }
 
+    public abstract class SerialNumberEntry {
+        [XmlAttribute(nameof(EntryType))] public SerialNumberEntryType EntryType { get; set; }
+        [XmlAttribute(nameof(RegularEx))] public String RegularEx { get; set; }
+        [XmlAttribute(nameof(Format))] public String Format { get; set; }
+        public Boolean IsEnabled() { return EntryType != SerialNumberEntryType.None; }
+        public SerialNumberEntry() { }
+    }
+
+    public enum SerialNumberEntryType { Barcode, Keyboard, None }
+
     public class Development {
         [XmlElement(nameof(Developer))] public List<Developer> Developer { get; set; }
         [XmlElement(nameof(Documentation))] public List<Documentation> Documentation { get; set; }
@@ -140,16 +150,7 @@ namespace ABT.Test.TestLib.TestConfiguration {
         public Modification() { }
     }
 
-    public abstract class SerialNumber {
-        [XmlAttribute(nameof(Entry))] public SerialNumberEntry Entry { get; set; }
-        [XmlAttribute(nameof(RegularEx))] public String RegularEx { get; set; }
-        [XmlAttribute(nameof(Format))] public String Format { get; set; }
-
-        public SerialNumber() { }
-    }
-
-    public enum SerialNumberEntry { Barcode, Keyboard }
-
+    // TODO:  Change Instruments to InstrumentsTestPlan.
     public class Instruments : IAssertionCurrent {
         [XmlElement(nameof(Stationary))] public List<Stationary> Stationary { get; set; }
         [XmlElement(nameof(Mobile))] public List<Mobile> Mobile { get; set; }

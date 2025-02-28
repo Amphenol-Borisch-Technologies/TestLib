@@ -5,7 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using Microsoft.CSharp;
 
-namespace ABT.Test.TestLib.TestConfiguration {
+namespace ABT.Test.TestLib.Configuration {
     public static class Generator {
 
         public static void Generate(String TestDefinitionXML) {
@@ -53,9 +53,9 @@ namespace ABT.Test.TestLib.TestConfiguration {
             codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(System)}"));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(System)}.{nameof(System.Diagnostics)}"));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(TestConfiguration)}"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(Configuration)}"));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"static {nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(Data)}"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport($"static {nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(TestConfiguration)}.{nameof(Assertions)}"));
+            codeNamespace.Imports.Add(new CodeNamespaceImport($"static {nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(Configuration)}.{nameof(Assertions)}"));
             return codeNamespace;
         }
 

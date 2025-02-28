@@ -14,7 +14,7 @@
       <xs:documentation xml:lang="en">
         <![CDATA[
           ValidCSharpNamespace simpleType:
-          - RegEx to validate a C# namespace; for example, "ABT.Test.TestLib.TestConfiguration".
+          - RegEx to validate a C# namespace; for example, "ABT.Test.TestLib.Configuration".
           - Type: xs:string.
         ]]>
       </xs:documentation>
@@ -1043,6 +1043,64 @@
             <xs:field xpath="@Folder"/>
           </xs:unique>
         </xs:element>
+        <xs:element name="SerialNumberEntry" minOccurs="1" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">
+              <![CDATA[
+                SerialNumberEntry element.
+                - Required, 1 occurence.
+                - Type: xs:element.
+              ]]>
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="EntryType" use="required">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">
+                  <![CDATA[
+                  EntryType attribute:
+                  - Required.
+                  - Type: xs:enumeration.
+                  
+                  Select "Barcode" or "Keyboard" to enable Serial Number entry & test data collection.
+                  Select "None" to disable Serial Number entry & test data collection.
+                  ]]>
+                </xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="Barcode"/>
+                  <xs:enumeration value="Keyboard"/>
+                  <xs:enumeration value="None"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="RegularEx" type="xs:string" use="optional" default=".*">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">
+                  <![CDATA[
+                    RegularEx attribute:
+                    - Optional, relevant only for EntryType="Barcode" or "Keyboard".
+                    - Regular Expression to validate Serial Number entry.
+                    - Type: xs:string.
+                    ]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Format" type="StringWithWhitespace" use="optional" default="">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">
+                  <![CDATA[
+                    Format attribute:
+                    - Optional, relevant only for EntryType="Barcode" or "Keyboard".
+                    - Explanation of RegularEx.
+                    - Type: xs:string.
+                    ]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
         <xs:element name="Development" minOccurs="1" maxOccurs="1">
           <xs:annotation>
             <xs:documentation xml:lang="en">
@@ -1138,60 +1196,6 @@
                 </xs:annotation>
               </xs:element>
             </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="SerialNumber" minOccurs="1" maxOccurs="1">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">
-              <![CDATA[
-                SerialNumber element.
-                - Required, 1 occurence.
-                - Type: xs:element.
-              ]]>
-            </xs:documentation>
-          </xs:annotation>
-          <xs:complexType>
-            <xs:attribute name="Entry" use="required">
-              <xs:annotation>
-                <xs:documentation xml:lang="en">
-                  <![CDATA[
-                  Entry attribute:
-                  - Required.
-                  - Type: xs:enumeration.
-                  ]]>
-                </xs:documentation>
-              </xs:annotation>
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:enumeration value="Barcode"/>
-                  <xs:enumeration value="Keyboard"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="RegularEx" type="xs:string" use="required">
-              <xs:annotation>
-                <xs:documentation xml:lang="en">
-                  <![CDATA[
-                    RegularEx attribute:
-                    - Required.
-                    - Regular Expression to validate Serial Number entry.
-                    - Type: xs:string.
-                    ]]>
-                </xs:documentation>
-              </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="Format" type="StringWithWhitespace" use="required">
-              <xs:annotation>
-                <xs:documentation xml:lang="en">
-                  <![CDATA[
-                    Format attribute:
-                    - Required.
-                    - Explanation of SerialNumberRegEx format.
-                    - Type: xs:string.
-                    ]]>
-                </xs:documentation>
-              </xs:annotation>
-            </xs:attribute>
           </xs:complexType>
         </xs:element>
         <xs:element name="Instruments" minOccurs="1" maxOccurs="1">

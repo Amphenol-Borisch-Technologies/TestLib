@@ -6,12 +6,12 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace ABT.Test.TestLib.TestConfiguration {
+namespace ABT.Test.TestLib.Configuration {
 
     [XmlRoot(ElementName = nameof(TestSequence), Namespace = "", IsNullable = false)]
     public class TestSequence {
         [XmlAttribute("noNamespaceSchemaLocation", Namespace = "http://www.w3.org/2001/XMLSchema-instance")]
-        public String NoNamespaceSchemaLocation { get; set; } = "file://C://Users//phils//source//repos//ABT//Test//TestLib//TestConfiguration//TestSequence.xsd";
+        public String NoNamespaceSchemaLocation { get; set; } = "file://C://Users//phils//source//repos//ABT//Test//TestLib//Configuration//TestSequence.xsd";
         public UUT UUT { get; set; } = Serializing.DeserializeFromFile<UUT>(xmlFile: Data.TestDefinitionXML);
         public TestOperation TestOperation { get; set; }
         [XmlIgnore] public Boolean IsOperation { get; set; } = false;

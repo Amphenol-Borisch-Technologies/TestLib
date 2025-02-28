@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Xml.Linq;
-using ABT.Test.TestLib.TestConfiguration;
+using ABT.Test.TestLib.Configuration;
 
 namespace ABT.Test.TestLib {
     [Flags] public enum EVENTS {
@@ -47,13 +47,14 @@ namespace ABT.Test.TestLib {
         public static Mutex MutexTest = null;
         public const String MutexTestName = nameof(MutexTest);
         public static Dictionary<String, Object> InstrumentDrivers = null;
-        public static TestSequence testSequence = null;
-        public static TestDefinition testDefinition = null;
         public static String BaseDirectory = null;
         public static String TestDefinitionXML = null;
-        public static String TestDefinitionXSD = GetExecutingStatementDirectory() + @"\TestConfiguration\TestDefinition.xsd";
-        public static String SystemDefinitionXML = null;
-        public static String SystemDefinitionXSD = null;
+        public static String TestDefinitionXSD = GetExecutingStatementDirectory() + @"\Configuration\TestDefinition.xsd";
+        public static TestDefinition testDefinition = null;
+        public static TestSequence testSequence = null;
+        public static String SystemDefinitionXML = GetExecutingStatementDirectory() + @"\Configuration\SystemDefinition.xsd";
+        public static String SystemDefinitionXSD = GetExecutingStatementDirectory() + @"\Configuration\SystemDefinition.xml";
+        public static SystemDefinition systemDefinition = Serializing.DeserializeFromFile<SystemDefinition>(xmlFile: $"{SystemDefinitionXML}");
         public static String UserName = null;
         public static CancellationTokenSource CTS_Cancel;
         public static CancellationTokenSource CTS_EmergencyStop;
@@ -73,11 +74,11 @@ namespace ABT.Test.TestLib {
 
         public static Dictionary<String, Object> GetInstrumentDriversSystemDefinition() {
             Dictionary<String, Object> instrumentDrivers = new Dictionary<String, Object>();
-            IEnumerable<XElement> iEnumerableXElement = XElement.Load(SystemDefinitionXML).Elements("Instruments").Descendants("Instrument");
+
             Object instrumentDriver = null;
-            foreach (XElement xElement in iEnumerableXElement) {
-                if (!testDefinition.TestSpace.Simulate) instrumentDriver = Activator.CreateInstance(Type.GetType(xElement.Attribute("NameSpacedClassName").Value), new Object[] { xElement.Attribute("Address").Value, xElement.Attribute("Detail").Value });
-                instrumentDrivers.Add(xElement.Attribute("ID").Value, instrumentDriver); // instrumentDriver is null if testDefinition.TestSpace.Simulate.
+            foreach (InstrumentSystem instrumentSystem in systemDefinition.InstrumentsSystem.InstrumentSystem) {
+                if (!testDefinition.TestSpace.Simulate) instrumentDriver = Activator.CreateInstance(Type.GetType(instrumentSystem.NameSpacedClassName), new Object[] { instrumentSystem.Address, instrumentSystem.Detail});
+                instrumentDrivers.Add(instrumentSystem.ID, instrumentDriver); // instrumentDriver is null if testDefinition.TestSpace.Simulate.
             }
             return instrumentDrivers;
         }
