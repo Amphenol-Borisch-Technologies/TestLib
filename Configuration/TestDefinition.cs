@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace ABT.Test.TestLib.Configuration {
@@ -169,11 +167,12 @@ namespace ABT.Test.TestLib.Configuration {
         public List<InstrumentInfo> GetInfo() {
             List<InstrumentInfo> instruments = new List<InstrumentInfo>();
 
-            IEnumerable<XElement> iexe = XElement.Load(Data.SystemDefinitionXML).Elements("Instruments");
+            InstrumentSystem instrumentSystem = null;
             foreach (Stationary stationary in Data.testDefinition.Instruments.Stationary) {
-                XElement xElement = iexe.Descendants("Instrument").First(xe => (String)xe.Attribute("ID") == stationary.ID) ?? throw new ArgumentException($"Instrument with ID '{stationary.ID}' not present in file '{Data.SystemDefinitionXML}'.");
-                instruments.Add(new InstrumentInfo(stationary.ID, stationary.Alias, xElement.Attribute("NameSpacedClassName").Value));
+                instrumentSystem = Data.systemDefinition.InstrumentsSystem.InstrumentSystem.Find(x => x.ID == stationary.ID) ?? throw new ArgumentException($"Instrument with ID '{stationary.ID}' not present in file '{Data.SystemDefinitionXML}'.");
+                instruments.Add(new InstrumentInfo(stationary.ID, stationary.Alias, instrumentSystem.NameSpacedClassName));
             }
+
             foreach (Mobile mobile in Mobile) instruments.Add(new InstrumentInfo(mobile.ID, mobile.Alias, mobile.NameSpacedClassName));
             return instruments;
         }
