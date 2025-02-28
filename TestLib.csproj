@@ -150,10 +150,8 @@
     <Compile Include="InstrumentDrivers\Oscilloscopes\MSO_3014_IVI_COM.cs" />
     <Compile Include="InstrumentDrivers\PowerSupplies\PS_E3634A_SCPI_NET.cs" />
     <Compile Include="InstrumentDrivers\PowerSupplies\PS_E3649A_SCPI_NET.cs" />
-    <Compile Include="Miscellaneous\Miscellaneous.cs" />
     <Compile Include="Processes\ProcessExternal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Switching\RelayForms.cs" />
     <Compile Include="Configuration\TestDefinition.cs">
       <DependentUpon>TestDefinition.xsd</DependentUpon>
     </Compile>
