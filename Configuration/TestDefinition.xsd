@@ -847,7 +847,7 @@
             - Type: ValidCSharpNamespace.
           
             NamespaceTrunk is analogous to a trunk in a root/trunk/branch/leaf hierarchy.
-            - Note, namespaces are not Windows paths, even if both can be similarly named and are often conflated.
+            NamespaceTrunk is also part of the SystemDefinition Files path where test data is saved if enabled.
           ]]>
         </xs:documentation>
       </xs:annotation>
@@ -935,8 +935,7 @@
                     - Type: ValidCSharpIdentifier.
                     
                     UUT Number is the customer's UUT part number.
-                    UUT Number is used as part of the TDR (Test Data Record) path where XML Test Data is saved when enabled.
-                    The 
+                    UUT Number is part of the SystemDefinition Files path where test data is saved if enabled.
                   ]]>
                 </xs:documentation>
               </xs:annotation>
