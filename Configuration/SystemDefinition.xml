@@ -9,7 +9,7 @@
     <Repository URL="https://github.com/Amphenol-Borisch-Technologies/TestLib" />
     <Repository URL="https://github.com/Amphenol-Borisch-Technologies/TestPlan" />
   </Development>
-
+  
   <TestData>
     <Files Folder="P:\Test\TDR" />
     <!--
@@ -38,6 +38,9 @@
 	-->
 
   <Apps>
+    <ABT>
+      <TestChooser>C:\Program Files\ABT\Test\TestChooser\TestChooser.exe</TestChooser>
+    </ABT>
     <Keysight>
       <CommandExpert>C:\Program Files\Keysight\Command Expert\CommandExpert.exe</CommandExpert>
       <ConnectionExpert>C:\Program Files\Keysight\IO Libraries Suite\ConnectionExpert.exe</ConnectionExpert>

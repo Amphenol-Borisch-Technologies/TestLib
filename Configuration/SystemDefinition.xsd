@@ -333,6 +333,13 @@
         <xs:element name="Apps" minOccurs="1" maxOccurs="1" >
           <xs:complexType>
             <xs:sequence>
+              <xs:element name="ABT" minOccurs="1" maxOccurs="1" >
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="TestChooser" type="ValidWindowsPath" minOccurs="1" maxOccurs="1" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
               <xs:element name="Keysight" minOccurs="1" maxOccurs="1" >
                 <xs:complexType>
                   <xs:sequence>

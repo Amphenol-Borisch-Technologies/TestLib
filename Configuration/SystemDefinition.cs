@@ -38,9 +38,15 @@ namespace ABT.Test.TestLib.Configuration{
     }
 
     public class  Apps {
+        [XmlElement(nameof(ABT))] public ABT ABT { get; set; }
         [XmlElement(nameof(Keysight))] public Keysight Keysight { get; set; }
         [XmlElement(nameof(Microsoft))] public Microsoft Microsoft { get; set; }
         public Apps() { }
+    }
+
+    public class ABT {
+        [XmlElement(nameof(TestChooser))] public String TestChooser { get; set; }
+        public ABT() { }
     }
 
     public class Keysight {
