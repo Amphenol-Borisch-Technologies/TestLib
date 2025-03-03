@@ -50,7 +50,7 @@
   </xs:simpleType>
 
   <xs:attribute name="Folder" type="ValidWindowsPath"/>
-  
+
   <xs:complexType name="Documentation">
     <xs:attribute ref="Folder" use="required"/>
   </xs:complexType>
@@ -112,8 +112,8 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-  </xs:complexType>  
-   
+  </xs:complexType>
+
   <xs:complexType name="BarcodeReader">
     <xs:attribute name="ID" type="xs:string" use="required">
       <xs:annotation>
@@ -142,8 +142,20 @@
     <xs:attribute ref="Folder" use="required"/>
   </xs:complexType>
 
-  <xs:complexType name="XML">
-    <xs:attribute ref="Folder" use="required"/>
+  <xs:complexType name="Files">
+    <xs:attribute ref="Folder" use="required">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          <![CDATA[
+        Folder attribute:
+        - Type: folder.
+        - Initial base path to save test data into.
+        - Each TestPlan has its own, individual sub-folder under this folder.
+        - Test data saved/persisted in XML textual format as individual files.
+        ]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="SQL">
@@ -152,14 +164,15 @@
         <xs:documentation xml:lang="en">
           <![CDATA[
           ConnectionString attribute:
-          - Required.
           - Type: xs:string.
+          - Connection string to SQL database to save test data into.
+          - Test data saved/persisted in XML textual format in database.
           ]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-  </xs:complexType>  
-  
+  </xs:complexType>
+
   <xs:complexType name="InstrumentSystem">
     <xs:attribute name="ID" type="xs:string" use="required">
       <xs:annotation>
@@ -293,33 +306,16 @@
                 TestData element.
                 - Required, 1 occurence.
                 - Type: xs:element.
+                
+                Choose Files xor SQL for test data persistence type.
+                Enable/disable test data individually for each TestPlan.
               ]]>
             </xs:documentation>
           </xs:annotation>
           <xs:complexType>
             <xs:choice>
-              <xs:element name="XML" type="XML">
-                <xs:annotation>
-                  <xs:documentation xml:lang="en">
-                    <![CDATA[
-                    XML element.
-                    - Choice, 1 occurence.
-                    - Type: XML.
-                  ]]>
-                  </xs:documentation>
-                </xs:annotation>
-              </xs:element>
-              <xs:element name="SQL" type="SQL">
-                <xs:annotation>
-                  <xs:documentation xml:lang="en">
-                    <![CDATA[
-                    SQL element.
-                    - Choice, 1 occurence.
-                    - Type: SQL.
-                  ]]>
-                  </xs:documentation>
-                </xs:annotation>
-              </xs:element>
+              <xs:element name="Files" type="Files"/>
+              <xs:element name="SQL" type="SQL"/>
             </xs:choice>
           </xs:complexType>
         </xs:element>

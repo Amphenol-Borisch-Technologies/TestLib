@@ -933,6 +933,10 @@
                     Number attribute.
                     - Required.
                     - Type: ValidCSharpIdentifier.
+                    
+                    UUT Number is the customer's UUT part number.
+                    UUT Number is used as part of the TDR (Test Data Record) path where XML Test Data is saved when enabled.
+                    The 
                   ]]>
                 </xs:documentation>
               </xs:annotation>

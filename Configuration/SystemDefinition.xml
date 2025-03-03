@@ -11,10 +11,10 @@
   </Development>
 
   <TestData>
+    <Files Folder="P:\Test\TDR" />
     <!--
-    <XML Folder="P:\Test\TDR" />
-    -->
     <SQL ConnectionString="Server=ABT002780\SQLEXPRESS;Database=TestData;Integrated Security=true;" />
+    -->
   </TestData>
 
   <BarcodeReader ID="\\?\HID#VID_0C2E&amp;PID_0A07&amp;MI_00#7&amp;1f27e379&amp;0&amp;0000#{c243ffbd-3afc-45e9-b3d3-2ba18bc7ebc5}\posbarcodescanner" 
