@@ -7,8 +7,8 @@ using System.Xml.Serialization;
 namespace ABT.Test.TestLib.Configuration {
     public interface IAssertionCurrent { String AssertionCurrent(); }
 
-    [XmlRoot(nameof(TestDefinition))]
-    public class TestDefinition {
+    [XmlRoot(nameof(TestPlanDefinition))]
+    public class TestPlanDefinition {
         [XmlElement(nameof(UUT))] public UUT UUT { get; set; }
         [XmlElement(nameof(Development))] public Development Development { get; set; }
         [XmlArray(nameof(Modifications))] public List<Modification> Modifications { get; set; }
@@ -16,7 +16,7 @@ namespace ABT.Test.TestLib.Configuration {
         [XmlElement(nameof(Instruments))] public Instruments Instruments { get; set; }
         [XmlElement(nameof(TestSpace))] public TestSpace TestSpace { get; set; }
 
-        public TestDefinition() { }
+        public TestPlanDefinition() { }
     }
 
     public class UUT : IAssertionCurrent {
@@ -168,8 +168,8 @@ namespace ABT.Test.TestLib.Configuration {
             List<InstrumentInfo> instruments = new List<InstrumentInfo>();
 
             InstrumentSystem instrumentSystem = null;
-            foreach (Stationary stationary in Data.testDefinition.Instruments.Stationary) {
-                instrumentSystem = Data.systemDefinition.InstrumentsSystem.InstrumentSystem.Find(x => x.ID == stationary.ID) ?? throw new ArgumentException($"Instrument with ID '{stationary.ID}' not present in file '{Data.SystemDefinitionXML}'.");
+            foreach (Stationary stationary in Data.testPlanDefinition.Instruments.Stationary) {
+                instrumentSystem = Data.testExecDefinition.InstrumentsSystem.InstrumentSystem.Find(x => x.ID == stationary.ID) ?? throw new ArgumentException($"Instrument with ID '{stationary.ID}' not present in file '{Data.TestExecDefinitionXML}'.");
                 instruments.Add(new InstrumentInfo(stationary.ID, stationary.Alias, instrumentSystem.NameSpacedClassName));
             }
 

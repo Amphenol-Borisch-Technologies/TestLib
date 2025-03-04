@@ -8,7 +8,7 @@ namespace ABT.Test.TestLib.Configuration {
     public class TestSequence {
         [XmlAttribute("noNamespaceSchemaLocation", Namespace = "http://www.w3.org/2001/XMLSchema-instance")]
         public String NoNamespaceSchemaLocation { get; set; } = "file://C://Users//phils//source//repos//ABT//Test//TestLib//Configuration//TestSequence.xsd";
-        public UUT UUT { get; set; } = Serializing.DeserializeFromFile<UUT>(xmlFile: Data.TestDefinitionXML);
+        public UUT UUT { get; set; } = Serializing.DeserializeFromFile<UUT>(xmlFile: Data.TestPlanDefinitionXML);
         public TestOperation TestOperation { get; set; }
         [XmlIgnore] public Boolean IsOperation { get; set; } = false;
         public String Computer { get; set; } = Environment.MachineName;

@@ -112,8 +112,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\SystemDefinition.cs">
-      <DependentUpon>SystemDefinition.xsd</DependentUpon>
+    <Compile Include="Configuration\TestExecDefinition.cs">
+      <DependentUpon>TestExecDefinition.xsd</DependentUpon>
     </Compile>
     <Compile Include="Miscellaneous\InputForm.cs">
       <SubType>Form</SubType>
@@ -152,8 +152,8 @@
     <Compile Include="InstrumentDrivers\PowerSupplies\PS_E3649A_SCPI_NET.cs" />
     <Compile Include="Processes\ProcessExternal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Configuration\TestDefinition.cs">
-      <DependentUpon>TestDefinition.xsd</DependentUpon>
+    <Compile Include="Configuration\TestPlanDefinition.cs">
+      <DependentUpon>TestPlanDefinition.xsd</DependentUpon>
     </Compile>
     <Compile Include="TestLib.cs" />
     <Compile Include="Configuration\Validator.cs" />
@@ -209,18 +209,18 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Configuration\SystemDefinition.xsd">
+    <None Include="Configuration\TestExecDefinition.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Configuration\TestSequence.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Configuration\TestDefinition.xsd">
+    <None Include="Configuration\TestPlanDefinition.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Configuration\SystemDefinition.xml">
+    <Content Include="Configuration\TestExecDefinition.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

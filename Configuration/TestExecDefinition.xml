@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<SystemDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file://C://Users//phils//source//repos//ABT//Test//TestLib//Configuration//SystemDefinition.xsd">
+<TestExecDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file://C://Users//phils//source//repos//ABT//Test//TestLib//Configuration//TestExecDefinition.xsd">
 
   <Development Released="2025-04-01">
     <Developer Name="Phillip Smelt" Language="CSharp" Comment="Also XML &amp; XSD." />
@@ -21,12 +21,12 @@
                  Detail="Honeywell Voyager USB 1200g corded Barcode Scanner" 
                  Folder="P:\Test\Engineers\Equipment_Manuals\TestExec\Honeywell_Voyager_1200g" />
   <!-- BarcodeScanner's  is the identifier used to find & claim the Barcode Scanner used in class SerialNumberDialog.
-        When a TestDefinition.xml file specifies SerialNumberEntryType="Barcode":
+        When a TestPlanDefinition.xml file specifies SerialNumberEntryType="Barcode":
 				- Class SerialNumberDialog is the Barcode Scanning method for prompting test operators for UUT Serial Numbers.
 				- SerialNumberDialog exclusively enforces Serial Number entry via Barcode Scanning of ABT's official Code39 encoded Serial Number.
           - Serial Number's cannot be entered into SerialNumberDialog via Keyboard, only via Barcode Scanning.
           - This enforces correct Barcode Scanning of ABT Serial Numbers, unlike hand-typing them, with it's substantially higher error rates.
-				When a TestDefinition.xml file specifies SerialNumberEntryType="Keyboard":
+				When a TestPlanDefinition.xml file specifies SerialNumberEntryType="Keyboard":
 				- An Interaction.InputBox prompts test operator to enter Serial Numbers via Keyboard.
         NOTE:  Barcode Scanner must be a corded USB scanner, and must also be explicitly supported by Microsoft's Windows.Devices.PointOfService namespace.
            
@@ -85,4 +85,4 @@
     <InstrumentSystem ID="PS1ε2_E3649A" Detail="Agilent E3649A Dual Output DC Power Supply"                  Address="GPIB0::1::INSTR"  NameSpacedClassName="ABT.Test.TestLib.InstrumentDrivers.PowerSupplies.PS_E3649A_SCPI_NET" />
     <InstrumentSystem ID="PS3_E3634A"   Detail="Keysight E3634A Single Ouput Dual Range DC Power Supply"     Address="GPIB0::3::INSTR"  NameSpacedClassName="ABT.Test.TestLib.InstrumentDrivers.PowerSupplies.PS_E3634A_SCPI_NET" />
   </InstrumentsSystem>
-</SystemDefinition>
+</TestExecDefinition>

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace ABT.Test.TestLib.Configuration{
-    [XmlRoot(nameof(SystemDefinition))]
-    public class SystemDefinition {
+    [XmlRoot(nameof(TestExecDefinition))]
+    public class TestExecDefinition {
         [XmlElement(nameof(Development))] public Development Development { get; set; }
         [XmlElement(nameof(TestData))] public TestData TestData { get; set; }
         [XmlElement(nameof(BarcodeReader))] public BarcodeReader BarcodeReader { get; set; }
         [XmlElement(nameof(Apps))] public Apps Apps { get; set; }
         [XmlElement(nameof(InstrumentsSystem))] public InstrumentsSystem InstrumentsSystem { get; set; }
-        public SystemDefinition() { }
+        public TestExecDefinition() { }
     }
 
     public class TestData {

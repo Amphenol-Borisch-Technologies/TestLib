@@ -5,9 +5,9 @@ using System.Linq;
 namespace ABT.Test.TestLib.Configuration {
     public static class Assertions {
         public static Boolean TestSpace(String NamespaceRoot, String Description, String TestOperations) {
-            Boolean b = String.Equals(Data.testDefinition.TestSpace.NamespaceRoot, NamespaceRoot);
-            b &= String.Equals(Data.testDefinition.TestSpace.Description, Description);
-            b &= String.Equals(Data.testDefinition.TestSpace.TOs().Replace("\"", ""), TestOperations);
+            Boolean b = String.Equals(Data.testPlanDefinition.TestSpace.NamespaceRoot, NamespaceRoot);
+            b &= String.Equals(Data.testPlanDefinition.TestSpace.Description, Description);
+            b &= String.Equals(Data.testPlanDefinition.TestSpace.TOs().Replace("\"", ""), TestOperations);
             return b;
         }
 

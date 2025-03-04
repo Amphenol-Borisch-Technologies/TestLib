@@ -47,12 +47,12 @@ namespace ABT.Test.TestLib {
         public const String MutexTestName = nameof(MutexTest);
         public static Dictionary<String, Object> InstrumentDrivers = null;
         public static String BaseDirectory = null;
-        public static String TestDefinitionXML = null;
-        public static String TestDefinitionXSD = GetExecutingStatementDirectory() + @"\Configuration\TestDefinition.xsd";
-        public static TestDefinition testDefinition = null;
+        public static String TestPlanDefinitionXML = null;
+        public static String TestPlanDefinitionXSD = GetExecutingStatementDirectory() + @"\Configuration\TestPlanDefinition.xsd";
+        public static TestPlanDefinition testPlanDefinition = null;
         public static TestSequence testSequence = null;
-        public static String SystemDefinitionXML = GetExecutingStatementDirectory() + @"\Configuration\SystemDefinition.xml";
-        public static SystemDefinition systemDefinition = Serializing.DeserializeFromFile<SystemDefinition>(xmlFile: $"{SystemDefinitionXML}");
+        public static String TestExecDefinitionXML = GetExecutingStatementDirectory() + @"\Configuration\TestExecDefinition.xml";
+        public static TestExecDefinition testExecDefinition = Serializing.DeserializeFromFile<TestExecDefinition>(xmlFile: $"{TestExecDefinitionXML}");
         public static String UserName = null;
         public static CancellationTokenSource CTS_Cancel;
         public static CancellationTokenSource CTS_EmergencyStop;
@@ -70,13 +70,13 @@ namespace ABT.Test.TestLib {
             return $"{Y2K + new TimeSpan(days: version.Build, hours: 0, minutes: 0, seconds: 2 * version.Revision):g}";
         }
 
-        public static Dictionary<String, Object> GetInstrumentDriversSystemDefinition() {
+        public static Dictionary<String, Object> GetInstrumentDriversTestExecDefinition() {
             Dictionary<String, Object> instrumentDrivers = new Dictionary<String, Object>();
 
             Object instrumentDriver = null;
-            foreach (InstrumentSystem instrumentSystem in systemDefinition.InstrumentsSystem.InstrumentSystem) {
-                if (!testDefinition.TestSpace.Simulate) instrumentDriver = Activator.CreateInstance(Type.GetType(instrumentSystem.NameSpacedClassName), new Object[] { instrumentSystem.Address, instrumentSystem.Detail});
-                instrumentDrivers.Add(instrumentSystem.ID, instrumentDriver); // instrumentDriver is null if testDefinition.TestSpace.Simulate.
+            foreach (InstrumentSystem instrumentSystem in testExecDefinition.InstrumentsSystem.InstrumentSystem) {
+                if (!testPlanDefinition.TestSpace.Simulate) instrumentDriver = Activator.CreateInstance(Type.GetType(instrumentSystem.NameSpacedClassName), new Object[] { instrumentSystem.Address, instrumentSystem.Detail});
+                instrumentDrivers.Add(instrumentSystem.ID, instrumentDriver); // instrumentDriver is null if testPlanDefinition.TestSpace.Simulate.
             }
             return instrumentDrivers;
         }
@@ -98,18 +98,18 @@ namespace ABT.Test.TestLib {
             }
         }
 
-        public static Dictionary<String, Object> GetInstrumentDriversTestDefinition() {
-            Dictionary<String, Object> instrumentDrivers = GetMobileTestDefinition();
-            foreach (KeyValuePair<String, Object> kvp in GetStationaryTestDefinition()) instrumentDrivers.Add(kvp.Key, kvp.Value);
+        public static Dictionary<String, Object> GetInstrumentDriversTestPlanDefinition() {
+            Dictionary<String, Object> instrumentDrivers = GetMobileTestPlanDefinition();
+            foreach (KeyValuePair<String, Object> kvp in GetStationaryTestPlanDefinition()) instrumentDrivers.Add(kvp.Key, kvp.Value);
             return instrumentDrivers;
         }
 
-        private static Dictionary<String, Object> GetMobileTestDefinition() {
+        private static Dictionary<String, Object> GetMobileTestPlanDefinition() {
             Dictionary<String, Object> instrumentDrivers = new Dictionary<String, Object>();
             Object instrumentDriver = null;
-            foreach (Mobile mobile in testDefinition.Instruments.Mobile) try {
-                    if (!testDefinition.TestSpace.Simulate) instrumentDriver = Activator.CreateInstance(Type.GetType(mobile.NameSpacedClassName), new Object[] { mobile.Address, mobile.Detail });
-                    instrumentDrivers.Add(mobile.ID, instrumentDriver); // instrumentDriver is null if testDefinition.TestSpace.Simulate.
+            foreach (Mobile mobile in testPlanDefinition.Instruments.Mobile) try {
+                    if (!testPlanDefinition.TestSpace.Simulate) instrumentDriver = Activator.CreateInstance(Type.GetType(mobile.NameSpacedClassName), new Object[] { mobile.Address, mobile.Detail });
+                    instrumentDrivers.Add(mobile.ID, instrumentDriver); // instrumentDriver is null if testPlanDefinition.TestSpace.Simulate.
                 } catch (Exception e) {
                     StringBuilder sb = new StringBuilder().AppendLine();
                     const Int32 PR = 23;
@@ -125,9 +125,9 @@ namespace ABT.Test.TestLib {
             return instrumentDrivers;
         }
 
-        private static Dictionary<String, Object> GetStationaryTestDefinition() {
-            Dictionary<String, Object> instrumentDrivers = GetInstrumentDriversSystemDefinition();
-            foreach (Stationary stationary in testDefinition.Instruments.Stationary) if (!instrumentDrivers.ContainsKey(stationary.ID)) instrumentDrivers.Remove(stationary.ID);
+        private static Dictionary<String, Object> GetStationaryTestPlanDefinition() {
+            Dictionary<String, Object> instrumentDrivers = GetInstrumentDriversTestExecDefinition();
+            foreach (Stationary stationary in testPlanDefinition.Instruments.Stationary) if (!instrumentDrivers.ContainsKey(stationary.ID)) instrumentDrivers.Remove(stationary.ID);
             return instrumentDrivers;
         }
 

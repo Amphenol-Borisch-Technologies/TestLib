@@ -8,13 +8,13 @@ using Microsoft.CSharp;
 namespace ABT.Test.TestLib.Configuration {
     public static class Generator {
 
-        public static void Generate(String TestDefinitionXML) {
-            GenerateImplementation(TestDefinitionXML);
-            GenerateIDs(TestDefinitionXML);
+        public static void Generate(String TestPlanDefinitionXML) {
+            GenerateImplementation(TestPlanDefinitionXML);
+            GenerateIDs(TestPlanDefinitionXML);
         }
 
-        public static void GenerateImplementation(String TestDefinitionXML) {
-            TestSpace testSpace = Serializing.DeserializeFromFile<TestSpace>(TestDefinitionXML);
+        public static void GenerateImplementation(String TestPlanDefinitionXML) {
+            TestSpace testSpace = Serializing.DeserializeFromFile<TestSpace>(TestPlanDefinitionXML);
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
 
             for (Int32 testOperation = 0; testOperation < testSpace.TestOperations.Count; testOperation++) {
@@ -108,8 +108,8 @@ namespace ABT.Test.TestLib.Configuration {
             _ = codeTypeDeclaration.Members.Add(codeMemberMethod);
         }
 
-        public static void GenerateIDs(String TestDefinitionXML) {
-            Instruments instruments = Serializing.DeserializeFromFile<Instruments>(TestDefinitionXML);
+        public static void GenerateIDs(String TestPlanDefinitionXML) {
+            Instruments instruments = Serializing.DeserializeFromFile<Instruments>(TestPlanDefinitionXML);
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
             CodeNamespace codeNamespace = new CodeNamespace($"{nameof(ABT)}.{nameof(Test)}.TestPlans.Diagnostics.{nameof(InstrumentDrivers)}");
             codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(InstrumentDrivers)}.{nameof(InstrumentDrivers.Multifunction)}"));

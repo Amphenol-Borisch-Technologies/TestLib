@@ -225,7 +225,7 @@
   </xs:complexType>
 
 
-  <xs:element name="SystemDefinition">
+  <xs:element name="TestExecDefinition">
     <xs:complexType>
       <xs:sequence>
         <xs:element name="Development" minOccurs="1" maxOccurs="1">

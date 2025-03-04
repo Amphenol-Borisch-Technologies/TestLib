@@ -44,7 +44,7 @@ C:\Users\phils\source\repos\ABT\Test\Lib\obj\x64\Debug\TestLib.csproj.CoreCompil
 C:\Users\phils\source\repos\ABT\Test\Lib\obj\x64\Debug\TestLib.csproj.Up2Date
 C:\Users\phils\source\repos\ABT\Test\Lib\obj\x64\Debug\TestLib.dll
 C:\Users\phils\source\repos\ABT\Test\Lib\obj\x64\Debug\TestLib.pdb
-C:\Users\phils\source\repos\ABT\Test\TestLib\bin\x64\Debug\Configuration\SystemDefinition.xml
+C:\Users\phils\source\repos\ABT\Test\TestLib\bin\x64\Debug\Configuration\TestExecDefinition.xml
 C:\Users\phils\source\repos\ABT\Test\TestLib\bin\x64\Debug\TestLib.dll
 C:\Users\phils\source\repos\ABT\Test\TestLib\bin\x64\Debug\TestLib.pdb
 C:\Users\phils\source\repos\ABT\Test\TestLib\bin\x64\Debug\Microsoft.Bcl.AsyncInterfaces.dll

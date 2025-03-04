@@ -295,7 +295,7 @@
           ID attribute:
           - Required.
           - Must be unique.
-          - For Stationary Instruments, must correspond to a SystemDefinition.xml instrument's ID.
+          - For Stationary Instruments, must correspond to a TestExecDefinition.xml instrument's ID.
           - For Mobile Instruments, developer's preference.
           - Type: xs:string.
           ]]>
@@ -853,7 +853,7 @@
             - Type: ValidCSharpNamespace.
           
             NamespaceTrunk is analogous to a trunk in a root/trunk/branch/leaf hierarchy.
-            NamespaceTrunk is also part of the SystemDefinition Files path where test data is saved if enabled.
+            NamespaceTrunk is also part of the TestExecDefinition Files path where test data is saved if enabled.
           ]]>
         </xs:documentation>
       </xs:annotation>
@@ -874,11 +874,11 @@
   </xs:complexType>
 
 
-  <xs:element name="TestDefinition">
+  <xs:element name="TestPlanDefinition">
     <xs:annotation>
       <xs:documentation xml:lang="en">
         <![CDATA[
-          TestDefinition root element.
+          TestPlanDefinition root element.
           - Required, 1 occurence.
           - Type: xs:element.
         ]]>
@@ -941,7 +941,7 @@
                     - Type: ValidUUTNumber.
                     
                     UUT Number is the customer's UUT part number.
-                    UUT Number is part of the SystemDefinition Files path where test data is saved if enabled.
+                    UUT Number is part of the TestExecDefinition Files path where test data is saved if enabled.
                   ]]>
                 </xs:documentation>
               </xs:annotation>
@@ -1276,7 +1276,7 @@
                     - Type: xs:boolean.
           
                     When Simulate="true", the TestSpecification execution is simulated; no Instrumentation or UUT necessary.
-                    Quite limited, useful only for initial TestDefinition.
+                    Quite limited, useful only for initial TestPlanDefinition.
                   ]]>
                 </xs:documentation>
               </xs:annotation>
