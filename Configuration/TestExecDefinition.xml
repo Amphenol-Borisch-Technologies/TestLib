@@ -11,9 +11,9 @@
   </Development>
   
   <TestData>
-    <Files Folder="P:\Test\TDR" />
+    <TextFiles Folder="P:\Test\TDR" />
     <!--
-    <SQL ConnectionString="Server=ABT002780\SQLEXPRESS;Database=TestData;Integrated Security=true;" />
+    <SQL_DB ConnectionString="Server=ABT002780\SQLEXPRESS;Database=TestData;Integrated Security=true;" />
     -->
   </TestData>
 

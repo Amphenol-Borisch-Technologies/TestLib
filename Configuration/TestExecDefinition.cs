@@ -14,20 +14,20 @@ namespace ABT.Test.TestLib.Configuration{
     }
 
     public class TestData {
-        [XmlElement(nameof(SQL), typeof(SQL))]
-        [XmlElement(nameof(Files), typeof(Files))]
+        [XmlElement(nameof(SQL_DB), typeof(SQL_DB))]
+        [XmlElement(nameof(TextFiles), typeof(TextFiles))]
         public Object Item { get; set; }
         public TestData() { }
     }
 
-    public class SQL {
+    public class SQL_DB {
         [XmlAttribute(nameof(ConnectionString))] public String ConnectionString { get; set; }
-        public SQL() { }
+        public SQL_DB() { }
     }
 
-    public class Files {
+    public class TextFiles {
         [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
-        public Files() { }
+        public TextFiles() { }
     }
 
     public class BarcodeReader {
