@@ -107,7 +107,7 @@ namespace ABT.Test.TestLib {
         private static Dictionary<String, Object> GetMobileTestPlanDefinition() {
             Dictionary<String, Object> instrumentDrivers = new Dictionary<String, Object>();
             Object instrumentDriver = null;
-            foreach (Mobile mobile in testPlanDefinition.Instruments.Mobile) try {
+            foreach (Mobile mobile in testPlanDefinition.InstrumentsTestPlan.Mobile) try {
                     if (!testPlanDefinition.TestSpace.Simulate) instrumentDriver = Activator.CreateInstance(Type.GetType(mobile.NameSpacedClassName), new Object[] { mobile.Address, mobile.Detail });
                     instrumentDrivers.Add(mobile.ID, instrumentDriver); // instrumentDriver is null if testPlanDefinition.TestSpace.Simulate.
                 } catch (Exception e) {
@@ -127,7 +127,7 @@ namespace ABT.Test.TestLib {
 
         private static Dictionary<String, Object> GetStationaryTestPlanDefinition() {
             Dictionary<String, Object> instrumentDrivers = GetInstrumentDriversTestExecDefinition();
-            foreach (Stationary stationary in testPlanDefinition.Instruments.Stationary) if (!instrumentDrivers.ContainsKey(stationary.ID)) instrumentDrivers.Remove(stationary.ID);
+            foreach (Stationary stationary in testPlanDefinition.InstrumentsTestPlan.Stationary) if (!instrumentDrivers.ContainsKey(stationary.ID)) instrumentDrivers.Remove(stationary.ID);
             return instrumentDrivers;
         }
 
