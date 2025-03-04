@@ -173,7 +173,7 @@
     </xs:attribute>
   </xs:complexType>
 
-  <xs:complexType name="InstrumentSystem">
+  <xs:complexType name="InstrumentTestExec">
     <xs:attribute name="ID" type="xs:string" use="required">
       <xs:annotation>
         <xs:documentation xml:lang="en">
@@ -194,7 +194,7 @@
                 - Required.
                 - Type: xs:string.
                 
-                Concise description of InstrumentSystem.
+                Concise description of InstrumentTestExec.
               ]]>
         </xs:documentation>
       </xs:annotation>
@@ -361,11 +361,11 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="InstrumentsSystem" minOccurs="1" maxOccurs="1">
+        <xs:element name="InstrumentsTestExec" minOccurs="1" maxOccurs="1">
           <xs:annotation>
             <xs:documentation xml:lang="en">
               <![CDATA[
-                InstrumentsSystem element.
+                InstrumentsTestExec element.
                 - Required, 1 occurence.
                 - Type: xs:element.
                 
@@ -375,13 +375,13 @@
           </xs:annotation>
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="InstrumentSystem" type="InstrumentSystem" minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="InstrumentTestExec" type="InstrumentTestExec" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                   <xs:documentation xml:lang="en">
                     <![CDATA[
-                      InstrumentSystem element.
+                      InstrumentTestExec element.
                       - Optional, 0 or more occurences.
-                      - Type: InstrumentSystem.
+                      - Type: InstrumentTestExec.
                    ]]>
                   </xs:documentation>
                 </xs:annotation>
@@ -390,11 +390,11 @@
             <xs:attribute ref="Folder" use="required"/>
           </xs:complexType>
           <xs:unique name="UniqueID">
-            <xs:selector xpath="InstrumentSystem"/>
+            <xs:selector xpath="InstrumentTestExec"/>
             <xs:field xpath="@ID"/>
           </xs:unique>
           <xs:unique name="UniqueAddress">
-            <xs:selector xpath="InstrumentSystem"/>
+            <xs:selector xpath="InstrumentTestExec"/>
             <xs:field xpath="@Address"/>
           </xs:unique>
         </xs:element>

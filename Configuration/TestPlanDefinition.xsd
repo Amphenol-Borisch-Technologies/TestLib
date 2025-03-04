@@ -1208,11 +1208,11 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Instruments" minOccurs="1" maxOccurs="1">
+        <xs:element name="InstrumentsTestPlan" minOccurs="1" maxOccurs="1">
           <xs:annotation>
             <xs:documentation xml:lang="en">
               <![CDATA[
-                Instruments element.
+                InstrumentsTestPlan element.
                 - Required, 1 occurence.
                 - Type: xs:element.
               ]]>

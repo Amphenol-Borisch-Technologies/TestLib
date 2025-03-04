@@ -109,7 +109,7 @@ namespace ABT.Test.TestLib.Configuration {
         }
 
         public static void GenerateIDs(String TestPlanDefinitionXML) {
-            Instruments instruments = Serializing.DeserializeFromFile<Instruments>(TestPlanDefinitionXML);
+            InstrumentsTestPlan instrumentsTestPlan = Serializing.DeserializeFromFile<InstrumentsTestPlan>(TestPlanDefinitionXML);
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
             CodeNamespace codeNamespace = new CodeNamespace($"{nameof(ABT)}.{nameof(Test)}.TestPlans.Diagnostics.{nameof(InstrumentDrivers)}");
             codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(InstrumentDrivers)}.{nameof(InstrumentDrivers.Multifunction)}"));
@@ -124,7 +124,7 @@ namespace ABT.Test.TestLib.Configuration {
 
             codeNamespace.Types.Add(codeTypeDeclaration);
 
-            foreach (InstrumentInfo instrumentInfo in instruments.GetInfo()) codeTypeDeclaration.Members.Add(CreateField(instrumentInfo));
+            foreach (InstrumentInfo instrumentInfo in instrumentsTestPlan.GetInfo()) codeTypeDeclaration.Members.Add(CreateField(instrumentInfo));
 
             CSharpCodeProvider cSharpCodeProvider = new CSharpCodeProvider();
             CodeGeneratorOptions codeGeneratorOptions = new CodeGeneratorOptions {

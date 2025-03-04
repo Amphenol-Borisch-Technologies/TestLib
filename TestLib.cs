@@ -74,9 +74,9 @@ namespace ABT.Test.TestLib {
             Dictionary<String, Object> instrumentDrivers = new Dictionary<String, Object>();
 
             Object instrumentDriver = null;
-            foreach (InstrumentSystem instrumentSystem in testExecDefinition.InstrumentsSystem.InstrumentSystem) {
-                if (!testPlanDefinition.TestSpace.Simulate) instrumentDriver = Activator.CreateInstance(Type.GetType(instrumentSystem.NameSpacedClassName), new Object[] { instrumentSystem.Address, instrumentSystem.Detail});
-                instrumentDrivers.Add(instrumentSystem.ID, instrumentDriver); // instrumentDriver is null if testPlanDefinition.TestSpace.Simulate.
+            foreach (InstrumentTestExec instrumentTestExec in testExecDefinition.InstrumentsTestExec.InstrumentTestExec) {
+                if (!testPlanDefinition.TestSpace.Simulate) instrumentDriver = Activator.CreateInstance(Type.GetType(instrumentTestExec.NameSpacedClassName), new Object[] { instrumentTestExec.Address, instrumentTestExec.Detail});
+                instrumentDrivers.Add(instrumentTestExec.ID, instrumentDriver); // instrumentDriver is null if testPlanDefinition.TestSpace.Simulate.
             }
             return instrumentDrivers;
         }

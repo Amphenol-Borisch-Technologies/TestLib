@@ -13,7 +13,7 @@ namespace ABT.Test.TestLib.Configuration {
         [XmlElement(nameof(Development))] public Development Development { get; set; }
         [XmlArray(nameof(Modifications))] public List<Modification> Modifications { get; set; }
         [XmlElement(nameof(SerialNumberEntry))] public SerialNumberEntry SerialNumberEntry { get; set; }
-        [XmlElement(nameof(Instruments))] public Instruments Instruments { get; set; }
+        [XmlElement(nameof(InstrumentsTestPlan))] public InstrumentsTestPlan InstrumentsTestPlan { get; set; }
         [XmlElement(nameof(TestSpace))] public TestSpace TestSpace { get; set; }
 
         public TestPlanDefinition() { }
@@ -148,12 +148,11 @@ namespace ABT.Test.TestLib.Configuration {
         public Modification() { }
     }
 
-    // TODO:  Change Instruments to InstrumentsTestPlan.
-    public class Instruments : IAssertionCurrent {
+    public class InstrumentsTestPlan : IAssertionCurrent {
         [XmlElement(nameof(Stationary))] public List<Stationary> Stationary { get; set; }
         [XmlElement(nameof(Mobile))] public List<Mobile> Mobile { get; set; }
 
-        public Instruments() { }
+        public InstrumentsTestPlan() { }
 
         public String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
@@ -167,10 +166,10 @@ namespace ABT.Test.TestLib.Configuration {
         public List<InstrumentInfo> GetInfo() {
             List<InstrumentInfo> instruments = new List<InstrumentInfo>();
 
-            InstrumentSystem instrumentSystem = null;
-            foreach (Stationary stationary in Data.testPlanDefinition.Instruments.Stationary) {
-                instrumentSystem = Data.testExecDefinition.InstrumentsSystem.InstrumentSystem.Find(x => x.ID == stationary.ID) ?? throw new ArgumentException($"Instrument with ID '{stationary.ID}' not present in file '{Data.TestExecDefinitionXML}'.");
-                instruments.Add(new InstrumentInfo(stationary.ID, stationary.Alias, instrumentSystem.NameSpacedClassName));
+            InstrumentTestExec instrumentTestExec = null;
+            foreach (Stationary stationary in Data.testPlanDefinition.InstrumentsTestPlan.Stationary) {
+                instrumentTestExec = Data.testExecDefinition.InstrumentsTestExec.InstrumentTestExec.Find(x => x.ID == stationary.ID) ?? throw new ArgumentException($"Instrument with ID '{stationary.ID}' not present in file '{Data.TestExecDefinitionXML}'.");
+                instruments.Add(new InstrumentInfo(stationary.ID, stationary.Alias, instrumentTestExec.NameSpacedClassName));
             }
 
             foreach (Mobile mobile in Mobile) instruments.Add(new InstrumentInfo(mobile.ID, mobile.Alias, mobile.NameSpacedClassName));

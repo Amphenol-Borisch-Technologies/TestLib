@@ -9,7 +9,7 @@ namespace ABT.Test.TestLib.Configuration{
         [XmlElement(nameof(TestData))] public TestData TestData { get; set; }
         [XmlElement(nameof(BarcodeReader))] public BarcodeReader BarcodeReader { get; set; }
         [XmlElement(nameof(Apps))] public Apps Apps { get; set; }
-        [XmlElement(nameof(InstrumentsSystem))] public InstrumentsSystem InstrumentsSystem { get; set; }
+        [XmlElement(nameof(InstrumentsTestExec))] public InstrumentsTestExec InstrumentsTestExec { get; set; }
         public TestExecDefinition() { }
     }
 
@@ -63,17 +63,17 @@ namespace ABT.Test.TestLib.Configuration{
         public Microsoft() { }
     }
     
-    public class InstrumentsSystem {
-        [XmlElement(nameof(InstrumentSystem))] public List<InstrumentSystem> InstrumentSystem { get; set; }
+    public class InstrumentsTestExec {
+        [XmlElement(nameof(InstrumentTestExec))] public List<InstrumentTestExec> InstrumentTestExec { get; set; }
         [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
-        public InstrumentsSystem() { }
+        public InstrumentsTestExec() { }
     }
 
-    public class InstrumentSystem {
+    public class InstrumentTestExec {
         [XmlAttribute(nameof(ID))] public String ID { get; set; }
         [XmlAttribute(nameof(Detail))] public String Detail { get; set; }
         [XmlAttribute(nameof(Address))] public String Address { get; set; }
         [XmlAttribute(nameof(NameSpacedClassName))] public String NameSpacedClassName { get; set; }
-        public InstrumentSystem() { }
+        public InstrumentTestExec() { }
     }
 }
