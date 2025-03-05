@@ -1,8 +1,4 @@
-################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-
-.vs/
+vs/
 
 # Ignore compiled files
 *.dll
@@ -12,10 +8,8 @@
 *.dll
 
 # Ignore build directories
-.bin/
-.obj/
-/bin/
-/obj/
+bin/
+obj/
 
 # Ignore user-specific files
 *.user
@@ -24,10 +18,10 @@
 *.suo
 
 # Ignore Visual Studio Code files
-.vscode/
+vscode/
 
 # Ignore Rider files
-.idea/
+idea/
 *.sln.iml
 
 # Ignore packaging
