@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using Microsoft.CSharp;
 
 namespace ABT.Test.TestLib.Configuration {
-    public static class Generator {
+    public static class TestPlanGenerator {
 
         public static void Generate(String TestPlanDefinitionXML) {
             GenerateImplementation(TestPlanDefinitionXML);
@@ -37,9 +37,9 @@ namespace ABT.Test.TestLib.Configuration {
 
             SaveFileDialog saveFileDialog = new SaveFileDialog {
                 Filter = "C# files (*.cs)|*.cs",
-                Title = "Save the generated C# TestProgram file",
+                Title = "Save the generated C# TestPlan file",
                 DefaultExt = "cs",
-                FileName = "TestProgram.cs",
+                FileName = "TestPlan.cs",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\"
             };
 

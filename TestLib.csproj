@@ -138,7 +138,7 @@
       <DependentUpon>CustomMessageBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Configuration\Serializing.cs" />
-    <Compile Include="Configuration\Generator.cs" />
+    <Compile Include="Configuration\TestPlanGenerator.cs" />
     <Compile Include="InstrumentDrivers\Generic\SCPI_NET.cs" />
     <Compile Include="InstrumentDrivers\Instruments.cs" />
     <Compile Include="InstrumentDrivers\Interfaces\IDiagnostics.cs" />
@@ -156,7 +156,7 @@
       <DependentUpon>TestPlanDefinition.xsd</DependentUpon>
     </Compile>
     <Compile Include="TestLib.cs" />
-    <Compile Include="Configuration\Validator.cs" />
+    <Compile Include="Configuration\TestPlanDefinitionValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.Contracts">
