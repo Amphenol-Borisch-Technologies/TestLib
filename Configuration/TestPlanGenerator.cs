@@ -9,11 +9,11 @@ namespace ABT.Test.TestLib.Configuration {
     public static class TestPlanGenerator {
 
         public static void Generate(String TestPlanDefinitionXML) {
-            GenerateImplementation(TestPlanDefinitionXML);
-            GenerateIDs(TestPlanDefinitionXML);
+            GenerateTestPlan(TestPlanDefinitionXML);
+            GenerateInstrumentAliases(TestPlanDefinitionXML);
         }
 
-        public static void GenerateImplementation(String TestPlanDefinitionXML) {
+        public static void GenerateTestPlan(String TestPlanDefinitionXML) {
             TestSpace testSpace = Serializing.DeserializeFromFile<TestSpace>(TestPlanDefinitionXML);
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
 
@@ -108,7 +108,7 @@ namespace ABT.Test.TestLib.Configuration {
             _ = codeTypeDeclaration.Members.Add(codeMemberMethod);
         }
 
-        public static void GenerateIDs(String TestPlanDefinitionXML) {
+        public static void GenerateInstrumentAliases(String TestPlanDefinitionXML) {
             InstrumentsTestPlan instrumentsTestPlan = Serializing.DeserializeFromFile<InstrumentsTestPlan>(TestPlanDefinitionXML);
             CodeCompileUnit codeCompileUnit = new CodeCompileUnit();
             CodeNamespace codeNamespace = new CodeNamespace($"{nameof(ABT)}.{nameof(Test)}.TestPlans.Diagnostics.{nameof(InstrumentDrivers)}");
@@ -116,7 +116,7 @@ namespace ABT.Test.TestLib.Configuration {
             codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(InstrumentDrivers)}.{nameof(InstrumentDrivers.PowerSupplies)}"));
             _ = codeCompileUnit.Namespaces.Add(codeNamespace);
 
-            CodeTypeDeclaration codeTypeDeclaration = new CodeTypeDeclaration("ID") {
+            CodeTypeDeclaration codeTypeDeclaration = new CodeTypeDeclaration("IA") {
                 IsClass = true,
                 TypeAttributes = System.Reflection.TypeAttributes.NotPublic,
                 Attributes = MemberAttributes.Static
@@ -135,9 +135,9 @@ namespace ABT.Test.TestLib.Configuration {
 
             SaveFileDialog saveFileDialog = new SaveFileDialog {
                 Filter = "C# files (*.cs)|*.cs",
-                Title = "Save the generated Instrument IDs C# file",
+                Title = "Save the generated Instrument Aliases C# file",
                 DefaultExt = "cs",
-                FileName = "ID.cs",
+                FileName = "InstrumentAliases.cs",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\"
             };
 
