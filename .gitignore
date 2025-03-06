@@ -37,3 +37,4 @@ idea/
 
 /bin/x64/Debug/TestLib.pdb
 /obj/x64/Debug/TestLib.pdb
+/obj/x64/Debug/TestLib.csproj.AssemblyReference.cache
