@@ -22,9 +22,9 @@ namespace ABT.Test.TestLib {
         EMERGENCY_STOP  = 0b0000_0001, // Most critical event.
         ERROR           = 0b0000_0010, // Second most critical event.
         CANCEL          = 0b0000_0100, // Third most critical event.
-        UNSET           = 0b0000_1000, // .
-        FAIL            = 0b0001_0000, // .
-        PASS            = 0b0010_0000, // .
+        UNSET           = 0b0000_1000, //   .
+        FAIL            = 0b0001_0000, //   .
+        PASS            = 0b0010_0000, //   .
         INFORMATION     = 0b0100_0000  // Least critical event.
     }
     // NOTE:  If modifying EVENTS, update EventColors correspondingly.
