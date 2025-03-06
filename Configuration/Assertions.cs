@@ -89,11 +89,21 @@ namespace ABT.Test.TestLib.Configuration {
 
         public static Boolean MethodPrior(String Name) {
             if (TestIndices.TestGroup.Methods.First() == TestIndices.Method) return String.Equals(Name, UUT.NONE.Replace("\"", ""));
+            if (Data.testSequence.IsOperation && (TestIndices.TestGroup.Methods.First() == TestIndices.Method)) {
+                Int32 i = TestIndices.TestOperation.TestGroups.FindIndex(tg => tg == TestIndices.TestGroup);
+                TestGroup testGroupPrior = TestIndices.TestOperation.TestGroups.ElementAt(i - 1);
+                return String.Equals(testGroupPrior.Methods.Last().Name, Name);
+            }
             return (1 + TestIndices.TestGroup.Methods.FindIndex(m => m.Name == Name) == TestIndices.TestGroup.Methods.IndexOf(TestIndices.Method));
         }
 
         public static Boolean MethodNext(String Name) {
             if (TestIndices.TestGroup.Methods.Last() == TestIndices.Method) return String.Equals(Name, UUT.NONE.Replace("\"", ""));
+            if (Data.testSequence.IsOperation && (TestIndices.TestGroup.Methods.Last() == TestIndices.Method)) {
+                Int32 i = TestIndices.TestOperation.TestGroups.FindIndex(tg => tg == TestIndices.TestGroup);
+                TestGroup testGroupNext = TestIndices.TestOperation.TestGroups.ElementAt(i + 1);
+                return String.Equals(testGroupNext.Methods.First().Name, Name);
+            }
             return (TestIndices.TestGroup.Methods.FindIndex(m => m.Name == Name) == TestIndices.TestGroup.Methods.IndexOf(TestIndices.Method) + 1);
         }
     }
