@@ -37,3 +37,7 @@ idea/
 
 /bin/x64/Debug/TestLib.pdb
 /obj/x64/Debug/TestLib.pdb
+/obj/x64/Debug/TestLib.csproj.AssemblyReference.cache
+/obj/x64/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/obj/x64/Debug/TestLib.csproj.GenerateResource.cache
+/obj/x64/Debug/TestLib.csproj.FileListAbsolute.txt
