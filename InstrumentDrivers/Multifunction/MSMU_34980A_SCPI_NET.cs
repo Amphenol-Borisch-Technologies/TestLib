@@ -57,7 +57,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             public (Double Ω_closed, Double Ω_open) M34932A { get; set; } = (3, 1E9);
             public (Double Ω_closed, Double Ω_open) M34938A { get; set; } = (3, 1E9);
             public (Double Ω_closed, Double Ω_open) M34939A { get; set; } = (3, 1E9);
-            public Double M34952A_DAC { get; set; } = 24 / 65536 * 4; // 24 VDC , 16-bit DAC, 400% tolerance.
+            public Double M34952A_DAC { get; set; } = (24 / 65536) * 2; // 24 VDC , 16-bit DAC, 200% tolerance.
             // NOTE: 349321A, 34932A & 34938A relays consistently measure 9.9E+37Ω when open.  Set high limit to 1E+9Ω for tolerance margin.
             public DiagnosticParameter_34980A() { }
             public DiagnosticParameter_34980A(Double Ω_closed, Double Ω_open, Double DAC) {
