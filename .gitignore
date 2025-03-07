@@ -41,3 +41,4 @@ idea/
 /obj/x64/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 /obj/x64/Debug/TestLib.csproj.GenerateResource.cache
 /obj/x64/Debug/TestLib.csproj.FileListAbsolute.txt
+/obj/x64/Debug/TestLib.csproj.AssemblyReference.cache
