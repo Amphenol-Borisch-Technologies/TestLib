@@ -13,11 +13,12 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
     public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IRelays, IDiagnostics {
         public enum SLOTS { S1 = 1, S2 = 2, S3 = 3, S4 = 4, S5 = 5, S6 = 6, S7 = 7, S8 = 8 }
         public struct Modules {
-            public const String M34921A = "34921A";
-            public const String M34932A = "34932A";
-            public const String M34938A = "34938A";
-            public const String M34939A = "34939A";
-            public const String M34952A = "34952A";
+            public const String M34921A = nameof(M34921A);
+            public const String M34932A = nameof(M34932A);
+            public const String M34938A = nameof(M34938A);
+            public const String M34939A = nameof(M34939A);
+            public const String M34952A = nameof(M34952A);
+            public const String M349xxA = nameof(M349xxA); // Generic default.
         }
         public enum TEMPERATURE_UNITS { C, F, K }
         public enum RELAY_STATES { opened, CLOSED }
@@ -53,16 +54,18 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         #region Diagnostics // NOTE: Update MODULES & Modules as necessary, along with Diagnostics region.
 
         public class DiagnosticParameter_34980A {
-            public (Double Ω_closed, Double Ω_open) M34921A { get; set; } = (3, 1E9);
+            public (Double Ω_closed, Double Ω_open) M34921A { get; set; } = (3, 1E9); // 349321A, 34932A & 34938A relays consistently measure 9.9E+37Ω when open.  Set high limit to 1E+9Ω for tolerance margin.
             public (Double Ω_closed, Double Ω_open) M34932A { get; set; } = (3, 1E9);
             public (Double Ω_closed, Double Ω_open) M34938A { get; set; } = (3, 1E9);
             public (Double Ω_closed, Double Ω_open) M34939A { get; set; } = (3, 1E9);
-            public Double M34952A_DAC { get; set; } = (24 / 65536) * 30; // 24 VDC , 16-bit DAC, 3,000% tolerance.
-            // NOTE: 349321A, 34932A & 34938A relays consistently measure 9.9E+37Ω when open.  Set high limit to 1E+9Ω for tolerance margin.
+            public Double M34952A { get; set; } = (24 / 65536) * 30; // 24 VDC , 16-bit DAC, 3,000% tolerance.
+            public String Module { get; set; } = Modules.M349xxA;
             public DiagnosticParameter_34980A() { }
-            public DiagnosticParameter_34980A(Double Ω_closed, Double Ω_open, Double DAC) {
+            public DiagnosticParameter_34980A(String module) { Module = module; }
+            public DiagnosticParameter_34980A(Double Ω_closed, Double Ω_open, Double DAC, String module) {
                 M34921A = M34932A = M34938A = M34939A = (Ω_closed, Ω_open);
-                M34952A_DAC = DAC;
+                M34952A = DAC;
+                Module = module;
             }
         }
 
@@ -76,6 +79,8 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
                 foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) {
                     Data.CT_Cancel.ThrowIfCancellationRequested();
+
+                    if (!String.Equals(DP.Module, Modules.M349xxA) && !String.Equals(DP.Module, SystemType(slot))) continue;
 
                     switch (SystemType(slot)) {
                         case Modules.M34921A:
@@ -91,7 +96,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
                             result_Slot = Diagnostic_34939A(slot, DP.M34939A);
                             break;
                         case Modules.M34952A:
-                            result_Slot = Diagnostic_34952A(slot, DP.M34952A_DAC);
+                            result_Slot = Diagnostic_34952A(slot, DP.M34952A);
                             break;
                         case "0":
                             result_Slot = (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: $"Slot '{slot}':", Message: "Empty.", Event: EVENTS.INFORMATION) });
@@ -363,8 +368,8 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             String Slot = channel.Substring(1, 1);
             SCPI.CONFigure.DIGital.DIRection.Command("OUTPut", $"@{Slot}001");
             for (Int32 i = 0; i < countsWrite; i++) {
-                SCPI.SOURce.DIGital.DATA.BYTE.Command(0b0000_0000, $"@{Slot}001");
-                SCPI.SOURce.DIGital.DATA.BYTE.Command(0b0000_0001, $"@{Slot}001");
+                SCPI.SOURce.DIGital.DATA.BIT.Command(state: 0, bit: 0, $"@{Slot}001");
+                SCPI.SOURce.DIGital.DATA.BIT.Command(state: 1, bit: 0, $"@{Slot}001");
                 System.Threading.Thread.Sleep(1);
             }
             SCPI.SENSe.TOTalize.DATA.Query(channel, out Double[] counts);
@@ -374,10 +379,10 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             results.Add(new DiagnosticsResult(Label: $"{diagnostic} channel {channel} Slope {Slope}: ", Message: $"Wrote: {countsWrite}, Read: {countsRead}", Event: passed_Totalizer ? EVENTS.PASS : EVENTS.FAIL));
         }
 
-        private void Diagnostic_34952A_DAC(String diagnostic, String channel, Double voltsSourced, Double M34952A_DAC, ref Boolean passed, ref List<DiagnosticsResult> results) {
+        private void Diagnostic_34952A_DAC(String diagnostic, String channel, Double voltsSourced, Double M34952A, ref Boolean passed, ref List<DiagnosticsResult> results) {
             SCPI.SOURce.VOLTage.LEVel.Command(voltsSourced, channel);
             SCPI.MEASure.SCALar.VOLTage.DC.Query(voltsSourced, $"{MMD.MAXimum}", out Double[] voltsMeasured);
-            Boolean passed_DAC = (Math.Abs(voltsSourced - voltsMeasured[0]) <= M34952A_DAC);
+            Boolean passed_DAC = (Math.Abs(voltsSourced - voltsMeasured[0]) <= M34952A);
             passed &= passed_DAC;
             results.Add(new DiagnosticsResult(Label: $"{diagnostic} channel {channel}: ", Message: $"Volts Sourced: {Math.Round(voltsSourced, 3, MidpointRounding.ToEven)}, Volts Measured: {Math.Round(voltsMeasured[0], 3, MidpointRounding.ToEven)}", Event: passed_DAC ? EVENTS.PASS : EVENTS.FAIL));
         }
