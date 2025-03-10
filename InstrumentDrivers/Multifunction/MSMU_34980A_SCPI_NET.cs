@@ -13,12 +13,12 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
     public class MSMU_34980A_SCPI_NET : Ag34980, IInstruments, IRelays, IDiagnostics {
         public enum SLOTS { S1 = 1, S2 = 2, S3 = 3, S4 = 4, S5 = 5, S6 = 6, S7 = 7, S8 = 8 }
         public struct Modules {
-            public const String M34921A = "M34921A";
-            public const String M34932A = "M34932A";
-            public const String M34938A = "M34938A";
-            public const String M34939A = "M34939A";
-            public const String M34952A = "M34952A";
-            public const String M349xxA = "M349xxA"; // Generic default.
+            public const String M34921A = "34921A";
+            public const String M34932A = "34932A";
+            public const String M34938A = "34938A";
+            public const String M34939A = "34939A";
+            public const String M34952A = "34952A";
+            public const String M349xxA = "349xxA"; // Generic default.
         }
         public enum TEMPERATURE_UNITS { C, F, K }
         public enum RELAY_STATES { opened, CLOSED }
