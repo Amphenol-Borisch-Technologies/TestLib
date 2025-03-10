@@ -28,15 +28,15 @@ namespace ABT.Test.TestLib.Configuration {
             if (TestOperations.Checked) {
                 TestGroups.Checked = false;
                 Text = $"Select {nameof(TestOperation)}";
-                TestList.Columns.Add(nameof(TestOperation.NamespaceTrunk));
-                TestList.Columns.Add(nameof(TestOperation.Description));
+                TestList.Columns.Add(nameof(TestOperation));
+                TestList.Columns.Add(nameof(TestGroup));
                 foreach (TestOperation testOperation in Data.testPlanDefinition.TestSpace.TestOperations) 
                     if (testOperation.ProductionTest) TestList.Items.Add(new ListViewItem(new String[] { testOperation.NamespaceTrunk, testOperation.Description }));
             } else {
                 TestOperations.Checked = false;
                 Text = $"Select {nameof(TestGroup)}";
-                TestList.Columns.Add(nameof(TestOperation.NamespaceTrunk));
-                TestList.Columns.Add(nameof(TestGroup.Classname));
+                TestList.Columns.Add(nameof(TestOperation));
+                TestList.Columns.Add(nameof(TestGroup));
                 TestList.Columns.Add(nameof(TestGroup.Description));
                 foreach (TestOperation testOperation in Data.testPlanDefinition.TestSpace.TestOperations) {
                     foreach (TestGroup testGroup in testOperation.TestGroups)
