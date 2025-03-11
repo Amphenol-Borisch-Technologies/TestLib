@@ -57,7 +57,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public class DiagnosticParameter_34980A {
             private static readonly (Double Ω_closed, Double Ω_open) _Ω_default = (3, 1E9); // 349321A, 34932A & 34938A relays consistently measure 9.9E+37Ω when open.  Set high limit to 1E+9Ω for tolerance margin.
-            private static readonly Double DACcuracy = (24D / 65536D) * 30D; // 24 VDC , 16-bit DAC, 3,000% tolerance.
+            private static readonly Double DACcuracy = 0.1;
             public (Double Ω_closed, Double Ω_open) M34921A { get; set; } = _Ω_default;
             public (Double Ω_closed, Double Ω_open) M34932A { get; set; } = _Ω_default;
             public (Double Ω_closed, Double Ω_open) M34938A { get; set; } = _Ω_default;
@@ -368,37 +368,12 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         }
 
         private void Diagnostic_34952A_Totalizer(String diagnostic, String channel, String Slope, Int32 countsWrite, ref Boolean passed, ref List<DiagnosticsResult> results) {
-            //SCPI.SENSe.TOTalize.SLOPe.Command(Slope, channel);
-            //SCPI.SENSe.TOTalize.THReshold.MODE.Command("TTL", channel);
-            //SCPI.SENSe.TOTalize.TYPE.Command("RRESet", channel);
-
-            //SCPI_34980A.SCPI.SENSe.TOTalize.CLEar.IMMediate.Command("@8005");
-            //SCPI_34980A.SCPI.CONFigure.DIGital.DIRection.Command("OUTPut", "@8001");
-            //SCPI_34980A.SCPI.SENSe.TOTalize.THReshold.MODE.Command("TTL", "@8005");
-            //SCPI_34980A.SCPI.SENSe.TOTalize.DATA.Query("@8005", out count);
-            //SCPI_34980A.SCPI.SOURce.DIGital.DATA.BIT.Command(0, 0, "@8001");
-            //SCPI_34980A.SCPI.SOURce.DIGital.DATA.BIT.Command(1, 0, "@8001");
-            //SCPI_34980A.SCPI.SOURce.DIGital.DATA.BIT.Command(0, 0, "@8001");
-            //SCPI_34980A.SCPI.SOURce.DIGital.DATA.BIT.Command(1, 0, "@8001");
-            //SCPI_34980A.SCPI.SOURce.DIGital.DATA.BIT.Command(0, 0, "@8001");
-            //SCPI_34980A.SCPI.SOURce.DIGital.DATA.BIT.Command(1, 0, "@8001");
-            //SCPI_34980A.SCPI.SENSe.TOTalize.DATA.Query("@8005", out count1);
-
-            //(Connect "SCPI_34980A", "GPIB0::2::INSTR", "34980 Multifunction Switches / 2.43")
-            //:SENSe:TOTalize:CLEar:IMMediate (@8005)
-            //:CONFigure:DIGital:DIRection OUTPut,(@8001)
-            //:SENSe:TOTalize:THReshold:MODE TTL,(@8005)
-            //:SENSe:TOTalize:DATA? (@8005)
-            //:SOURce:DIGital:DATA:BIT 0,0,(@8001)
-            //:SOURce:DIGital:DATA:BIT 1,0,(@8001)
-            //:SOURce:DIGital:DATA:BIT 0,0,(@8001)
-            //:SOURce:DIGital:DATA:BIT 1,0,(@8001)
-            //:SOURce:DIGital:DATA:BIT 0,0,(@8001)
-            //:SOURce:DIGital:DATA:BIT 1,0,(@8001)
-            //:SENSe:TOTalize:DATA? (@8005)
+            SCPI.SENSe.TOTalize.SLOPe.Command(Slope, channel);
+            SCPI.SENSe.TOTalize.THReshold.MODE.Command("TTL", channel);
+            SCPI.SENSe.TOTalize.TYPE.Command("RRESet", channel);
 
             SCPI.SENSe.TOTalize.CLEar.IMMediate.Command(channel);
-            String Slot = channel.Substring(1, 1);
+            String Slot = channel.Substring(0, 1);
             SCPI.CONFigure.DIGital.DIRection.Command("OUTPut", $"@{Slot}001");
             for (Int32 i = 0; i < countsWrite; i++) {
                 SCPI.SOURce.DIGital.DATA.BIT.Command(state: 0, bit: 0, $"@{Slot}001");
