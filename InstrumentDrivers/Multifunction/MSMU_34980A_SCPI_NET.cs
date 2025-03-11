@@ -336,7 +336,8 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
-            SCPI.SENSe.VOLTage.DC.RESolution.Command($"{MMD.MAXimum}");
+            SCPI.SENSe.VOLTage.DC.IMPedance.AUTO.Command(true, null);
+            SCPI.SENSe.VOLTage.DC.NPLCycles.Command(1D, null);
             for (Double d = -12; d <= 12; d+=0.5) Diagnostic_34952A_DAC(D, $"@{S}006", d, M34952, ref passed_34952A, ref results);
             Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please disconnect DAC1 & connect DAC2 to Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
@@ -389,7 +390,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         private void Diagnostic_34952A_DAC(String diagnostic, String channel, Double voltsSourced, Double M34952A, ref Boolean passed, ref List<DiagnosticsResult> results) {
             SCPI.SOURce.VOLTage.LEVel.Command(voltsSourced, channel);
-            SCPI.MEASure.SCALar.VOLTage.DC.Query(voltsSourced, $"{MMD.MAXimum}", out Double[] voltsMeasured);
+            SCPI.MEASure.SCALar.VOLTage.DC.Query("AUTO", $"{MMD.MAXimum}", out Double[] voltsMeasured);
             Boolean passed_DAC = Math.Abs(voltsSourced - voltsMeasured[0]) <= M34952A;
             passed &= passed_DAC;
             results.Add(new DiagnosticsResult(Label: $"{diagnostic} channel {channel}: ", Message: $"Volts Sourced: {Math.Round(voltsSourced, 3, MidpointRounding.ToEven)}, Volts Measured: {Math.Round(voltsMeasured[0], 3, MidpointRounding.ToEven)}", Event: passed_DAC ? EVENTS.PASS : EVENTS.FAIL));
