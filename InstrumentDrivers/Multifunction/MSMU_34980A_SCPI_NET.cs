@@ -332,8 +332,8 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Diagnostic_34952A_DIO(D, $"@{S}004", $"@{S}003", 0b0101_0101, ref passed_34952A, ref results);
             Diagnostic_34952A_DIO(D, $"@{S}004", $"@{S}003", 0b1010_1010, ref passed_34952A, ref results);
 
-            Diagnostic_34952A_Totalizer(D, $"@{S}005",  "POSitive", 512, ref passed_34952A, ref results);
-            Diagnostic_34952A_Totalizer(D, $"@{S}005",  "NEGative", 512, ref passed_34952A, ref results);
+            Diagnostic_34952A_Totalizer(D, $"@{S}005",  "POSitive", 65536, ref passed_34952A, ref results);
+            Diagnostic_34952A_Totalizer(D, $"@{S}005",  "NEGative", 65536, ref passed_34952A, ref results);
 
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
@@ -370,17 +370,19 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         private void Diagnostic_34952A_Totalizer(String diagnostic, String channel, String Slope, Int32 countsWrite, ref Boolean passed, ref List<DiagnosticsResult> results) {
             SCPI.SENSe.TOTalize.SLOPe.Command(Slope, channel);
             SCPI.SENSe.TOTalize.THReshold.MODE.Command("TTL", channel);
-            SCPI.SENSe.TOTalize.TYPE.Command("RRESet", channel);
-
+            SCPI.SENSe.TOTalize.TYPE.Command("READ", channel);
             SCPI.SENSe.TOTalize.CLEar.IMMediate.Command(channel);
             String Slot = channel.Substring(1, 1);
             SCPI.CONFigure.DIGital.DIRection.Command("OUTPut", $"@{Slot}001");
+
             for (Int32 i = 0; i < countsWrite; i++) {
                 SCPI.SOURce.DIGital.DATA.BIT.Command(state: 0, bit: 0, $"@{Slot}001");
                 SCPI.SOURce.DIGital.DATA.BIT.Command(state: 1, bit: 0, $"@{Slot}001");
                 System.Threading.Thread.Sleep(1);
             }
             SCPI.SENSe.TOTalize.DATA.Query(channel, out Double[] counts);
+
+            Debug.Print($"Counts Read: '{counts[0]}'.");
             Int32 countsRead = Convert.ToInt32(counts[0]);
             Boolean passed_Totalizer = (countsRead == countsWrite);
             passed &= passed_Totalizer;
