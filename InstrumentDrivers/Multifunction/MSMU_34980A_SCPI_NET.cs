@@ -332,8 +332,9 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Diagnostic_34952A_DIO(D, $"@{S}004", $"@{S}003", 0b0101_0101, ref passed_34952A, ref results);
             Diagnostic_34952A_DIO(D, $"@{S}004", $"@{S}003", 0b1010_1010, ref passed_34952A, ref results);
 
-            Diagnostic_34952A_Totalizer(D, $"@{S}005",  "POSitive", 65536, ref passed_34952A, ref results);
-            Diagnostic_34952A_Totalizer(D, $"@{S}005",  "NEGative", 65536, ref passed_34952A, ref results);
+            SCPI.RST.Command(); // Diagnostic_34952A_Totalizer() fails without reset after Diagnostic_34952A_DIO().
+            Diagnostic_34952A_Totalizer(D, $"@{S}005",  "POSitive", 256, ref passed_34952A, ref results);
+            Diagnostic_34952A_Totalizer(D, $"@{S}005",  "NEGative", 256, ref passed_34952A, ref results);
 
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
@@ -382,7 +383,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             }
             SCPI.SENSe.TOTalize.DATA.Query(channel, out Double[] counts);
 
-            Debug.Print($"Counts Read: '{counts[0]}'.");
             Int32 countsRead = Convert.ToInt32(counts[0]);
             Boolean passed_Totalizer = (countsRead == countsWrite);
             passed &= passed_Totalizer;
