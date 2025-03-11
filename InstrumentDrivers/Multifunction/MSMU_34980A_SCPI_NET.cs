@@ -7,8 +7,6 @@ using System.Windows.Forms;
 using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 using ABT.Test.TestLib.InstrumentDrivers.Generic;
-using System.Diagnostics.Metrics;
-using System.Diagnostics;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
