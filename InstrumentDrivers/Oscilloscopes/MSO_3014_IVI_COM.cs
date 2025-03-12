@@ -24,11 +24,13 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Oscilloscopes {
             return (SELF_TEST_RESULTS)TestResult; // Tkdpo2k3k4kClass returns 0 for passed, 1 for fail.
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
-            // TODO: Eventually; add verification measurements of the MSO-3014 mixed signal oscilloscope using external instrumentation.
-            ResetClear();
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {            ResetClear();
             Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
-            return (passed, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
+            (Boolean Summary, List<DiagnosticsResult> Details) result_3014 = (passed, new List<DiagnosticsResult>()  { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
+            if (passed) {
+                // TODO: Eventually; add verification measurements of the MSO-3014 mixed signal oscilloscope using external instrumentation.
+            }
+            return result_3014;
         }
 
         public MSO_3014_IVI_COM(String Address, String Detail) {

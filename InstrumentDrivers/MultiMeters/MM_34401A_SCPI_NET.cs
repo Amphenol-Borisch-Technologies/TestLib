@@ -32,10 +32,14 @@ namespace ABT.Test.TestLib.InstrumentDrivers.MultiMeters {
         }
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
-            // TODO: Eventually; add verification measurements of the 34401A multi-meter using external instrumentation.
             ResetClear();
             Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
-            return (passed, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });        }
+            (Boolean Summary, List<DiagnosticsResult> Details) result_34401A = (passed, new List<DiagnosticsResult>()  { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
+            if (passed) {
+                // TODO: Eventually; add verification measurements of the 34401A multi-meter using external instrumentation.
+            }
+            return result_34401A;
+        }
 
         public MM_34401A_SCPI_NET(String Address, String Detail) : base(Address) {
             this.Address = Address;

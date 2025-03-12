@@ -52,7 +52,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         public void OpenAll() { SCPI.ROUTe.OPEN.ALL.Command(null); }
 
         #region Diagnostics // NOTE: Update MODULES & Modules as necessary, along with Diagnostics region.
-
         public class DiagnosticParameter_34980A {
             private static readonly (Double Ω_closed, Double Ω_open) _Ω_default = (3, 1E9); // 349321A, 34932A & 34938A relays consistently measure 9.9E+37Ω when open.  Set high limit to 1E+9Ω for tolerance margin.
             private static readonly Double DACcuracy = 0.1;
@@ -131,7 +130,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             // TODO: Eventually; add current measurement tests for 34921A relays 931, 041, 042, 043 & 044.  Will require an external current source.
             String S = ((Int32)Slot).ToString("D1");
             Data.CT_Cancel.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-1 diagnostic terminal block to {_34980A} SLOT {S}.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show(Form.ActiveForm, $"Please connect BMC6030-1 diagnostic terminal block to {_34980A} SLOT {S}.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             };

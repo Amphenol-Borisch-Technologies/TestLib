@@ -45,7 +45,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
             return (AmpsDC, VoltsDC);
         }
 
-        public void Set(OUTPUTS2 Output, Double Volts, Double Amps, Double OVP, STATES State) {
+        public void SetOffOn(OUTPUTS2 Output, Double Volts, Double Amps, Double OVP, STATES State) {
             Select(Output);
             SCPI.OUTPut.STATe.Command(false);
             SCPI.SOURce.VOLTage.PROTection.CLEar.Command();
@@ -69,10 +69,14 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
         }
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
-            // TODO: Eventually; add voltage & current measurements of the E3649A's outputs using external instrumentation.
             ResetClear();
             Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
-            return (passed, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
+            (Boolean Summary, List<DiagnosticsResult> Details) result_E3649A = (passed, new List<DiagnosticsResult>()  { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
+            if (passed) {
+                // TODO: Eventually; add voltage & current measurements of the E3649A's outputs using external instrumentation.
+
+            }
+            return result_E3649A;
         }
 
         public PS_E3649A_SCPI_NET(String Address, String Detail) : base(Address) {
