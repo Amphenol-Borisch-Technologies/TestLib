@@ -335,8 +335,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
-            SCPI.SENSe.VOLTage.DC.IMPedance.AUTO.Command(true, null);
-            SCPI.SENSe.VOLTage.DC.NPLCycles.Command(1D, null);
             for (Double d = -12; d <= 12; d+=0.5) Diagnostic_34952A_DAC(D, $"@{S}006", d, M34952, ref passed_34952A, ref results);
             Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please disconnect DAC1 & connect DAC2 to Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {

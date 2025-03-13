@@ -89,8 +89,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
                     const Double adcApplied = 0.015;
                     MSMU.SCPI.INSTrument.DMM.STATe.Command(true);
                     MSMU.SCPI.INSTrument.DMM.CONNect.Command();
-                    MSMU.SCPI.SENSe.VOLTage.DC.IMPedance.AUTO.Command(true, null);
-                    MSMU.SCPI.SENSe.VOLTage.DC.NPLCycles.Command(1D, null);
                     SCPI.OUTPut.STATe.Command(false);
                     SCPI.SOURce.VOLTage.PROTection.STATe.Command(false);
                     SCPI.SOURce.CURRent.PROTection.CLEar.Command();
@@ -104,14 +102,14 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
                     Boolean passed_E3634A = true, passed_VDC, passed_ADC;
                     for (Int32 vdcApplied = 0; vdcApplied < 50; vdcApplied++) {
                         System.Threading.Thread.Sleep(millisecondsTimeout: 500);
-                        MSMU.SCPI.MEASure.SCALar.VOLTage.DC.Query("AUTO", $"{MMD.MAXimum}", out Double[] vdcMeasured);
+                        MSMU.SCPI.MEASure.SCALar.VOLTage.DC.Query("AUTO", $"{MMD.MAXimum}", ch_list: null, out Double[] vdcMeasured);
                         MSMU.SCPI.MEASure.SCALar.CURRent.DC.QueryQuery("AUTO", $"{MMD.MAXimum}", ch_list: null, out Double[] adcMeasured);
                         passed_VDC = Math.Abs(vdcMeasured[0] - vdcApplied) <= DP.AccuracyVDC;
                         passed_ADC = Math.Abs(adcMeasured[0] - adcApplied) <= DP.AccuracyADC;
 
                         passed_E3634A &= passed_VDC &= passed_ADC;
-                        result_E3634A.Details.Add(new DiagnosticsResult(Label: "Voltage DC", Message: $"Applied {vdcApplied}VDC, measured {Math.Round(vdcMeasured[0], 3, MidpointRounding.ToEven)}VDC", Event: (passed_VDC ? EVENTS.PASS : EVENTS.FAIL)));
-                        result_E3634A.Details.Add(new DiagnosticsResult(Label: "Amperage DC", Message: $"Applied {adcApplied}ADC, measured {Math.Round(adcMeasured[0], 3, MidpointRounding.ToEven)}ADC", Event: (passed_ADC ? EVENTS.PASS : EVENTS.FAIL)));
+                        result_E3634A.Details.Add(new DiagnosticsResult(Label: "Voltage DC  :", Message: $"Applied {vdcApplied}VDC, measured {Math.Round(vdcMeasured[0], 3, MidpointRounding.ToEven)}VDC", Event: (passed_VDC ? EVENTS.PASS : EVENTS.FAIL)));
+                        result_E3634A.Details.Add(new DiagnosticsResult(Label: "Amperage DC :", Message: $"Sourced {adcApplied}ADC, measured {Math.Round(adcMeasured[0], 3, MidpointRounding.ToEven)}ADC", Event: (passed_ADC ? EVENTS.PASS : EVENTS.FAIL)));
                         SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("UP");
                     }
                     result_E3634A.Summary &= passed_E3634A;
