@@ -4,7 +4,7 @@ using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 using System.Collections.Generic;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.Generic {
-    public class SCPI_NET : AgSCPI99, IInstruments, IDiagnostics {
+    public class SCPI_NET : AgSCPI99, IInstrument, IDiagnostics {
         public enum IDN_FIELDS { Manufacturer, Model, SerialNumber, FirmwareRevision } // Example: "Keysight Technologies,E36103B,MY61001983,1.0.2-1.02".  
 
         public String Address { get; }
@@ -44,7 +44,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Generic {
         }
 
         public static String Identity(Object Instrument, IDN_FIELDS Property) {
-            String Address = ((IInstruments)Instrument).Address;
+            String Address = ((IInstrument)Instrument).Address;
             return Identity(Address, Property);
         }
 

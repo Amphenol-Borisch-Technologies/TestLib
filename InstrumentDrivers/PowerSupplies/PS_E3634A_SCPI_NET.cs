@@ -6,7 +6,7 @@ using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 using ABT.Test.TestLib.InstrumentDrivers.Multifunction;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
-    public class PS_E3634A_SCPI_NET : AgE363x, IInstruments, IPowerSupplyOutputs1, IDiagnostics {
+    public class PS_E3634A_SCPI_NET : AgE363x, IInstrument, IPowerSupplyOutputs1, IDiagnostics {
         public enum RANGE { P25V, P50V }
 
         public String Address { get; }

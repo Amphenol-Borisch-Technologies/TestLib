@@ -4,7 +4,7 @@ using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 using System.Collections.Generic;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
-    public class PS_E3649A_SCPI_NET : AgE364xD, IInstruments, IPowerSupplyE3649A, IDiagnostics {
+    public class PS_E3649A_SCPI_NET : AgE364xD, IInstrument, IPowerSupplyE3649A, IDiagnostics {
         public String Address { get; }
         public String Detail { get; }
         public INSTRUMENT_TYPES InstrumentType { get; }

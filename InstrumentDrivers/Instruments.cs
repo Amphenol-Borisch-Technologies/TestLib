@@ -27,7 +27,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers {
             { INSTRUMENT_TYPES.WAVEFORM_GENERATOR, INSTRUMENT_CATEGORIES.ANALOG_STIMULUS | INSTRUMENT_CATEGORIES.DIGITAL_OUTPUT }
         };
 
-        public static void SelfTestFailure(IInstruments iInstrument, Exception exception) {
+        public static void SelfTestFailure(IInstrument iInstrument, Exception exception) {
             Int32 PR = 15;
             _ = MessageBox.Show($"{nameof(Instrument)} with driver '{iInstrument.GetType().Name}' failed its Self-Test:{Environment.NewLine}" +
             $"{nameof(iInstrument.InstrumentType)}".PadRight(PR) + $": {iInstrument.InstrumentType}{Environment.NewLine}" +

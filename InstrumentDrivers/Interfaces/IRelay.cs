@@ -1,3 +1,3 @@
 ﻿namespace ABT.Test.TestLib.InstrumentDrivers.Interfaces {
-    public interface IRelays { void OpenAll(); }
+    public interface IRelay { void OpenAll(); }
 }

@@ -3,7 +3,7 @@
 namespace ABT.Test.TestLib.InstrumentDrivers.Interfaces {
     public enum SELF_TEST_RESULTS { PASS=0, FAIL=1 }
 
-    public interface IInstruments {
+    public interface IInstrument {
         String Address { get; }                 // NOTE: Store in instrument objects for easy error reporting of addresses.  Not easily gotten otherwise.
         String Detail { get; }                  // NOTE: Store in instrument objects for easy error reporting of detailed descriptions, similar but more useful than SCPI's *IDN query.
         INSTRUMENT_TYPES InstrumentType { get; }

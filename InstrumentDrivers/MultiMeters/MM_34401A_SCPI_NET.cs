@@ -5,7 +5,7 @@ using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 using System.Collections.Generic;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.MultiMeters {
-    public class MM_34401A_SCPI_NET : Ag34401, IInstruments, IDiagnostics {
+    public class MM_34401A_SCPI_NET : Ag34401, IInstrument, IDiagnostics {
         public enum MMD { MIN, MAX, DEF }
         public enum TERMINALS { Front, Rear };
         public enum PROPERTY { AmperageAC, AmperageDC, Continuity, Frequency, Fresistance, Period, Resistance, VoltageAC, VoltageDC, VoltageDiodic }
