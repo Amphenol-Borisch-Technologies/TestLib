@@ -88,25 +88,32 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
                 if (DialogResult.OK == MessageBox.Show(message, "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                     MSMU.SCPI.INSTrument.DMM.STATe.Command(true);
                     MSMU.SCPI.INSTrument.DMM.CONNect.Command();
-                    SCPI.OUTPut.STATe.Command(false);
-                    SCPI.SOURce.VOLTage.PROTection.STATe.Command(false);
-                    SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("MINimum");                    
-                    SCPI.SOURce.VOLTage.LEVel.IMMediate.STEP.INCRement.Command(1D);
-                    SCPI.OUTPut.STATe.Command(true);
-
-                    Boolean passed_E3649A = true, passed_VDC;
-                    for (Int32 vdcApplied = 0; vdcApplied < 60; vdcApplied++) {
-                        System.Threading.Thread.Sleep(millisecondsTimeout: 500);
-                        MSMU.SCPI.MEASure.SCALar.VOLTage.DC.Query("AUTO", $"{MMD.MAXimum}", ch_list: null, out Double[] vdcMeasured);
-                        passed_VDC = Math.Abs(vdcMeasured[0] - vdcApplied) <= limit;
-                        passed_E3649A &= passed_VDC;
-                        result_E3649A.Details.Add(new DiagnosticsResult(Label: "Voltage DC  :", Message: $"Applied {vdcApplied}VDC, measured {Math.Round(vdcMeasured[0], 3, MidpointRounding.ToEven)}VDC", Event: (passed_VDC ? EVENTS.PASS : EVENTS.FAIL)));
-                        SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("UP");
-                    }
-                    result_E3649A.Summary &= passed_E3649A;
+                    TestOutut(OUTPUTS2.OUTput1, ref MSMU, limit, ref result_E3649A);
+                    TestOutut(OUTPUTS2.OUTput1, ref MSMU, limit, ref result_E3649A);
                 }
             }
             return result_E3649A;
+        }
+
+        private void TestOutut(OUTPUTS2 outPut, ref MSMU_34980A_SCPI_NET MSMU, Double limit, ref (Boolean Summary, List<DiagnosticsResult> Details) result_E3649A) {
+            Select(outPut);
+            SCPI.OUTPut.STATe.Command(false);
+            SCPI.SOURce.VOLTage.PROTection.STATe.Command(false);
+            SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("MINimum");                    
+            SCPI.SOURce.VOLTage.LEVel.IMMediate.STEP.INCRement.Command(1D);
+            SCPI.OUTPut.STATe.Command(true);
+
+            Boolean passed_E3649A = true, passed_VDC;
+            for (Int32 vdcApplied = 0; vdcApplied < 60; vdcApplied++) {
+                System.Threading.Thread.Sleep(millisecondsTimeout: 500);
+                MSMU.SCPI.MEASure.SCALar.VOLTage.DC.Query("AUTO", $"{MMD.MAXimum}", ch_list: null, out Double[] vdcMeasured);
+                passed_VDC = Math.Abs(vdcMeasured[0] - vdcApplied) <= limit;
+                passed_E3649A &= passed_VDC;
+                result_E3649A.Details.Add(new DiagnosticsResult(Label: $"Output {outPut}:", Message: $"Applied {vdcApplied}VDC, measured {Math.Round(vdcMeasured[0], 3, MidpointRounding.ToEven)}VDC", Event: (passed_VDC ? EVENTS.PASS : EVENTS.FAIL)));
+                SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("UP");
+            }
+            result_E3649A.Summary &= passed_E3649A;
+            SCPI.OUTPut.STATe.Command(false);
         }
         #endregion Diagnostics
 
