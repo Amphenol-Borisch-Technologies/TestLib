@@ -48,7 +48,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Generic {
             return Identity(Address, Property);
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(List<Configuration.Parameter> Parameters) {
             ResetClear();
             Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
             return (passed, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });

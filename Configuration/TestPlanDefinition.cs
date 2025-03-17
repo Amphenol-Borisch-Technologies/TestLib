@@ -381,13 +381,13 @@ namespace ABT.Test.TestLib.Configuration {
         }
         public String Ps() {
             StringBuilder sb = new StringBuilder();
-            foreach (Parameter p in Parameters) sb.Append($"{p.Key}={p.Value}{UUT.DIVIDER}");
+            foreach (Parameter p in Parameters) sb.Append($"{p.Name}={p.Value}{UUT.DIVIDER}");
             return UUT.EF(sb.Remove(sb.Length - UUT.DIVIDER.Length, UUT.DIVIDER.Length).ToString()); // Remove trailing UUT.DIVIDER.
         }
     }
 
     public class Parameter {
-        [XmlAttribute(nameof(Key))] public String Key { get; set; }
+        [XmlAttribute(nameof(Name))] public String Name { get; set; }
         [XmlAttribute(nameof(Value))] public String Value { get; set; }
 
         public Parameter() { }

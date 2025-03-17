@@ -18,7 +18,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             public const String M34938A = "34938A";
             public const String M34939A = "34939A";
             public const String M34952A = "34952A";
-            public const String M349xxA = "349xxA"; // Generic default.
         }
         public enum TEMPERATURE_UNITS { C, F, K }
         public enum RELAY_STATES { opened, CLOSED }
@@ -37,7 +36,8 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             if (DialogResult.Cancel == MessageBox.Show($"Please disconnect Address Bus DB9 & all Module terminal blocks/connectors from {_34980A} Slots.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
-            };
+            }
+            ;
 
             Int32 result;
             try {
@@ -52,65 +52,47 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         public void OpenAll() { SCPI.ROUTe.OPEN.ALL.Command(null); }
 
         #region Diagnostics // NOTE: Update MODULES & Modules as necessary, along with Diagnostics region.
-        public class DiagnosticParameter_34980A {
-            private static readonly (Double Ω_closed, Double Ω_open) _Ω_default = (3, 1E9); // 349321A, 34932A & 34938A relays consistently measure 9.9E+37Ω when open.  Set high limit to 1E+9Ω for tolerance margin.
-            private static readonly Double DACcuracy = 0.1;
-            public (Double Ω_closed, Double Ω_open) M34921A { get; set; } = _Ω_default;
-            public (Double Ω_closed, Double Ω_open) M34932A { get; set; } = _Ω_default;
-            public (Double Ω_closed, Double Ω_open) M34938A { get; set; } = _Ω_default;
-            public (Double Ω_closed, Double Ω_open) M34939A { get; set; } = _Ω_default;
-            public Double M34952A { get; set; } = DACcuracy;
-            public String Module { get; set; } = Modules.M349xxA;
-            public DiagnosticParameter_34980A() { }
-            public DiagnosticParameter_34980A(String module) {
-                M34921A = M34932A = M34938A = M34939A = _Ω_default;
-                M34952A = DACcuracy;
-                Module = module;
-            }
-            public DiagnosticParameter_34980A(Double Ω_closed, Double Ω_open, Double dac, String module) {
-                M34921A = M34932A = M34938A = M34939A = (Ω_closed, Ω_open);
-                M34952A = dac;
-                Module = module;
-            }
-        }
-
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(List<Configuration.Parameter> Parameters) {
             ResetClear();
             Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
-            (Boolean Summary, List<DiagnosticsResult> Details) result_34980A = (passed, new List<DiagnosticsResult>()  { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
+            (Boolean Summary, List<DiagnosticsResult> Details) result_34980A = (passed, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
             if (passed) {
                 (Boolean summary, List<DiagnosticsResult> details) result_Slot;
-                DiagnosticParameter_34980A DP = (o is DiagnosticParameter_34980A dp) ? dp : new DiagnosticParameter_34980A();
+                Configuration.Parameter parameter = Parameters.Find(p => p.Name == "ModuleType");
+                String module = parameter.Value ?? String.Empty;
 
                 foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) {
+                    Data.CT_EmergencyStop.ThrowIfCancellationRequested();
                     Data.CT_Cancel.ThrowIfCancellationRequested();
-                    if (String.Equals(DP.Module, Modules.M349xxA) || String.Equals(DP.Module, SystemType(slot))) {
+                    if (String.Equals(module, SystemType(slot)) || String.Equals(module, String.Empty)) {
                         switch (SystemType(slot)) {
                             case Modules.M34921A:
-                                result_Slot = Diagnostic_34921A(slot, DP.M34921A);
+                                result_Slot = Diagnostic_34921A(slot, Parameters);
                                 break;
                             case Modules.M34932A:
-                                result_Slot = Diagnostic_34932A(slot, DP.M34932A);
+                                result_Slot = Diagnostic_34932A(slot, Parameters);
                                 break;
                             case Modules.M34938A:
-                                result_Slot = Diagnostic_34938A(slot, DP.M34938A);
+                                result_Slot = Diagnostic_34938A(slot, Parameters);
                                 break;
                             case Modules.M34939A:
-                                result_Slot = Diagnostic_34939A(slot, DP.M34939A);
+                                result_Slot = Diagnostic_34939A(slot, Parameters);
                                 break;
                             case Modules.M34952A:
-                                result_Slot = Diagnostic_34952A(slot, DP.M34952A);
+                                result_Slot = Diagnostic_34952A(slot, Parameters);
                                 break;
                             case "0":
                                 result_Slot = (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: $"Slot '{slot}':", Message: "Empty.", Event: EVENTS.INFORMATION) });
                                 break;
                             default:
                                 const Int32 PR = 12;
-                                throw new NotImplementedException(
-                                    $"Diagnostic test for module '{SystemType(slot)}' unimplemented!{Environment.NewLine}{Environment.NewLine}" +
+                                String message =
+                                    $"Diagnostic test for module '{SystemType(slot)}' unimplemented.{Environment.NewLine}{Environment.NewLine}" +
                                     $"{nameof(SystemDescriptionLong)}".PadRight(PR) + $": '{SystemDescriptionLong(slot)}'.{Environment.NewLine}" +
                                     $"{nameof(Address)}".PadRight(PR) + $": '{Address}'.{Environment.NewLine}" +
-                                    $"{nameof(Detail)}".PadRight(PR) + $": '{Detail}'.{Environment.NewLine}");
+                                    $"{nameof(Detail)}".PadRight(PR) + $": '{Detail}'.{Environment.NewLine}";
+                                result_Slot = (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: $"Slot '{slot}':", Message: message, Event: EVENTS.INFORMATION) });
+                                break;
                         }
                         result_34980A.Summary &= result_Slot.summary;
                         result_34980A.Details.AddRange(result_Slot.details);
@@ -120,20 +102,20 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             return result_34980A;
         }
 
-        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34921As((Double Ω_closed, Double Ω_open) M34921A) {
+        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34921As(List<Configuration.Parameter> Parameters) {
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34921A) Results.Add(slot, Diagnostic_34921A(slot, M34921A));
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34921A) Results.Add(slot, Diagnostic_34921A(slot, Parameters));
             return Results;
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34921A(SLOTS Slot, (Double Ω_closed, Double Ω_open) M34921A) {
-            // NOTE: Diagnostics for Keysight E634A & E3649A Power Supplies perform current measurements that indirectly test the 34921A relays 931, 041, 042, 043 & 044.
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34921A(SLOTS Slot, List<Configuration.Parameter> Parameters) {
+            // TODO:  Soon; add current measurements through 34921A relays 931, 041, 042, 043 & 044.
             String S = ((Int32)Slot).ToString("D1");
             Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-1 diagnostic terminal block to {_34980A} SLOT {S}.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
-            };
+            }
 
             SCPI.ROUTe.OPEN.ALL.Command(null);
             SCPI.INSTrument.DMM.STATe.Command(true);
@@ -142,31 +124,35 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             List<DiagnosticsResult> results = new List<DiagnosticsResult>();
             Boolean passed_34921A = true;
 
+            Configuration.Parameter Ω_closed = Parameters.Find(p => p.Name == "ResistanceRelay_34921A_ClosedΩ") ?? new Configuration.Parameter { Name = "ResistanceRelay_34921A_ClosedΩ", Value = "3" };
+            Configuration.Parameter Ω_open = Parameters.Find(p => p.Name == "ResistanceRelay_34921A_OpenΩ") ?? new Configuration.Parameter { Name = "ResistanceRelay_34921A_OpenΩ", Value = "1E9" };
+            (Double Ω_closed, Double Ω_open) Limits = (Convert.ToDouble(Ω_closed.Value), Convert.ToDouble(Ω_open.Value));
             String D = nameof(Diagnostic_34921A);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false, String.Empty, M34921A, ref passed_34921A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{S}911", M34921A, ref passed_34921A, ref results); // DMM Measure.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{S}921", M34921A, ref passed_34921A, ref results); // DMM Measure.
+
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false, String.Empty, Limits, ref passed_34921A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{S}911", Limits, ref passed_34921A, ref results); // DMM Measure.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{S}921", Limits, ref passed_34921A, ref results); // DMM Measure.
 
             SCPI.ROUTe.CLOSe.Command($"@{S}001:{S}020"); // Bank 1 all relays connected to Bank 1 diagnostic shorting connector.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911", M34921A, ref passed_34921A, ref results);               // ABus1 COM1 directly connected to all Bank 1 relays and thus diagnostic shorting connector.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}912,{S}922", M34921A, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus2, to test ABus2.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}913,{S}923", M34921A, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus3, to test ABus3.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}914,{S}924", M34921A, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus4, to test ABus4.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911", Limits, ref passed_34921A, ref results);               // ABus1 COM1 directly connected to all Bank 1 relays and thus diagnostic shorting connector.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}912,{S}922", Limits, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus2, to test ABus2.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}913,{S}923", Limits, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus3, to test ABus3.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}914,{S}924", Limits, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus4, to test ABus4.
             SCPI.ROUTe.OPEN.Command($"@{S}001:{S}020"); // Reference 'Keysight 34921A-34925A Low Frequency Multiplexer Modules', '34921A Simplified Schematic'.
 
             SCPI.ROUTe.CLOSe.Command($"@{S}911"); // DMM Measure.
-            for (Int32 i = 1; i <= 20; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{i:D3}", M34921A, ref passed_34921A, ref results); // Bank 1 individual relays.
+            for (Int32 i = 1; i <= 20; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{i:D3}", Limits, ref passed_34921A, ref results); // Bank 1 individual relays.
             SCPI.ROUTe.OPEN.Command($"@{S}911");
 
             SCPI.ROUTe.CLOSe.Command($"@{S}021:{S}040"); // Bank 2 all relays connected to Bank 2 diagnostic shorting connector.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921", M34921A, ref passed_34921A, ref results);               // ABus1 COM2 directly connected to all Bank 2 relays and thus diagnostic shorting connector.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911,{S}912,{S}922", M34921A, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus2, to test ABus2.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911,{S}913,{S}923", M34921A, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus3, to test ABus3.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911,{S}914,{S}924", M34921A, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus4, to test ABus4.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921", Limits, ref passed_34921A, ref results);               // ABus1 COM2 directly connected to all Bank 2 relays and thus diagnostic shorting connector.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911,{S}912,{S}922", Limits, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus2, to test ABus2.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911,{S}913,{S}923", Limits, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus3, to test ABus3.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911,{S}914,{S}924", Limits, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus4, to test ABus4.
             SCPI.ROUTe.OPEN.Command($"@{S}021:{S}040"); // Reference 'Keysight 34921A-34925A Low Frequency Multiplexer Modules', '34921A Simplified Schematic'.
 
             SCPI.ROUTe.CLOSe.Command($"@{S}921"); // DMM Measure.
-            for (Int32 i = 21; i <= 40; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{i:D3}", M34921A, ref passed_34921A, ref results); // Bank 2 individual relays.
+            for (Int32 i = 21; i <= 40; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{i:D3}", Limits, ref passed_34921A, ref results); // Bank 2 individual relays.
             SCPI.ROUTe.OPEN.Command($"@{S}921");
             SCPI.INSTrument.DMM.DISConnect.Command();
 
@@ -174,7 +160,8 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-1 diagnostic terminal block from {_34980A} SLOT {S}.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
-            };
+            }
+            ;
             return (Summary: passed_34921A, Details: results);
         }
 
@@ -191,19 +178,20 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             results.Add(new DiagnosticsResult(Label: $"{diagnostic} channel(s) {channels}: ", Message: $"{Math.Round(resistance[0], 3, MidpointRounding.ToEven)}Ω", Event: (passed_Ω ? EVENTS.PASS : EVENTS.FAIL)));
         }
 
-        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34932As((Double Ω_closed, Double Ω_open) M34932A) {
+        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34932As(List<Configuration.Parameter> Parameters) {
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34932A) Results.Add(slot, Diagnostic_34932A(slot, M34932A));
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34932A) Results.Add(slot, Diagnostic_34932A(slot, Parameters));
             return Results;
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34932A(SLOTS Slot, (Double Ω_closed, Double Ω_open) M34932A) {
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34932A(SLOTS Slot, List<Configuration.Parameter> Parameters) {
             String S = ((Int32)Slot).ToString("D1");
             Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-2 diagnostic terminal block to {_34980A} SLOT {S} and Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
-            };
+            }
+            ;
 
             SCPI.ROUTe.OPEN.ALL.Command(null);
             SCPI.INSTrument.DMM.STATe.Command(true);
@@ -212,22 +200,26 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             List<DiagnosticsResult> results = new List<DiagnosticsResult>();
             Boolean passed_34932A = true;
 
+            Configuration.Parameter Ω_closed = Parameters.Find(p => p.Name == "ResistanceRelay_34932A_ClosedΩ") ?? new Configuration.Parameter { Name = "ResistanceRelay_34932A_ClosedΩ", Value = "3" };
+            Configuration.Parameter Ω_open = Parameters.Find(p => p.Name == "ResistanceRelay_34932A_OpenΩ") ?? new Configuration.Parameter { Name = "ResistanceRelay_34932A_OpenΩ", Value = "1E9" };
+            (Double Ω_closed, Double Ω_open) Limits = (Convert.ToDouble(Ω_closed.Value), Convert.ToDouble(Ω_open.Value));
             String D = nameof(Diagnostic_34932A);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false, String.Empty, M34932A, ref passed_34932A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{S}921", M34932A, ref passed_34932A, ref results); // DMM Measure.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}101:{S}116,{S}501:{S}516", M34932A, ref passed_34932A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{S}922", M34932A, ref passed_34932A, ref results); // DMM Measure.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}922,{S}201:{S}216,{S}601:{S}616", M34932A, ref passed_34932A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{S}923", M34932A, ref passed_34932A, ref results); // DMM Measure.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}923,{S}301:{S}316,{S}701:{S}716", M34932A, ref passed_34932A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false,  $"@{S}924", M34932A, ref passed_34932A, ref results); // DMM Measure.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}924,{S}401:{S}416,{S}801:{S}816", M34932A, ref passed_34932A, ref results);
+
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false, String.Empty, Limits, ref passed_34932A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{S}921", Limits, ref passed_34932A, ref results); // DMM Measure.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}101:{S}116,{S}501:{S}516", Limits, ref passed_34932A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{S}922", Limits, ref passed_34932A, ref results); // DMM Measure.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}922,{S}201:{S}216,{S}601:{S}616", Limits, ref passed_34932A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{S}923", Limits, ref passed_34932A, ref results); // DMM Measure.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}923,{S}301:{S}316,{S}701:{S}716", Limits, ref passed_34932A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{S}924", Limits, ref passed_34932A, ref results); // DMM Measure.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}924,{S}401:{S}416,{S}801:{S}816", Limits, ref passed_34932A, ref results);
 
             Int32 matrix1 = 100, matrix2 = 500;
             for (Int32 relayAbus = 921; relayAbus <= 924; relayAbus++) {
                 SCPI.ROUTe.CLOSe.Command($"@{S}{relayAbus}"); // DMM Measure.
-                for (Int32 relayMatrix1 = matrix1 + 1; relayMatrix1 <= matrix1 + 16; relayMatrix1++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{relayMatrix1}", M34932A, ref passed_34932A, ref results);
-                for (Int32 relayMatrix2 = matrix2 + 1; relayMatrix2 <= matrix2 + 16; relayMatrix2++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{relayMatrix2}", M34932A, ref passed_34932A, ref results);
+                for (Int32 relayMatrix1 = matrix1 + 1; relayMatrix1 <= matrix1 + 16; relayMatrix1++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{relayMatrix1}", Limits, ref passed_34932A, ref results);
+                for (Int32 relayMatrix2 = matrix2 + 1; relayMatrix2 <= matrix2 + 16; relayMatrix2++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{relayMatrix2}", Limits, ref passed_34932A, ref results);
                 matrix1 += 100; matrix2 += 100;
                 SCPI.ROUTe.OPEN.Command($"@{S}{relayAbus}");
             }
@@ -238,25 +230,27 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-2 diagnostic terminal block from {_34980A} SLOT {S} and Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
-            };
+            }
+            ;
 
             return (Summary: passed_34932A, Details: results);
-         }
+        }
 
-        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34938As((Double Ω_closed, Double Ω_open) M34938A) {
+        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34938As(List<Configuration.Parameter> Parameters) {
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34938A) Results.Add(slot, Diagnostic_34938A(slot, M34938A));
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34938A) Results.Add(slot, Diagnostic_34938A(slot, Parameters));
             return Results;
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34938A(SLOTS Slot, (Double Ω_closed, Double Ω_open) M34938A) {
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34938A(SLOTS Slot, List<Configuration.Parameter> Parameters) {
             String S = ((Int32)Slot).ToString("D1");
             Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-3 diagnostic terminal block to {_34980A} SLOT {S} and Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
-            };
-            
+            }
+            ;
+
             SCPI.ROUTe.OPEN.ALL.Command(null);
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
@@ -264,51 +258,91 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             List<DiagnosticsResult> results = new List<DiagnosticsResult>();
             Boolean passed_34938A = true;
 
+            Configuration.Parameter Ω_closed = Parameters.Find(p => p.Name == "ResistanceRelay_34938A_ClosedΩ") ?? new Configuration.Parameter { Name = "ResistanceRelay_34938A_ClosedΩ", Value = "3" };
+            Configuration.Parameter Ω_open = Parameters.Find(p => p.Name == "ResistanceRelay_34938A_OpenΩ") ?? new Configuration.Parameter { Name = "ResistanceRelay_34938A_OpenΩ", Value = "1E9" };
+            (Double Ω_closed, Double Ω_open) Limits = (Convert.ToDouble(Ω_closed.Value), Convert.ToDouble(Ω_open.Value));
             String D = nameof(Diagnostic_34938A);
-            CloseMeasureOpenRecord(D, kelvin: true, closed: false, String.Empty, M34938A, ref passed_34938A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: true, closed: true, $"@{S}001:{S}020", M34938A, ref passed_34938A, ref results);
-            for (Int32 i = 1; i <= 20; i++) CloseMeasureOpenRecord(D, kelvin: true, closed: true, $"@{S}{i:D3}", M34938A, ref passed_34938A, ref results);
+
+            CloseMeasureOpenRecord(D, kelvin: true, closed: false, String.Empty, Limits, ref passed_34938A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: true, closed: true, $"@{S}001:{S}020", Limits, ref passed_34938A, ref results);
+            for (Int32 i = 1; i <= 20; i++) CloseMeasureOpenRecord(D, kelvin: true, closed: true, $"@{S}{i:D3}", Limits, ref passed_34938A, ref results);
 
             SCPI.INSTrument.DMM.DISConnect.Command();
 
             Data.CT_Cancel.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-2 diagnostic terminal block from {_34980A} SLOT {S} and Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-3 diagnostic terminal block from {_34980A} SLOT {S} and Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
-            };
+            }
+            ;
 
             return (Summary: passed_34938A, Details: results);
         }
 
-        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34939As((Double Ω_closed, Double Ω_open) M34939A) {
+        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34939As(List<Configuration.Parameter> Parameters) {
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34939A) Results.Add(slot, Diagnostic_34939A(slot, M34939A));
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34939A) Results.Add(slot, Diagnostic_34939A(slot, Parameters));
             return Results;
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34939A(SLOTS Slot, (Double Ω_closed, Double Ω_open) M34939A) {
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34939A(SLOTS Slot, List<Configuration.Parameter> Parameters) {
+            String S = ((Int32)Slot).ToString("D1");
+            Data.CT_Cancel.ThrowIfCancellationRequested();
+            if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-TBD diagnostic terminal block to {_34980A} SLOT {S} and Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+                Data.CTS_Cancel.Cancel();
+                Data.CT_Cancel.ThrowIfCancellationRequested();
+            }
+            ;
+
             SCPI.ROUTe.OPEN.ALL.Command(null);
-            return (true, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: nameof(Diagnostic_34939A), Message: " not implemented yet", Event: EVENTS.INFORMATION) });
+            SCPI.INSTrument.DMM.STATe.Command(true);
+            SCPI.INSTrument.DMM.CONNect.Command();
+            SCPI.SENSe.RESistance.RESolution.Command($"{MMD.MAXimum}");
+            List<DiagnosticsResult> results = new List<DiagnosticsResult>();
+            Boolean passed_34939A = true;
+
+            Configuration.Parameter Ω_closed = Parameters.Find(p => p.Name == "ResistanceRelay_34939A_ClosedΩ") ?? new Configuration.Parameter { Name = "ResistanceRelay_34939A_ClosedΩ", Value = "3" };
+            Configuration.Parameter Ω_open = Parameters.Find(p => p.Name == "ResistanceRelay_34939A_OpenΩ") ?? new Configuration.Parameter { Name = "ResistanceRelay_34939A_OpenΩ", Value = "1E9" };
+            (Double Ω_closed, Double Ω_open) Limits = (Convert.ToDouble(Ω_closed.Value), Convert.ToDouble(Ω_open.Value));
+            String D = nameof(Diagnostic_34939A);
+
+            CloseMeasureOpenRecord(D, kelvin: true, closed: false, String.Empty, Limits, ref passed_34939A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: true, closed: true, $"@{S}001:{S}020", Limits, ref passed_34939A, ref results);
+            for (Int32 i = 1; i <= 20; i++) CloseMeasureOpenRecord(D, kelvin: true, closed: true, $"@{S}{i:D3}", Limits, ref passed_34939A, ref results);
+
+            SCPI.INSTrument.DMM.DISConnect.Command();
+
+            Data.CT_Cancel.ThrowIfCancellationRequested();
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-TBD diagnostic terminal block from {_34980A} SLOT {S} and Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+                Data.CTS_Cancel.Cancel();
+                Data.CT_Cancel.ThrowIfCancellationRequested();
+            }
+            ;
+
+            return (Summary: passed_34939A, Details: results);
         }
 
-        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34952As(Double M34952) {
+        public Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Diagnostics_34952As(List<Configuration.Parameter> Parameters) {
             Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)> Results = new Dictionary<SLOTS, (Boolean Summary, List<DiagnosticsResult> Details)>();
-            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34952A) Results.Add(slot, Diagnostic_34952A(slot, M34952));
+            foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) if (SystemType(slot) == Modules.M34952A) Results.Add(slot, Diagnostic_34952A(slot, Parameters));
             return Results;
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34952A(SLOTS Slot, Double M34952) {
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34952A(SLOTS Slot, List<Configuration.Parameter> Parameters) {
             String S = ((Int32)Slot).ToString("D1");
             Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-4 diagnostic terminal block to {_34980A} SLOT {S} and its DAC1 to Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
-            };
-            
+            }
+            ;
+
             SCPI.ROUTe.OPEN.ALL.Command(null);
             List<DiagnosticsResult> results = new List<DiagnosticsResult>();
             Boolean passed_34952A = true;
 
+            Configuration.Parameter AccuracyDAC_34952A_VDC = Parameters.Find(p => p.Name == "AccuracyDAC_34952A_VDC") ?? new Configuration.Parameter { Name = "AccuracyDAC_34952A_VDC", Value = "0.1" };
+            Double Limit = Convert.ToDouble(AccuracyDAC_34952A_VDC.Value);
             String D = nameof(Diagnostic_34952A);
 
             Diagnostic_34952A_DIO(D, $"@{S}001", $"@{S}002", 0b0000_0000, ref passed_34952A, ref results); // Write bits 0-7, Read 8-15.
@@ -330,24 +364,26 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Diagnostic_34952A_DIO(D, $"@{S}004", $"@{S}003", 0b1010_1010, ref passed_34952A, ref results);
 
             SCPI.RST.Command(); // Diagnostic_34952A_Totalizer() fails without reset after Diagnostic_34952A_DIO().
-            Diagnostic_34952A_Totalizer(D, $"@{S}005",  "POSitive", 256, ref passed_34952A, ref results);
-            Diagnostic_34952A_Totalizer(D, $"@{S}005",  "NEGative", 256, ref passed_34952A, ref results);
+            Diagnostic_34952A_Totalizer(D, $"@{S}005", "POSitive", 256, ref passed_34952A, ref results);
+            Diagnostic_34952A_Totalizer(D, $"@{S}005", "NEGative", 256, ref passed_34952A, ref results);
 
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
-            for (Double d = -12; d <= 12; d+=0.5) Diagnostic_34952A_DAC(D, $"@{S}006", d, M34952, ref passed_34952A, ref results);
+            for (Double d = -12; d <= 12; d += 0.5) Diagnostic_34952A_DAC(D, $"@{S}006", d, Limit, ref passed_34952A, ref results);
             Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please disconnect DAC1 & connect DAC2 to Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
-            };
-            for (Double d = -12; d <= 12; d+=0.1) Diagnostic_34952A_DAC(D, $"@{S}007", d, M34952, ref passed_34952A, ref results);
+            }
+            ;
+            for (Double d = -12; d <= 12; d += 0.1) Diagnostic_34952A_DAC(D, $"@{S}007", d, Limit, ref passed_34952A, ref results);
 
             Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-4 diagnostic terminal block and its DAC2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
-            };
+            }
+            ;
 
             return (Summary: passed_34952A, Details: results);
         }
@@ -361,7 +397,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Byte byteRead = Convert.ToByte(int32Read);
             Boolean passed_DIO = (byteRead == byteWrite);
             passed &= passed_DIO;
-            results.Add(new DiagnosticsResult(Label: $"{diagnostic} Write {channelWrite}, Read {channelRead}: ", Message: $"Wrote: 0b{Convert.ToString(byteWrite,2).PadLeft(8,'0')}, Read: 0b{Convert.ToString(byteRead,2).PadLeft(8,'0')}", Event: passed_DIO ? EVENTS.PASS : EVENTS.FAIL));
+            results.Add(new DiagnosticsResult(Label: $"{diagnostic} Write {channelWrite}, Read {channelRead}: ", Message: $"Wrote: 0b{Convert.ToString(byteWrite, 2).PadLeft(8, '0')}, Read: 0b{Convert.ToString(byteRead, 2).PadLeft(8, '0')}", Event: passed_DIO ? EVENTS.PASS : EVENTS.FAIL));
         }
 
         private void Diagnostic_34952A_Totalizer(String diagnostic, String channel, String Slope, Int32 countsWrite, ref Boolean passed, ref List<DiagnosticsResult> results) {
@@ -385,10 +421,10 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             results.Add(new DiagnosticsResult(Label: $"{diagnostic} channel {channel} Slope {Slope}: ", Message: $"Wrote: {countsWrite}, Read: {countsRead}", Event: passed_Totalizer ? EVENTS.PASS : EVENTS.FAIL));
         }
 
-        private void Diagnostic_34952A_DAC(String diagnostic, String channel, Double voltsSourced, Double M34952A, ref Boolean passed, ref List<DiagnosticsResult> results) {
+        private void Diagnostic_34952A_DAC(String diagnostic, String channel, Double voltsSourced, Double Limit, ref Boolean passed, ref List<DiagnosticsResult> results) {
             SCPI.SOURce.VOLTage.LEVel.Command(voltsSourced, channel);
             SCPI.MEASure.SCALar.VOLTage.DC.Query("AUTO", $"{MMD.MAXimum}", out Double[] voltsMeasured);
-            Boolean passed_DAC = Math.Abs(voltsSourced - voltsMeasured[0]) <= M34952A;
+            Boolean passed_DAC = Math.Abs(voltsSourced - voltsMeasured[0]) <= Limit;
             passed &= passed_DAC;
             results.Add(new DiagnosticsResult(Label: $"{diagnostic} channel {channel}: ", Message: $"Volts Sourced: {Math.Round(voltsSourced, 3, MidpointRounding.ToEven)}, Volts Measured: {Math.Round(voltsMeasured[0], 3, MidpointRounding.ToEven)}", Event: passed_DAC ? EVENTS.PASS : EVENTS.FAIL));
         }

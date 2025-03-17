@@ -68,8 +68,8 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
             Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
             (Boolean Summary, List<DiagnosticsResult> Details) result_E3634A = (passed, new List<DiagnosticsResult>()  { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
             if (passed) {
-                Configuration.Parameter parameter = Parameters.Find(p => p.Key == "AccuracyVDC") ?? new Configuration.Parameter { Key = "AccuracyVDC", Value = "0.1" };
-                Double accuracyVDC = Convert.ToDouble(parameter.Value);
+                Configuration.Parameter parameter = Parameters.Find(p => p.Name == "Accuracy_E3634A_VDC") ?? new Configuration.Parameter { Name = "Accuracy_E3634A_VDC", Value = "0.1" };
+                Double limit = Convert.ToDouble(parameter.Value);
 
                 MSMU_34980A_SCPI_NET MSMU = ((MSMU_34980A_SCPI_NET)(Data.InstrumentDrivers["MSMU1_34980A"]));
 
@@ -91,9 +91,9 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
                     for (Int32 vdcApplied = 0; vdcApplied < 50; vdcApplied++) {
                         System.Threading.Thread.Sleep(millisecondsTimeout: 500);
                         MSMU.SCPI.MEASure.SCALar.VOLTage.DC.Query("AUTO", $"{MMD.MAXimum}", ch_list: null, out Double[] vdcMeasured);
-                        passed_VDC = Math.Abs(vdcMeasured[0] - vdcApplied) <= accuracyVDC;
+                        passed_VDC = Math.Abs(vdcMeasured[0] - vdcApplied) <= limit;
                         passed_E3634A &= passed_VDC;
-                        result_E3634A.Details.Add(new DiagnosticsResult(Label: "Voltage DC  :", Message: $"Applied {vdcApplied}VDC, measured {Math.Round(vdcMeasured[0], 3, MidpointRounding.ToEven)}VDC", Event: (passed_VDC ? EVENTS.PASS : EVENTS.FAIL)));
+                        result_E3634A.Details.Add(new DiagnosticsResult(Label: "DAC Voltage:", Message: $"Applied {vdcApplied}VDC, measured {Math.Round(vdcMeasured[0], 3, MidpointRounding.ToEven)}VDC", Event: (passed_VDC ? EVENTS.PASS : EVENTS.FAIL)));
                         SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("UP");
                     }
                     result_E3634A.Summary &= passed_E3634A;

@@ -31,7 +31,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.MultiMeters {
             return result ? SELF_TEST_RESULTS.FAIL : SELF_TEST_RESULTS.PASS; // Ag34401 returns 0 for passed, 1 for fail, opposite of C#'s Convert.ToBoolean(Int32).
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(List<Configuration.Parameter> Parameters) {
             ResetClear();
             Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
             (Boolean Summary, List<DiagnosticsResult> Details) result_34401A = (passed, new List<DiagnosticsResult>()  { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
