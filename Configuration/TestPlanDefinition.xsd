@@ -437,16 +437,16 @@
               </xs:documentation>
             </xs:annotation>
             <xs:complexType>
-              <xs:attribute name="Key" type="xs:string" use="required">
+              <xs:attribute name="Name" type="xs:string" use="required">
                 <xs:annotation>
                   <xs:documentation xml:lang="en">
                     <![CDATA[
-                  Key attribute:
+                  Name attribute:
                   - Required.
                   - Type: xs:string.
-                  - Restriction: Key must be unique within it's MethodCustom.
+                  - Restriction: Name must be unique within it's MethodCustom.
                       
-                  Parameter's Key of it's Key/Value pair.
+                  Parameter's Name of it's Name/Value pair.
                 ]]>
                   </xs:documentation>
                 </xs:annotation>
@@ -459,7 +459,7 @@
                   - Required.
                   - Type: xs:string.
                       
-                  Parameter's Value of it's Key/Value pair.
+                  Parameter's Value of it's Name/Value pair.
                   - Values can be duplicated.
                 ]]>
                   </xs:documentation>
@@ -772,9 +772,9 @@
     </xs:annotation>
     <xs:choice minOccurs="1" maxOccurs="unbounded">
       <xs:element name="MethodCustom" type="MethodCustom">
-        <xs:unique name="uniqueKey">
+        <xs:unique name="uniqueName">
           <xs:selector xpath="Parameter"/>
-          <xs:field xpath="@Key"/>
+          <xs:field xpath="@Name"/>
         </xs:unique>
       </xs:element>
       <xs:element name="MethodInterval" type="MethodInterval"/>

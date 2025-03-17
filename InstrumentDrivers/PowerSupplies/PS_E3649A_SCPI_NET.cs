@@ -2,6 +2,8 @@
 using Agilent.CommandExpert.ScpiNet.AgE364xD_1_7;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 using System.Collections.Generic;
+using ABT.Test.TestLib.InstrumentDrivers.Multifunction;
+using System.Windows.Forms;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
     public class PS_E3649A_SCPI_NET : AgE364xD, IInstrument, IPowerSupplyE3649A, IDiagnostics {
@@ -68,16 +70,48 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
             SCPI.OUTPut.STATe.Command(State == STATES.ON);
         }
 
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
+        #region Diagnostics
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(List<Configuration.Parameter> Parameters) {
             ResetClear();
             Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
             (Boolean Summary, List<DiagnosticsResult> Details) result_E3649A = (passed, new List<DiagnosticsResult>()  { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
             if (passed) {
-                // TODO: Eventually; add voltage & current measurements of the E3649A's outputs using external instrumentation.
+                Configuration.Parameter parameter = Parameters.Find(p => p.Key == "AccuracyVDC") ?? new Configuration.Parameter { Key = "AccuracyVDC", Value = "0.1" };
+                Double accuracyVDC = Convert.ToDouble(parameter.Value);
 
+                MSMU_34980A_SCPI_NET MSMU = ((MSMU_34980A_SCPI_NET)(Data.InstrumentDrivers["MSMU1_34980A"]));
+
+                String message = 
+                    $"Please connect BMC6030-5 from {Detail}/{Address}{Environment.NewLine}{Environment.NewLine}" + 
+                    $"to {MSMU.Detail}/{MSMU.Address}.{Environment.NewLine}{Environment.NewLine}" +
+                    "Click Cancel if desired.";
+                if (DialogResult.OK == MessageBox.Show(message, "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+                    MSMU.SCPI.INSTrument.DMM.STATe.Command(true);
+                    MSMU.SCPI.INSTrument.DMM.CONNect.Command();
+                    SCPI.OUTPut.STATe.Command(false);
+                    SCPI.SOURce.VOLTage.PROTection.STATe.Command(false);
+                    SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("MINimum");                    
+                    SCPI.SOURce.VOLTage.LEVel.IMMediate.STEP.INCRement.Command(1D);
+                    SCPI.OUTPut.STATe.Command(true);
+
+                    Boolean passed_E3649A = true, passed_VDC;
+                    for (Int32 vdcApplied = 0; vdcApplied < 60; vdcApplied++) {
+                        System.Threading.Thread.Sleep(millisecondsTimeout: 500);
+                        MSMU.SCPI.MEASure.SCALar.VOLTage.DC.Query("AUTO", $"{MMD.MAXimum}", ch_list: null, out Double[] vdcMeasured);
+                        passed_VDC = Math.Abs(vdcMeasured[0] - vdcApplied) <= accuracyVDC;
+                        passed_E3649A &= passed_VDC;
+                        result_E3649A.Details.Add(new DiagnosticsResult(Label: "Voltage DC  :", Message: $"Applied {vdcApplied}VDC, measured {Math.Round(vdcMeasured[0], 3, MidpointRounding.ToEven)}VDC", Event: (passed_VDC ? EVENTS.PASS : EVENTS.FAIL)));
+                        SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("UP");
+                    }
+                    result_E3649A.Summary &= passed_E3649A;
+                }
             }
             return result_E3649A;
         }
+        #endregion Diagnostics
+
+
+
 
         public PS_E3649A_SCPI_NET(String Address, String Detail) : base(Address) {
             this.Address = Address;

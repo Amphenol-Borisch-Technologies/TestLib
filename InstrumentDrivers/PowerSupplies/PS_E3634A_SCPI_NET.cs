@@ -63,22 +63,14 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
         public void StateSet(STATES State) { SCPI.OUTPut.STATe.Command(State == STATES.ON); }
 
         #region Diagnostics
-        public class DiagnosticParameter_E3649A {
-            public Double AccuracyVDC = 0.1;
-            public Double AccuracyADC = 0.015;
-            public DiagnosticParameter_E3649A() { }
-            public DiagnosticParameter_E3649A(Double AccuracyVDC, Double AccuracyADC) {
-                this.AccuracyVDC = AccuracyVDC;
-                this.AccuracyADC = AccuracyADC;
-            }
-        }
-
-        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(Object o = null) {
+        public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(List<Configuration.Parameter> Parameters) {
             ResetClear();
             Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
             (Boolean Summary, List<DiagnosticsResult> Details) result_E3634A = (passed, new List<DiagnosticsResult>()  { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
             if (passed) {
-                DiagnosticParameter_E3649A DP = (o is DiagnosticParameter_E3649A dp) ? dp : new DiagnosticParameter_E3649A();
+                Configuration.Parameter parameter = Parameters.Find(p => p.Key == "AccuracyVDC") ?? new Configuration.Parameter { Key = "AccuracyVDC", Value = "0.1" };
+                Double accuracyVDC = Convert.ToDouble(parameter.Value);
+
                 MSMU_34980A_SCPI_NET MSMU = ((MSMU_34980A_SCPI_NET)(Data.InstrumentDrivers["MSMU1_34980A"]));
 
                 String message = 
@@ -86,30 +78,22 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
                     $"to {MSMU.Detail}/{MSMU.Address}.{Environment.NewLine}{Environment.NewLine}" +
                     "Click Cancel if desired.";
                 if (DialogResult.OK == MessageBox.Show(message, "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
-                    const Double adcApplied = 0.015;
                     MSMU.SCPI.INSTrument.DMM.STATe.Command(true);
                     MSMU.SCPI.INSTrument.DMM.CONNect.Command();
                     SCPI.OUTPut.STATe.Command(false);
                     SCPI.SOURce.VOLTage.PROTection.STATe.Command(false);
-                    SCPI.SOURce.CURRent.PROTection.CLEar.Command();
-                    SCPI.SOURce.CURRent.PROTection.LEVel.Command(0.2);
-                    SCPI.SOURce.CURRent.LEVel.IMMediate.AMPLitude.Command(adcApplied);
-                    SCPI.SOURce.CURRent.PROTection.STATe.Command(true);
+                    SCPI.SOURce.CURRent.PROTection.STATe.Command(false);
                     SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("MINimum");                    
                     SCPI.SOURce.VOLTage.LEVel.IMMediate.STEP.INCRement.Command(1D);
                     SCPI.OUTPut.STATe.Command(true);
 
-                    Boolean passed_E3634A = true, passed_VDC, passed_ADC;
+                    Boolean passed_E3634A = true, passed_VDC;
                     for (Int32 vdcApplied = 0; vdcApplied < 50; vdcApplied++) {
                         System.Threading.Thread.Sleep(millisecondsTimeout: 500);
                         MSMU.SCPI.MEASure.SCALar.VOLTage.DC.Query("AUTO", $"{MMD.MAXimum}", ch_list: null, out Double[] vdcMeasured);
-                        MSMU.SCPI.MEASure.SCALar.CURRent.DC.QueryQuery("AUTO", $"{MMD.MAXimum}", ch_list: null, out Double[] adcMeasured);
-                        passed_VDC = Math.Abs(vdcMeasured[0] - vdcApplied) <= DP.AccuracyVDC;
-                        passed_ADC = Math.Abs(adcMeasured[0] - adcApplied) <= DP.AccuracyADC;
-
-                        passed_E3634A &= passed_VDC &= passed_ADC;
+                        passed_VDC = Math.Abs(vdcMeasured[0] - vdcApplied) <= accuracyVDC;
+                        passed_E3634A &= passed_VDC;
                         result_E3634A.Details.Add(new DiagnosticsResult(Label: "Voltage DC  :", Message: $"Applied {vdcApplied}VDC, measured {Math.Round(vdcMeasured[0], 3, MidpointRounding.ToEven)}VDC", Event: (passed_VDC ? EVENTS.PASS : EVENTS.FAIL)));
-                        result_E3634A.Details.Add(new DiagnosticsResult(Label: "Amperage DC :", Message: $"Sourced {adcApplied}ADC, measured {Math.Round(adcMeasured[0], 3, MidpointRounding.ToEven)}ADC", Event: (passed_ADC ? EVENTS.PASS : EVENTS.FAIL)));
                         SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("UP");
                     }
                     result_E3634A.Summary &= passed_E3634A;
