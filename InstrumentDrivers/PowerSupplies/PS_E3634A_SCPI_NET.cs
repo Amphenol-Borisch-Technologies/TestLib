@@ -93,7 +93,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
                         MSMU.SCPI.MEASure.SCALar.VOLTage.DC.Query("AUTO", $"{MMD.MAXimum}", ch_list: null, out Double[] vdcMeasured);
                         passed_VDC = Math.Abs(vdcMeasured[0] - vdcApplied) <= limit;
                         passed_E3634A &= passed_VDC;
-                        result_E3634A.Details.Add(new DiagnosticsResult(Label: "Voltage:", Message: $"Applied {vdcApplied}VDC, measured {Math.Round(vdcMeasured[0], 3, MidpointRounding.ToEven)}VDC", Event: (passed_VDC ? EVENTS.PASS : EVENTS.FAIL)));
+                        result_E3634A.Details.Add(new DiagnosticsResult(Label: "OUTput: ", Message: $"Applied {vdcApplied}VDC, measured {Math.Round(vdcMeasured[0], 3, MidpointRounding.ToEven)}VDC", Event: (passed_VDC ? EVENTS.PASS : EVENTS.FAIL)));
                         SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("UP");
                     }
                     result_E3634A.Summary &= passed_E3634A;
