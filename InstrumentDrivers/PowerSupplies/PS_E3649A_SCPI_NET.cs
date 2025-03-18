@@ -112,13 +112,11 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
                 result_E3649A.Details.Add(new DiagnosticsResult(Label: $"Output {outPut}:", Message: $"Applied {vdcApplied}VDC, measured {Math.Round(vdcMeasured[0], 3, MidpointRounding.ToEven)}VDC", Event: (passed_VDC ? EVENTS.PASS : EVENTS.FAIL)));
                 SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("UP");
             }
-            result_E3649A.Summary &= passed_E3649A;
+            SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("MINimum");      
             SCPI.OUTPut.STATe.Command(false);
+            result_E3649A.Summary &= passed_E3649A;
         }
         #endregion Diagnostics
-
-
-
 
         public PS_E3649A_SCPI_NET(String Address, String Detail) : base(Address) {
             this.Address = Address;

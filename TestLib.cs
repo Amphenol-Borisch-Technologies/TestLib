@@ -41,7 +41,7 @@ namespace ABT.Test.TestLib {
             { EVENTS.INFORMATION, Color.White }
         };
 
-        // TODO:  Eventually; mitigate or eliminate writeable global objects; change their access to pass by value or reference.
+        // TODO:  Eventually; mitigate or eliminate writeable global objects.
         public const String NONE = "NONE";
         public static Mutex MutexTest = null;
         public const String MutexTestName = nameof(MutexTest);
