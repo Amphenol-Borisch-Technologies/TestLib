@@ -110,6 +110,12 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34921A(SLOTS Slot, List<Configuration.Parameter> Parameters) {
             // TODO:  Soon; add current measurements through 34921A relays 931, 041, 042, 043 & 044.
+
+			////ID.MSMU.SCPI.SENSe.TEMPerature.TRANsducer.FRTD.TYPE.Command(85, "@1001:1002");
+			////ID.MSMU.SCPI.SENSe.TEMPerature.TRANsducer.FRTD.RESistance.REFerence.Command(100.0, "@1001:1002");
+			//IA.MSMU.SCPI.MEASure.SCALar.TEMPerature.Query("FRTD", 85, 100D, "MAXimum", "@1001:1002", out Double[] degreesC);
+			//return Convert.ToString(degreesC[0]);
+
             String S = ((Int32)Slot).ToString("D1");
             Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-1 diagnostic terminal block to {_34980A} SLOT {S}.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
