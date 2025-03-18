@@ -88,9 +88,9 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
                 if (DialogResult.OK == MessageBox.Show(message, "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                     MSMU.SCPI.INSTrument.DMM.STATe.Command(true);
                     MSMU.SCPI.INSTrument.DMM.CONNect.Command();
-                    TestOutut(OUTPUTS2.OUTput1, ref MSMU, limit, ref result_E3649A);
+                    TestOutput(OUTPUTS2.OUTput1, ref MSMU, limit, ref result_E3649A);
                     MessageBox.Show("Please connect BMC6030-5 to Output 2.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                    TestOutut(OUTPUTS2.OUTput2, ref MSMU, limit, ref result_E3649A);
+                    TestOutput(OUTPUTS2.OUTput2, ref MSMU, limit, ref result_E3649A);
                     message =
                         $"Please disconnect BMC6030-5 from {Detail}/{Address}{Environment.NewLine}{Environment.NewLine}" +
                         $"and {MSMU.Detail}/{MSMU.Address}.{Environment.NewLine}{Environment.NewLine}";
@@ -100,7 +100,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
             return result_E3649A;
         }
 
-        private void TestOutut(OUTPUTS2 outPut, ref MSMU_34980A_SCPI_NET MSMU, Double limit, ref (Boolean Summary, List<DiagnosticsResult> Details) result_E3649A) {
+        private void TestOutput(OUTPUTS2 outPut, ref MSMU_34980A_SCPI_NET MSMU, Double limit, ref (Boolean Summary, List<DiagnosticsResult> Details) result_E3649A) {
             Select(outPut);
             SCPI.OUTPut.STATe.Command(false);
             SCPI.SOURce.VOLTage.PROTection.STATe.Command(false);
