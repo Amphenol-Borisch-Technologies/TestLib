@@ -82,14 +82,15 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
                 MSMU_34980A_SCPI_NET MSMU = ((MSMU_34980A_SCPI_NET)(Data.InstrumentDrivers["MSMU1_34980A"]));
 
                 String message = 
-                    $"Please connect BMC6030-5 from {Detail}/{Address}{Environment.NewLine}{Environment.NewLine}" + 
+                    $"Please connect BMC6030-5 from {Detail}/{Address} Output 1{Environment.NewLine}{Environment.NewLine}" + 
                     $"to {MSMU.Detail}/{MSMU.Address}.{Environment.NewLine}{Environment.NewLine}" +
                     "Click Cancel if desired.";
                 if (DialogResult.OK == MessageBox.Show(message, "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                     MSMU.SCPI.INSTrument.DMM.STATe.Command(true);
                     MSMU.SCPI.INSTrument.DMM.CONNect.Command();
                     TestOutut(OUTPUTS2.OUTput1, ref MSMU, limit, ref result_E3649A);
-                    TestOutut(OUTPUTS2.OUTput1, ref MSMU, limit, ref result_E3649A);
+                    MessageBox.Show("Please connect BMC6030-5 to Output 2.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    TestOutut(OUTPUTS2.OUTput2, ref MSMU, limit, ref result_E3649A);
                     message =
                         $"Please disconnect BMC6030-5 from {Detail}/{Address}{Environment.NewLine}{Environment.NewLine}" +
                         $"and {MSMU.Detail}/{MSMU.Address}.{Environment.NewLine}{Environment.NewLine}";
