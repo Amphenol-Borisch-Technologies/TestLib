@@ -90,6 +90,10 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
                     MSMU.SCPI.INSTrument.DMM.CONNect.Command();
                     TestOutut(OUTPUTS2.OUTput1, ref MSMU, limit, ref result_E3649A);
                     TestOutut(OUTPUTS2.OUTput1, ref MSMU, limit, ref result_E3649A);
+                    message =
+                        $"Please disconnect BMC6030-5 from {Detail}/{Address}{Environment.NewLine}{Environment.NewLine}" +
+                        $"and {MSMU.Detail}/{MSMU.Address}.{Environment.NewLine}{Environment.NewLine}";
+                   MessageBox.Show(message, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 }
             }
             return result_E3649A;
