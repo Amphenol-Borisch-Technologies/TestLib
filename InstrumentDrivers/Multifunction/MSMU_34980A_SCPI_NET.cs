@@ -110,12 +110,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34921A(SLOTS Slot, List<Configuration.Parameter> Parameters) {
             // TODO:  Soon; add current measurements through 34921A relays 931, 041, 042, 043 & 044.
-
-			////ID.MSMU.SCPI.SENSe.TEMPerature.TRANsducer.FRTD.TYPE.Command(85, "@1001:1002");
-			////ID.MSMU.SCPI.SENSe.TEMPerature.TRANsducer.FRTD.RESistance.REFerence.Command(100.0, "@1001:1002");
-			//IA.MSMU.SCPI.MEASure.SCALar.TEMPerature.Query("FRTD", 85, 100D, "MAXimum", "@1001:1002", out Double[] degreesC);
-			//return Convert.ToString(degreesC[0]);
-
             String S = ((Int32)Slot).ToString("D1");
             Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-1 diagnostic terminal block to {_34980A} SLOT {S}.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
@@ -127,38 +121,44 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
             SCPI.SENSe.RESistance.RESolution.Command($"{MMD.MAXimum}");
+
             List<DiagnosticsResult> results = new List<DiagnosticsResult>();
             Boolean passed_34921A = true;
+            String D = nameof(Diagnostic_34921A);
+
+            Configuration.Parameter  celciusLow = Parameters.Find(p => p.Name == "FRTD_34921A_Low°C") ?? new Configuration.Parameter { Name = "FRTD_34921A_Low°C", Value = "15.5" };
+            Configuration.Parameter celciusHigh = Parameters.Find(p => p.Name == "FRTD_34921A_High°C") ?? new Configuration.Parameter { Name = "FRTD_34921A_High°C", Value = "29.5" };
+            (Double celciusLow, Double celciusHigh) LimitsCelcius = (Convert.ToDouble(celciusLow.Value), Convert.ToDouble(celciusHigh.Value));
+            FRTD(D, "@1020", LimitsCelcius, ref passed_34921A, ref results);
 
             Configuration.Parameter Ω_closed = Parameters.Find(p => p.Name == "ResistanceRelay_34921A_ClosedΩ") ?? new Configuration.Parameter { Name = "ResistanceRelay_34921A_ClosedΩ", Value = "3" };
             Configuration.Parameter Ω_open = Parameters.Find(p => p.Name == "ResistanceRelay_34921A_OpenΩ") ?? new Configuration.Parameter { Name = "ResistanceRelay_34921A_OpenΩ", Value = "1E9" };
-            (Double Ω_closed, Double Ω_open) Limits = (Convert.ToDouble(Ω_closed.Value), Convert.ToDouble(Ω_open.Value));
-            String D = nameof(Diagnostic_34921A);
+            (Double Ω_closed, Double Ω_open) LimitsΩ = (Convert.ToDouble(Ω_closed.Value), Convert.ToDouble(Ω_open.Value));
 
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false, String.Empty, Limits, ref passed_34921A, ref results);
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{S}911", Limits, ref passed_34921A, ref results); // DMM Measure.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{S}921", Limits, ref passed_34921A, ref results); // DMM Measure.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false, String.Empty, LimitsΩ, ref passed_34921A, ref results);
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{S}911", LimitsΩ, ref passed_34921A, ref results); // DMM Measure.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{S}921", LimitsΩ, ref passed_34921A, ref results); // DMM Measure.
 
             SCPI.ROUTe.CLOSe.Command($"@{S}001:{S}020"); // Bank 1 all relays connected to Bank 1 diagnostic shorting connector.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911", Limits, ref passed_34921A, ref results);               // ABus1 COM1 directly connected to all Bank 1 relays and thus diagnostic shorting connector.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}912,{S}922", Limits, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus2, to test ABus2.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}913,{S}923", Limits, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus3, to test ABus3.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}914,{S}924", Limits, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus4, to test ABus4.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911", LimitsΩ, ref passed_34921A, ref results);               // ABus1 COM1 directly connected to all Bank 1 relays and thus diagnostic shorting connector.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}912,{S}922", LimitsΩ, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus2, to test ABus2.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}913,{S}923", LimitsΩ, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus3, to test ABus3.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}914,{S}924", LimitsΩ, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus4, to test ABus4.
             SCPI.ROUTe.OPEN.Command($"@{S}001:{S}020"); // Reference 'Keysight 34921A-34925A Low Frequency Multiplexer Modules', '34921A Simplified Schematic'.
 
             SCPI.ROUTe.CLOSe.Command($"@{S}911"); // DMM Measure.
-            for (Int32 i = 1; i <= 20; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{i:D3}", Limits, ref passed_34921A, ref results); // Bank 1 individual relays.
+            for (Int32 i = 1; i <= 20; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{i:D3}", LimitsΩ, ref passed_34921A, ref results); // Bank 1 individual relays.
             SCPI.ROUTe.OPEN.Command($"@{S}911");
 
             SCPI.ROUTe.CLOSe.Command($"@{S}021:{S}040"); // Bank 2 all relays connected to Bank 2 diagnostic shorting connector.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921", Limits, ref passed_34921A, ref results);               // ABus1 COM2 directly connected to all Bank 2 relays and thus diagnostic shorting connector.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911,{S}912,{S}922", Limits, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus2, to test ABus2.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911,{S}913,{S}923", Limits, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus3, to test ABus3.
-            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911,{S}914,{S}924", Limits, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus4, to test ABus4.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921", LimitsΩ, ref passed_34921A, ref results);               // ABus1 COM2 directly connected to all Bank 2 relays and thus diagnostic shorting connector.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911,{S}912,{S}922", LimitsΩ, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus2, to test ABus2.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911,{S}913,{S}923", LimitsΩ, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus3, to test ABus3.
+            CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911,{S}914,{S}924", LimitsΩ, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus4, to test ABus4.
             SCPI.ROUTe.OPEN.Command($"@{S}021:{S}040"); // Reference 'Keysight 34921A-34925A Low Frequency Multiplexer Modules', '34921A Simplified Schematic'.
 
             SCPI.ROUTe.CLOSe.Command($"@{S}921"); // DMM Measure.
-            for (Int32 i = 21; i <= 40; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{i:D3}", Limits, ref passed_34921A, ref results); // Bank 2 individual relays.
+            for (Int32 i = 21; i <= 40; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{i:D3}", LimitsΩ, ref passed_34921A, ref results); // Bank 2 individual relays.
             SCPI.ROUTe.OPEN.Command($"@{S}921");
             SCPI.INSTrument.DMM.DISConnect.Command();
 
@@ -169,6 +169,16 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             }
             ;
             return (Summary: passed_34921A, Details: results);
+        }
+
+        private void FRTD(String diagnostic, String channels, (Double celciusLow, Double celciusHigh) Limits, ref Boolean passed, ref List<DiagnosticsResult> results) {
+            SCPI.UNIT.TEMPerature.Command("C", channels);
+            SCPI.SENSe.TEMPerature.TRANsducer.FRTD.TYPE.Command(85, channels);
+            SCPI.SENSe.TEMPerature.TRANsducer.FRTD.RESistance.REFerence.Command(100.0, channels);
+            SCPI.MEASure.SCALar.TEMPerature.Query("FRTD", 85, 110D, "MAXimum", channels, out Double[] degreesC);
+            Boolean passed_FRTD = (Limits.celciusLow <= degreesC[0] && degreesC[0] <= Limits.celciusHigh);
+            passed &= passed_FRTD;
+            results.Add(new DiagnosticsResult(Label: $"{diagnostic} FRTD channel(s) {channels}: ", Message: $"{Math.Round(degreesC[0], 3, MidpointRounding.ToEven)}°C", Event: (passed_FRTD ? EVENTS.PASS : EVENTS.FAIL)));
         }
 
         private void CloseMeasureOpenRecord(String diagnostic, Boolean kelvin, Boolean closed, String channels, (Double Ω_closed, Double Ω_open) Limits, ref Boolean passed, ref List<DiagnosticsResult> results) {
