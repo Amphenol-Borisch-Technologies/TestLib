@@ -85,7 +85,7 @@ namespace ABT.Test.TestLib {
             try {
                 Assembly assembly = Assembly.GetAssembly(typeof(T));
                 Type baseType = typeof(T);
-                List<Type> derivedTypes = assembly.GetTypes().Where(t => !t.IsCOMObject && t.IsAssignableFrom(baseType)).ToList();
+                List<Type> derivedTypes = assembly.GetTypes().Where(t => baseType.IsAssignableFrom(t) && !t.IsAbstract).ToList();
                 return new HashSet<String>(derivedTypes.Select(t => t.Name));
             } catch (ReflectionTypeLoadException reflectionTypeLoadException) {
                 StringBuilder stringBuilder = new StringBuilder();

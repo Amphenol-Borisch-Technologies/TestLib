@@ -30,7 +30,8 @@ namespace ABT.Test.TestLib.Configuration {
                             if (String.Equals(xmlReader.Name, nameof(MethodInterval))) {
                                 // NOTE: This if block required because Microsoft's Visual Studio only supports XML Schema 1.0.
                                 // - If Visual Studio supported XSD 1.1, then <xs:assert test="@Low le @High"/> would obviate this block.
-                                #region TLDR below compares just some of the many mainstream XML editing options.
+                                #region TLDR 
+                                // Below compares just some of the many mainstream XML editing options.
                                 // NOTE: XML Liquid Studio Community Edition supports XML Schema 1.1.
                                 // - Liquid Studio is a powerful but complex external XML editor.
                                 // - It's co$t free and licensing permits commericial usage.
@@ -55,7 +56,7 @@ namespace ABT.Test.TestLib.Configuration {
                                 //   - Visual Studio isn't co$t free, but licensing permits commercial use.
                                 //   - XML editing integrated with Visual Studio is incredibly convenient.
                                 //   - As a multi-purpose editor, can develop C# .Net applications.  Plus many other languages.
-                                #endregion
+                                #endregion TLDR
                                 low = Double.Parse(xmlReader.GetAttribute(nameof(MethodInterval.Low)));
                                 high = Double.Parse(xmlReader.GetAttribute(nameof(MethodInterval.High)));
                                 if (low > high) {
@@ -78,6 +79,7 @@ namespace ABT.Test.TestLib.Configuration {
                                 className = xmlReader.GetAttribute(nameof(TestGroup.Classname));
                             }
 
+                            // TODO: Below code not working.
                             if (methodTypes.Contains(xmlReader.Name)) {
                                // NOTE: This if block required because Microsoft's Visual Studio only supports XML Schema 1.0.
                                 // - If Visual Studio supported XSD 1.1, then below xs:assert would obviate this block:
