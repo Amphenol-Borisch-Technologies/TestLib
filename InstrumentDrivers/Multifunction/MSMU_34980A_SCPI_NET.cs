@@ -139,23 +139,23 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{S}911", LimitsΩ, ref passed_34921A, ref results); // DMM Measure.
             CloseMeasureOpenRecord(D, kelvin: false, closed: false, $"@{S}921", LimitsΩ, ref passed_34921A, ref results); // DMM Measure.
 
-            SCPI.ROUTe.CLOSe.Command($"@{S}001:{S}020"); // Bank 1 all relays connected to Bank 1 diagnostic shorting connector.
+            SCPI.ROUTe.CLOSe.Command($"@{S}001:{S}019"); // Bank 1 all relays connected to Bank 1 diagnostic shorting connector except FRTD's 020.
             CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911", LimitsΩ, ref passed_34921A, ref results);               // ABus1 COM1 directly connected to all Bank 1 relays and thus diagnostic shorting connector.
             CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}912,{S}922", LimitsΩ, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus2, to test ABus2.
             CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}913,{S}923", LimitsΩ, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus3, to test ABus3.
             CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921,{S}914,{S}924", LimitsΩ, ref passed_34921A, ref results); // ABus1 COM2 indirectly connected through ABus4, to test ABus4.
-            SCPI.ROUTe.OPEN.Command($"@{S}001:{S}020"); // Reference 'Keysight 34921A-34925A Low Frequency Multiplexer Modules', '34921A Simplified Schematic'.
+            SCPI.ROUTe.OPEN.Command($"@{S}001:{S}019"); // Reference 'Keysight 34921A-34925A Low Frequency Multiplexer Modules', '34921A Simplified Schematic'.
 
             SCPI.ROUTe.CLOSe.Command($"@{S}911"); // DMM Measure.
             for (Int32 i = 1; i <= 20; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{i:D3}", LimitsΩ, ref passed_34921A, ref results); // Bank 1 individual relays.
             SCPI.ROUTe.OPEN.Command($"@{S}911");
 
-            SCPI.ROUTe.CLOSe.Command($"@{S}021:{S}040"); // Bank 2 all relays connected to Bank 2 diagnostic shorting connector.
+            SCPI.ROUTe.CLOSe.Command($"@{S}021:{S}039"); // Bank 2 all relays connected to Bank 2 diagnostic shorting connector except FRTD's 040.
             CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}921", LimitsΩ, ref passed_34921A, ref results);               // ABus1 COM2 directly connected to all Bank 2 relays and thus diagnostic shorting connector.
             CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911,{S}912,{S}922", LimitsΩ, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus2, to test ABus2.
             CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911,{S}913,{S}923", LimitsΩ, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus3, to test ABus3.
             CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}911,{S}914,{S}924", LimitsΩ, ref passed_34921A, ref results); // ABus1 COM1 indirectly connected through ABus4, to test ABus4.
-            SCPI.ROUTe.OPEN.Command($"@{S}021:{S}040"); // Reference 'Keysight 34921A-34925A Low Frequency Multiplexer Modules', '34921A Simplified Schematic'.
+            SCPI.ROUTe.OPEN.Command($"@{S}021:{S}039"); // Reference 'Keysight 34921A-34925A Low Frequency Multiplexer Modules', '34921A Simplified Schematic'.
 
             SCPI.ROUTe.CLOSe.Command($"@{S}921"); // DMM Measure.
             for (Int32 i = 21; i <= 40; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{i:D3}", LimitsΩ, ref passed_34921A, ref results); // Bank 2 individual relays.
