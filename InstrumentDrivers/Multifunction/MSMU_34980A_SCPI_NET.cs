@@ -120,7 +120,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.ROUTe.OPEN.ALL.Command(null);
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
-            SCPI.SENSe.RESistance.RESolution.Command($"{MMD.MAXimum}");
 
             List<DiagnosticsResult> results = new List<DiagnosticsResult>();
             Boolean passed_34921A = true;
