@@ -79,7 +79,6 @@ namespace ABT.Test.TestLib.Configuration {
                                 className = xmlReader.GetAttribute(nameof(TestGroup.Classname));
                             }
 
-                            // TODO: Below code not working.
                             if (methodTypes.Contains(xmlReader.Name)) {
                                // NOTE: This if block required because Microsoft's Visual Studio only supports XML Schema 1.0.
                                 // - If Visual Studio supported XSD 1.1, then below xs:assert would obviate this block:
