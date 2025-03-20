@@ -33,7 +33,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         }
 
         public SELF_TEST_RESULTS SelfTests() {
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect Address Bus DB9 & all Module terminal blocks/connectors from {_34980A} Slots.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect Address Bus DB9 & all Module/Slot terminal blocks/connectors from {Detail}/{Address}.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             }
@@ -59,7 +59,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             if (passed) {
                 (Boolean summary, List<DiagnosticsResult> details) result_Slot;
                 Configuration.Parameter parameter = Parameters.Find(p => p.Name == "ModuleType");
-                String module = parameter.Value ?? String.Empty;
+                String module = (parameter != null) ? parameter.Value : String.Empty;
 
                 foreach (SLOTS slot in Enum.GetValues(typeof(SLOTS))) {
                     Data.CT_EmergencyStop.ThrowIfCancellationRequested();
@@ -129,7 +129,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Configuration.Parameter  celciusLow = Parameters.Find(p => p.Name == "FRTD_34921A_Low°C") ?? new Configuration.Parameter { Name = "FRTD_34921A_Low°C", Value = "15.5" };
             Configuration.Parameter celciusHigh = Parameters.Find(p => p.Name == "FRTD_34921A_High°C") ?? new Configuration.Parameter { Name = "FRTD_34921A_High°C", Value = "29.5" };
             (Double celciusLow, Double celciusHigh) LimitsCelcius = (Convert.ToDouble(celciusLow.Value), Convert.ToDouble(celciusHigh.Value));
-            FRTD(D, "@1020", LimitsCelcius, ref passed_34921A, ref results);
+            FRTD(D, $"@{S}020", LimitsCelcius, ref passed_34921A, ref results);
 
             Configuration.Parameter Ω_closed = Parameters.Find(p => p.Name == "ResistanceRelay_34921A_ClosedΩ") ?? new Configuration.Parameter { Name = "ResistanceRelay_34921A_ClosedΩ", Value = "3" };
             Configuration.Parameter Ω_open = Parameters.Find(p => p.Name == "ResistanceRelay_34921A_OpenΩ") ?? new Configuration.Parameter { Name = "ResistanceRelay_34921A_OpenΩ", Value = "1E9" };
@@ -147,7 +147,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.ROUTe.OPEN.Command($"@{S}001:{S}019"); // Reference 'Keysight 34921A-34925A Low Frequency Multiplexer Modules', '34921A Simplified Schematic'.
 
             SCPI.ROUTe.CLOSe.Command($"@{S}911"); // DMM Measure.
-            for (Int32 i = 1; i <= 20; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{i:D3}", LimitsΩ, ref passed_34921A, ref results); // Bank 1 individual relays.
+            for (Int32 i = 1; i <= 19; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{i:D3}", LimitsΩ, ref passed_34921A, ref results); // Bank 1 individual relays except FRTD's 020.
             SCPI.ROUTe.OPEN.Command($"@{S}911");
 
             SCPI.ROUTe.CLOSe.Command($"@{S}021:{S}039"); // Bank 2 all relays connected to Bank 2 diagnostic shorting connector except FRTD's 040.
@@ -158,7 +158,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.ROUTe.OPEN.Command($"@{S}021:{S}039"); // Reference 'Keysight 34921A-34925A Low Frequency Multiplexer Modules', '34921A Simplified Schematic'.
 
             SCPI.ROUTe.CLOSe.Command($"@{S}921"); // DMM Measure.
-            for (Int32 i = 21; i <= 40; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{i:D3}", LimitsΩ, ref passed_34921A, ref results); // Bank 2 individual relays.
+            for (Int32 i = 21; i <= 39; i++) CloseMeasureOpenRecord(D, kelvin: false, closed: true, $"@{S}{i:D3}", LimitsΩ, ref passed_34921A, ref results); // Bank 2 individual relays except FRTD's 040.
             SCPI.ROUTe.OPEN.Command($"@{S}921");
             SCPI.INSTrument.DMM.DISConnect.Command();
 
