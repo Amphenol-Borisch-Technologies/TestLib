@@ -1,9 +1,9 @@
-﻿using System;
+﻿using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
+using ABT.Test.TestLib.InstrumentDrivers.Multifunction;
+using Agilent.CommandExpert.ScpiNet.AgE363x_1_7;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Agilent.CommandExpert.ScpiNet.AgE363x_1_7;
-using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
-using ABT.Test.TestLib.InstrumentDrivers.Multifunction;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
     public class PS_E3634A_SCPI_NET : AgE363x, IInstrument, IPowerSupplyOutputs1, IDiagnostics {
@@ -17,7 +17,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
             SCPI.RST.Command();
             SCPI.CLS.Command();
         }
-        
+
         public SELF_TEST_RESULTS SelfTests() {
             Int32 result;
             try {
@@ -33,7 +33,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
             SCPI.OUTPut.STATe.Command(Convert.ToBoolean(STATES.off));
         }
 
-        public RANGE RangeGet() { 
+        public RANGE RangeGet() {
             SCPI.SOURce.VOLTage.RANGe.Query(out String range);
             return (RANGE)Enum.Parse(typeof(RANGE), range);
         }
@@ -66,15 +66,15 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(List<Configuration.Parameter> Parameters) {
             ResetClear();
             Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
-            (Boolean Summary, List<DiagnosticsResult> Details) result_E3634A = (passed, new List<DiagnosticsResult>()  { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
+            (Boolean Summary, List<DiagnosticsResult> Details) result_E3634A = (passed, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
             if (passed) {
                 Configuration.Parameter parameter = Parameters.Find(p => p.Name == "Accuracy_E3634A_VDC") ?? new Configuration.Parameter { Name = "Accuracy_E3634A_VDC", Value = "0.1" };
                 Double limit = Convert.ToDouble(parameter.Value);
 
                 MSMU_34980A_SCPI_NET MSMU = ((MSMU_34980A_SCPI_NET)(Data.InstrumentDrivers["MSMU1_34980A"]));
 
-                String message = 
-                    $"Please connect BMC6030-5 from {Detail}/{Address}{Environment.NewLine}{Environment.NewLine}" + 
+                String message =
+                    $"Please connect BMC6030-5 from {Detail}/{Address}{Environment.NewLine}{Environment.NewLine}" +
                     $"to {MSMU.Detail}/{MSMU.Address}.{Environment.NewLine}{Environment.NewLine}" +
                     "Click Cancel if desired.";
                 if (DialogResult.OK == MessageBox.Show(message, "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
@@ -83,7 +83,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
                     SCPI.OUTPut.STATe.Command(false);
                     SCPI.SOURce.VOLTage.PROTection.STATe.Command(false);
                     SCPI.SOURce.CURRent.PROTection.STATe.Command(false);
-                    SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("MINimum");                    
+                    SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("MINimum");
                     SCPI.SOURce.VOLTage.LEVel.IMMediate.STEP.INCRement.Command(1D);
                     SCPI.OUTPut.STATe.Command(true);
 
@@ -100,7 +100,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
                     message =
                         $"Please disconnect BMC6030-5 from {Detail}/{Address}{Environment.NewLine}{Environment.NewLine}" +
                         $"and {MSMU.Detail}/{MSMU.Address}.{Environment.NewLine}{Environment.NewLine}";
-                   MessageBox.Show(message, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    MessageBox.Show(message, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 }
             }
             return result_E3634A;

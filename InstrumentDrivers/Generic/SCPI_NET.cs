@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 using Agilent.CommandExpert.ScpiNet.AgSCPI99_1_0;
-using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.Generic {

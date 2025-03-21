@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace ABT.Test.TestLib.Configuration{
+namespace ABT.Test.TestLib.Configuration {
     [XmlRoot(nameof(TestExecDefinition))]
     public class TestExecDefinition {
         [XmlElement(nameof(Development))] public Development Development { get; set; }
@@ -37,7 +37,7 @@ namespace ABT.Test.TestLib.Configuration{
         public BarcodeReader() { }
     }
 
-    public class  Apps {
+    public class Apps {
         [XmlElement(nameof(ABT))] public ABT ABT { get; set; }
         [XmlElement(nameof(Keysight))] public Keysight Keysight { get; set; }
         [XmlElement(nameof(Microsoft))] public Microsoft Microsoft { get; set; }
@@ -62,7 +62,7 @@ namespace ABT.Test.TestLib.Configuration{
         [XmlElement(nameof(XMLNotepad))] public String XMLNotepad { get; set; }
         public Microsoft() { }
     }
-    
+
     public class InstrumentsTestExec {
         [XmlElement(nameof(InstrumentTestExec))] public List<InstrumentTestExec> InstrumentTestExec { get; set; }
         [XmlAttribute(nameof(Folder))] public String Folder { get; set; }

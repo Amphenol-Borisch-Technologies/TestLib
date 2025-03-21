@@ -1,7 +1,7 @@
-﻿﻿using System;
+﻿using System;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.Interfaces {
-    public enum SELF_TEST_RESULTS { PASS=0, FAIL=1 }
+    public enum SELF_TEST_RESULTS { PASS = 0, FAIL = 1 }
 
     public interface IInstrument {
         String Address { get; }                 // NOTE: Store in instrument objects for easy error reporting of addresses.  Not easily gotten otherwise.

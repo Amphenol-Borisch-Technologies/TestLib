@@ -1,8 +1,8 @@
-﻿using System;
-using Agilent.CommandExpert.ScpiNet.AgE364xD_1_7;
-using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
-using System.Collections.Generic;
+﻿using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 using ABT.Test.TestLib.InstrumentDrivers.Multifunction;
+using Agilent.CommandExpert.ScpiNet.AgE364xD_1_7;
+using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
@@ -74,15 +74,15 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(List<Configuration.Parameter> Parameters) {
             ResetClear();
             Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
-            (Boolean Summary, List<DiagnosticsResult> Details) result_E3649A = (passed, new List<DiagnosticsResult>()  { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
+            (Boolean Summary, List<DiagnosticsResult> Details) result_E3649A = (passed, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
             if (passed) {
                 Configuration.Parameter parameter = Parameters.Find(p => p.Name == "Accuracy_E3649A_VDC") ?? new Configuration.Parameter { Name = "Accuracy_E3649A_VDC", Value = "0.1" };
                 Double limit = Convert.ToDouble(parameter.Value);
 
                 MSMU_34980A_SCPI_NET MSMU = ((MSMU_34980A_SCPI_NET)(Data.InstrumentDrivers["MSMU1_34980A"]));
 
-                String message = 
-                    $"Please connect BMC6030-5 from {Detail}/{Address} Output 1{Environment.NewLine}{Environment.NewLine}" + 
+                String message =
+                    $"Please connect BMC6030-5 from {Detail}/{Address} Output 1{Environment.NewLine}{Environment.NewLine}" +
                     $"to {MSMU.Detail}/{MSMU.Address}.{Environment.NewLine}{Environment.NewLine}" +
                     "Click Cancel if desired.";
                 if (DialogResult.OK == MessageBox.Show(message, "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
@@ -94,7 +94,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
                     message =
                         $"Please disconnect BMC6030-5 from {Detail}/{Address}{Environment.NewLine}{Environment.NewLine}" +
                         $"and {MSMU.Detail}/{MSMU.Address}.{Environment.NewLine}{Environment.NewLine}";
-                   MessageBox.Show(message, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    MessageBox.Show(message, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 }
             }
             return result_E3649A;
@@ -104,7 +104,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
             Select(outPut);
             SCPI.OUTPut.STATe.Command(false);
             SCPI.SOURce.VOLTage.PROTection.STATe.Command(false);
-            SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("MINimum");                    
+            SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("MINimum");
             SCPI.SOURce.VOLTage.LEVel.IMMediate.STEP.INCRement.Command(1D);
             SCPI.OUTPut.STATe.Command(true);
 
@@ -117,7 +117,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.PowerSupplies {
                 result_E3649A.Details.Add(new DiagnosticsResult(Label: $"{outPut} :", Message: $"Applied {vdcApplied}VDC, measured {Math.Round(vdcMeasured[0], 3, MidpointRounding.ToEven)}VDC", Event: (passed_VDC ? EVENTS.PASS : EVENTS.FAIL)));
                 SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("UP");
             }
-            SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("MINimum");      
+            SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command("MINimum");
             SCPI.OUTPut.STATe.Command(false);
             result_E3649A.Summary &= passed_E3649A;
         }

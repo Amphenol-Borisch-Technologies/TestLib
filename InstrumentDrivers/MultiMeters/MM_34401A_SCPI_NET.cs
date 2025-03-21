@@ -1,8 +1,8 @@
-﻿﻿using System;
-using System.Windows.Forms;
+﻿using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 using Agilent.CommandExpert.ScpiNet.Ag34401_11;
-using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.MultiMeters {
     public class MM_34401A_SCPI_NET : Ag34401, IInstrument, IDiagnostics {
@@ -34,7 +34,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.MultiMeters {
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostics(List<Configuration.Parameter> Parameters) {
             ResetClear();
             Boolean passed = SelfTests() is SELF_TEST_RESULTS.PASS;
-            (Boolean Summary, List<DiagnosticsResult> Details) result_34401A = (passed, new List<DiagnosticsResult>()  { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
+            (Boolean Summary, List<DiagnosticsResult> Details) result_34401A = (passed, new List<DiagnosticsResult>() { new DiagnosticsResult(Label: "SelfTest", Message: String.Empty, Event: passed ? EVENTS.PASS : EVENTS.FAIL) });
             if (passed) {
                 // TODO: Eventually; add verification measurements of the 34401A multi-meter using external instrumentation.
             }

@@ -7,7 +7,7 @@ namespace ABT.Test.TestLib.Configuration {
 
     public static class Serializing {
 
-        public static T DeserializeFromFile<T>(String xmlFile, String xPath=null) {
+        public static T DeserializeFromFile<T>(String xmlFile, String xPath = null) {
             if (!File.Exists(xmlFile)) throw new ArgumentException($"XML File '{xmlFile}' does not exist.");
             T t;
             using (FileStream fileStream = new FileStream(xmlFile, FileMode.Open)) {

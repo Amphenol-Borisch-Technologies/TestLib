@@ -1,8 +1,8 @@
-﻿using System;
+﻿using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Windows.Forms;
-using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 
 namespace ABT.Test.TestLib.InstrumentDrivers {
     public enum INSTRUMENT_TYPES { DIGITAL_IO, ELECTRONIC_LOAD, LOGIC_ANALYZER, MULTI_FUNCTION, MULTI_METER, OSCILLOSCOPE_ANALOG, OSCILLOSCOPE_MIXED_SIGNAL, POWER_ANALYZER, POWER_SUPPLY, SWITCHING, UNKNOWN, WAVEFORM_GENERATOR }

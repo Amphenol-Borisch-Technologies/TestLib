@@ -232,7 +232,7 @@ namespace ABT.Test.TestLib.Configuration {
         [XmlAttribute(nameof(Simulate))] public Boolean Simulate { get; set; }
         [XmlElement(nameof(TestOperation))] public List<TestOperation> TestOperations { get; set; }
 
-        public TestSpace () { }
+        public TestSpace() { }
 
         public Statistics Statistics { get; set; } = new Statistics();
 
@@ -402,7 +402,8 @@ namespace ABT.Test.TestLib.Configuration {
         [XmlAttribute(nameof(UnitPrefix))] public MI_UnitPrefix UnitPrefix { get; set; }
         [XmlAttribute(nameof(Units))] public MI_Units Units { get; set; }
         [XmlAttribute(nameof(UnitSuffix))] public MI_UnitSuffix UnitSuffix { get; set; }
-        [XmlIgnore] public static Dictionary<MI_UnitPrefix, Double> UnitPrefixes = new Dictionary<MI_UnitPrefix, Double>() {
+        [XmlIgnore]
+        public static Dictionary<MI_UnitPrefix, Double> UnitPrefixes = new Dictionary<MI_UnitPrefix, Double>() {
             { MI_UnitPrefix.peta, 1E15 } ,
             { MI_UnitPrefix.tera, 1E12 },
             { MI_UnitPrefix.giga, 1E9 },

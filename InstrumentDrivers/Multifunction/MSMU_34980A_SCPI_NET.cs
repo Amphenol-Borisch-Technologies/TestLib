@@ -1,12 +1,12 @@
-﻿using System;
+﻿using ABT.Test.TestLib.InstrumentDrivers.Generic;
+using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
+using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
-using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
-using ABT.Test.TestLib.InstrumentDrivers.Generic;
 // using ABT.Test.TestLib.InstrumentDrivers.PowerSupplies;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
@@ -146,7 +146,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             //    Test_ADC(D, $"@{S}044,{S}931", LimitsA, ref PS3_E3634A, ref passed_34921A, ref results);
             //}
 
-            Configuration.Parameter  celciusLow = Parameters.Find(p => p.Name == "FRTD_34921A_Low°C") ?? new Configuration.Parameter { Name = "FRTD_34921A_Low°C", Value = "15.5" };
+            Configuration.Parameter celciusLow = Parameters.Find(p => p.Name == "FRTD_34921A_Low°C") ?? new Configuration.Parameter { Name = "FRTD_34921A_Low°C", Value = "15.5" };
             Configuration.Parameter celciusHigh = Parameters.Find(p => p.Name == "FRTD_34921A_High°C") ?? new Configuration.Parameter { Name = "FRTD_34921A_High°C", Value = "29.5" };
             (Double celciusLow, Double celciusHigh) LimitsCelcius = (Convert.ToDouble(celciusLow.Value), Convert.ToDouble(celciusHigh.Value));
             Test_FRTD(D, $"@{S}020", LimitsCelcius, ref passed_34921A, ref results);

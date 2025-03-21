@@ -30,7 +30,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Interfaces {
         void SetOffOn(OUTPUTS3 Output, Double Volts, Double Amps, Double OVP, STATES State);
     }
 
-    public interface IPowerSupplyE3649A: IPowerSupply {
+    public interface IPowerSupplyE3649A : IPowerSupply {
         STATES StateGet(OUTPUTS2 Output);
         void StateSet(STATES State);
         // NOTE: Some multi-output supplies like the E3649A permit individual control of outputs,
