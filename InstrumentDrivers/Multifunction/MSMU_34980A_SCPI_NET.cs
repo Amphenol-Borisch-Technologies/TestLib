@@ -8,7 +8,6 @@ using Agilent.CommandExpert.ScpiNet.Ag34980_2_43;
 using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 using ABT.Test.TestLib.InstrumentDrivers.Generic;
 using ABT.Test.TestLib.InstrumentDrivers.PowerSupplies;
-using Windows.Foundation.Metadata;
 
 namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
@@ -39,7 +38,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             }
-            ;
 
             Int32 result;
             try {
@@ -112,7 +110,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34921A(SLOTS Slot, List<Configuration.Parameter> Parameters) {
             String S = ((Int32)Slot).ToString("D1");
-            Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-1 diagnostic terminal block to {_34980A} SLOT {S}.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
@@ -125,6 +122,28 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             List<DiagnosticsResult> results = new List<DiagnosticsResult>();
             Boolean passed_34921A = true;
             String D = nameof(Diagnostic_34921A);
+
+            PS_E3634A_SCPI_NET PS1_E3634A = ((PS_E3634A_SCPI_NET)(Data.InstrumentDrivers["PS1_E3634A"]));
+            String message = $"Please connect BMC6030-1 DB9 to{Environment.NewLine}" +
+                $"BMC6030-5 & {PS1_E3634A.Detail}/{PS1_E3634A.Address}.{Environment.NewLine}{Environment.NewLine}" +
+                $"Click Cancel to skip optional current testing with BMC6030-5 & {PS1_E3634A.Detail}.";
+            if (DialogResult.OK == MessageBox.Show(message, "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+                // Mayn't have a Keysight E3634A power supply; optionally forego current testing.
+                Test_ADC(D, String.Empty, (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results); // Verify relays aren't stuck closed.
+                Test_ADC(D, $"@{S}1041", (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results);
+                Test_ADC(D, $"@{S}1042", (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results);
+                Test_ADC(D, $"@{S}1043", (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results);
+                Test_ADC(D, $"@{S}1044", (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results);
+                Test_ADC(D, $"@{S}931", (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results);
+
+                Configuration.Parameter A_low = Parameters.Find(p => p.Name == "Current_34921A_LowADC") ?? new Configuration.Parameter { Name = "Current_34921A_LowA", Value = "0.75" };
+                Configuration.Parameter A_high = Parameters.Find(p => p.Name == "Current_34921A_HighADC") ?? new Configuration.Parameter { Name = "Current_34921A_HighA", Value = "0.125" };
+                (Double A_low, Double A_high) LimitsA = (Convert.ToDouble(A_low.Value), Convert.ToDouble(A_high.Value));
+                Test_ADC(D, $"@{S}1041,{S}931", LimitsA, ref PS1_E3634A, ref passed_34921A, ref results);
+                Test_ADC(D, $"@{S}1042,{S}931", LimitsA, ref PS1_E3634A, ref passed_34921A, ref results);
+                Test_ADC(D, $"@{S}1043,{S}931", LimitsA, ref PS1_E3634A, ref passed_34921A, ref results);
+                Test_ADC(D, $"@{S}1044,{S}931", LimitsA, ref PS1_E3634A, ref passed_34921A, ref results);
+            }
 
             Configuration.Parameter  celciusLow = Parameters.Find(p => p.Name == "FRTD_34921A_Low°C") ?? new Configuration.Parameter { Name = "FRTD_34921A_Low°C", Value = "15.5" };
             Configuration.Parameter celciusHigh = Parameters.Find(p => p.Name == "FRTD_34921A_High°C") ?? new Configuration.Parameter { Name = "FRTD_34921A_High°C", Value = "29.5" };
@@ -161,31 +180,9 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             for (Int32 i = 21; i <= 39; i++) Test_Ω(D, kelvin: false, closed: true, $"@{S}{i:D3}", LimitsΩ, ref passed_34921A, ref results); // Bank 2 individual relays except FRTD's 040.
             SCPI.ROUTe.OPEN.Command($"@{S}921");
 
-            SCPI.ROUTe.OPEN.ALL.Command(null);
-            PS_E3634A_SCPI_NET PS1_E3634A = ((PS_E3634A_SCPI_NET)(Data.InstrumentDrivers["PS1_E3634A"]));
-            Test_ADC(D, String.Empty, (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results); // Verify relays aren't stuck closed.
-            Test_ADC(D, $"@{S}1041", (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results);
-            Test_ADC(D, $"@{S}1042", (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results);
-            Test_ADC(D, $"@{S}1043", (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results);
-            Test_ADC(D, $"@{S}1044", (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results);
-            Test_ADC(D, $"@{S}931", (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results);
-
-            Configuration.Parameter  A_low = Parameters.Find(p => p.Name == "Current_34921A_LowADC") ?? new Configuration.Parameter { Name = "Current_34921A_LowA", Value = "0.75" };
-            Configuration.Parameter A_high = Parameters.Find(p => p.Name == "Current_34921A_HighADC") ?? new Configuration.Parameter { Name = "Current_34921A_HighA", Value = "0.125" };
-            (Double A_low, Double A_high) LimitsA = (Convert.ToDouble(A_low.Value), Convert.ToDouble(A_high.Value));
-            Test_ADC(D, $"@{S}1041,{S}931", LimitsA, ref PS1_E3634A, ref passed_34921A, ref results);
-            Test_ADC(D, $"@{S}1042,{S}931", LimitsA, ref PS1_E3634A, ref passed_34921A, ref results);
-            Test_ADC(D, $"@{S}1043,{S}931", LimitsA, ref PS1_E3634A, ref passed_34921A, ref results);
-            Test_ADC(D, $"@{S}1044,{S}931", LimitsA, ref PS1_E3634A, ref passed_34921A, ref results);
-
             SCPI.INSTrument.DMM.DISConnect.Command();
 
-            Data.CT_Cancel.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-1 diagnostic terminal block from {_34980A} SLOT {S}.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
-                Data.CTS_Cancel.Cancel();
-                Data.CT_Cancel.ThrowIfCancellationRequested();
-            }
-            ;
+            MessageBox.Show($"Please disconnect BMC6030-1 diagnostic terminal block from {_34980A} SLOT {S}.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             return (Summary: passed_34921A, Details: results);
         }
 
@@ -235,7 +232,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34932A(SLOTS Slot, List<Configuration.Parameter> Parameters) {
             String S = ((Int32)Slot).ToString("D1");
-            Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-2 diagnostic terminal block to {_34980A} SLOT {S} and Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
@@ -274,13 +270,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
             SCPI.INSTrument.DMM.DISConnect.Command();
 
-            Data.CT_Cancel.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-2 diagnostic terminal block from {_34980A} SLOT {S} and Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
-                Data.CTS_Cancel.Cancel();
-                Data.CT_Cancel.ThrowIfCancellationRequested();
-            }
-            ;
-
+            MessageBox.Show($"Please disconnect BMC6030-2 diagnostic terminal block from {_34980A} SLOT {S} and Analog Busses.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             return (Summary: passed_34932A, Details: results);
         }
 
@@ -292,7 +282,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34938A(SLOTS Slot, List<Configuration.Parameter> Parameters) {
             String S = ((Int32)Slot).ToString("D1");
-            Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-3 diagnostic terminal block to {_34980A} SLOT {S} and Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
@@ -316,13 +305,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
             SCPI.INSTrument.DMM.DISConnect.Command();
 
-            Data.CT_Cancel.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-3 diagnostic terminal block from {_34980A} SLOT {S} and Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
-                Data.CTS_Cancel.Cancel();
-                Data.CT_Cancel.ThrowIfCancellationRequested();
-            }
-            ;
-
+            MessageBox.Show($"Please disconnect BMC6030-3 diagnostic terminal block from {_34980A} SLOT {S} and Analog Busses.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             return (Summary: passed_34938A, Details: results);
         }
 
@@ -334,7 +317,6 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34939A(SLOTS Slot, List<Configuration.Parameter> Parameters) {
             String S = ((Int32)Slot).ToString("D1");
-            Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-TBD diagnostic terminal block to {_34980A} SLOT {S} and Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
@@ -358,13 +340,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
             SCPI.INSTrument.DMM.DISConnect.Command();
 
-            Data.CT_Cancel.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-TBD diagnostic terminal block from {_34980A} SLOT {S} and Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
-                Data.CTS_Cancel.Cancel();
-                Data.CT_Cancel.ThrowIfCancellationRequested();
-            }
-            ;
-
+            MessageBox.Show($"Please disconnect BMC6030-TBD diagnostic terminal block from {_34980A} SLOT {S} and Analog Busses.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             return (Summary: passed_34939A, Details: results);
         }
 
@@ -376,12 +352,10 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
 
         public (Boolean Summary, List<DiagnosticsResult> Details) Diagnostic_34952A(SLOTS Slot, List<Configuration.Parameter> Parameters) {
             String S = ((Int32)Slot).ToString("D1");
-            Data.CT_Cancel.ThrowIfCancellationRequested();
             if (DialogResult.Cancel == MessageBox.Show($"Please connect BMC6030-4 diagnostic terminal block to {_34980A} SLOT {S} and its DAC1 to Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 Data.CTS_Cancel.Cancel();
                 Data.CT_Cancel.ThrowIfCancellationRequested();
             }
-            ;
 
             SCPI.ROUTe.OPEN.ALL.Command(null);
             List<DiagnosticsResult> results = new List<DiagnosticsResult>();
@@ -416,20 +390,9 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             SCPI.INSTrument.DMM.STATe.Command(true);
             SCPI.INSTrument.DMM.CONNect.Command();
             for (Double d = -12; d <= 12; d += 0.5) Diagnostic_34952A_DAC(D, $"@{S}006", d, Limit, ref passed_34952A, ref results);
-            Data.CT_Cancel.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect DAC1 & connect DAC2 to Analog Busses.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
-                Data.CTS_Cancel.Cancel();
-                Data.CT_Cancel.ThrowIfCancellationRequested();
-            }
-            ;
+            MessageBox.Show($"Please disconnect DAC1 & connect DAC2 to Analog Busses.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             for (Double d = -12; d <= 12; d += 0.1) Diagnostic_34952A_DAC(D, $"@{S}007", d, Limit, ref passed_34952A, ref results);
-
-            Data.CT_Cancel.ThrowIfCancellationRequested();
-            if (DialogResult.Cancel == MessageBox.Show($"Please disconnect BMC6030-4 diagnostic terminal block and its DAC2.", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
-                Data.CTS_Cancel.Cancel();
-                Data.CT_Cancel.ThrowIfCancellationRequested();
-            }
-            ;
+            MessageBox.Show($"Please disconnect BMC6030-4 diagnostic terminal block and its DAC2.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
 
             return (Summary: passed_34952A, Details: results);
         }
