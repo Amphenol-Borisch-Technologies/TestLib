@@ -12,31 +12,29 @@
   
   <TestData>
     <TextFiles Folder="P:\Test\TDR" />
-    <!--
-    <SQL_DB ConnectionString="Server=ABT002780\SQLEXPRESS;Database=TestData;Integrated Security=true;" />
-    -->
+    <!--<SQL_DB ConnectionString="Server=ABT002780\SQLEXPRESS;Database=TestData;Integrated Security=true;" />-->
   </TestData>
 
   <BarcodeReader ID="\\?\HID#VID_0C2E&amp;PID_0A07&amp;MI_00#7&amp;1f27e379&amp;0&amp;0000#{c243ffbd-3afc-45e9-b3d3-2ba18bc7ebc5}\posbarcodescanner" 
                  Detail="Honeywell Voyager USB 1200g corded Barcode Scanner" 
                  Folder="P:\Test\Engineers\Equipment_Manuals\TestExec\Honeywell_Voyager_1200g" />
-  <!-- BarcodeScanner's  is the identifier used to find & claim the Barcode Scanner used in class SerialNumberDialog.
-        When a TestPlanDefinition.xml file specifies SerialNumberEntryType="Barcode":
-				- Class SerialNumberDialog is the Barcode Scanning method for prompting test operators for UUT Serial Numbers.
-				- SerialNumberDialog exclusively enforces Serial Number entry via Barcode Scanning of ABT's official Code39 encoded Serial Number.
-          - Serial Number's cannot be entered into SerialNumberDialog via Keyboard, only via Barcode Scanning.
-          - This enforces correct Barcode Scanning of ABT Serial Numbers, unlike hand-typing them, with it's substantially higher error rates.
-				When a TestPlanDefinition.xml file specifies SerialNumberEntryType="Keyboard":
-				- An Interaction.InputBox prompts test operator to enter Serial Numbers via Keyboard.
-        NOTE:  Barcode Scanner must be a corded USB scanner, and must also be explicitly supported by Microsoft's Windows.Devices.PointOfService namespace.
+  <!-- 
+  BarcodeScanner's  is the identifier used to find & claim the Barcode Scanner used in class SerialNumberDialog.
+  When a TestPlanDefinition.xml file specifies SerialNumberEntryType="Barcode":
+	- Class SerialNumberDialog is the Barcode Scanning method for prompting test operators for UUT Serial Numbers.
+	- SerialNumberDialog exclusively enforces Serial Number entry via Barcode Scanning of ABT's official Code39 encoded Serial Number.
+    - Serial Number's cannot be entered into SerialNumberDialog via Keyboard, only via Barcode Scanning.
+    - This enforces correct Barcode Scanning of ABT Serial Numbers, unlike hand-typing them, with it's substantially higher error rates.
+	When a TestPlanDefinition.xml file specifies SerialNumberEntryType="Keyboard":
+	- An Interaction.InputBox prompts test operator to enter Serial Numbers via Keyboard.
+  NOTE:  Barcode Scanner must be a corded USB scanner, and must also be explicitly supported by Microsoft's Windows.Devices.PointOfService namespace.
            
-        - List of supported scanners at https://learn.microsoft.com/en-us/windows/uwp/devices-sensors/pos-device-support.
-				NOTE:  Barcode Scanner must be programmed into USB HID mode to work correctly with TestExec's SerialNumberDialog class to read ABT Serial Numbers.
-              - For a Voyager 1200g, scan PAP131 label from "Honeywell Voyager 1200G User's Guide ReadMe.pdf" to program into USB HID mode.
-              - Both "ReadMe" & "User's Guides" documents reside in Logging folder for convenience.
-        NOTE:  Barcode Scanner must also be programmed to read the Code39 Barcode Symbology of ABT's Serial Numbers.
-	-->
-
+  - List of supported scanners at https://learn.microsoft.com/en-us/windows/uwp/devices-sensors/pos-device-support.
+	NOTE:  Barcode Scanner must be programmed into USB HID mode to work correctly with TestExec's SerialNumberDialog class to read ABT Serial Numbers.
+        - For a Voyager 1200g, scan PAP131 label from "Honeywell Voyager 1200G User's Guide ReadMe.pdf" to program into USB HID mode.
+        - Both "ReadMe" & "User's Guides" documents reside in Logging folder for convenience.
+  NOTE:  Barcode Scanner must also be programmed to read the Code39 Barcode Symbology of ABT's Serial Numbers.
+  -->
   <Apps>
     <ABT>
       <TestChooser>C:\Program Files\ABT\Test\TestChooser\TestChooser.exe</TestChooser>
@@ -54,9 +52,10 @@
   </Apps>
 
   <InstrumentsTestExec Folder="P:\Test\Engineers\Equipment_Manuals" >
-    <!--
+  <!--
 	InstrumentsTextExec:
-  - List all stationary/permanently installed instruments for this TestExec system.
+  - Define all stationary/permanently installed instruments for this TestExec system.
+    - Mobile/temporary instruments are defined in individual TestPlanDefinition.xml files.
 	- For instrument calibration or replacement, swap identical instrument with others, then update Address.
   - For additions, add InstrumentTextExec element.
     - Add a new driver to ABT.Test.TestLib.InstrumentDrivers.* if needed.
