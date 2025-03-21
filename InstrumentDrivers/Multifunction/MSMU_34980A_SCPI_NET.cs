@@ -123,26 +123,26 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Boolean passed_34921A = true;
             String D = nameof(Diagnostic_34921A);
 
-            PS_E3634A_SCPI_NET PS1_E3634A = ((PS_E3634A_SCPI_NET)(Data.InstrumentDrivers["PS1_E3634A"]));
+            PS_E3634A_SCPI_NET PS3_E3634A = ((PS_E3634A_SCPI_NET)(Data.InstrumentDrivers["PS3_E3634A"]));
             String message = $"Please connect BMC6030-1 DB9 to{Environment.NewLine}" +
-                $"BMC6030-5 & {PS1_E3634A.Detail}/{PS1_E3634A.Address}.{Environment.NewLine}{Environment.NewLine}" +
-                $"Click Cancel to skip optional current testing with BMC6030-5 & {PS1_E3634A.Detail}.";
+                $"BMC6030-5 & {PS3_E3634A.Detail}/{PS3_E3634A.Address}.{Environment.NewLine}{Environment.NewLine}" +
+                $"Click Cancel to skip optional current testing with BMC6030-5 & {PS3_E3634A.Detail}.";
             if (DialogResult.OK == MessageBox.Show(message, "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
                 // Mayn't have a Keysight E3634A power supply; optionally forego current testing.
-                Test_ADC(D, String.Empty, (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results); // Verify relays aren't stuck closed.
-                Test_ADC(D, $"@{S}1041", (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results);
-                Test_ADC(D, $"@{S}1042", (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results);
-                Test_ADC(D, $"@{S}1043", (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results);
-                Test_ADC(D, $"@{S}1044", (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results);
-                Test_ADC(D, $"@{S}931", (A_low: 0D, A_high: 1E-4D), ref PS1_E3634A, ref passed_34921A, ref results);
+                Test_ADC(D, String.Empty, (A_low: 0D, A_high: 1E-4D), ref PS3_E3634A, ref passed_34921A, ref results); // Verify relays aren't stuck closed.
+                Test_ADC(D, $"@{S}1041", (A_low: 0D, A_high: 1E-4D), ref PS3_E3634A, ref passed_34921A, ref results);
+                Test_ADC(D, $"@{S}1042", (A_low: 0D, A_high: 1E-4D), ref PS3_E3634A, ref passed_34921A, ref results);
+                Test_ADC(D, $"@{S}1043", (A_low: 0D, A_high: 1E-4D), ref PS3_E3634A, ref passed_34921A, ref results);
+                Test_ADC(D, $"@{S}1044", (A_low: 0D, A_high: 1E-4D), ref PS3_E3634A, ref passed_34921A, ref results);
+                Test_ADC(D, $"@{S}931", (A_low: 0D, A_high: 1E-4D), ref PS3_E3634A, ref passed_34921A, ref results);
 
                 Configuration.Parameter A_low = Parameters.Find(p => p.Name == "Current_34921A_LowADC") ?? new Configuration.Parameter { Name = "Current_34921A_LowA", Value = "0.75" };
                 Configuration.Parameter A_high = Parameters.Find(p => p.Name == "Current_34921A_HighADC") ?? new Configuration.Parameter { Name = "Current_34921A_HighA", Value = "0.125" };
                 (Double A_low, Double A_high) LimitsA = (Convert.ToDouble(A_low.Value), Convert.ToDouble(A_high.Value));
-                Test_ADC(D, $"@{S}1041,{S}931", LimitsA, ref PS1_E3634A, ref passed_34921A, ref results);
-                Test_ADC(D, $"@{S}1042,{S}931", LimitsA, ref PS1_E3634A, ref passed_34921A, ref results);
-                Test_ADC(D, $"@{S}1043,{S}931", LimitsA, ref PS1_E3634A, ref passed_34921A, ref results);
-                Test_ADC(D, $"@{S}1044,{S}931", LimitsA, ref PS1_E3634A, ref passed_34921A, ref results);
+                Test_ADC(D, $"@{S}1041,{S}931", LimitsA, ref PS3_E3634A, ref passed_34921A, ref results);
+                Test_ADC(D, $"@{S}1042,{S}931", LimitsA, ref PS3_E3634A, ref passed_34921A, ref results);
+                Test_ADC(D, $"@{S}1043,{S}931", LimitsA, ref PS3_E3634A, ref passed_34921A, ref results);
+                Test_ADC(D, $"@{S}1044,{S}931", LimitsA, ref PS3_E3634A, ref passed_34921A, ref results);
             }
 
             Configuration.Parameter  celciusLow = Parameters.Find(p => p.Name == "FRTD_34921A_Low°C") ?? new Configuration.Parameter { Name = "FRTD_34921A_Low°C", Value = "15.5" };
