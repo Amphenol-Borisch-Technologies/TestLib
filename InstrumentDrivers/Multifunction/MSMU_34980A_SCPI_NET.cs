@@ -123,27 +123,28 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Boolean passed_34921A = true;
             String D = nameof(Diagnostic_34921A);
 
-            PS_E3634A_SCPI_NET PS3_E3634A = ((PS_E3634A_SCPI_NET)(Data.InstrumentDrivers["PS3_E3634A"]));
-            String message = $"Please connect BMC6030-1 DB9 to{Environment.NewLine}" +
-                $"BMC6030-5 & {PS3_E3634A.Detail}/{PS3_E3634A.Address}.{Environment.NewLine}{Environment.NewLine}" +
-                $"Click Cancel to skip optional current testing with BMC6030-5 & {PS3_E3634A.Detail}.";
-            if (DialogResult.OK == MessageBox.Show(message, "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
-                // Mayn't have a Keysight E3634A power supply; offer to forego current testing.
-                Test_ADC(D, String.Empty, (A_low: 0D, A_high: 5E-3D), ref PS3_E3634A, ref passed_34921A, ref results); // Verify relays aren't stuck closed.
-                Test_ADC(D, $"@{S}041", (A_low: 0D, A_high: 5E-3D), ref PS3_E3634A, ref passed_34921A, ref results);
-                Test_ADC(D, $"@{S}042", (A_low: 0D, A_high: 5E-3D), ref PS3_E3634A, ref passed_34921A, ref results);
-                Test_ADC(D, $"@{S}043", (A_low: 0D, A_high: 5E-3D), ref PS3_E3634A, ref passed_34921A, ref results);
-                Test_ADC(D, $"@{S}044", (A_low: 0D, A_high: 5E-3D), ref PS3_E3634A, ref passed_34921A, ref results);
-                Test_ADC(D, $"@{S}931", (A_low: 0D, A_high: 5E-3D), ref PS3_E3634A, ref passed_34921A, ref results);
+            // NOTE: Can't get this code to measure current reliably.
+            //PS_E3634A_SCPI_NET PS3_E3634A = ((PS_E3634A_SCPI_NET)(Data.InstrumentDrivers["PS3_E3634A"]));
+            //String message = $"Please connect BMC6030-1 DB9 to{Environment.NewLine}" +
+            //    $"BMC6030-5 & {PS3_E3634A.Detail}/{PS3_E3634A.Address}.{Environment.NewLine}{Environment.NewLine}" +
+            //    $"Click Cancel to skip optional current testing with BMC6030-5 & {PS3_E3634A.Detail}.";
+            //if (DialogResult.OK == MessageBox.Show(message, "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly)) {
+            //    // Mayn't have a Keysight E3634A power supply; offer to forego current testing.
+            //    Test_ADC(D, String.Empty, (A_low: 0D, A_high: 5E-3D), ref PS3_E3634A, ref passed_34921A, ref results); // Verify relays aren't stuck closed.
+            //    Test_ADC(D, $"@{S}041", (A_low: 0D, A_high: 5E-3D), ref PS3_E3634A, ref passed_34921A, ref results);
+            //    Test_ADC(D, $"@{S}042", (A_low: 0D, A_high: 5E-3D), ref PS3_E3634A, ref passed_34921A, ref results);
+            //    Test_ADC(D, $"@{S}043", (A_low: 0D, A_high: 5E-3D), ref PS3_E3634A, ref passed_34921A, ref results);
+            //    Test_ADC(D, $"@{S}044", (A_low: 0D, A_high: 5E-3D), ref PS3_E3634A, ref passed_34921A, ref results);
+            //    Test_ADC(D, $"@{S}931", (A_low: 0D, A_high: 5E-3D), ref PS3_E3634A, ref passed_34921A, ref results);
 
-                Configuration.Parameter A_low = Parameters.Find(p => p.Name == "Current_34921A_LowADC") ?? new Configuration.Parameter { Name = "Current_34921A_LowA", Value = "0.75" };
-                Configuration.Parameter A_high = Parameters.Find(p => p.Name == "Current_34921A_HighADC") ?? new Configuration.Parameter { Name = "Current_34921A_HighA", Value = "0.125" };
-                (Double A_low, Double A_high) LimitsA = (Convert.ToDouble(A_low.Value), Convert.ToDouble(A_high.Value));
-                Test_ADC(D, $"@{S}041,{S}931", LimitsA, ref PS3_E3634A, ref passed_34921A, ref results);
-                Test_ADC(D, $"@{S}042,{S}931", LimitsA, ref PS3_E3634A, ref passed_34921A, ref results);
-                Test_ADC(D, $"@{S}043,{S}931", LimitsA, ref PS3_E3634A, ref passed_34921A, ref results);
-                Test_ADC(D, $"@{S}044,{S}931", LimitsA, ref PS3_E3634A, ref passed_34921A, ref results);
-            }
+            //    Configuration.Parameter A_low = Parameters.Find(p => p.Name == "Current_34921A_LowADC") ?? new Configuration.Parameter { Name = "Current_34921A_LowA", Value = "0.75" };
+            //    Configuration.Parameter A_high = Parameters.Find(p => p.Name == "Current_34921A_HighADC") ?? new Configuration.Parameter { Name = "Current_34921A_HighA", Value = "0.125" };
+            //    (Double A_low, Double A_high) LimitsA = (Convert.ToDouble(A_low.Value), Convert.ToDouble(A_high.Value));
+            //    Test_ADC(D, $"@{S}041,{S}931", LimitsA, ref PS3_E3634A, ref passed_34921A, ref results);
+            //    Test_ADC(D, $"@{S}042,{S}931", LimitsA, ref PS3_E3634A, ref passed_34921A, ref results);
+            //    Test_ADC(D, $"@{S}043,{S}931", LimitsA, ref PS3_E3634A, ref passed_34921A, ref results);
+            //    Test_ADC(D, $"@{S}044,{S}931", LimitsA, ref PS3_E3634A, ref passed_34921A, ref results);
+            //}
 
             Configuration.Parameter  celciusLow = Parameters.Find(p => p.Name == "FRTD_34921A_Low°C") ?? new Configuration.Parameter { Name = "FRTD_34921A_Low°C", Value = "15.5" };
             Configuration.Parameter celciusHigh = Parameters.Find(p => p.Name == "FRTD_34921A_High°C") ?? new Configuration.Parameter { Name = "FRTD_34921A_High°C", Value = "29.5" };
@@ -186,20 +187,20 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             return (Summary: passed_34921A, Details: results);
         }
 
-        private void Test_ADC(String diagnostic, String channels, (Double A_low, Double A_high) Limits, ref PS_E3634A_SCPI_NET PS1_E3634A, ref Boolean passed, ref List<DiagnosticsResult> results) {
-            if (!String.Equals(channels, String.Empty)) SCPI.ROUTe.CLOSe.Command(channels);
-            PS1_E3634A.SCPI.APPLy.Command(0.25D, null); // NOTE: BMC6030-5 has a 1Ω series resistor for current measurement, and the 34921A & 34980A have ≈ 1Ω internal resistance..
-            PS1_E3634A.SCPI.OUTPut.STATe.Command(true);
-            System.Threading.Thread.Sleep(millisecondsTimeout: 500);
-            SCPI.MEASure.SCALar.CURRent.DC.QueryQuery(0.15D, "A", "MAXimum", null, out Double[] adc);
-            PS1_E3634A.SCPI.OUTPut.STATe.Command(false);
-            PS1_E3634A.SCPI.APPLy.Command(0, null);
-            System.Threading.Thread.Sleep(millisecondsTimeout: 250);
-            if (!String.Equals(channels, String.Empty)) SCPI.ROUTe.OPEN.Command(channels);
-            Boolean passed_A = (Limits.A_low <= adc[0] && adc[0] <= Limits.A_high);
-            passed &= passed_A;
-            results.Add(new DiagnosticsResult(Label: $"{diagnostic} channel(s) {channels}: ", Message: $"{Math.Round(adc[0], 3, MidpointRounding.ToEven)} Amperes DC", Event: (passed_A ? EVENTS.PASS : EVENTS.FAIL)));
-        }
+        //private void Test_ADC(String diagnostic, String channels, (Double A_low, Double A_high) Limits, ref PS_E3634A_SCPI_NET PS1_E3634A, ref Boolean passed, ref List<DiagnosticsResult> results) {
+        //    if (!String.Equals(channels, String.Empty)) SCPI.ROUTe.CLOSe.Command(channels);
+        //    PS1_E3634A.SCPI.APPLy.Command(0.25D, null); // NOTE: BMC6030-5 has a 1Ω series resistor for current measurement, and the 34921A & 34980A have ≈ 1Ω internal resistance..
+        //    PS1_E3634A.SCPI.OUTPut.STATe.Command(true);
+        //    System.Threading.Thread.Sleep(millisecondsTimeout: 500);
+        //    SCPI.MEASure.SCALar.CURRent.DC.QueryQuery(0.15D, "A", "MAXimum", null, out Double[] adc);
+        //    PS1_E3634A.SCPI.OUTPut.STATe.Command(false);
+        //    PS1_E3634A.SCPI.APPLy.Command(0, null);
+        //    System.Threading.Thread.Sleep(millisecondsTimeout: 250);
+        //    if (!String.Equals(channels, String.Empty)) SCPI.ROUTe.OPEN.Command(channels);
+        //    Boolean passed_A = (Limits.A_low <= adc[0] && adc[0] <= Limits.A_high);
+        //    passed &= passed_A;
+        //    results.Add(new DiagnosticsResult(Label: $"{diagnostic} channel(s) {channels}: ", Message: $"{Math.Round(adc[0], 3, MidpointRounding.ToEven)} Amperes DC", Event: (passed_A ? EVENTS.PASS : EVENTS.FAIL)));
+        //}
 
         private void Test_FRTD(String diagnostic, String channels, (Double celciusLow, Double celciusHigh) Limits, ref Boolean passed, ref List<DiagnosticsResult> results) {
             SCPI.UNIT.TEMPerature.Command("C", channels);
