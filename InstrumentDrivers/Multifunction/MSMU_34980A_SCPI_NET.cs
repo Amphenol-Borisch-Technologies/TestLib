@@ -123,7 +123,7 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
             Boolean passed_34921A = true;
             String D = nameof(Diagnostic_34921A);
 
-            // NOTE: Can't get this code to measure current reliably.
+            // NOTE: Can't get this code to measure current reliably; varies from 0.02A to 0.12A.
             //PS_E3634A_SCPI_NET PS3_E3634A = ((PS_E3634A_SCPI_NET)(Data.InstrumentDrivers["PS3_E3634A"]));
             //String message = $"Please connect BMC6030-1 DB9 to{Environment.NewLine}" +
             //    $"BMC6030-5 & {PS3_E3634A.Detail}/{PS3_E3634A.Address}.{Environment.NewLine}{Environment.NewLine}" +
