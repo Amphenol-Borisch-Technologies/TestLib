@@ -36,5 +36,13 @@ C:\Users\phils\source\repos\ABT\Test\TestLib\obj\Debug\TestLib.csproj.CoreCompil
 C:\Users\phils\source\repos\ABT\Test\TestLib\obj\Debug\TestLib.csproj.Up2Date
 C:\Users\phils\source\repos\ABT\Test\TestLib\obj\Debug\TestLib.dll
 C:\Users\phils\source\repos\ABT\Test\TestLib\obj\Debug\TestLib.pdb
-C:\Users\phils\source\repos\ABT\Test\TestLib\bin\Debug\Configuration\SystemDefinition.xml
 C:\Users\phils\source\repos\ABT\Test\TestLib\obj\Debug\ABT.Test.TestLib.Configuration.TestSelect.resources
+C:\Users\phils\source\repos\ABT\Test\TestLib\bin\Debug\Configuration\TestExecDefinition.xml
+C:\Users\phils\source\repos\ABT\Test\TestLib\bin\Debug\Configuration\TestExecDefinition.cs
+C:\Users\phils\source\repos\ABT\Test\TestLib\bin\Debug\Configuration\TestSequence.cs
+C:\Users\phils\source\repos\ABT\Test\TestLib\bin\Debug\Configuration\TestPlanDefinition.cs
+C:\Users\phils\source\repos\ABT\Test\TestLib\bin\Debug\Configuration\TestExecDefinition.xsd
+C:\Users\phils\source\repos\ABT\Test\TestLib\bin\Debug\Configuration\TestSequence.xsd
+C:\Users\phils\source\repos\ABT\Test\TestLib\bin\Debug\Configuration\TestPlanDefinition.xsd
+C:\Users\phils\source\repos\ABT\Test\TestLib\bin\Debug\Ivi.Scope.Interop.dll
+C:\Users\phils\source\repos\ABT\Test\TestLib\bin\Debug\Ivi.Scope.Interop.xml
