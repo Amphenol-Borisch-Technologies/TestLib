@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using static ABT.Test.TestLib.Data;
 
 namespace ABT.Test.TestLib.Configuration {
     public interface IAssertionCurrent { String AssertionCurrent(); }
@@ -336,7 +337,9 @@ namespace ABT.Test.TestLib.Configuration {
         public String AssertionNext() { return $"{UUT.CHECK_OPERATION}{UUT.DEBUG_ASSERT}{nameof(Assertions.TestGroupNext)}{UUT.BEGIN}{nameof(Classname)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Classname)).GetValue(this))}{UUT.END}"; }
     }
 
-    public abstract class Method {
+    public interface IFormat { String Format(); }
+
+    public abstract class Method : IAssertionCurrent, IFormat {
         [XmlAttribute(nameof(Name))] public String Name { get; set; }
         [XmlAttribute(nameof(Description))] public String Description { get; set; }
         [XmlAttribute(nameof(CancelNotPassed))] public Boolean CancelNotPassed { get; set; }
@@ -344,8 +347,12 @@ namespace ABT.Test.TestLib.Configuration {
         public EVENTS Event { get; set; }
         [XmlIgnore] public StringBuilder Log { get; set; } = new StringBuilder();
         public String LogString { get; set; } = String.Empty;
+        internal const String EXPECTED = "Expected";
+        internal const String ACTUAL = "Actual";
 
         public Method() { }
+
+        public abstract String AssertionCurrent();
 
         public String AssertionPrior() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.MethodPrior)}{UUT.BEGIN}{nameof(Name)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Name)).GetValue(this))}{UUT.END}"; }
 
@@ -359,6 +366,8 @@ namespace ABT.Test.TestLib.Configuration {
 
         public String AssertionNext() { return $"{UUT.DEBUG_ASSERT}{nameof(Assertions.MethodNext)}{UUT.BEGIN}{nameof(Name)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Name)).GetValue(this))}{UUT.END}"; }
 
+        public abstract String Format();
+
         public String LogFetchAndClear() {
             String s = Log.ToString();
             Log.Clear();
@@ -366,12 +375,13 @@ namespace ABT.Test.TestLib.Configuration {
         }
     }
 
-    public class MethodCustom : Method, IAssertionCurrent {
+    public class MethodCustom : Method, IAssertionCurrent, IFormat {
+        // TODO: Eventually; create XML object formatting method in class MethodCustom, so can actually serialize MethodCustom objects into XML in the Value property.
         [XmlElement(nameof(Parameter))] public List<Parameter> Parameters { get; set; }
 
         public MethodCustom() { }
 
-        public String AssertionCurrent() {
+        public override String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{AssertionBase()}");
@@ -384,6 +394,8 @@ namespace ABT.Test.TestLib.Configuration {
             foreach (Parameter p in Parameters) sb.Append($"{p.Name}={p.Value}{UUT.DIVIDER}");
             return UUT.EF(sb.Remove(sb.Length - UUT.DIVIDER.Length, UUT.DIVIDER.Length).ToString()); // Remove trailing UUT.DIVIDER.
         }
+
+        public override String Format() { return Value; }
     }
 
     public class Parameter {
@@ -393,7 +405,7 @@ namespace ABT.Test.TestLib.Configuration {
         public Parameter() { }
     }
 
-    public class MethodInterval : Method, IAssertionCurrent {
+    public class MethodInterval : Method, IAssertionCurrent, IFormat {
         [XmlAttribute(nameof(LowComparator))] public MI_LowComparator LowComparator { get; set; }
         [XmlAttribute(nameof(Low))] public Double Low { get; set; }
         [XmlAttribute(nameof(High))] public Double High { get; set; }
@@ -419,7 +431,7 @@ namespace ABT.Test.TestLib.Configuration {
 
         public MethodInterval() { }
 
-        public String AssertionCurrent() {
+        public override String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{AssertionBase()}{UUT.CONTINUE}");
@@ -433,6 +445,19 @@ namespace ABT.Test.TestLib.Configuration {
             sb.Append($"{nameof(UnitSuffix)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(UnitSuffix)).GetValue(this))}{UUT.END}");
             return sb.ToString();
         }
+
+        public override String Format() {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine(FormatMessage(nameof(High), $"{High:G}"));
+            stringBuilder.AppendLine(FormatMessage(nameof(Value), $"{Math.Round(Double.Parse(Value), (Int32)FractionalDigits, MidpointRounding.ToEven)}"));
+            stringBuilder.AppendLine(FormatMessage(nameof(Low), $"{Low:G}"));
+            String units = String.Empty;
+            if (UnitPrefix != MI_UnitPrefix.NONE) units += $"{Enum.GetName(typeof(MI_UnitPrefix), UnitPrefix)}";
+            units += $"{Enum.GetName(typeof(MI_Units), Units)}";
+            if (UnitSuffix != MI_UnitSuffix.NONE) units += $" {Enum.GetName(typeof(MI_UnitSuffix), UnitSuffix)}";
+            stringBuilder.AppendLine(FormatMessage(nameof(Units), units));
+            return stringBuilder.ToString();
+        }
     }
 
     public enum MI_LowComparator { GToE, GT }
@@ -441,7 +466,7 @@ namespace ABT.Test.TestLib.Configuration {
     public enum MI_Units { NONE, Amperes, Celcius, Farads, Henries, Hertz, Ohms, Seconds, Siemens, Volts, VoltAmperes, Watts }
     public enum MI_UnitSuffix { NONE, AC, DC, Peak, PP, RMS }
 
-    public class MethodProcess : Method, IAssertionCurrent {
+    public class MethodProcess : Method, IAssertionCurrent, IFormat {
         [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
         [XmlAttribute(nameof(File))] public String File { get; set; }
         [XmlAttribute(nameof(Parameters))] public String Parameters { get; set; }
@@ -449,7 +474,7 @@ namespace ABT.Test.TestLib.Configuration {
 
         public MethodProcess() { }
 
-        public String AssertionCurrent() {
+        public override String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{AssertionBase()}{UUT.CONTINUE}");
@@ -459,19 +484,33 @@ namespace ABT.Test.TestLib.Configuration {
             sb.Append($"{nameof(Expected)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Expected)).GetValue(this))}{UUT.END}");
             return sb.ToString();
         }
+
+        public override String Format() {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine(FormatMessage(EXPECTED, Expected));
+            stringBuilder.AppendLine(FormatMessage(ACTUAL, Value));
+            return stringBuilder.ToString();
+        }
     }
 
-    public class MethodTextual : Method, IAssertionCurrent {
+    public class MethodTextual : Method, IAssertionCurrent, IFormat {
         [XmlAttribute(nameof(Text))] public String Text { get; set; }
 
         public MethodTextual() { }
 
-        public String AssertionCurrent() {
+        public override String AssertionCurrent() {
             StringBuilder sb = new StringBuilder();
             sb.Append($"{UUT.DEBUG_ASSERT}{GetType().Name}{UUT.BEGIN}");
             sb.Append($"{AssertionBase()}{UUT.CONTINUE}");
             sb.Append($"{nameof(Text)}{UUT.CS}{UUT.EF(GetType().GetProperty(nameof(Text)).GetValue(this))}{UUT.END}");
             return sb.ToString();
+        }
+
+        public override String Format() {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine(FormatMessage(EXPECTED, Text));
+            stringBuilder.AppendLine(FormatMessage(ACTUAL, Value));
+            return stringBuilder.ToString();
         }
     }
 

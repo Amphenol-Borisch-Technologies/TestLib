@@ -43,7 +43,6 @@ namespace ABT.Test.TestLib {
         };
 
         // TODO:  Eventually; mitigate or eliminate writeable global objects.
-        public const String NONE = "NONE";
         public static Mutex MutexTest = null;
         public const String MutexTestName = nameof(MutexTest);
         public static Dictionary<String, Object> InstrumentDrivers = null;
@@ -59,6 +58,11 @@ namespace ABT.Test.TestLib {
         public static CancellationTokenSource CTS_EmergencyStop;
         public static CancellationToken CT_Cancel;
         public static CancellationToken CT_EmergencyStop;
+        public const String NONE = "NONE";
+        public const String SPACES_2 = "  ";
+        public const Int32 PAD_RIGHT = 21;
+
+        public static String FormatMessage(String Label, String Message) { return $"{SPACES_2}{Label}".PadRight(PAD_RIGHT) + $": {Message}"; }
 
         public static String GetExecutingStatementDirectory() {
             StackFrame stackFrame = new StackFrame(1, true);
