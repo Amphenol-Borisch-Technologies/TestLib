@@ -1,4 +1,5 @@
 ﻿using ABT.Test.TestLib.Configuration;
+using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace ABT.Test.TestLib {
     [Flags]
@@ -106,6 +108,17 @@ namespace ABT.Test.TestLib {
         public static Dictionary<String, Object> GetInstrumentDriversTestPlanDefinition() {
             Dictionary<String, Object> instrumentDrivers = GetMobileTestPlanDefinition();
             foreach (KeyValuePair<String, Object> kvp in GetStationaryTestPlanDefinition()) instrumentDrivers.Add(kvp.Key, kvp.Value);
+            if (!testPlanDefinition.TestSpace.Simulate) {
+                foreach (KeyValuePair<String, Object> kvp in instrumentDrivers)
+                    if (kvp.Value is IInstrument iInstrument) try {
+                            iInstrument.ResetClear();
+                        } catch {
+                            _ = MessageBox.Show($"{iInstrument.Detail}{Environment.NewLine}" +
+                                $"{iInstrument.Address}{Environment.NewLine}{Environment.NewLine}" +
+                                $"Is not responding.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                            throw;
+                        }
+            }
             return instrumentDrivers;
         }
 
