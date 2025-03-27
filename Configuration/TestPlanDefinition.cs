@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -204,8 +205,8 @@ namespace ABT.Test.TestLib.Configuration {
             stringBuilder.Append($"if ({nameof(Data)}.{nameof(Data.testSequence)}.{nameof(Data.testSequence.IsOperation)}) Debug.Assert({nameof(TestIndices)}.{nameof(TestIndices.TestOperation)}.Assert(");
             stringBuilder.Append($"{nameof(NamespaceTrunk)}: {UUT.EF(GetType().GetProperty(nameof(NamespaceTrunk)).GetValue(this))}, ");
             stringBuilder.Append($"{nameof(ProductionTest)}: {UUT.EF(GetType().GetProperty(nameof(ProductionTest)).GetValue(this).ToString().ToLower())}, ");
-            stringBuilder.Append($"{nameof(Description)}: {UUT.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}");
-            stringBuilder.Append($", {nameof(TestGroups)}: {String.Join(UUT.DIVIDER, TestGroups)}));");
+            stringBuilder.Append($"{nameof(Description)}: {UUT.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}, ");
+            stringBuilder.Append($"{nameof(TestGroups)}: {UUT.EF(String.Join(UUT.DIVIDER, TestGroups.Select(tg => tg.Classname)))}));");
             return stringBuilder.ToString();
         }
 
@@ -213,7 +214,7 @@ namespace ABT.Test.TestLib.Configuration {
             Boolean boolean = String.Equals(this.NamespaceTrunk, NamespaceTrunk);
             boolean &= this.ProductionTest == Boolean.Parse(ProductionTest);
             boolean &= String.Equals(this.Description, Description);
-            boolean &= String.Equals(String.Join(UUT.DIVIDER, this.TestGroups).Replace("\"", ""), TestGroups);
+            boolean &= String.Equals(String.Join(UUT.DIVIDER, this.TestGroups.Select(tg => tg.Classname)).Replace("\"", ""), TestGroups);
             return boolean;
         }
     }
@@ -237,17 +238,17 @@ namespace ABT.Test.TestLib.Configuration {
             stringBuilder.Append($"{nameof(Classname)}: {UUT.EF(GetType().GetProperty(nameof(Classname)).GetValue(this))}, ");
             stringBuilder.Append($"{nameof(Description)}: {UUT.EF(GetType().GetProperty(nameof(Description)).GetValue(this))}, ");
             stringBuilder.Append($"{nameof(CancelNotPassed)}: {UUT.EF(GetType().GetProperty(nameof(CancelNotPassed)).GetValue(this).ToString().ToLower())}, ");
-            stringBuilder.Append($"{nameof(Independent)}: {UUT.EF(GetType().GetProperty(nameof(Independent)).GetValue(this).ToString().ToLower())}));");
-            stringBuilder.Append($", {nameof(Methods)}: {String.Join(UUT.DIVIDER, Methods)}));");
+            stringBuilder.Append($"{nameof(Independent)}: {UUT.EF(GetType().GetProperty(nameof(Independent)).GetValue(this).ToString().ToLower())}, ");
+            stringBuilder.Append($"{nameof(Methods)}: {UUT.EF(String.Join(UUT.DIVIDER, Methods.Select(m => m.Name)))}));");
             return stringBuilder.ToString();
         }
-        
+
         public Boolean Assert(String Classname, String Description, String CancelNotPassed, String Independent, String Methods) {
             Boolean boolean = String.Equals(this.Classname, Classname);
             boolean &= String.Equals(this.Description, Description);
             boolean &= this.CancelNotPassed == Boolean.Parse(CancelNotPassed);
             boolean &= this.Independent == Boolean.Parse(Independent);
-            boolean &= String.Equals(String.Join(UUT.DIVIDER, this.Methods).Replace("\"", ""), Methods);
+            boolean &= String.Equals(String.Join(UUT.DIVIDER, this.Methods.Select(m => m.Name)).Replace("\"", ""), Methods);
             return boolean;
         }
     }
@@ -300,15 +301,16 @@ namespace ABT.Test.TestLib.Configuration {
 
         public override String Assertion() {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append($"Debug.Assert((({GetType().Name}){nameof(TestIndices)}.{nameof(TestIndices.Method)})(");
+            stringBuilder.Append($"Debug.Assert((({GetType().Name}){nameof(TestIndices)}.{nameof(TestIndices.Method)}).Assert(");
             stringBuilder.Append($"{base.Assertion()}");
-            if (Parameters.Count > 0) stringBuilder.Append($", {nameof(Parameters)}: {String.Join(UUT.DIVIDER, Parameters)}));");
+            if (Parameters.Count > 0) stringBuilder.Append($", {nameof(Parameters)}: {UUT.EF(String.Join(UUT.DIVIDER, Parameters.Select(p => $"{p.Name}={p.Value}")))}");
+            stringBuilder.Append("));");
             return stringBuilder.ToString();
         }
 
         public Boolean Assert(String Name, String Description, String CancelNotPassed, String Parameters = null) {
             Boolean boolean = base.Assert(Name, Description, CancelNotPassed);
-            if (Parameters != null) boolean &= String.Equals(String.Join(UUT.DIVIDER, this.Parameters).Replace("\"", ""), Parameters);
+            if (Parameters != null) boolean &= String.Equals(String.Join(UUT.DIVIDER, this.Parameters.Select(p => $"{p.Name}={p.Value}")).Replace("\"", ""), Parameters);
             return boolean;
         }
 
@@ -333,7 +335,8 @@ namespace ABT.Test.TestLib.Configuration {
         [XmlAttribute(nameof(UnitPrefix))] public MI_UnitPrefixes UnitPrefix { get; set; }
         [XmlAttribute(nameof(Units))] public MI_Units Units { get; set; }
         [XmlAttribute(nameof(UnitSuffix))] public MI_UnitSuffixes UnitSuffix { get; set; }
-        [XmlIgnore] public static Dictionary<MI_UnitPrefixes, Double> UnitPrefixes = new Dictionary<MI_UnitPrefixes, Double>() {
+        [XmlIgnore]
+        public static Dictionary<MI_UnitPrefixes, Double> UnitPrefixes = new Dictionary<MI_UnitPrefixes, Double>() {
             { MI_UnitPrefixes.peta, 1E15 } ,
             { MI_UnitPrefixes.tera, 1E12 },
             { MI_UnitPrefixes.giga, 1E9 },
@@ -356,7 +359,7 @@ namespace ABT.Test.TestLib.Configuration {
 
         public override String Assertion() {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append($"Debug.Assert((({GetType().Name}){nameof(TestIndices)}.{nameof(TestIndices.Method)})(");
+            stringBuilder.Append($"Debug.Assert((({GetType().Name}){nameof(TestIndices)}.{nameof(TestIndices.Method)}).Assert(");
             stringBuilder.Append($"{base.Assertion()}, ");
             stringBuilder.Append($"{nameof(LowComparator)}: {UUT.EF(GetType().GetProperty(nameof(LowComparator)).GetValue(this))}, ");
             stringBuilder.Append($"{nameof(Low)}: {UUT.EF(GetType().GetProperty(nameof(Low)).GetValue(this))}, ");
@@ -417,7 +420,7 @@ namespace ABT.Test.TestLib.Configuration {
 
         public override String Assertion() {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append($"Debug.Assert((({GetType().Name}){nameof(TestIndices)}.{nameof(TestIndices.Method)})(");
+            stringBuilder.Append($"Debug.Assert((({GetType().Name}){nameof(TestIndices)}.{nameof(TestIndices.Method)}).Assert(");
             stringBuilder.Append($"{base.Assertion()}, ");
             stringBuilder.Append($"{nameof(Folder)}: {UUT.EF(GetType().GetProperty(nameof(Folder)).GetValue(this))}, ");
             stringBuilder.Append($"{nameof(File)}: {UUT.EF(GetType().GetProperty(nameof(File)).GetValue(this))}, ");
@@ -453,7 +456,7 @@ namespace ABT.Test.TestLib.Configuration {
 
         public override String Assertion() {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append($"Debug.Assert((({GetType().Name}){nameof(TestIndices)}.{nameof(TestIndices.Method)})(");
+            stringBuilder.Append($"Debug.Assert((({GetType().Name}){nameof(TestIndices)}.{nameof(TestIndices.Method)}).Assert(");
             stringBuilder.Append($"{base.Assertion()}, ");
             stringBuilder.Append($"{nameof(Text)}: {UUT.EF(GetType().GetProperty(nameof(Text)).GetValue(this))}));");
             return stringBuilder.ToString();
