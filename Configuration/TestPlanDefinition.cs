@@ -284,7 +284,13 @@ namespace ABT.Test.TestLib.Configuration {
 
         public abstract EVENTS Evaluate();
 
-        public abstract String Format();
+        public virtual String Format() {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine(FormatMessage($"{nameof(Method)}", Name));
+            stringBuilder.AppendLine(FormatMessage($"{nameof(CancelNotPassed)}", CancelNotPassed.ToString()));
+            stringBuilder.AppendLine(FormatMessage($"{nameof(Description)}", Description));
+            return stringBuilder.ToString();
+        }
 
         public String LogFetchAndClear() {
             String s = Log.ToString();
@@ -316,7 +322,7 @@ namespace ABT.Test.TestLib.Configuration {
 
         public override EVENTS Evaluate() { return Event; } // NOTE:  MethodCustoms have their Events set in their TestPlan methods.
 
-        public override String Format() { return Value; }
+        public override String Format() { return base.Format() + Value; }
     }
 
     public class Parameter {
@@ -397,7 +403,7 @@ namespace ABT.Test.TestLib.Configuration {
         }
 
         public override String Format() {
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder(base.Format());
             stringBuilder.AppendLine(FormatMessage(nameof(High), $"{High:G}"));
             stringBuilder.AppendLine(FormatMessage(nameof(Value), $"{Math.Round(Double.Parse(Value), (Int32)FractionalDigits, MidpointRounding.ToEven)}"));
             stringBuilder.AppendLine(FormatMessage(nameof(Low), $"{Low:G}"));
@@ -442,7 +448,7 @@ namespace ABT.Test.TestLib.Configuration {
         public override EVENTS Evaluate() { return (String.Equals(Expected, Value, StringComparison.Ordinal)) ? EVENTS.PASS : EVENTS.FAIL; }
 
         public override String Format() {
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder(base.Format());
             stringBuilder.AppendLine(FormatMessage(EXPECTED, Expected));
             stringBuilder.AppendLine(FormatMessage(ACTUAL, Value));
             return stringBuilder.ToString();
@@ -472,7 +478,7 @@ namespace ABT.Test.TestLib.Configuration {
         public override EVENTS Evaluate() { return (String.Equals(Text, Value, StringComparison.Ordinal)) ? EVENTS.PASS : EVENTS.FAIL; }
 
         public override String Format() {
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder(base.Format());
             stringBuilder.AppendLine(FormatMessage(EXPECTED, Text));
             stringBuilder.AppendLine(FormatMessage(ACTUAL, Value));
             return stringBuilder.ToString();
