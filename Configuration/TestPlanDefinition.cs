@@ -325,28 +325,32 @@ namespace ABT.Test.TestLib.Configuration {
     }
 
     public class MethodInterval : Method, IAssertion, IEvaluate, IFormat {
-        [XmlAttribute(nameof(LowComparator))] public MI_LowComparator LowComparator { get; set; }
+        [XmlAttribute(nameof(LowComparator))] public MI_LowComparators LowComparator { get; set; }
         [XmlAttribute(nameof(Low))] public Double Low { get; set; }
         [XmlAttribute(nameof(High))] public Double High { get; set; }
-        [XmlAttribute(nameof(HighComparator))] public MI_HighComparator HighComparator { get; set; }
+        [XmlAttribute(nameof(HighComparator))] public MI_HighComparators HighComparator { get; set; }
         [XmlAttribute(nameof(FractionalDigits))] public UInt32 FractionalDigits { get; set; }
-        [XmlAttribute(nameof(UnitPrefix))] public MI_UnitPrefix UnitPrefix { get; set; }
+        [XmlAttribute(nameof(UnitPrefix))] public MI_UnitPrefixes UnitPrefix { get; set; }
         [XmlAttribute(nameof(Units))] public MI_Units Units { get; set; }
-        [XmlAttribute(nameof(UnitSuffix))] public MI_UnitSuffix UnitSuffix { get; set; }
-        [XmlIgnore]
-        public static Dictionary<MI_UnitPrefix, Double> UnitPrefixes = new Dictionary<MI_UnitPrefix, Double>() {
-            { MI_UnitPrefix.peta, 1E15 } ,
-            { MI_UnitPrefix.tera, 1E12 },
-            { MI_UnitPrefix.giga, 1E9 },
-            { MI_UnitPrefix.mega, 1E6 },
-            { MI_UnitPrefix.kilo, 1E3 },
-            { MI_UnitPrefix.NONE, 1E0 },
-            { MI_UnitPrefix.milli, 1E-3 },
-            { MI_UnitPrefix.micro, 1E-6 },
-            { MI_UnitPrefix.nano, 1E-9 },
-            { MI_UnitPrefix.pico, 1E-12 },
-            { MI_UnitPrefix.femto, 1E-15}
+        [XmlAttribute(nameof(UnitSuffix))] public MI_UnitSuffixes UnitSuffix { get; set; }
+        [XmlIgnore] public static Dictionary<MI_UnitPrefixes, Double> UnitPrefixes = new Dictionary<MI_UnitPrefixes, Double>() {
+            { MI_UnitPrefixes.peta, 1E15 } ,
+            { MI_UnitPrefixes.tera, 1E12 },
+            { MI_UnitPrefixes.giga, 1E9 },
+            { MI_UnitPrefixes.mega, 1E6 },
+            { MI_UnitPrefixes.kilo, 1E3 },
+            { MI_UnitPrefixes.NONE, 1E0 },
+            { MI_UnitPrefixes.milli, 1E-3 },
+            { MI_UnitPrefixes.micro, 1E-6 },
+            { MI_UnitPrefixes.nano, 1E-9 },
+            { MI_UnitPrefixes.pico, 1E-12 },
+            { MI_UnitPrefixes.femto, 1E-15}
         };
+        public enum MI_LowComparators { GToE, GT }
+        public enum MI_HighComparators { LToE, LT }
+        public enum MI_UnitPrefixes { peta, tera, giga, mega, kilo, NONE, milli, micro, nano, pico, femto }
+        public enum MI_Units { NONE, Amperes, Celcius, Farads, Henries, Hertz, Ohms, Seconds, Siemens, Volts, VoltAmperes, Watts }
+        public enum MI_UnitSuffixes { NONE, AC, DC, Peak, PP, RMS }
 
         public MethodInterval() { }
 
@@ -402,12 +406,6 @@ namespace ABT.Test.TestLib.Configuration {
             return stringBuilder.ToString();
         }
     }
-
-    public enum MI_LowComparator { GToE, GT }
-    public enum MI_HighComparator { LToE, LT }
-    public enum MI_UnitPrefix { peta, tera, giga, mega, kilo, NONE, milli, micro, nano, pico, femto }
-    public enum MI_Units { NONE, Amperes, Celcius, Farads, Henries, Hertz, Ohms, Seconds, Siemens, Volts, VoltAmperes, Watts }
-    public enum MI_UnitSuffix { NONE, AC, DC, Peak, PP, RMS }
 
     public class MethodProcess : Method, IAssertion, IEvaluate, IFormat {
         [XmlAttribute(nameof(Folder))] public String Folder { get; set; }
