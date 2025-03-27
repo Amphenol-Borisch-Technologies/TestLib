@@ -505,18 +505,18 @@ namespace ABT.Test.TestLib.InstrumentDrivers.Multifunction {
         }
         public void ValidateChannelS(String Channels) {
             if (!Regex.IsMatch(Channels, @"^@\d{4}((,|:)\d{4})*$")) { // https://regex101.com/.
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine($"Invalid syntax for {nameof(Channels)} '{Channels}'.");
-                sb.AppendLine(" - Must be in form of 1 or more discrete channels and/or ranges preceded by '@'.");
-                sb.AppendLine(" - Channel:  '@####':       Discrete channels must be separated by commas; '@1001,1002'.");
-                sb.AppendLine(" - Range:    '@####:####':  Channel ranges must be separated by colons; '@1001:1002'.");
-                sb.AppendLine(" - Examples: '@1001', '@1001,2001,2005', '@1001,2001:2005' & '@1001,2001:2005,2017,3001:3015,3017' all valid.");
-                sb.AppendLine();
-                sb.AppendLine("Caveats:");
-                sb.AppendLine(" - Whitespace not permitted; '@1001, 1005', '@1001 ,1005' '& '@1001: 1005' all invalid.");
-                sb.AppendLine(" - Range cannot include ABus channels, denoted as #9##.  Thus range '@1001:1902' invalid, but discretes '@1001,1902' valid.");
-                sb.AppendLine(" - First & only first channel begins with '@'.  Thus '1001,2001' & '@1001,@2001' both invalid.");
-                throw new ArgumentException(sb.ToString());
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.AppendLine($"Invalid syntax for {nameof(Channels)} '{Channels}'.");
+                stringBuilder.AppendLine(" - Must be in form of 1 or more discrete channels and/or ranges preceded by '@'.");
+                stringBuilder.AppendLine(" - Channel:  '@####':       Discrete channels must be separated by commas; '@1001,1002'.");
+                stringBuilder.AppendLine(" - Range:    '@####:####':  Channel ranges must be separated by colons; '@1001:1002'.");
+                stringBuilder.AppendLine(" - Examples: '@1001', '@1001,2001,2005', '@1001,2001:2005' & '@1001,2001:2005,2017,3001:3015,3017' all valid.");
+                stringBuilder.AppendLine();
+                stringBuilder.AppendLine("Caveats:");
+                stringBuilder.AppendLine(" - Whitespace not permitted; '@1001, 1005', '@1001 ,1005' '& '@1001: 1005' all invalid.");
+                stringBuilder.AppendLine(" - Range cannot include ABus channels, denoted as #9##.  Thus range '@1001:1902' invalid, but discretes '@1001,1902' valid.");
+                stringBuilder.AppendLine(" - First & only first channel begins with '@'.  Thus '1001,2001' & '@1001,@2001' both invalid.");
+                throw new ArgumentException(stringBuilder.ToString());
             }
             if (Regex.IsMatch(Channels, @":\d{4}:")) throw new ArgumentException($"Invalid syntax for Channels '{Channels}'.  Invalid range ':####:'.");
             Channels = Channels.Replace("@", String.Empty);

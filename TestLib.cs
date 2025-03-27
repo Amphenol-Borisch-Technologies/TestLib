@@ -1,4 +1,5 @@
 ﻿using ABT.Test.TestLib.Configuration;
+using ABT.Test.TestLib.InstrumentDrivers.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace ABT.Test.TestLib {
     [Flags]
@@ -106,6 +108,17 @@ namespace ABT.Test.TestLib {
         public static Dictionary<String, Object> GetInstrumentDriversTestPlanDefinition() {
             Dictionary<String, Object> instrumentDrivers = GetMobileTestPlanDefinition();
             foreach (KeyValuePair<String, Object> kvp in GetStationaryTestPlanDefinition()) instrumentDrivers.Add(kvp.Key, kvp.Value);
+            if (!testPlanDefinition.TestSpace.Simulate) {
+                foreach (KeyValuePair<String, Object> kvp in instrumentDrivers)
+                    if (kvp.Value is IInstrument iInstrument) try {
+                            iInstrument.ResetClear();
+                        } catch {
+                            _ = MessageBox.Show($"{iInstrument.Detail}{Environment.NewLine}" +
+                                $"{iInstrument.Address}{Environment.NewLine}{Environment.NewLine}" +
+                                $"Is not responding.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                            throw;
+                        }
+            }
             return instrumentDrivers;
         }
 
@@ -116,16 +129,16 @@ namespace ABT.Test.TestLib {
                     if (!testPlanDefinition.TestSpace.Simulate) instrumentDriver = Activator.CreateInstance(Type.GetType(mobile.NameSpacedClassName), new Object[] { mobile.Address, mobile.Detail });
                     instrumentDrivers.Add(mobile.ID, instrumentDriver); // instrumentDriver is null if testPlanDefinition.TestSpace.Simulate.
                 } catch (Exception e) {
-                    StringBuilder sb = new StringBuilder().AppendLine();
+                    StringBuilder stringBuilder = new StringBuilder().AppendLine();
                     const Int32 PR = 23;
-                    sb.AppendLine($"Issue with {nameof(Mobile)}:");
-                    sb.AppendLine($"   {nameof(mobile.ID)}".PadRight(PR) + $": {mobile.ID}");
-                    sb.AppendLine($"   {nameof(mobile.Detail)}".PadRight(PR) + $": {mobile.Detail}");
-                    sb.AppendLine($"   {nameof(mobile.Address)}".PadRight(PR) + $": {mobile.Address}");
-                    sb.AppendLine($"   {nameof(mobile.NameSpacedClassName)}".PadRight(PR) + $": {mobile.NameSpacedClassName}{Environment.NewLine}");
-                    sb.AppendLine($"{nameof(System.Exception)} {nameof(System.Exception.Message)}(s):");
-                    sb.AppendLine($"{e}{Environment.NewLine}");
-                    throw new ArgumentException(sb.ToString());
+                    stringBuilder.AppendLine($"Issue with {nameof(Mobile)}:");
+                    stringBuilder.AppendLine($"   {nameof(mobile.ID)}".PadRight(PR) + $": {mobile.ID}");
+                    stringBuilder.AppendLine($"   {nameof(mobile.Detail)}".PadRight(PR) + $": {mobile.Detail}");
+                    stringBuilder.AppendLine($"   {nameof(mobile.Address)}".PadRight(PR) + $": {mobile.Address}");
+                    stringBuilder.AppendLine($"   {nameof(mobile.NameSpacedClassName)}".PadRight(PR) + $": {mobile.NameSpacedClassName}{Environment.NewLine}");
+                    stringBuilder.AppendLine($"{nameof(System.Exception)} {nameof(System.Exception.Message)}(s):");
+                    stringBuilder.AppendLine($"{e}{Environment.NewLine}");
+                    throw new ArgumentException(stringBuilder.ToString());
                 }
             return instrumentDrivers;
         }
