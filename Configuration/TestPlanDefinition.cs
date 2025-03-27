@@ -348,7 +348,7 @@ namespace ABT.Test.TestLib.Configuration {
         };
         public enum MI_LowComparators { GToE, GT }
         public enum MI_HighComparators { LToE, LT }
-        public enum MI_UnitPrefixes { peta, tera, giga, mega, kilo, NONE, milli, micro, nano, pico, femto }
+        public enum MI_UnitPrefixes { NONE, peta, tera, giga, mega, kilo, milli, micro, nano, pico, femto }
         public enum MI_Units { NONE, Amperes, Celcius, Farads, Henries, Hertz, Ohms, Seconds, Siemens, Volts, VoltAmperes, Watts }
         public enum MI_UnitSuffixes { NONE, AC, DC, Peak, PP, RMS }
 
@@ -371,14 +371,14 @@ namespace ABT.Test.TestLib.Configuration {
 
         public Boolean Assert(String Name, String Description, String CancelNotPassed, String LowComparator, String Low, String High, String HighComparator, String FractionalDigits, String UnitPrefix, String Units, String UnitSuffix) {
             Boolean boolean = base.Assert(Name, Description, CancelNotPassed);
-            boolean &= this.LowComparator == (MI_LowComparator)Enum.Parse(typeof(MI_LowComparator), LowComparator);
+            boolean &= this.LowComparator == (MI_LowComparators)Enum.Parse(typeof(MI_LowComparators), LowComparator);
             boolean &= this.Low == Double.Parse(Low);
             boolean &= this.High == Double.Parse(High);
-            boolean &= this.HighComparator == (MI_HighComparator)Enum.Parse(typeof(MI_HighComparator), HighComparator);
+            boolean &= this.HighComparator == (MI_HighComparators)Enum.Parse(typeof(MI_HighComparators), HighComparator);
             boolean &= this.FractionalDigits == UInt32.Parse(FractionalDigits);
-            boolean &= this.UnitPrefix == (MI_UnitPrefix)Enum.Parse(typeof(MI_UnitPrefix), UnitPrefix);
+            boolean &= this.UnitPrefix == (MI_UnitPrefixes)Enum.Parse(typeof(MI_UnitPrefixes), UnitPrefix);
             boolean &= this.Units == (MI_Units)Enum.Parse(typeof(MI_Units), Units);
-            boolean &= this.UnitSuffix == (MI_UnitSuffix)Enum.Parse(typeof(MI_UnitSuffix), UnitSuffix);
+            boolean &= this.UnitSuffix == (MI_UnitSuffixes)Enum.Parse(typeof(MI_UnitSuffixes), UnitSuffix);
             return boolean;
         }
 
@@ -386,10 +386,10 @@ namespace ABT.Test.TestLib.Configuration {
             if (!Double.TryParse(Value, NumberStyles.Float, CultureInfo.CurrentCulture, out Double d)) throw new InvalidOperationException($"{nameof(MethodInterval)} '{Name}' {nameof(Value)} '{Value}' ≠ System.Double.");
             d /= UnitPrefixes[UnitPrefix];
             Value = d.ToString("G");
-            if (LowComparator is MI_LowComparator.GToE && HighComparator is MI_HighComparator.LToE) return ((Low <= d) && (d <= High)) ? EVENTS.PASS : EVENTS.FAIL;
-            if (LowComparator is MI_LowComparator.GToE && HighComparator is MI_HighComparator.LT) return ((Low <= d) && (d < High)) ? EVENTS.PASS : EVENTS.FAIL;
-            if (LowComparator is MI_LowComparator.GT && HighComparator is MI_HighComparator.LToE) return ((Low < d) && (d <= High)) ? EVENTS.PASS : EVENTS.FAIL;
-            if (LowComparator is MI_LowComparator.GT && HighComparator is MI_HighComparator.LT) return ((Low < d) && (d < High)) ? EVENTS.PASS : EVENTS.FAIL;
+            if (LowComparator is MI_LowComparators.GToE && HighComparator is MI_HighComparators.LToE) return ((Low <= d) && (d <= High)) ? EVENTS.PASS : EVENTS.FAIL;
+            if (LowComparator is MI_LowComparators.GToE && HighComparator is MI_HighComparators.LT) return ((Low <= d) && (d < High)) ? EVENTS.PASS : EVENTS.FAIL;
+            if (LowComparator is MI_LowComparators.GT && HighComparator is MI_HighComparators.LToE) return ((Low < d) && (d <= High)) ? EVENTS.PASS : EVENTS.FAIL;
+            if (LowComparator is MI_LowComparators.GT && HighComparator is MI_HighComparators.LT) return ((Low < d) && (d < High)) ? EVENTS.PASS : EVENTS.FAIL;
             throw new NotImplementedException($"{nameof(MethodInterval)} '{Name}', {nameof(Description)} '{Description}', contains unimplemented comparators '{LowComparator}' and/or '{HighComparator}'.");
         }
 
@@ -399,9 +399,9 @@ namespace ABT.Test.TestLib.Configuration {
             stringBuilder.AppendLine(FormatMessage(nameof(Value), $"{Math.Round(Double.Parse(Value), (Int32)FractionalDigits, MidpointRounding.ToEven)}"));
             stringBuilder.AppendLine(FormatMessage(nameof(Low), $"{Low:G}"));
             String units = String.Empty;
-            if (UnitPrefix != MI_UnitPrefix.NONE) units += $"{Enum.GetName(typeof(MI_UnitPrefix), UnitPrefix)}";
+            if (UnitPrefix != MI_UnitPrefixes.NONE) units += $"{Enum.GetName(typeof(MI_UnitPrefixes), UnitPrefix)}";
             units += $"{Enum.GetName(typeof(MI_Units), Units)}";
-            if (UnitSuffix != MI_UnitSuffix.NONE) units += $" {Enum.GetName(typeof(MI_UnitSuffix), UnitSuffix)}";
+            if (UnitSuffix != MI_UnitSuffixes.NONE) units += $" {Enum.GetName(typeof(MI_UnitSuffixes), UnitSuffix)}";
             stringBuilder.AppendLine(FormatMessage(nameof(Units), units));
             return stringBuilder.ToString();
         }

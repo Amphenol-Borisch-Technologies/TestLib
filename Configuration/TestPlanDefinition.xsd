@@ -597,12 +597,12 @@
           </xs:annotation>
           <xs:simpleType>
             <xs:restriction base="xs:string">
+              <xs:enumeration value="NONE"/>
               <xs:enumeration value="peta"/>
               <xs:enumeration value="tera"/>
               <xs:enumeration value="giga"/>
               <xs:enumeration value="mega"/>
               <xs:enumeration value="kilo"/>
-              <xs:enumeration value="NONE"/>
               <xs:enumeration value="milli"/>
               <xs:enumeration value="micro"/>
               <xs:enumeration value="nano"/>
