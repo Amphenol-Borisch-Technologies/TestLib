@@ -116,16 +116,16 @@ namespace ABT.Test.TestLib {
                     if (!testPlanDefinition.TestSpace.Simulate) instrumentDriver = Activator.CreateInstance(Type.GetType(mobile.NameSpacedClassName), new Object[] { mobile.Address, mobile.Detail });
                     instrumentDrivers.Add(mobile.ID, instrumentDriver); // instrumentDriver is null if testPlanDefinition.TestSpace.Simulate.
                 } catch (Exception e) {
-                    StringBuilder sb = new StringBuilder().AppendLine();
+                    StringBuilder stringBuilder = new StringBuilder().AppendLine();
                     const Int32 PR = 23;
-                    sb.AppendLine($"Issue with {nameof(Mobile)}:");
-                    sb.AppendLine($"   {nameof(mobile.ID)}".PadRight(PR) + $": {mobile.ID}");
-                    sb.AppendLine($"   {nameof(mobile.Detail)}".PadRight(PR) + $": {mobile.Detail}");
-                    sb.AppendLine($"   {nameof(mobile.Address)}".PadRight(PR) + $": {mobile.Address}");
-                    sb.AppendLine($"   {nameof(mobile.NameSpacedClassName)}".PadRight(PR) + $": {mobile.NameSpacedClassName}{Environment.NewLine}");
-                    sb.AppendLine($"{nameof(System.Exception)} {nameof(System.Exception.Message)}(s):");
-                    sb.AppendLine($"{e}{Environment.NewLine}");
-                    throw new ArgumentException(sb.ToString());
+                    stringBuilder.AppendLine($"Issue with {nameof(Mobile)}:");
+                    stringBuilder.AppendLine($"   {nameof(mobile.ID)}".PadRight(PR) + $": {mobile.ID}");
+                    stringBuilder.AppendLine($"   {nameof(mobile.Detail)}".PadRight(PR) + $": {mobile.Detail}");
+                    stringBuilder.AppendLine($"   {nameof(mobile.Address)}".PadRight(PR) + $": {mobile.Address}");
+                    stringBuilder.AppendLine($"   {nameof(mobile.NameSpacedClassName)}".PadRight(PR) + $": {mobile.NameSpacedClassName}{Environment.NewLine}");
+                    stringBuilder.AppendLine($"{nameof(System.Exception)} {nameof(System.Exception.Message)}(s):");
+                    stringBuilder.AppendLine($"{e}{Environment.NewLine}");
+                    throw new ArgumentException(stringBuilder.ToString());
                 }
             return instrumentDrivers;
         }

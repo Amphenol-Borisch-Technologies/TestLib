@@ -55,7 +55,6 @@ namespace ABT.Test.TestLib.Configuration {
             codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}"));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"{nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(Configuration)}"));
             codeNamespace.Imports.Add(new CodeNamespaceImport($"static {nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(Data)}"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport($"static {nameof(ABT)}.{nameof(Test)}.{nameof(TestLib)}.{nameof(Configuration)}.{nameof(Assertions)}"));
             return codeNamespace;
         }
 

@@ -142,7 +142,6 @@
     <Compile Include="Configuration\TestSelect.Designer.cs">
       <DependentUpon>TestSelect.cs</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\Assertions.cs" />
     <Compile Include="Miscellaneous\CustomMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
