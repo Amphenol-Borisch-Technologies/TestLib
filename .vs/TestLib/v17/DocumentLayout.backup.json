@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\TestLib\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|TestLib.csproj|c:\\users\\phils\\source\\repos\\abt\\test\\testlib\\configuration\\assertions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|TestLib.csproj|solutionrelative:configuration\\assertions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|TestLib.csproj|c:\\users\\phils\\source\\repos\\abt\\test\\testlib\\testlib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24D5E99E-185C-4507-81F0-132D8CB8164E}|TestLib.csproj|solutionrelative:testlib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -13,13 +13,8 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-<<<<<<< HEAD
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
-=======
-          "DockedWidth": 108,
-          "SelectedChildIndex": 40,
->>>>>>> ada103f04dc7070d2ec641cec50677147532054e
+          "SelectedChildIndex": 41,
           "Children": [
             {
               "$type": "Bookmark",
@@ -181,31 +176,22 @@
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
-<<<<<<< HEAD
-=======
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Assertions.cs",
-              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\TestLib\\Configuration\\Assertions.cs",
-              "RelativeDocumentMoniker": "Configuration\\Assertions.cs",
-              "ToolTip": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\TestLib\\Configuration\\Assertions.cs",
-              "RelativeToolTip": "Configuration\\Assertions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-26T17:11:41.795Z",
-              "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedWidth": 165,
-          "SelectedChildIndex": -1,
-          "Children": [
->>>>>>> ada103f04dc7070d2ec641cec50677147532054e
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TestLib.cs",
+              "DocumentMoniker": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\TestLib\\TestLib.cs",
+              "RelativeDocumentMoniker": "TestLib.cs",
+              "ToolTip": "C:\\Users\\phils\\source\\repos\\ABT\\Test\\TestLib\\TestLib.cs",
+              "RelativeToolTip": "TestLib.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAAADIAAABjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-26T18:57:42.392Z",
+              "EditorCaption": ""
             }
           ]
         }
