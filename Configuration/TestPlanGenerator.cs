@@ -74,9 +74,9 @@ namespace ABT.Test.TestLib.Configuration {
                 Attributes = MemberAttributes.Static | MemberAttributes.Assembly,
                 ReturnType = new CodeTypeReference(typeof(String))
             };
-            if (testGroup == 0 && method == 0) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{((IAssertionCurrent)testOperation).AssertionCurrent()}"));
-            if (method == 0) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{((IAssertionCurrent)testOperation.TestGroups[testGroup]).AssertionCurrent()}"));
-            _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{((IAssertionCurrent)testOperation.TestGroups[testGroup].Methods[method]).AssertionCurrent()}"));
+            if (testGroup == 0 && method == 0) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{((IAssertion)testOperation).Assertion()}"));
+            if (method == 0) _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{((IAssertion)testOperation.TestGroups[testGroup]).Assertion()}"));
+            _ = codeMemberMethod.Statements.Add(new CodeSnippetStatement($"\t\t\t{((IAssertion)testOperation.TestGroups[testGroup].Methods[method]).Assertion()}"));
 
             Method m = testOperation.TestGroups[testGroup].Methods[method];
             if (m is MethodCustom) {
