@@ -86,14 +86,14 @@ namespace ABT.Test.TestLib.Configuration {
 
     public class Developer {
         [XmlAttribute(nameof(Name))] public String Name { get; set; }
-        [XmlAttribute(nameof(Language))] public Language Language { get; set; }
+        [XmlAttribute(nameof(Language))] public Languages Language { get; set; }
         [XmlAttribute(nameof(Comment))] public String Comment { get; set; }
         [XmlIgnore] public String EMailAddress { get; set; } = String.Empty;
 
+        public enum Languages { CSharp, Python, VEE }
+
         public Developer() { }
     }
-
-    public enum Language { CSharp, Python, VEE }
 
     public class Repository {
         [XmlAttribute(nameof(URL))] public String URL { get; set; }
